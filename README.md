@@ -2,6 +2,7 @@
 
 [![Test](https://github.com/probitas-test/probitas-packages/actions/workflows/test.yml/badge.svg)](https://github.com/probitas-test/probitas-packages/actions/workflows/test.yml)
 [![Publish](https://github.com/probitas-test/probitas-packages/actions/workflows/publish.yml/badge.svg)](https://github.com/probitas-test/probitas-packages/actions/workflows/publish.yml)
+[![codecov](https://codecov.io/gh/probitas-test/probitas-packages/graph/badge.svg?token=AwnSng0JAT)](https://codecov.io/gh/probitas-test/probitas-packages)
 
 Monorepo containing core framework packages and client libraries for the
 Probitas scenario-based testing framework.
