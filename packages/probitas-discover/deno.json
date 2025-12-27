@@ -1,0 +1,18 @@
+{
+  "name": "@probitas/discover",
+  "version": "0.3.6",
+  "exports": "./mod.ts",
+  "imports": {
+    "@logtape/logtape": "jsr:@logtape/logtape@^0",
+    "@lambdalisue/sandbox": "jsr:@lambdalisue/sandbox@^3",
+    "@std/assert": "jsr:@std/assert@^1",
+    "@std/fs": "jsr:@std/fs@^1",
+    "@std/path": "jsr:@std/path@^1"
+  },
+  "publish": {
+    "exclude": [
+      "**/*_test.ts",
+      "**/*_bench.ts"
+    ]
+  }
+}
