@@ -1,6 +1,6 @@
 {
   "name": "@probitas/reporter",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "exports": "./mod.ts",
   "imports": {
     "@std/streams": "jsr:@std/streams@^1",
