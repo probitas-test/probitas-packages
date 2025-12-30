@@ -160,7 +160,14 @@
  * class CustomRunner extends Runner {
  *   override async run(scenarios: readonly ScenarioDefinition[], options?: any) {
  *     // Use CustomScenarioRunner instead of default
- *     return super.run(scenarios, options);
+ *     const scenarioRunner = new CustomScenarioRunner(reporter);
+ *     const results: ScenarioResult[] = [];
+ *
+ *     for (const scenario of scenarios) {
+ *       results.push(await scenarioRunner.run(scenario, options));
+ *     }
+ *
+ *     return results;
  *   }
  * }
  *
