@@ -13,11 +13,27 @@ import { timeit } from "./utils/timeit.ts";
 /**
  * Top-level test runner that orchestrates execution of multiple scenarios.
  *
+ * This is the **basic implementation** that runs all scenarios in the same process
+ * without isolation. Scenarios share the same memory space and may be affected by
+ * side effects from other scenarios.
+ *
  * The Runner manages:
  * - Parallel execution with concurrency control (`maxConcurrency`)
  * - Early stopping on failures (`maxFailures`)
  * - Test lifecycle events through the Reporter interface
  * - Aggregated results in RunResult
+ *
+ * ## Scenario Isolation
+ *
+ * This runner does **not** provide scenario isolation:
+ * - All scenarios run in the same process
+ * - Memory leaks or global state mutations can affect other scenarios
+ * - No protection against cross-scenario contamination
+ *
+ * For isolated execution, consider:
+ * - Using {@linkcode ScenarioRunner} with Workers (one scenario per Worker)
+ * - Using {@linkcode ScenarioRunner} with separate processes
+ * - Implementing a custom runner that extends this class
  *
  * @example
  * ```ts

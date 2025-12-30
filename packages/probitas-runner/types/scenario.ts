@@ -11,6 +11,28 @@ import type { ScenarioMetadata } from "@probitas/core";
 import type { StepResult } from "./step.ts";
 
 /**
+ * Configuration options for executing a single scenario.
+ *
+ * @example
+ * ```ts
+ * import type { ScenarioRunOptions } from "@probitas/runner";
+ *
+ * const options: ScenarioRunOptions = {
+ *   signal: AbortSignal.timeout(30000)  // Timeout after 30 seconds
+ * };
+ * console.log(options);
+ * ```
+ */
+export interface ScenarioRunOptions {
+  /**
+   * Abort signal for external cancellation.
+   *
+   * When aborted, the scenario execution stops and cleanup is performed.
+   */
+  readonly signal?: AbortSignal;
+}
+
+/**
  * Runtime context for scenario execution.
  *
  * Provides access to scenario metadata, accumulated results, shared storage,

@@ -31,10 +31,12 @@
  *
  * ## Core Exports
  *
- * - {@linkcode ScenarioRunner} - Main class for executing scenarios
+ * - {@linkcode Runner} - Top-level class for executing multiple scenarios
+ * - {@linkcode ScenarioRunner} - Class for executing a single scenario (can be extended)
  * - {@linkcode Skip} - Exception class to skip scenarios conditionally
  * - {@linkcode Reporter} - Interface for observing test execution events
  * - {@linkcode RunOptions} - Configuration options for test runs
+ * - {@linkcode ScenarioRunOptions} - Configuration options for single scenario execution
  * - {@linkcode RunResult} - Aggregated results from a test run
  * - {@linkcode ScenarioResult} - Result from executing a single scenario
  * - {@linkcode StepResult} - Result from executing a single step
@@ -127,10 +129,93 @@
  * console.log(summary);
  * ```
  *
+ * @example Custom ScenarioRunner for fine-tuned execution
+ * ```ts
+ * import { Runner, ScenarioRunner } from "@probitas/runner";
+ * import type { Reporter, ScenarioResult, ScenarioRunOptions } from "@probitas/runner";
+ * import type { ScenarioDefinition } from "@probitas/core";
+ *
+ * const reporter: Reporter = {};
+ * const scenarios: ScenarioDefinition[] = [];
+ *
+ * // Custom scenario runner with pre/post-processing
+ * class CustomScenarioRunner extends ScenarioRunner {
+ *   override async run(
+ *     scenario: ScenarioDefinition,
+ *     options?: ScenarioRunOptions
+ *   ): Promise<ScenarioResult> {
+ *     console.log(`[Custom] Starting: ${scenario.name}`);
+ *
+ *     const result = await super.run(scenario, options);
+ *
+ *     if (result.status === "failed") {
+ *       console.error(`[Custom] Failed: ${result.error}`);
+ *     }
+ *
+ *     return result;
+ *   }
+ * }
+ *
+ * // Use custom runner by extending Runner
+ * class CustomRunner extends Runner {
+ *   override async run(scenarios: readonly ScenarioDefinition[], options?: any) {
+ *     // Use CustomScenarioRunner instead of default
+ *     return super.run(scenarios, options);
+ *   }
+ * }
+ *
+ * const runner = new CustomRunner(reporter);
+ * console.log(runner);
+ * ```
+ *
+ * @example Worker-based isolation with ScenarioRunner
+ * ```ts
+ * import { ScenarioRunner, toScenarioMetadata } from "@probitas/runner";
+ * import type { Reporter, ScenarioResult } from "@probitas/runner";
+ * import type { ScenarioDefinition, ScenarioMetadata } from "@probitas/core";
+ *
+ * const reporter: Reporter = {};
+ * const scenarios: ScenarioDefinition[] = [];
+ *
+ * // Worker implementation (worker.ts)
+ * // self.onmessage = async (e) => {
+ * //   const { scenario } = e.data;
+ * //   const runner = new ScenarioRunner({});
+ * //   const result = await runner.run(scenario);
+ * //   self.postMessage(result);
+ * // };
+ *
+ * // Main thread: Run each scenario in isolated Worker
+ * async function runInWorker(scenario: ScenarioDefinition): Promise<ScenarioResult> {
+ *   const metadata = toScenarioMetadata(scenario);
+ *   reporter.onScenarioStart?.(metadata);
+ *
+ *   const worker = new Worker(new URL("./worker.ts", import.meta.url).href, {
+ *     type: "module"
+ *   });
+ *
+ *   const result = await new Promise<ScenarioResult>((resolve) => {
+ *     worker.onmessage = (e) => {
+ *       worker.terminate();
+ *       resolve(e.data);
+ *     };
+ *     worker.postMessage({ scenario });
+ *   });
+ *
+ *   reporter.onScenarioEnd?.(metadata, result);
+ *   return result;
+ * }
+ *
+ * // Execute all scenarios with isolation
+ * const results = await Promise.all(scenarios.map(runInWorker));
+ * console.log(results);
+ * ```
+ *
  * @module
  */
 
 export type * from "./types.ts";
 export { Skip } from "./skip.ts";
 export { Runner } from "./runner.ts";
+export { ScenarioRunner } from "./scenario_runner.ts";
 export { toScenarioMetadata, toStepMetadata } from "./metadata.ts";
