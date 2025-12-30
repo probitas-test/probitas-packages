@@ -172,7 +172,7 @@
  * ```ts
  * import { ScenarioRunner, toScenarioMetadata } from "@probitas/runner";
  * import type { Reporter, ScenarioResult } from "@probitas/runner";
- * import type { ScenarioDefinition, ScenarioMetadata } from "@probitas/core";
+ * import type { ScenarioDefinition } from "@probitas/core";
  *
  * const reporter: Reporter = {};
  * const scenarios: ScenarioDefinition[] = [];
