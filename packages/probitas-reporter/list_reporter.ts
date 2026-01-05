@@ -209,23 +209,10 @@ export class ListReporter implements Reporter {
       total,
       duration,
     } = result;
-    await this.#writeln(`\n${this.#theme.title("Summary")}`);
-    await this.#writeln(
-      `  ${this.#theme.success("✓")} ${passed} scenarios passed`,
-    );
 
-    if (skipped > 0) {
-      await this.#writeln(
-        `  ${this.#theme.skip("⊘")} ${skipped} scenarios skipped`,
-      );
-    }
-
+    // Output Failed Tests first (if any failures exist)
     if (failed > 0) {
-      await this.#writeln(
-        `  ${this.#theme.failure("✗")} ${failed} scenarios failed`,
-      );
-      await this.#writeln("");
-      await this.#writeln(`${this.#theme.title("Failed Tests")}`);
+      await this.#writeln(`\n${this.#theme.title("Failed Tests")}`);
 
       const failedScenarios = resultScenarios.filter((s) =>
         s.status === "failed"
@@ -307,10 +294,33 @@ export class ListReporter implements Reporter {
 
       // Write all failed tests at once (atomic)
       if (failedTestsLines.length > 0) {
+        // Remove trailing empty line if present
+        if (failedTestsLines[failedTestsLines.length - 1] === "") {
+          failedTestsLines.pop();
+        }
         await this.#writeln(failedTestsLines.join("\n"));
       }
     }
 
+    // Output Summary section
+    await this.#writeln(`\n${this.#theme.title("Summary")}`);
+    await this.#writeln(
+      `  ${this.#theme.success("✓")} ${passed} scenarios passed`,
+    );
+
+    if (skipped > 0) {
+      await this.#writeln(
+        `  ${this.#theme.skip("⊘")} ${skipped} scenarios skipped`,
+      );
+    }
+
+    if (failed > 0) {
+      await this.#writeln(
+        `  ${this.#theme.failure("✗")} ${failed} scenarios failed`,
+      );
+    }
+
+    await this.#writeln("");
     await this.#writeln(
       `${total} scenarios total`,
       this.#theme.info(`[${duration.toFixed(3)}ms]`),
