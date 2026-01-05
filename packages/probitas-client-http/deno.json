@@ -1,7 +1,10 @@
 {
   "name": "@probitas/client-http",
   "version": "0.6.0",
-  "exports": "./mod.ts",
+  "exports": {
+    ".": "./mod.ts",
+    "./oidc": "./oidc.ts"
+  },
   "publish": {
     "exclude": [
       "**/*_test.ts",
