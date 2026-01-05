@@ -1,6 +1,26 @@
 {
   "workspace": [
-    "./packages/*"
+    "./packages/probitas-builder",
+    "./packages/probitas-client",
+    "./packages/probitas-client-connectrpc",
+    "./packages/probitas-client-deno-kv",
+    "./packages/probitas-client-graphql",
+    "./packages/probitas-client-grpc",
+    "./packages/probitas-client-http",
+    "./packages/probitas-client-mongodb",
+    "./packages/probitas-client-rabbitmq",
+    "./packages/probitas-client-redis",
+    "./packages/probitas-client-sql",
+    "./packages/probitas-client-sql-duckdb",
+    "./packages/probitas-client-sql-mysql",
+    "./packages/probitas-client-sql-postgres",
+    "./packages/probitas-client-sql-sqlite",
+    "./packages/probitas-client-sqs",
+    "./packages/probitas-core",
+    "./packages/probitas-discover",
+    "./packages/probitas-expect",
+    "./packages/probitas-reporter",
+    "./packages/probitas-runner"
   ],
   "lint": {
     "rules": {
