@@ -8,6 +8,8 @@
  *
  * - **OIDC Discovery**: Auto-discover endpoints from `/.well-known/openid-configuration` (RFC 8414)
  * - **Authorization Code Grant**: Automated browser-based login flow for testing
+ * - **PKCE Support**: Automatic PKCE (S256) for enhanced security (RFC 7636)
+ * - **Public Client Support**: Works with Public Clients (SPAs, Native Apps) - no client secret required
  * - **Token Management**: Automatic Authorization header injection after login
  * - **Type Safety**: Discriminated union for login params and results with type-safe error handling
  * - **Extensible**: Easy to add new grant types via discriminated union pattern
@@ -23,17 +25,16 @@
  * ```ts
  * import { createOidcHttpClient } from "@probitas/client-http/oidc";
  *
- * // Manual endpoint configuration
+ * // OIDC Discovery (recommended)
  * const http = await createOidcHttpClient({
  *   url: "http://localhost:3000",
  *   oidc: {
- *     authUrl: "/oauth/authorize",
- *     tokenUrl: "/oauth/token",
+ *     issuer: "http://localhost:3000",  // Auto-discover endpoints
  *     clientId: "test-client",
  *   },
  * });
  *
- * // Login with Authorization Code Grant
+ * // Login with Authorization Code Grant (PKCE enabled automatically)
  * const result = await http.login({
  *   type: "authorization_code",
  *   username: "testuser",
@@ -94,10 +95,8 @@
  * await using http = await createOidcHttpClient({
  *   url: "http://localhost:3000",
  *   oidc: {
- *     authUrl: "/oauth/authorize",
- *     tokenUrl: "/oauth/token",
+ *     issuer: "http://localhost:3000",
  *     clientId: "test-client",
- *     clientSecret: "secret",
  *   },
  * });
  *
@@ -111,6 +110,21 @@
  *   console.log("Data posted successfully");
  * }
  * // Automatic cleanup on scope exit
+ * ```
+ *
+ * ## Manual Endpoint Configuration
+ *
+ * If your OIDC provider doesn't support Discovery, you can specify endpoints manually:
+ *
+ * ```ts
+ * const http = await createOidcHttpClient({
+ *   url: "http://localhost:3000",
+ *   oidc: {
+ *     authUrl: "/oauth/authorize",
+ *     tokenUrl: "/oauth/token",
+ *     clientId: "test-client",
+ *   },
+ * });
  * ```
  *
  * ## Related Packages
@@ -143,7 +157,7 @@ import { createHttpClient } from "./client.ts";
 export interface OidcHttpClient extends HttpClient {
   /**
    * Perform OIDC login with specified grant type
-   * Currently supports Authorization Code Grant with automatic form submission
+   * Currently supports Authorization Code Grant with automatic form submission and PKCE (S256)
    *
    * @param params - Login parameters (discriminated union by type)
    * @returns Login result with token information
@@ -224,8 +238,6 @@ export interface OidcClientConfig {
     tokenUrl?: string;
     /** Client ID */
     clientId: string;
-    /** Client secret (optional, for confidential clients) */
-    clientSecret?: string;
     /** Redirect URI (default: "http://localhost/callback") */
     redirectUri?: string;
     /** OAuth scopes (default: "openid profile") */
@@ -360,8 +372,7 @@ async function fetchDiscoveryMetadata(
  * const http = await createOidcHttpClient({
  *   url: "http://localhost:3000",
  *   oidc: {
- *     authUrl: "/oauth/authorize",
- *     tokenUrl: "/oauth/token",
+ *     issuer: "http://localhost:3000",
  *     clientId: "test-client",
  *   },
  * });
@@ -542,6 +553,29 @@ export async function createOidcHttpClient(
     },
   };
 
+  // PKCE (Proof Key for Code Exchange) helpers (RFC 7636)
+  function generateCodeVerifier(): string {
+    // Generate 43-128 character random string using unreserved characters
+    // Using base64url encoding of 32 random bytes = 43 characters
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    return btoa(String.fromCharCode(...array))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=/g, "");
+  }
+
+  async function generateCodeChallenge(verifier: string): Promise<string> {
+    // S256: BASE64URL(SHA256(ASCII(code_verifier)))
+    const encoder = new TextEncoder();
+    const data = encoder.encode(verifier);
+    const hash = await crypto.subtle.digest("SHA-256", data);
+    return btoa(String.fromCharCode(...new Uint8Array(hash)))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=/g, "");
+  }
+
   // Authorization Code Grant implementation
   async function loginWithAuthorizationCodeGrant(
     username: string,
@@ -549,17 +583,22 @@ export async function createOidcHttpClient(
     options?: OidcAuthCodeOptions,
   ): Promise<OidcLoginResult> {
     try {
-      // Step 1: Generate state for CSRF protection (standard OIDC)
+      // Step 1: Generate state and PKCE parameters
       const state = crypto.randomUUID();
+      const codeVerifier = generateCodeVerifier();
+      const codeChallenge = await generateCodeChallenge(codeVerifier);
 
       // Get login form from authorization endpoint
       const loginFormUrl = options?.loginFormUrl || oidcConfig.authUrl;
       const loginFormResponse = await baseClient.get(loginFormUrl, {
         query: {
+          client_id: oidcConfig.clientId,
           redirect_uri: oidcConfig.redirectUri,
           response_type: "code",
           scope: oidcConfig.scope,
           state, // Client-generated state
+          code_challenge: codeChallenge, // PKCE
+          code_challenge_method: "S256", // PKCE method
         },
       });
 
@@ -657,11 +696,8 @@ export async function createOidcHttpClient(
         code,
         redirect_uri: oidcConfig.redirectUri,
         client_id: oidcConfig.clientId,
+        code_verifier: codeVerifier, // PKCE
       });
-
-      if (oidcConfig.clientSecret) {
-        tokenBody.set("client_secret", oidcConfig.clientSecret);
-      }
 
       const tokenResponse = await baseClient.post(oidcConfig.tokenUrl, {
         body: tokenBody,
