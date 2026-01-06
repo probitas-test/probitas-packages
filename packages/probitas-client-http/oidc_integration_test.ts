@@ -29,8 +29,8 @@ Deno.test({
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {
     await t.step("fetches OIDC discovery metadata", async () => {
-      // Test with testuser/testpass credentials in the URL path
-      const issuer = `${ECHO_HTTP_URL}/oidc/testuser/testpass`;
+      // Test with OIDC discovery from root
+      const issuer = ECHO_HTTP_URL;
 
       const client = await createOidcHttpClient({
         url: ECHO_HTTP_URL,
@@ -50,7 +50,7 @@ Deno.test({
 
     await t.step("discovered endpoints match expected URLs", async () => {
       // Manually fetch discovery metadata to verify structure
-      const issuer = `${ECHO_HTTP_URL}/oidc/testuser/testpass`;
+      const issuer = ECHO_HTTP_URL;
       const wellKnownUrl = `${issuer}/.well-known/openid-configuration`;
 
       const res = await fetch(wellKnownUrl);
@@ -61,11 +61,16 @@ Deno.test({
       assertEquals(metadata.issuer, issuer);
       assertEquals(
         metadata.authorization_endpoint,
-        `${issuer}/authorize`,
+        `${issuer}/oauth2/authorize`,
       );
-      assertEquals(metadata.token_endpoint, `${issuer}/token`);
+      assertEquals(metadata.token_endpoint, `${issuer}/oauth2/token`);
       assertEquals(metadata.response_types_supported, ["code"]);
-      assertEquals(metadata.grant_types_supported, ["authorization_code"]);
+      assertEquals(metadata.grant_types_supported, [
+        "authorization_code",
+        "client_credentials",
+        "password",
+        "refresh_token",
+      ]);
     });
   },
 });
@@ -75,7 +80,7 @@ Deno.test({
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {
     await t.step("successful login with correct credentials", async () => {
-      const issuer = `${ECHO_HTTP_URL}/oidc/testuser/testpass`;
+      const issuer = ECHO_HTTP_URL;
 
       const client = await createOidcHttpClient({
         url: ECHO_HTTP_URL,
@@ -105,7 +110,7 @@ Deno.test({
     });
 
     await t.step("failed login with incorrect credentials", async () => {
-      const issuer = `${ECHO_HTTP_URL}/oidc/testuser/testpass`;
+      const issuer = ECHO_HTTP_URL;
 
       const client = await createOidcHttpClient({
         url: ECHO_HTTP_URL,
@@ -129,7 +134,7 @@ Deno.test({
     });
 
     await t.step("Authorization header is set after login", async () => {
-      const issuer = `${ECHO_HTTP_URL}/oidc/testuser/testpass`;
+      const issuer = ECHO_HTTP_URL;
 
       const client = await createOidcHttpClient({
         url: ECHO_HTTP_URL,
@@ -168,7 +173,7 @@ Deno.test({
   async fn(t) {
     await t.step("creates client with manual endpoints", async () => {
       // Manually specify endpoints instead of using discovery
-      const basePath = "/oidc/testuser/testpass";
+      const basePath = "/oauth2";
 
       const client = await createOidcHttpClient({
         url: ECHO_HTTP_URL,
@@ -193,7 +198,7 @@ Deno.test({
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {
     await t.step("getToken returns null before login", async () => {
-      const issuer = `${ECHO_HTTP_URL}/oidc/testuser/testpass`;
+      const issuer = ECHO_HTTP_URL;
 
       const client = await createOidcHttpClient({
         url: ECHO_HTTP_URL,
@@ -210,7 +215,7 @@ Deno.test({
     });
 
     await t.step("logout clears token", async () => {
-      const issuer = `${ECHO_HTTP_URL}/oidc/testuser/testpass`;
+      const issuer = ECHO_HTTP_URL;
 
       const client = await createOidcHttpClient({
         url: ECHO_HTTP_URL,
