@@ -1,5 +1,5 @@
 import { chunk } from "@std/collections/chunk";
-import type { ScenarioDefinition } from "@probitas/core";
+import type { ScenarioDefinition, StepOptions } from "@probitas/core";
 import type {
   Reporter,
   RunOptions,
@@ -76,7 +76,14 @@ export class Runner {
 
     const scenarioResults: ScenarioResult[] = [];
     const result = await timeit(() =>
-      this.#run(scenarios, scenarioResults, maxConcurrency, maxFailures, signal)
+      this.#run(
+        scenarios,
+        scenarioResults,
+        maxConcurrency,
+        maxFailures,
+        signal,
+        options?.stepOptions,
+      )
     );
 
     // Calculate summary
@@ -104,11 +111,12 @@ export class Runner {
     maxConcurrency: number,
     maxFailures: number,
     signal?: AbortSignal,
+    stepOptions?: StepOptions,
   ): Promise<void> {
     // Parallel execution with concurrency control
     // maxConcurrency=1 means sequential execution
     const concurrency = maxConcurrency || scenarios.length;
-    const scenarioRunner = new ScenarioRunner(this.reporter);
+    const scenarioRunner = new ScenarioRunner(this.reporter, stepOptions);
 
     let failureCount = 0;
     for (const batch of chunk(scenarios, concurrency)) {

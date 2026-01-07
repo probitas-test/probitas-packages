@@ -4,6 +4,7 @@ import type {
   SetupCleanup,
   StepContext,
   StepDefinition,
+  StepOptions,
 } from "@probitas/core";
 import type { Reporter, ScenarioContext, StepResult } from "./types.ts";
 import { toStepMetadata } from "./metadata.ts";
@@ -13,6 +14,10 @@ import { createStepContext } from "./context.ts";
 import { mergeSignals } from "./utils/signal.ts";
 import { Skip } from "./skip.ts";
 
+const DEFAULT_STEP_TIMEOUT = 30000;
+const DEFAULT_STEP_RETRY_MAX_ATTEMPTS = 1;
+const DEFAULT_STEP_RETRY_BACKOFF = "linear" as const;
+
 type ResourceStep<T> = StepDefinition<T> & { kind: "resource" };
 type SetupStep = StepDefinition<SetupCleanup> & { kind: "setup" };
 type ExecutionStep<T> = StepDefinition<T> & { kind: "step" };
@@ -21,15 +26,18 @@ export class StepRunner {
   #reporter: Reporter;
   #scenarioMetadata: ScenarioMetadata;
   #scenarioCtx: ScenarioContext;
+  #stepOptions?: StepOptions;
 
   constructor(
     reporter: Reporter,
     scenarioMetadata: ScenarioMetadata,
     scenarioCtx: ScenarioContext,
+    stepOptions?: StepOptions,
   ) {
     this.#reporter = reporter;
     this.#scenarioMetadata = scenarioMetadata;
     this.#scenarioCtx = scenarioCtx;
+    this.#stepOptions = stepOptions;
   }
 
   async run(
@@ -39,7 +47,11 @@ export class StepRunner {
     const ctx = createStepContext(this.#scenarioCtx);
     const stepMetadata = toStepMetadata(step);
     this.#reporter.onStepStart?.(this.#scenarioMetadata, stepMetadata);
-    const timeout = step.timeout;
+
+    // Resolve timeout and retry with config stepOptions if needed
+    const timeout = this.#resolveTimeout(step);
+    const retryConfig = this.#resolveRetry(step);
+
     const signal = mergeSignals(
       ctx.signal,
       AbortSignal.timeout(timeout),
@@ -48,7 +60,7 @@ export class StepRunner {
       return retry(
         () => deadline(this.#run(ctx, step, stack), timeout, { signal }),
         {
-          ...step.retry,
+          ...retryConfig,
           signal,
         },
       );
@@ -127,6 +139,36 @@ export class StepRunner {
     const value = await step.fn(ctx);
     this.#scenarioCtx.results.push(value);
     return value;
+  }
+
+  /**
+   * Resolve timeout with config and defaults.
+   *
+   * Priority: step timeout > config timeout > default timeout
+   */
+  #resolveTimeout(step: StepDefinition): number {
+    return step.timeout ??
+      this.#stepOptions?.timeout ??
+      DEFAULT_STEP_TIMEOUT;
+  }
+
+  /**
+   * Resolve retry config with config and defaults.
+   *
+   * Priority: step retry > config retry > default retry
+   */
+  #resolveRetry(
+    step: StepDefinition,
+  ): { maxAttempts: number; backoff: "linear" | "exponential" } {
+    const maxAttempts = step.retry?.maxAttempts ??
+      this.#stepOptions?.retry?.maxAttempts ??
+      DEFAULT_STEP_RETRY_MAX_ATTEMPTS;
+
+    const backoff = step.retry?.backoff ??
+      this.#stepOptions?.retry?.backoff ??
+      DEFAULT_STEP_RETRY_BACKOFF;
+
+    return { maxAttempts, backoff };
   }
 }
 
