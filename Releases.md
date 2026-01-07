@@ -1,5 +1,12 @@
 ### 2026.01.07
 
+#### @probitas/runner 0.5.2 (patch)
+
+- feat(@probitas/runner): add scenario-level timeout configuration
+- fix(@probitas/runner): improve step timeout error messages with context
+
+### 2026.01.07
+
 #### @probitas/builder 0.5.1 (patch)
 
 - refactor(@probitas/builder,@probitas/runner,@probitas/core): move step options
