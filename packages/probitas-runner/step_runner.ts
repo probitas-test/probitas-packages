@@ -13,6 +13,7 @@ import { retry } from "./utils/retry.ts";
 import { createStepContext } from "./context.ts";
 import { mergeSignals } from "./utils/signal.ts";
 import { Skip } from "./skip.ts";
+import { StepTimeoutError } from "./errors.ts";
 
 const DEFAULT_STEP_TIMEOUT = 30000;
 const DEFAULT_STEP_RETRY_MAX_ATTEMPTS = 1;
@@ -21,6 +22,14 @@ const DEFAULT_STEP_RETRY_BACKOFF = "linear" as const;
 type ResourceStep<T> = StepDefinition<T> & { kind: "resource" };
 type SetupStep = StepDefinition<SetupCleanup> & { kind: "setup" };
 type ExecutionStep<T> = StepDefinition<T> & { kind: "step" };
+
+/**
+ * Error with retry metadata attached
+ * @internal
+ */
+interface ErrorWithRetryMetadata extends Error {
+  __retryAttemptNumber?: number;
+}
 
 export class StepRunner {
   #reporter: Reporter;
@@ -65,6 +74,21 @@ export class StepRunner {
         },
       );
     });
+
+    // Enrich timeout errors with retry context and elapsed time
+    let error = result.status === "failed" ? result.error : undefined;
+    if (error && isTimeoutError(error)) {
+      const attemptNumber =
+        (error as ErrorWithRetryMetadata).__retryAttemptNumber ?? 1;
+      error = new StepTimeoutError(
+        step.name,
+        timeout,
+        attemptNumber,
+        result.duration,
+        { cause: error },
+      );
+    }
+
     const stepResult: StepResult = result.status === "passed"
       ? {
         status: "passed",
@@ -73,8 +97,8 @@ export class StepRunner {
         metadata: stepMetadata,
       }
       : {
-        status: result.error instanceof Skip ? "skipped" : "failed",
-        error: result.error,
+        status: error instanceof Skip ? "skipped" : "failed",
+        error: error!,
         duration: result.duration,
         metadata: stepMetadata,
       };
@@ -177,4 +201,8 @@ function isDisposable(x: unknown): x is Disposable | AsyncDisposable {
     x != null && typeof x === "object" &&
     (Symbol.asyncDispose in x || Symbol.dispose in x)
   );
+}
+
+function isTimeoutError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === "TimeoutError";
 }
