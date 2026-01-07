@@ -141,9 +141,22 @@ export interface RunOptions {
   readonly maxFailures?: number;
 
   /**
+   * Timeout for scenario execution in milliseconds.
+   *
+   * - `undefined`: No timeout (unlimited execution time)
+   * - `0`: No timeout
+   * - `n`: Timeout after n milliseconds
+   *
+   * When timeout occurs, a {@linkcode ScenarioTimeoutError} is thrown.
+   * This is independent from step-level timeouts.
+   */
+  readonly timeout?: number;
+
+  /**
    * Abort signal for external cancellation.
    *
    * When aborted, running scenarios complete but no new ones start.
+   * If both `timeout` and `signal` are provided, either one can trigger cancellation.
    */
   readonly signal?: AbortSignal;
 

@@ -10,6 +10,14 @@
 import { delay } from "@std/async/delay";
 
 /**
+ * Error with retry metadata attached
+ * @internal
+ */
+interface ErrorWithRetryMetadata extends Error {
+  __retryAttemptNumber?: number;
+}
+
+/**
  * Configuration options for retry behavior
  */
 export type RetryOptions = {
@@ -77,6 +85,10 @@ export async function retry<T>(
       return await fn();
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
+
+      // Attach retry metadata to the error for context
+      // This helps StepTimeoutError include retry information
+      (lastError as ErrorWithRetryMetadata).__retryAttemptNumber = attempt + 1;
 
       if (attempt < maxAttempts - 1) {
         const t = backoff === "exponential"
