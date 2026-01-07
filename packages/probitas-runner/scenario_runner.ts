@@ -1,4 +1,4 @@
-import type { ScenarioDefinition } from "@probitas/core";
+import type { ScenarioDefinition, StepOptions } from "@probitas/core";
 import type { Reporter, ScenarioResult, StepResult } from "./types.ts";
 import { Skip } from "./skip.ts";
 import { StepRunner } from "./step_runner.ts";
@@ -12,9 +12,11 @@ export interface RunOptions {
 
 export class ScenarioRunner {
   #reporter: Reporter;
+  #stepOptions?: StepOptions;
 
-  constructor(reporter: Reporter) {
+  constructor(reporter: Reporter, stepOptions?: StepOptions) {
     this.#reporter = reporter;
+    this.#stepOptions = stepOptions;
   }
 
   async run(
@@ -56,6 +58,7 @@ export class ScenarioRunner {
       this.#reporter,
       scenarioMetadata,
       scenarioCtx,
+      this.#stepOptions,
     );
 
     for (const step of scenario.steps) {

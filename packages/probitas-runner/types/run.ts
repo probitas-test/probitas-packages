@@ -7,6 +7,7 @@
  * @module
  */
 
+import type { StepOptions } from "@probitas/core";
 import type { ScenarioResult } from "./scenario.ts";
 
 /**
@@ -106,6 +107,19 @@ export interface RunFilter {
  * };
  * console.log(options);
  * ```
+ *
+ * @example With stepOptions
+ * ```ts
+ * import type { RunOptions } from "@probitas/runner";
+ *
+ * const options: RunOptions = {
+ *   stepOptions: {
+ *     timeout: 60000,
+ *     retry: { maxAttempts: 3, backoff: "exponential" }
+ *   }
+ * };
+ * console.log(options);
+ * ```
  */
 export interface RunOptions {
   /**
@@ -132,4 +146,14 @@ export interface RunOptions {
    * When aborted, running scenarios complete but no new ones start.
    */
   readonly signal?: AbortSignal;
+
+  /**
+   * Default step options applied when step uses default values.
+   *
+   * These options override builder defaults but are themselves overridden
+   * by scenario-level or step-level options.
+   *
+   * Priority: step options > scenario.stepOptions > config.stepOptions > defaults
+   */
+  readonly stepOptions?: StepOptions;
 }

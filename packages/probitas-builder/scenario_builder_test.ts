@@ -53,17 +53,16 @@ Deno.test("ScenarioBuilder options allows partial scenario options override", ()
   assertEquals(definition.tags[1], "integration");
 });
 
-Deno.test("ScenarioBuilder options applies default step options", () => {
+Deno.test("ScenarioBuilder passes undefined when no options specified", () => {
   const definition = scenario("Test")
     .step("Test Step", () => {})
     .build();
   const steps = getSteps(definition.steps);
-  assertEquals(steps[0].timeout, 30000);
-  assertEquals(steps[0].retry.maxAttempts, 1);
-  assertEquals(steps[0].retry.backoff, "linear");
+  assertEquals(steps[0].timeout, undefined);
+  assertEquals(steps[0].retry, undefined);
 });
 
-Deno.test("ScenarioBuilder options allows step-level options override", () => {
+Deno.test("ScenarioBuilder passes step-level options as-is", () => {
   const definition = scenario("Test")
     .step("Test Step", () => {}, {
       timeout: 5000,
@@ -72,8 +71,8 @@ Deno.test("ScenarioBuilder options allows step-level options override", () => {
     .build();
   const steps = getSteps(definition.steps);
   assertEquals(steps[0].timeout, 5000);
-  assertEquals(steps[0].retry.maxAttempts, 3);
-  assertEquals(steps[0].retry.backoff, "exponential");
+  assertEquals(steps[0].retry?.maxAttempts, 3);
+  assertEquals(steps[0].retry?.backoff, "exponential");
 });
 
 Deno.test("ScenarioBuilder step addition supports named step addition", () => {

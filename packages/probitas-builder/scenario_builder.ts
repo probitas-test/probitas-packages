@@ -19,10 +19,6 @@ import type { Origin } from "@probitas/core/origin";
 import { captureStack } from "@probitas/core/stack";
 import type { BuilderStepFunction } from "./types.ts";
 
-export const DEFAULT_STEP_TIMEOUT = 30000;
-export const DEFAULT_STEP_RETRY_MAX_ATTEMPTS = 1;
-export const DEFAULT_STEP_RETRY_BACKOFF = "linear";
-
 /**
  * Capture the origin (file path and line number) of the caller.
  *
@@ -89,23 +85,22 @@ class ScenarioBuilderState<
   ): void {
     const origin = captureOrigin();
     const timeout = options?.timeout ??
-      this.#scenarioOptions?.stepOptions?.timeout ??
-      DEFAULT_STEP_TIMEOUT;
+      this.#scenarioOptions?.stepOptions?.timeout;
     const retryMaxAttempts = options?.retry?.maxAttempts ??
-      this.#scenarioOptions?.stepOptions?.retry?.maxAttempts ??
-      DEFAULT_STEP_RETRY_MAX_ATTEMPTS;
+      this.#scenarioOptions?.stepOptions?.retry?.maxAttempts;
     const retryBackoff = options?.retry?.backoff ??
-      this.#scenarioOptions?.stepOptions?.retry?.backoff ??
-      DEFAULT_STEP_RETRY_BACKOFF;
+      this.#scenarioOptions?.stepOptions?.retry?.backoff;
     const step = {
       kind,
       name,
       fn,
       timeout,
-      retry: {
-        maxAttempts: retryMaxAttempts,
-        backoff: retryBackoff,
-      },
+      retry: retryMaxAttempts !== undefined || retryBackoff !== undefined
+        ? {
+          maxAttempts: retryMaxAttempts,
+          backoff: retryBackoff,
+        }
+        : undefined,
       origin,
     };
     this.#steps.push(step);
