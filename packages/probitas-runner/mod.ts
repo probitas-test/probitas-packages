@@ -42,6 +42,7 @@
  * ## Error Types
  *
  * - {@linkcode StepTimeoutError} - Thrown when a step exceeds its timeout
+ * - {@linkcode ScenarioTimeoutError} - Thrown when a scenario exceeds its timeout
  *
  * @example Basic usage
  * ```ts
@@ -133,4 +134,4 @@ export type * from "./types.ts";
 export { Skip } from "./skip.ts";
 export { Runner } from "./runner.ts";
 export { toScenarioMetadata, toStepMetadata } from "./metadata.ts";
-export { StepTimeoutError } from "./errors.ts";
+export { ScenarioTimeoutError, StepTimeoutError } from "./errors.ts";

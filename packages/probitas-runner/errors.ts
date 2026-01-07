@@ -32,3 +32,34 @@ export class StepTimeoutError extends Error {
     this.elapsedMs = elapsedMs;
   }
 }
+
+/**
+ * Error thrown when a scenario execution times out.
+ *
+ * Contains structured information about the timeout including
+ * the scenario name, timeout duration, and total elapsed time.
+ */
+export class ScenarioTimeoutError extends Error {
+  override readonly name = "ScenarioTimeoutError";
+  readonly scenarioName: string;
+  readonly timeoutMs: number;
+  readonly elapsedMs: number;
+
+  constructor(
+    scenarioName: string,
+    timeoutMs: number,
+    elapsedMs: number,
+    options?: ErrorOptions,
+  ) {
+    const elapsedMsg = elapsedMs !== timeoutMs
+      ? `, total elapsed: ${elapsedMs}ms`
+      : "";
+    super(
+      `Scenario "${scenarioName}" timed out after ${timeoutMs}ms${elapsedMsg}`,
+      options,
+    );
+    this.scenarioName = scenarioName;
+    this.timeoutMs = timeoutMs;
+    this.elapsedMs = elapsedMs;
+  }
+}

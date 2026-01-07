@@ -1,4 +1,5 @@
 import { chunk } from "@std/collections/chunk";
+import { deadline } from "@std/async/deadline";
 import type { ScenarioDefinition, StepOptions } from "@probitas/core";
 import type {
   Reporter,
@@ -9,6 +10,8 @@ import type {
 import { ScenarioRunner } from "./scenario_runner.ts";
 import { toScenarioMetadata } from "./metadata.ts";
 import { timeit } from "./utils/timeit.ts";
+import { mergeSignals } from "./utils/signal.ts";
+import { ScenarioTimeoutError } from "./errors.ts";
 
 /**
  * Top-level test runner that orchestrates execution of multiple scenarios.
@@ -73,6 +76,7 @@ export class Runner {
     // Execute scenarios
     const maxConcurrency = options?.maxConcurrency ?? 0;
     const maxFailures = options?.maxFailures ?? 0;
+    const timeout = options?.timeout ?? 0;
 
     const scenarioResults: ScenarioResult[] = [];
     const result = await timeit(() =>
@@ -81,6 +85,7 @@ export class Runner {
         scenarioResults,
         maxConcurrency,
         maxFailures,
+        timeout,
         signal,
         options?.stepOptions,
       )
@@ -105,11 +110,78 @@ export class Runner {
     return runResult;
   }
 
+  async #runWithTimeout(
+    scenarioRunner: ScenarioRunner,
+    scenario: ScenarioDefinition,
+    timeout: number,
+    signal?: AbortSignal,
+  ): Promise<ScenarioResult> {
+    try {
+      const timeoutSignal = mergeSignals(
+        signal,
+        AbortSignal.timeout(timeout),
+      );
+      const result = await timeit(() =>
+        deadline(
+          scenarioRunner.run(scenario, { signal: timeoutSignal }),
+          timeout,
+          { signal: timeoutSignal },
+        )
+      );
+
+      // Handle successful execution
+      if (result.status === "passed") {
+        let scenarioResult = result.value;
+
+        // Handle timeout errors from within scenario
+        if (
+          scenarioResult.status === "failed" &&
+          isTimeoutError(scenarioResult.error)
+        ) {
+          const timeoutError = new ScenarioTimeoutError(
+            scenario.name,
+            timeout,
+            result.duration,
+            { cause: scenarioResult.error },
+          );
+          scenarioResult = {
+            ...scenarioResult,
+            error: timeoutError,
+          };
+        }
+
+        return scenarioResult;
+      } else {
+        // timeit itself failed (this should be rare)
+        throw result.error;
+      }
+    } catch (error) {
+      // Catch timeout errors thrown by deadline
+      if (isTimeoutError(error)) {
+        const metadata = toScenarioMetadata(scenario);
+        return {
+          status: "failed",
+          duration: timeout,
+          metadata,
+          steps: [],
+          error: new ScenarioTimeoutError(
+            scenario.name,
+            timeout,
+            timeout,
+            { cause: error },
+          ),
+        };
+      }
+      throw error;
+    }
+  }
+
   async #run(
     scenarios: readonly ScenarioDefinition[],
     scenarioResults: ScenarioResult[],
     maxConcurrency: number,
     maxFailures: number,
+    timeout: number,
     signal?: AbortSignal,
     stepOptions?: StepOptions,
   ): Promise<void> {
@@ -124,10 +196,17 @@ export class Runner {
       await Promise.all(
         batch.map(async (scenario: ScenarioDefinition) => {
           signal?.throwIfAborted();
-          const scenarioResult = await scenarioRunner.run(
-            scenario,
-            { signal },
-          );
+
+          // Execute scenario with optional timeout
+          const scenarioResult = timeout > 0
+            ? await this.#runWithTimeout(
+              scenarioRunner,
+              scenario,
+              timeout,
+              signal,
+            )
+            : await scenarioRunner.run(scenario, { signal });
+
           scenarioResults.push(scenarioResult);
           if (scenarioResult.status === "failed") {
             failureCount++;
@@ -139,4 +218,8 @@ export class Runner {
       );
     }
   }
+}
+
+function isTimeoutError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === "TimeoutError";
 }
