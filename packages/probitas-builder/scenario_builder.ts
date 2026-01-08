@@ -161,6 +161,7 @@ class ScenarioBuilderState<
     const definition: ScenarioDefinition = Object.freeze({
       name: this.#name,
       tags: [...(this.#scenarioOptions.tags ?? [])],
+      timeout: this.#scenarioOptions.timeout,
       steps: [...this.#steps],
       origin,
     });

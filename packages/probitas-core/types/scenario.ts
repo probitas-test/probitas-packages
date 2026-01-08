@@ -10,6 +10,7 @@ import type { StepDefinition, StepMetadata, StepOptions } from "./step.ts";
  * ```ts
  * const options: ScenarioOptions = {
  *   tags: ["api", "integration", "slow"],
+ *   timeout: 30000,
  *   stepOptions: {
  *     timeout: 60000,
  *     retry: { maxAttempts: 2, backoff: "linear" }
@@ -31,6 +32,30 @@ export interface ScenarioOptions {
    * ```
    */
   readonly tags?: readonly string[];
+
+  /**
+   * Maximum time in milliseconds for the entire scenario to complete.
+   *
+   * When specified, this timeout applies to the total execution time of all
+   * steps in the scenario. If the scenario exceeds this limit, a
+   * {@linkcode ScenarioTimeoutError} is thrown.
+   *
+   * Priority: scenario timeout > RunOptions timeout
+   *
+   * @default undefined (uses RunOptions timeout if set, otherwise no timeout)
+   *
+   * @example
+   * ```ts
+   * import { scenario } from "@probitas/builder";
+   *
+   * scenario("Quick API Test", { timeout: 5000 })
+   *   .step("Call API", async () => {
+   *     // This step and all others must complete within 5 seconds total
+   *   })
+   *   .build();
+   * ```
+   */
+  readonly timeout?: number;
 
   /**
    * Default options applied to all steps in this scenario.
@@ -106,6 +131,14 @@ export interface ScenarioDefinition {
    */
   readonly tags: readonly string[];
 
+  /**
+   * Maximum time in milliseconds for the entire scenario to complete.
+   *
+   * When set, overrides the RunOptions timeout for this specific scenario.
+   * When timeout occurs, a {@linkcode ScenarioTimeoutError} is thrown.
+   */
+  readonly timeout?: number;
+
   /** Ordered sequence of entries (resources → setups → steps) */
   readonly steps: readonly StepDefinition[];
 
@@ -146,6 +179,13 @@ export interface ScenarioMetadata {
    * ```
    */
   readonly tags: readonly string[];
+
+  /**
+   * Maximum time in milliseconds for the entire scenario to complete.
+   *
+   * When set, overrides the RunOptions timeout for this specific scenario.
+   */
+  readonly timeout?: number;
 
   /** Entry metadata (functions omitted for serialization) */
   readonly steps: readonly StepMetadata[];

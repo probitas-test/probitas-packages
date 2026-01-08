@@ -173,11 +173,13 @@ export class Runner {
           signal?.throwIfAborted();
 
           // Execute scenario with optional timeout
-          const scenarioResult = timeout > 0
+          // Priority: scenario timeout > RunOptions timeout
+          const effectiveTimeout = scenario.timeout ?? timeout;
+          const scenarioResult = effectiveTimeout > 0
             ? await this.#runWithTimeout(
               scenarioRunner,
               scenario,
-              timeout,
+              effectiveTimeout,
               signal,
             )
             : await scenarioRunner.run(scenario, { signal });
