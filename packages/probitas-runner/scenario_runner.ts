@@ -5,6 +5,7 @@ import { StepRunner } from "./step_runner.ts";
 import { toScenarioMetadata } from "./metadata.ts";
 import { timeit } from "./utils/timeit.ts";
 import { createScenarioContext } from "./context.ts";
+import { ScenarioTimeoutError } from "./errors.ts";
 
 export interface RunOptions {
   readonly signal?: AbortSignal;
@@ -61,14 +62,33 @@ export class ScenarioRunner {
       this.#stepOptions,
     );
 
-    for (const step of scenario.steps) {
+    for (let stepIndex = 0; stepIndex < scenario.steps.length; stepIndex++) {
+      const step = scenario.steps[stepIndex];
+
       signal?.throwIfAborted();
 
-      const stepResult = await stepRunner.run(step, stack);
-      stepResults.push(stepResult);
+      try {
+        const stepResult = await stepRunner.run(step, stack);
+        stepResults.push(stepResult);
 
-      if (stepResult.status !== "passed") {
-        throw stepResult.error;
+        if (stepResult.status !== "passed") {
+          throw stepResult.error;
+        }
+      } catch (error) {
+        // Enrich ScenarioTimeoutError with current step information
+        if (error instanceof ScenarioTimeoutError) {
+          throw new ScenarioTimeoutError(
+            error.scenarioName,
+            error.timeoutMs,
+            error.elapsedMs,
+            {
+              cause: error,
+              currentStepName: step.name,
+              currentStepIndex: stepIndex,
+            },
+          );
+        }
+        throw error;
       }
     }
   }

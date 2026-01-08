@@ -10,14 +10,6 @@
 import { delay } from "@std/async/delay";
 
 /**
- * Error with retry metadata attached
- * @internal
- */
-interface ErrorWithRetryMetadata extends Error {
-  __retryAttemptNumber?: number;
-}
-
-/**
  * Configuration options for retry behavior
  */
 export type RetryOptions = {
@@ -34,6 +26,17 @@ export type RetryOptions = {
 
   /** AbortSignal to cancel retry delays */
   signal?: AbortSignal;
+
+  /**
+   * Predicate to determine if retry should continue after an error.
+   * Return false to stop retrying immediately.
+   *
+   * @param error - The raw error that occurred (not converted to Error)
+   * @param attempt - The 1-based attempt number that just failed
+   * @returns true to continue retrying, false to stop immediately
+   * @default Always returns true (retry all errors)
+   */
+  shouldRetry?: (error: unknown, attempt: number) => boolean;
 };
 
 /**
@@ -43,7 +46,7 @@ export type RetryOptions = {
  * specified options. Delays between retries follow either linear or exponential backoff.
  *
  * @template T - Return type of the function
- * @param fn - Function to execute (can be sync or async)
+ * @param fn - Function to execute (receives 1-based attempt number, can be sync or async)
  * @param options - Retry configuration options
  * @returns Promise resolving to the function's return value
  * @throws The last error encountered if all retry attempts fail
@@ -54,7 +57,7 @@ export type RetryOptions = {
  *
  * const mockFetch = async () => ({ ok: true });
  * const data = await retry(
- *   () => mockFetch(),
+ *   (attempt) => mockFetch(),
  *   { maxAttempts: 3, backoff: "exponential" }
  * );
  * console.log(data);
@@ -67,28 +70,42 @@ export type RetryOptions = {
  * const fetchData = async () => ({ status: "ok" });
  * const controller = new AbortController();
  * const data = await retry(
- *   () => fetchData(),
+ *   (attempt) => fetchData(),
  *   { maxAttempts: 5, backoff: "linear", signal: controller.signal }
  * );
  * console.log(data);
  * ```
  */
 export async function retry<T>(
-  fn: () => T | Promise<T>,
+  fn: (attempt: number) => T | Promise<T>,
   options: Readonly<RetryOptions> = {},
 ): Promise<T> {
-  const { maxAttempts = 1, backoff = "linear", signal } = options;
-  let lastError: Error | undefined;
+  const {
+    maxAttempts = 1,
+    backoff = "linear",
+    signal,
+    shouldRetry = () => true,
+  } = options;
+  let lastError: unknown;
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    try {
-      return await fn();
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
+    signal?.throwIfAborted();
 
-      // Attach retry metadata to the error for context
-      // This helps StepTimeoutError include retry information
-      (lastError as ErrorWithRetryMetadata).__retryAttemptNumber = attempt + 1;
+    try {
+      return await fn(attempt + 1); // Pass 1-based attempt number
+    } catch (error) {
+      lastError = error;
+
+      // Check if retry should continue based on raw error and attempt number
+      if (!shouldRetry(error, attempt + 1)) {
+        throw error;
+      }
+
+      // Don't retry if the external signal (passed to retry) is aborted.
+      // This indicates the user cancelled the operation, so continuing is pointless.
+      if (signal?.aborted) {
+        throw error;
+      }
 
       if (attempt < maxAttempts - 1) {
         const t = backoff === "exponential"
@@ -99,5 +116,6 @@ export async function retry<T>(
     }
   }
 
-  throw lastError || new Error("Retry failed");
+  // Throw the last error as-is (preserving its original type)
+  throw lastError;
 }

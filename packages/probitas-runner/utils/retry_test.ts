@@ -4,7 +4,7 @@ import { retry } from "./retry.ts";
 
 Deno.test("retry configuration succeeds on first attempt", async () => {
   let attempts = 0;
-  const result = await retry(() => {
+  const result = await retry((_attempt) => {
     attempts++;
     return "success";
   });
@@ -17,7 +17,7 @@ Deno.test("retry transient failures succeeds on second attempt", async () => {
   using time = new FakeTime();
   let attempts = 0;
 
-  const promise = retry(() => {
+  const promise = retry((_attempt) => {
     attempts++;
     if (attempts < 2) {
       throw new Error("Temporary failure");
@@ -37,7 +37,7 @@ Deno.test("retry permanent failures throws error when all attempts fail", async 
   using time = new FakeTime();
   let attempts = 0;
 
-  const promise = retry(() => {
+  const promise = retry((_attempt) => {
     attempts++;
     throw new Error("Persistent failure");
   }, { maxAttempts: 3 });
@@ -60,7 +60,7 @@ Deno.test("retry delays linear backoff timing", async () => {
   using time = new FakeTime();
   let attempts = 0;
 
-  const promise = retry(() => {
+  const promise = retry((_attempt) => {
     attempts++;
     throw new Error("Always fails");
   }, { maxAttempts: 3, backoff: "linear" });
@@ -87,7 +87,7 @@ Deno.test("retry delays exponential backoff timing", async () => {
   using time = new FakeTime();
   let attempts = 0;
 
-  const promise = retry(() => {
+  const promise = retry((_attempt) => {
     attempts++;
     throw new Error("Always fails");
   }, { maxAttempts: 4, backoff: "exponential" });
@@ -119,7 +119,7 @@ Deno.test("retry error handling can be aborted via signal", async () => {
   const controller = new AbortController();
   let attempts = 0;
 
-  const promise = retry(() => {
+  const promise = retry((_attempt) => {
     attempts++;
     throw new Error("Always fails");
   }, { maxAttempts: 5, backoff: "linear", signal: controller.signal });
@@ -138,4 +138,120 @@ Deno.test("retry error handling can be aborted via signal", async () => {
 
   // Should stop early due to abort (only 1 attempt completed)
   assertEquals(attempts, 1);
+});
+
+Deno.test("retry shouldRetry predicate - stops on specific error", async () => {
+  let attempts = 0;
+
+  class CustomError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "CustomError";
+    }
+  }
+
+  await assertRejects(
+    () =>
+      retry(
+        (_attempt) => {
+          attempts++;
+          throw new CustomError("Should not retry");
+        },
+        {
+          maxAttempts: 3,
+          shouldRetry: (error) => !(error instanceof CustomError),
+        },
+      ),
+    CustomError,
+  );
+
+  // Should only attempt once due to shouldRetry returning false
+  assertEquals(attempts, 1);
+});
+
+Deno.test("retry shouldRetry predicate - continues on other errors", async () => {
+  let attempts = 0;
+
+  class CustomError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "CustomError";
+    }
+  }
+
+  await assertRejects(
+    () =>
+      retry(
+        (_attempt) => {
+          attempts++;
+          throw new Error("Normal error");
+        },
+        {
+          maxAttempts: 3,
+          shouldRetry: (error) => !(error instanceof CustomError),
+        },
+      ),
+    Error,
+    "Normal error",
+  );
+
+  // Should retry all 3 attempts for normal errors
+  assertEquals(attempts, 3);
+});
+
+Deno.test("retry shouldRetry predicate - receives attempt number", async () => {
+  const receivedAttempts: number[] = [];
+
+  await assertRejects(
+    () =>
+      retry(
+        (_attempt) => {
+          throw new Error("Always fails");
+        },
+        {
+          maxAttempts: 3,
+          shouldRetry: (_error, attempt) => {
+            receivedAttempts.push(attempt);
+            return true;
+          },
+        },
+      ),
+    Error,
+  );
+
+  // shouldRetry should be called with attempt 1, 2, 3
+  assertEquals(receivedAttempts, [1, 2, 3]);
+});
+
+Deno.test("retry default behavior - retries all error types", async () => {
+  let attempts = 0;
+
+  await assertRejects(
+    () =>
+      retry((_attempt) => {
+        attempts++;
+        throw new Error("Normal error");
+      }, { maxAttempts: 3 }),
+    Error,
+    "Normal error",
+  );
+
+  // Default shouldRetry returns true, so should retry all attempts
+  assertEquals(attempts, 3);
+});
+
+Deno.test("retry passes attempt number to callback", async () => {
+  const attemptNumbers: number[] = [];
+
+  await assertRejects(
+    () =>
+      retry((attempt) => {
+        attemptNumbers.push(attempt);
+        throw new Error("Fail");
+      }, { maxAttempts: 3 }),
+    Error,
+  );
+
+  // Should receive 1, 2, 3 (1-based)
+  assertEquals(attemptNumbers, [1, 2, 3]);
 });
