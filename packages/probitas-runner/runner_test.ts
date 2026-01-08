@@ -7,11 +7,28 @@ import {
   TestReporter,
 } from "./_testutils.ts";
 import { Skip } from "./skip.ts";
-import { Runner } from "./runner.ts";
+import { _internal, Runner } from "./runner.ts";
 import { createScopedSignal } from "./utils/signal.ts";
 import { ScenarioTimeoutError } from "./errors.ts";
 
 const reporter = new TestReporter();
+
+Deno.test("isTimeoutError detects TimeoutError", () => {
+  const error = new DOMException("Timeout", "TimeoutError");
+  expect(_internal.isTimeoutError(error)).toBe(true);
+});
+
+Deno.test("isTimeoutError should detect AbortError caused by timeout", async () => {
+  const signal = AbortSignal.timeout(10);
+
+  // Wait for signal to abort
+  await delay(20);
+
+  const error = new DOMException("Aborted", "AbortError");
+
+  // AbortError should be detected as timeout error when signal.reason is TimeoutError
+  expect(_internal.isTimeoutError(error, signal)).toBe(true);
+});
 
 Deno.test("Runner run runs single scenario", async () => {
   const runner = new Runner(reporter);
@@ -382,5 +399,57 @@ Deno.test({
       skipped: 0,
       failed: 0,
     });
+  },
+});
+
+Deno.test({
+  name:
+    "Runner run handles scenario timeout between steps (throwIfAborted case)",
+  sanitizeResources: false,
+  sanitizeOps: false,
+  async fn() {
+    const runner = new Runner(reporter);
+    const scenarios = [
+      createTestScenario({
+        name: "Multi-step timeout scenario",
+        steps: [
+          createTestStep({
+            name: "First step - 60ms",
+            fn: async (ctx) => {
+              await delay(60, { signal: ctx.signal });
+              return { step: 1 };
+            },
+          }),
+          createTestStep({
+            name: "Second step - 60ms",
+            fn: async (ctx) => {
+              await delay(60, { signal: ctx.signal });
+              return { step: 2 };
+            },
+          }),
+        ],
+      }),
+    ];
+
+    const summary = await runner.run(scenarios, {
+      timeout: 80, // Timeout between first and second step
+    });
+
+    expect(summary).toMatchObject({
+      total: 1,
+      passed: 0,
+      skipped: 0,
+      failed: 1,
+    });
+
+    // Verify the error is ScenarioTimeoutError, not AbortError
+    const scenarioResult = summary.scenarios[0];
+    expect(scenarioResult.status).toBe("failed");
+    if (scenarioResult.status === "failed") {
+      expect(scenarioResult.error).toBeInstanceOf(ScenarioTimeoutError);
+      const timeoutError = scenarioResult.error as ScenarioTimeoutError;
+      expect(timeoutError.scenarioName).toBe("Multi-step timeout scenario");
+      expect(timeoutError.timeoutMs).toBe(80);
+    }
   },
 });

@@ -135,7 +135,7 @@ export class Runner {
     // Check if scenario failed due to timeout
     if (
       scenarioResult.status === "failed" &&
-      isTimeoutError(scenarioResult.error)
+      isTimeoutError(scenarioResult.error, timeoutSignal)
     ) {
       return {
         ...scenarioResult,
@@ -197,9 +197,34 @@ export class Runner {
   }
 }
 
-function isTimeoutError(error: unknown): boolean {
-  return (
-    (error instanceof DOMException && error.name === "TimeoutError") ||
-    error instanceof StepTimeoutError
-  );
+function isTimeoutError(error: unknown, signal?: AbortSignal): boolean {
+  // Direct TimeoutError
+  if (error instanceof DOMException && error.name === "TimeoutError") {
+    return true;
+  }
+
+  // StepTimeoutError
+  if (error instanceof StepTimeoutError) {
+    return true;
+  }
+
+  // AbortError caused by timeout
+  if (
+    error instanceof DOMException &&
+    error.name === "AbortError" &&
+    signal?.aborted &&
+    signal.reason instanceof DOMException &&
+    signal.reason.name === "TimeoutError"
+  ) {
+    return true;
+  }
+
+  return false;
 }
+
+/**
+ * @internal
+ */
+export const _internal = {
+  isTimeoutError,
+};
