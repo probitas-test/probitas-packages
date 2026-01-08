@@ -7,28 +7,11 @@ import {
   TestReporter,
 } from "./_testutils.ts";
 import { Skip } from "./skip.ts";
-import { _internal, Runner } from "./runner.ts";
+import { Runner } from "./runner.ts";
 import { createScopedSignal } from "./utils/signal.ts";
 import { ScenarioTimeoutError } from "./errors.ts";
 
 const reporter = new TestReporter();
-
-Deno.test("isTimeoutError detects TimeoutError", () => {
-  const error = new DOMException("Timeout", "TimeoutError");
-  expect(_internal.isTimeoutError(error)).toBe(true);
-});
-
-Deno.test("isTimeoutError should detect AbortError caused by timeout", async () => {
-  const signal = AbortSignal.timeout(10);
-
-  // Wait for signal to abort
-  await delay(20);
-
-  const error = new DOMException("Aborted", "AbortError");
-
-  // AbortError should be detected as timeout error when signal.reason is TimeoutError
-  expect(_internal.isTimeoutError(error, signal)).toBe(true);
-});
 
 Deno.test("Runner run runs single scenario", async () => {
   const runner = new Runner(reporter);
@@ -450,6 +433,107 @@ Deno.test({
       const timeoutError = scenarioResult.error as ScenarioTimeoutError;
       expect(timeoutError.scenarioName).toBe("Multi-step timeout scenario");
       expect(timeoutError.timeoutMs).toBe(80);
+    }
+  },
+});
+
+Deno.test({
+  name: "Runner run with timeout includes step info in ScenarioTimeoutError",
+  sanitizeResources: false,
+  sanitizeOps: false,
+  async fn() {
+    const runner = new Runner(reporter);
+    const scenarios = [
+      createTestScenario({
+        name: "Timeout with step info",
+        steps: [
+          createTestStep({
+            name: "fast-step",
+            fn: async (ctx) => {
+              await delay(10, { signal: ctx.signal });
+              return "done";
+            },
+          }),
+          createTestStep({
+            name: "slow-step",
+            fn: async (ctx) => {
+              await delay(200, { signal: ctx.signal });
+              return "should-timeout";
+            },
+          }),
+          createTestStep({
+            name: "never-reached",
+            fn: () => "not-reached",
+          }),
+        ],
+      }),
+    ];
+
+    const summary = await runner.run(scenarios, {
+      timeout: 50,
+    });
+
+    expect(summary).toMatchObject({
+      total: 1,
+      passed: 0,
+      skipped: 0,
+      failed: 1,
+    });
+
+    const scenarioResult = summary.scenarios[0];
+    expect(scenarioResult.status).toBe("failed");
+    if (scenarioResult.status === "failed") {
+      expect(scenarioResult.error).toBeInstanceOf(ScenarioTimeoutError);
+      const timeoutError = scenarioResult.error as ScenarioTimeoutError;
+      expect(timeoutError.scenarioName).toBe("Timeout with step info");
+      expect(timeoutError.timeoutMs).toBe(50);
+      expect(timeoutError.currentStepName).toBe("slow-step");
+      expect(timeoutError.currentStepIndex).toBe(1);
+      expect(timeoutError.message).toContain(
+        'while executing step "slow-step"',
+      );
+      expect(timeoutError.message).toContain("(step 2)");
+    }
+  },
+});
+
+Deno.test({
+  name: "Runner run with timeout on first step includes step index 0",
+  sanitizeResources: false,
+  sanitizeOps: false,
+  async fn() {
+    const runner = new Runner(reporter);
+    const scenarios = [
+      createTestScenario({
+        name: "First step timeout",
+        steps: [
+          createTestStep({
+            name: "first-slow-step",
+            fn: async (ctx) => {
+              await delay(200, { signal: ctx.signal });
+              return "should-timeout";
+            },
+          }),
+          createTestStep({
+            name: "never-reached",
+            fn: () => "not-reached",
+          }),
+        ],
+      }),
+    ];
+
+    const summary = await runner.run(scenarios, {
+      timeout: 50,
+    });
+
+    const scenarioResult = summary.scenarios[0];
+    expect(scenarioResult.status).toBe("failed");
+    if (scenarioResult.status === "failed") {
+      expect(scenarioResult.error).toBeInstanceOf(ScenarioTimeoutError);
+      const timeoutError = scenarioResult.error as ScenarioTimeoutError;
+      expect(timeoutError.currentStepName).toBe("first-slow-step");
+      expect(timeoutError.currentStepIndex).toBe(0);
+      expect(timeoutError.message).toContain("(step 1)");
     }
   },
 });

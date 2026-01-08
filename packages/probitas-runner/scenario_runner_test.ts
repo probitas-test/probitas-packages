@@ -64,7 +64,7 @@ Deno.test("ScenarioRunner run runs scenario with single step (fail)", async () =
     status: "failed",
     steps: [{
       status: "failed",
-      error: new Error("ng"),
+      error: "ng",
     }],
     metadata: {
       name: "Test Scenario",
@@ -139,7 +139,7 @@ Deno.test("ScenarioRunner run runs scenario with multiple steps (fail)", async (
       },
       {
         status: "failed",
-        error: new Error("2"),
+        error: "2",
       },
     ],
     metadata: {

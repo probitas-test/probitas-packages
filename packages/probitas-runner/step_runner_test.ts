@@ -58,7 +58,7 @@ Deno.test("StepRunner run runs resource step (fail)", async () => {
   assertSpyCalls(step.fn as SpyLike, 1);
   expect(stepResult).toMatchObject({
     status: "failed",
-    error: new Error("bar"),
+    error: "bar",
     metadata: {
       kind: "resource",
       name: "foo",
@@ -110,7 +110,7 @@ Deno.test("StepRunner run runs setup step (fail)", async () => {
   assertSpyCalls(step.fn as SpyLike, 1);
   expect(stepResult).toMatchObject({
     status: "failed",
-    error: new Error("bar"),
+    error: "bar",
     metadata: {
       kind: "setup",
       name: "foo",
@@ -162,7 +162,7 @@ Deno.test("StepRunner run runs execution step (fail)", async () => {
   assertSpyCalls(step.fn as SpyLike, 1);
   expect(stepResult).toMatchObject({
     status: "failed",
-    error: new Error("bar"),
+    error: "bar",
     metadata: {
       kind: "step",
       name: "foo",

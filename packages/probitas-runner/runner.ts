@@ -10,7 +10,7 @@ import { ScenarioRunner } from "./scenario_runner.ts";
 import { toScenarioMetadata } from "./metadata.ts";
 import { timeit } from "./utils/timeit.ts";
 import { mergeSignals } from "./utils/signal.ts";
-import { ScenarioTimeoutError, StepTimeoutError } from "./errors.ts";
+import { ScenarioTimeoutError } from "./errors.ts";
 
 /**
  * Top-level test runner that orchestrates execution of multiple scenarios.
@@ -118,13 +118,16 @@ export class Runner {
     timeout: number,
     signal?: AbortSignal,
   ): Promise<ScenarioResult> {
-    const timeoutSignal = mergeSignals(
-      signal,
-      AbortSignal.timeout(timeout),
-    );
+    // Create timeout signal that aborts with ScenarioTimeoutError
+    using timeoutSignal = ScenarioTimeoutError.timeoutSignal(timeout, {
+      scenarioName: scenario.name,
+    });
+
+    // Merge with external signal
+    const mergedSignal = mergeSignals(signal, timeoutSignal);
 
     const result = await timeit(() =>
-      scenarioRunner.run(scenario, { signal: timeoutSignal })
+      scenarioRunner.run(scenario, { signal: mergedSignal })
     );
 
     // Handle timeit result
@@ -133,25 +136,7 @@ export class Runner {
       throw result.error;
     }
 
-    const scenarioResult = result.value;
-
-    // Check if scenario failed due to timeout
-    if (
-      scenarioResult.status === "failed" &&
-      isTimeoutError(scenarioResult.error, timeoutSignal)
-    ) {
-      return {
-        ...scenarioResult,
-        error: new ScenarioTimeoutError(
-          scenario.name,
-          timeout,
-          result.duration,
-          { cause: scenarioResult.error },
-        ),
-      };
-    }
-
-    return scenarioResult;
+    return result.value;
   }
 
   async #run(
@@ -199,35 +184,3 @@ export class Runner {
     }
   }
 }
-
-function isTimeoutError(error: unknown, signal?: AbortSignal): boolean {
-  // Direct TimeoutError
-  if (error instanceof DOMException && error.name === "TimeoutError") {
-    return true;
-  }
-
-  // StepTimeoutError
-  if (error instanceof StepTimeoutError) {
-    return true;
-  }
-
-  // AbortError caused by timeout
-  if (
-    error instanceof DOMException &&
-    error.name === "AbortError" &&
-    signal?.aborted &&
-    signal.reason instanceof DOMException &&
-    signal.reason.name === "TimeoutError"
-  ) {
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * @internal
- */
-export const _internal = {
-  isTimeoutError,
-};

@@ -13,7 +13,7 @@ import { retry } from "./utils/retry.ts";
 import { createStepContext } from "./context.ts";
 import { mergeSignals } from "./utils/signal.ts";
 import { Skip } from "./skip.ts";
-import { StepTimeoutError } from "./errors.ts";
+import { ScenarioTimeoutError, StepTimeoutError } from "./errors.ts";
 
 const DEFAULT_STEP_TIMEOUT = 30000;
 const DEFAULT_STEP_RETRY_MAX_ATTEMPTS = 1;
@@ -22,14 +22,6 @@ const DEFAULT_STEP_RETRY_BACKOFF = "linear" as const;
 type ResourceStep<T> = StepDefinition<T> & { kind: "resource" };
 type SetupStep = StepDefinition<SetupCleanup> & { kind: "setup" };
 type ExecutionStep<T> = StepDefinition<T> & { kind: "step" };
-
-/**
- * Error with retry metadata attached
- * @internal
- */
-interface ErrorWithRetryMetadata extends Error {
-  __retryAttemptNumber?: number;
-}
 
 export class StepRunner {
   #reporter: Reporter;
@@ -61,32 +53,92 @@ export class StepRunner {
     const timeout = this.#resolveTimeout(step);
     const retryConfig = this.#resolveRetry(step);
 
-    const signal = mergeSignals(
-      ctx.signal,
-      AbortSignal.timeout(timeout),
-    );
     const result = await timeit(() => {
       return retry(
-        () => deadline(this.#run(ctx, step, stack), timeout, { signal }),
+        async (attempt) => {
+          // Create timeout signal for each retry attempt
+          using attemptTimeoutSignal = StepTimeoutError.timeoutSignal(timeout, {
+            stepName: step.name,
+            attemptNumber: attempt,
+          });
+          const attemptSignal = mergeSignals(ctx.signal, attemptTimeoutSignal);
+
+          // Create attempt-specific context with timeout signal
+          const attemptCtx = { ...ctx, signal: attemptSignal };
+
+          return await deadline(
+            this.#run(attemptCtx, step, stack),
+            timeout,
+            { signal: attemptSignal },
+          );
+        },
         {
           ...retryConfig,
-          signal,
+          signal: ctx.signal, // For canceling retry delays only
+          shouldRetry: (error) => {
+            // Don't retry on timeout errors - they indicate the operation is too slow
+            // for the configured timeout, so retrying with the same timeout will fail again.
+            if (
+              error instanceof StepTimeoutError ||
+              error instanceof ScenarioTimeoutError
+            ) {
+              return false;
+            }
+            return true;
+          },
         },
       );
     });
 
-    // Enrich timeout errors with retry context and elapsed time
+    // Process timeout errors
     let error = result.status === "failed" ? result.error : undefined;
-    if (error && isTimeoutError(error)) {
-      const attemptNumber =
-        (error as ErrorWithRetryMetadata).__retryAttemptNumber ?? 1;
-      error = new StepTimeoutError(
-        step.name,
-        timeout,
-        attemptNumber,
-        result.duration,
-        { cause: error },
-      );
+    if (error) {
+      // Check for ScenarioTimeoutError first (from signal or thrown)
+      if (
+        error instanceof ScenarioTimeoutError ||
+        ctx.signal?.reason instanceof ScenarioTimeoutError
+      ) {
+        // Use the error with step info if available, otherwise enrich it
+        const scenarioError = error instanceof ScenarioTimeoutError
+          ? error
+          : ctx.signal!.reason as ScenarioTimeoutError;
+
+        // If not already enriched with step info, add current step name
+        if (!scenarioError.currentStepName) {
+          error = new ScenarioTimeoutError(
+            scenarioError.scenarioName,
+            scenarioError.timeoutMs,
+            scenarioError.elapsedMs,
+            {
+              cause: scenarioError,
+              currentStepName: step.name,
+            },
+          );
+        } else {
+          // Already enriched, use as-is
+          error = scenarioError;
+        }
+      } else if (error instanceof StepTimeoutError) {
+        // Already enriched StepTimeoutError from signal
+        // Just update duration
+        error = new StepTimeoutError(
+          error.stepName,
+          error.timeoutMs,
+          error.attemptNumber,
+          result.duration,
+          { cause: error },
+        );
+      } else if ((error as Error).cause instanceof StepTimeoutError) {
+        // StepTimeoutError wrapped in another error (e.g., from signal abort)
+        const cause = (error as Error).cause as StepTimeoutError;
+        error = new StepTimeoutError(
+          cause.stepName,
+          cause.timeoutMs,
+          cause.attemptNumber,
+          result.duration,
+          { cause },
+        );
+      }
     }
 
     const stepResult: StepResult = result.status === "passed"
@@ -201,8 +253,4 @@ function isDisposable(x: unknown): x is Disposable | AsyncDisposable {
     x != null && typeof x === "object" &&
     (Symbol.asyncDispose in x || Symbol.dispose in x)
   );
-}
-
-function isTimeoutError(error: unknown): boolean {
-  return error instanceof DOMException && error.name === "TimeoutError";
 }
