@@ -1,3 +1,21 @@
+### 2026.01.08
+
+#### @probitas/builder 0.5.2 (patch)
+
+- feat(@probitas/core,@probitas/builder,@probitas/runner): add scenario-level
+  timeout configuration
+
+#### @probitas/core 0.3.2 (patch)
+
+- feat(@probitas/core,@probitas/builder,@probitas/runner): add scenario-level
+  timeout configuration
+
+#### @probitas/runner 0.5.3 (patch)
+
+- feat(@probitas/core,@probitas/builder,@probitas/runner): add scenario-level
+  timeout configuration
+- fix(@probitas/runner): throw ScenarioTimeoutError on scenario timeout
+
 ### 2026.01.07
 
 #### @probitas/runner 0.5.2 (patch)
