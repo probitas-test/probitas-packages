@@ -1,5 +1,11 @@
 ### 2026.01.08
 
+#### @probitas/runner 0.5.5 (patch)
+
+- fix(@probitas/runner): propagate abort reason from external signal
+
+### 2026.01.08
+
 #### @probitas/runner 0.5.4 (patch)
 
 - fix(@probitas/runner): detect AbortError caused by timeout in isTimeoutError
