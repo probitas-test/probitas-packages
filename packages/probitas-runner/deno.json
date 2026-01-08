@@ -1,6 +1,6 @@
 {
   "name": "@probitas/runner",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "exports": "./mod.ts",
   "imports": {
     "@probitas/core": "jsr:@probitas/core@^0",
