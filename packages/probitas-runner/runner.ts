@@ -1,5 +1,4 @@
 import { chunk } from "@std/collections/chunk";
-import { deadline } from "@std/async/deadline";
 import type { ScenarioDefinition, StepOptions } from "@probitas/core";
 import type {
   Reporter,
@@ -11,7 +10,7 @@ import { ScenarioRunner } from "./scenario_runner.ts";
 import { toScenarioMetadata } from "./metadata.ts";
 import { timeit } from "./utils/timeit.ts";
 import { mergeSignals } from "./utils/signal.ts";
-import { ScenarioTimeoutError } from "./errors.ts";
+import { ScenarioTimeoutError, StepTimeoutError } from "./errors.ts";
 
 /**
  * Top-level test runner that orchestrates execution of multiple scenarios.
@@ -116,64 +115,40 @@ export class Runner {
     timeout: number,
     signal?: AbortSignal,
   ): Promise<ScenarioResult> {
-    try {
-      const timeoutSignal = mergeSignals(
-        signal,
-        AbortSignal.timeout(timeout),
-      );
-      const result = await timeit(() =>
-        deadline(
-          scenarioRunner.run(scenario, { signal: timeoutSignal }),
-          timeout,
-          { signal: timeoutSignal },
-        )
-      );
+    const timeoutSignal = mergeSignals(
+      signal,
+      AbortSignal.timeout(timeout),
+    );
 
-      // Handle successful execution
-      if (result.status === "passed") {
-        let scenarioResult = result.value;
+    const result = await timeit(() =>
+      scenarioRunner.run(scenario, { signal: timeoutSignal })
+    );
 
-        // Handle timeout errors from within scenario
-        if (
-          scenarioResult.status === "failed" &&
-          isTimeoutError(scenarioResult.error)
-        ) {
-          const timeoutError = new ScenarioTimeoutError(
-            scenario.name,
-            timeout,
-            result.duration,
-            { cause: scenarioResult.error },
-          );
-          scenarioResult = {
-            ...scenarioResult,
-            error: timeoutError,
-          };
-        }
-
-        return scenarioResult;
-      } else {
-        // timeit itself failed (this should be rare)
-        throw result.error;
-      }
-    } catch (error) {
-      // Catch timeout errors thrown by deadline
-      if (isTimeoutError(error)) {
-        const metadata = toScenarioMetadata(scenario);
-        return {
-          status: "failed",
-          duration: timeout,
-          metadata,
-          steps: [],
-          error: new ScenarioTimeoutError(
-            scenario.name,
-            timeout,
-            timeout,
-            { cause: error },
-          ),
-        };
-      }
-      throw error;
+    // Handle timeit result
+    if (result.status === "failed") {
+      // timeit itself failed (this should be rare)
+      throw result.error;
     }
+
+    const scenarioResult = result.value;
+
+    // Check if scenario failed due to timeout
+    if (
+      scenarioResult.status === "failed" &&
+      isTimeoutError(scenarioResult.error)
+    ) {
+      return {
+        ...scenarioResult,
+        error: new ScenarioTimeoutError(
+          scenario.name,
+          timeout,
+          result.duration,
+          { cause: scenarioResult.error },
+        ),
+      };
+    }
+
+    return scenarioResult;
   }
 
   async #run(
@@ -198,11 +173,13 @@ export class Runner {
           signal?.throwIfAborted();
 
           // Execute scenario with optional timeout
-          const scenarioResult = timeout > 0
+          // Priority: scenario timeout > RunOptions timeout
+          const effectiveTimeout = scenario.timeout ?? timeout;
+          const scenarioResult = effectiveTimeout > 0
             ? await this.#runWithTimeout(
               scenarioRunner,
               scenario,
-              timeout,
+              effectiveTimeout,
               signal,
             )
             : await scenarioRunner.run(scenario, { signal });
@@ -221,5 +198,8 @@ export class Runner {
 }
 
 function isTimeoutError(error: unknown): boolean {
-  return error instanceof DOMException && error.name === "TimeoutError";
+  return (
+    (error instanceof DOMException && error.name === "TimeoutError") ||
+    error instanceof StepTimeoutError
+  );
 }
