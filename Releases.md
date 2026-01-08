@@ -1,5 +1,12 @@
 ### 2026.01.08
 
+#### @probitas/runner 0.5.6 (patch)
+
+- fix(@probitas/runner): abort all scenarios when maxFailures is reached
+- refactor(@probitas/runner): improve timeout error handling and retry logic
+
+### 2026.01.08
+
 #### @probitas/runner 0.5.5 (patch)
 
 - fix(@probitas/runner): propagate abort reason from external signal
