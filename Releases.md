@@ -1,5 +1,11 @@
 ### 2026.01.08
 
+#### @probitas/runner 0.5.4 (patch)
+
+- fix(@probitas/runner): detect AbortError caused by timeout in isTimeoutError
+
+### 2026.01.08
+
 #### @probitas/builder 0.5.2 (patch)
 
 - feat(@probitas/core,@probitas/builder,@probitas/runner): add scenario-level
