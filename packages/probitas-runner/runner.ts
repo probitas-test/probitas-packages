@@ -11,6 +11,7 @@ import { toScenarioMetadata } from "./metadata.ts";
 import { timeit } from "./utils/timeit.ts";
 import { mergeSignals } from "./utils/signal.ts";
 import { ScenarioTimeoutError } from "./errors.ts";
+import { Skip } from "./skip.ts";
 
 /**
  * Top-level test runner that orchestrates execution of multiple scenarios.
@@ -69,7 +70,6 @@ export class Runner {
 
     // Create abort controller for outer context
     const controller = new AbortController();
-    const { signal } = controller;
     options?.signal?.addEventListener("abort", () => {
       // Pass the reason from external signal to internal controller
       controller.abort(options.signal?.reason);
@@ -88,7 +88,7 @@ export class Runner {
         maxConcurrency,
         maxFailures,
         timeout,
-        signal,
+        controller,
         options?.stepOptions,
       )
     );
@@ -145,20 +145,43 @@ export class Runner {
     maxConcurrency: number,
     maxFailures: number,
     timeout: number,
-    signal?: AbortSignal,
+    controller: AbortController,
     stepOptions?: StepOptions,
   ): Promise<void> {
     // Parallel execution with concurrency control
     // maxConcurrency=1 means sequential execution
     const concurrency = maxConcurrency || scenarios.length;
     const scenarioRunner = new ScenarioRunner(this.reporter, stepOptions);
+    const { signal } = controller;
 
     let failureCount = 0;
+
     for (const batch of chunk(scenarios, concurrency)) {
-      signal?.throwIfAborted();
+      // Don't throw - just skip remaining batches if aborted
+      if (signal.aborted) {
+        break;
+      }
+
       await Promise.all(
         batch.map(async (scenario: ScenarioDefinition) => {
-          signal?.throwIfAborted();
+          // Check if already aborted (by maxFailures or external signal)
+          if (signal.aborted) {
+            const skipResult: ScenarioResult = {
+              status: "skipped",
+              metadata: toScenarioMetadata(scenario),
+              duration: 0,
+              steps: [],
+              error: signal.reason ??
+                new Skip("Skipped due to previous failures"),
+            };
+            scenarioResults.push(skipResult);
+            await this.reporter.onScenarioStart?.(skipResult.metadata);
+            await this.reporter.onScenarioEnd?.(
+              skipResult.metadata,
+              skipResult,
+            );
+            return;
+          }
 
           // Execute scenario with optional timeout
           // Priority: scenario timeout > RunOptions timeout
@@ -173,14 +196,35 @@ export class Runner {
             : await scenarioRunner.run(scenario, { signal });
 
           scenarioResults.push(scenarioResult);
+
+          // Check if we've reached maxFailures - abort all remaining scenarios
           if (scenarioResult.status === "failed") {
             failureCount++;
             if (maxFailures !== 0 && failureCount >= maxFailures) {
-              throw scenarioResult.error;
+              controller.abort(new Skip("Skipped due to previous failures"));
             }
           }
         }),
       );
+    }
+
+    // Add skip results for any remaining scenarios that weren't executed
+    // This handles the case where we broke out of the batch loop early
+    const executedCount = scenarioResults.length;
+    if (executedCount < scenarios.length) {
+      for (let i = executedCount; i < scenarios.length; i++) {
+        const scenario = scenarios[i];
+        const skipResult: ScenarioResult = {
+          status: "skipped",
+          metadata: toScenarioMetadata(scenario),
+          duration: 0,
+          steps: [],
+          error: signal.reason ?? new Skip("Skipped due to previous failures"),
+        };
+        scenarioResults.push(skipResult);
+        await this.reporter.onScenarioStart?.(skipResult.metadata);
+        await this.reporter.onScenarioEnd?.(skipResult.metadata, skipResult);
+      }
     }
   }
 }

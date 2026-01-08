@@ -141,7 +141,7 @@ Deno.test("Runner run runs multiple scenarios (skip)", async () => {
   });
 });
 
-Deno.test("Runner run runs multiple scenarios (failed)", async () => {
+Deno.test("Runner run runs multiple scenarios (failed) - aborts on maxFailures", async () => {
   using signal = createScopedSignal();
   const runner = new Runner(reporter);
   const scenarios = [
@@ -150,8 +150,8 @@ Deno.test("Runner run runs multiple scenarios (failed)", async () => {
       steps: [
         createTestStep({
           name: "Step 1",
-          fn: async () => {
-            await delay(0, { signal });
+          fn: async (ctx) => {
+            await delay(0, { signal: ctx.signal });
             return "1";
           },
         }),
@@ -162,8 +162,8 @@ Deno.test("Runner run runs multiple scenarios (failed)", async () => {
       steps: [
         createTestStep({
           name: "Step 1",
-          fn: async () => {
-            await delay(50, { signal });
+          fn: async (ctx) => {
+            await delay(50, { signal: ctx.signal });
             throw "2";
           },
         }),
@@ -174,8 +174,8 @@ Deno.test("Runner run runs multiple scenarios (failed)", async () => {
       steps: [
         createTestStep({
           name: "Step 1",
-          fn: async () => {
-            await delay(100, { signal });
+          fn: async (ctx) => {
+            await delay(100, { signal: ctx.signal });
             return "3";
           },
         }),
@@ -187,12 +187,219 @@ Deno.test("Runner run runs multiple scenarios (failed)", async () => {
     signal,
     maxFailures: 1,
   });
+
+  // When maxFailures is reached, all scenarios (running or pending) should be aborted
+  // Scenario 1 passes (fastest, 0ms delay)
+  // Scenario 2 fails (50ms delay, triggers maxFailures)
+  // Scenario 3 should be aborted/skipped (100ms delay, still running when maxFailures reached)
   expect(summary).toMatchObject({
     total: 3,
     passed: 1,
-    skipped: 1,
-    failed: 1,
+    skipped: 1, // Scenario 3 aborted
+    failed: 1, // Scenario 2
   });
+});
+
+Deno.test("Runner run with maxFailures skips remaining scenarios (sequential)", async () => {
+  const runner = new Runner(reporter);
+  const executionOrder: string[] = [];
+  const scenarios = [
+    createTestScenario({
+      name: "Scenario 1",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: () => {
+            executionOrder.push("Scenario 1");
+            return "1";
+          },
+        }),
+      ],
+    }),
+    createTestScenario({
+      name: "Scenario 2",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: () => {
+            executionOrder.push("Scenario 2");
+            throw new Error("Scenario 2 failed");
+          },
+        }),
+      ],
+    }),
+    createTestScenario({
+      name: "Scenario 3",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: () => {
+            executionOrder.push("Scenario 3");
+            return "3";
+          },
+        }),
+      ],
+    }),
+    createTestScenario({
+      name: "Scenario 4",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: () => {
+            executionOrder.push("Scenario 4");
+            return "4";
+          },
+        }),
+      ],
+    }),
+  ];
+
+  const summary = await runner.run(scenarios, {
+    maxConcurrency: 1, // Sequential execution
+    maxFailures: 1,
+  });
+
+  // Scenario 1 should pass, Scenario 2 should fail, Scenario 3 and 4 should be skipped
+  expect(summary).toMatchObject({
+    total: 4,
+    passed: 1,
+    failed: 1,
+    skipped: 2,
+  });
+
+  // Only Scenario 1 and 2 should have been executed
+  expect(executionOrder).toEqual(["Scenario 1", "Scenario 2"]);
+
+  // Check scenario results
+  const results = summary.scenarios;
+  expect(results.length).toBe(4);
+  expect(results[0].status).toBe("passed");
+  expect(results[0].metadata.name).toBe("Scenario 1");
+  expect(results[1].status).toBe("failed");
+  expect(results[1].metadata.name).toBe("Scenario 2");
+  expect(results[2].status).toBe("skipped");
+  expect(results[2].metadata.name).toBe("Scenario 3");
+  expect(results[3].status).toBe("skipped");
+  expect(results[3].metadata.name).toBe("Scenario 4");
+});
+
+Deno.test("Runner run with maxFailures aborts in-progress scenarios (parallel)", async () => {
+  using signal = createScopedSignal();
+  const runner = new Runner(reporter);
+  const executionOrder: string[] = [];
+  const scenarios = [
+    createTestScenario({
+      name: "Scenario 1",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: async (ctx) => {
+            executionOrder.push("Scenario 1 start");
+            try {
+              await delay(100, { signal: ctx.signal }); // Slow - will be aborted
+              executionOrder.push("Scenario 1 end");
+              return "1";
+            } catch (err) {
+              executionOrder.push("Scenario 1 aborted");
+              throw err;
+            }
+          },
+        }),
+      ],
+    }),
+    createTestScenario({
+      name: "Scenario 2",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: async (ctx) => {
+            executionOrder.push("Scenario 2 start");
+            await delay(10, { signal: ctx.signal }); // Fast
+            executionOrder.push("Scenario 2 end");
+            throw new Error("Scenario 2 failed");
+          },
+        }),
+      ],
+    }),
+    createTestScenario({
+      name: "Scenario 3",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: async (ctx) => {
+            executionOrder.push("Scenario 3 start");
+            try {
+              await delay(100, { signal: ctx.signal }); // Slow - will be aborted
+              executionOrder.push("Scenario 3 end");
+              return "3";
+            } catch (err) {
+              executionOrder.push("Scenario 3 aborted");
+              throw err;
+            }
+          },
+        }),
+      ],
+    }),
+    createTestScenario({
+      name: "Scenario 4",
+      steps: [
+        createTestStep({
+          name: "Step 1",
+          fn: () => {
+            executionOrder.push("Scenario 4 start");
+            return "4";
+          },
+        }),
+      ],
+    }),
+  ];
+
+  const summary = await runner.run(scenarios, {
+    signal,
+    maxConcurrency: 3, // Scenarios 1-3 run in parallel, 4 is in next batch
+    maxFailures: 1,
+  });
+
+  // Scenario 1, 2, 3 all start in parallel
+  // Scenario 2 finishes first and fails, triggers maxFailures
+  // Scenarios 1, 3 are aborted immediately (signal.abort called)
+  // Scenario 4 is in the next batch, never starts
+  expect(summary).toMatchObject({
+    total: 4,
+    passed: 0,
+    failed: 1, // Scenario 2
+    skipped: 3, // Scenarios 1, 3, 4 all skipped
+  });
+
+  // Verify execution order
+  expect(executionOrder).toContain("Scenario 1 start");
+  expect(executionOrder).toContain("Scenario 1 aborted"); // Aborted, not completed
+  expect(executionOrder).not.toContain("Scenario 1 end");
+
+  expect(executionOrder).toContain("Scenario 2 start");
+  expect(executionOrder).toContain("Scenario 2 end");
+
+  expect(executionOrder).toContain("Scenario 3 start");
+  expect(executionOrder).toContain("Scenario 3 aborted"); // Aborted, not completed
+  expect(executionOrder).not.toContain("Scenario 3 end");
+
+  // Scenario 4 should never start
+  expect(executionOrder).not.toContain("Scenario 4 start");
+
+  // Check scenario results
+  const results = summary.scenarios;
+  expect(results.length).toBe(4);
+
+  // Find scenarios by name since order may vary in parallel execution
+  const scenario1 = results.find((r) => r.metadata.name === "Scenario 1")!;
+  const scenario2 = results.find((r) => r.metadata.name === "Scenario 2")!;
+  const scenario3 = results.find((r) => r.metadata.name === "Scenario 3")!;
+  const scenario4 = results.find((r) => r.metadata.name === "Scenario 4")!;
+
+  expect(scenario1.status).toBe("skipped");
+  expect(scenario2.status).toBe("failed");
+  expect(scenario3.status).toBe("skipped");
+  expect(scenario4.status).toBe("skipped");
 });
 
 Deno.test({
