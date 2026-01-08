@@ -70,7 +70,10 @@ export class Runner {
     // Create abort controller for outer context
     const controller = new AbortController();
     const { signal } = controller;
-    options?.signal?.addEventListener("abort", () => controller.abort());
+    options?.signal?.addEventListener("abort", () => {
+      // Pass the reason from external signal to internal controller
+      controller.abort(options.signal?.reason);
+    });
 
     // Execute scenarios
     const maxConcurrency = options?.maxConcurrency ?? 0;
