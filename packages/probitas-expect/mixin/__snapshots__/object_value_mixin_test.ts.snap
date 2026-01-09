@@ -109,10 +109,10 @@ Context (packages/probitas-expect/mixin/object_value_mixin_test.ts:236:5)
   236│     await assertSnapshotWithoutColors(
   237│       t,
      ┆
-  509│       t,
-  510│       catchError(() => applied.toHaveUserMatching({ name: "Bob" })).message,
+  558│       t,
+  559│       catchError(() => applied.toHaveUserMatching({ name: "Bob" })).message,
      │                                ^
-  511│     );'
+  560│     );'
 `;
 
 snapshot[`createObjectValueMixin - toHaveUserMatching with source context 2`] = `
@@ -132,8 +132,8 @@ snapshot[`createObjectValueMixin - toHaveUserMatching with source context 2`] = 
   [90m251│       const applied = mixin({ dummy: true });[39m
   [90m252│       await assertSnapshotWithoutColors([39m
   [90m   ┆[39m
-  [90m526│       t,[39m
-  [90m527│       catchError(() => applied.toHaveUserMatching({ name: "Bob" })).message,[39m
+  [90m575│       t,[39m
+  [90m576│       catchError(() => applied.toHaveUserMatching({ name: "Bob" })).message,[39m
   [90m   │                                [39m[31m^[39m
-  [90m528│     );[39m'
+  [90m577│     );[39m'
 `;
