@@ -1,3 +1,10 @@
+### 2026.01.09
+
+#### @probitas/expect 0.4.1 (patch)
+
+- feat(@probitas/expect): allow PropertySatisfying matcher to handle
+  null/undefined values
+
 ### 2026.01.08
 
 #### @probitas/runner 0.5.6 (patch)
