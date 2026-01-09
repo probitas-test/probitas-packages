@@ -492,6 +492,55 @@ Deno.test("createObjectValueMixin - toHaveUserPropertySatisfying", async (t) => 
       ).message,
     );
   });
+
+  await t.step("success - null value", () => {
+    const mixin = createObjectValueMixin(
+      () => ({ value: null }),
+      () => false,
+      { valueName: "data" },
+    );
+    const applied = mixin({ dummy: true });
+    assertEquals(
+      applied.toHaveDataPropertySatisfying("value", (v) => {
+        if (v !== null) throw new Error("Must be null");
+      }),
+      applied,
+    );
+  });
+
+  await t.step("success - nested path with null intermediate", () => {
+    const mixin = createObjectValueMixin(
+      () => ({ user: null }),
+      () => false,
+      { valueName: "data" },
+    );
+    const applied = mixin({ dummy: true });
+    assertEquals(
+      applied.toHaveDataPropertySatisfying("user.profile.age", (v) => {
+        if (v !== undefined) {
+          throw new Error("Must be undefined when intermediate is null");
+        }
+      }),
+      applied,
+    );
+  });
+
+  await t.step("success - nested path with undefined intermediate", () => {
+    const mixin = createObjectValueMixin(
+      () => ({ user: { profile: undefined } }),
+      () => false,
+      { valueName: "data" },
+    );
+    const applied = mixin({ dummy: true });
+    assertEquals(
+      applied.toHaveDataPropertySatisfying("user.profile.age", (v) => {
+        if (v !== undefined) {
+          throw new Error("Must be undefined when intermediate is undefined");
+        }
+      }),
+      applied,
+    );
+  });
 });
 
 Deno.test("createObjectValueMixin - toHaveUserMatching with source context", async (t) => {

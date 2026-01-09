@@ -4,7 +4,6 @@ import {
   Any,
   buildMatchingExpected,
   buildPropertyExpected,
-  ensureNonNullish,
   formatValue,
   toPascalCase,
   tryOk,
@@ -318,18 +317,9 @@ export function createObjectValueMixin<
       const obj = getter.call(this);
 
       let matcherError: Error | undefined;
-      let propertyExists = false;
 
       try {
-        // @std/expect mutates array keyPath, so we need to copy it
-        const keyPathCopy = Array.isArray(keyPath) ? [...keyPath] : keyPath;
-        stdExpect(obj).toHaveProperty(keyPathCopy);
-        propertyExists = true;
-        const keyPathStr = Array.isArray(keyPath) ? keyPath.join(".") : keyPath;
-        const value = ensureNonNullish(
-          getPropertyValue(obj, keyPath),
-          keyPathStr,
-        );
+        const value = getPropertyValue(obj, keyPath);
         matcher(value);
       } catch (error) {
         if (error instanceof Error) {
@@ -343,16 +333,6 @@ export function createObjectValueMixin<
 
       if (isNegated ? passes : !passes) {
         const keyPathStr = Array.isArray(keyPath) ? keyPath.join(".") : keyPath;
-
-        if (!propertyExists && !isNegated) {
-          throw createExpectationError({
-            message:
-              `Expected ${valueName} property "${keyPathStr}" to exist and satisfy the matcher, but it does not exist`,
-            expectOrigin: config.expectOrigin,
-            theme: config.theme,
-            subject: config.subject,
-          });
-        }
 
         throw createExpectationError({
           message: isNegated
