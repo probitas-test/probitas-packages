@@ -14,12 +14,15 @@ import { AbortError } from "@probitas/client";
 import { createSqsClient } from "./client.ts";
 import { SqsCommandError } from "./errors.ts";
 
-const SQS_ENDPOINT = Deno.env.get("SQS_ENDPOINT") ?? "http://localhost:4566";
+const SQS_ENDPOINT = Deno.env.get("SQS_ENDPOINT") ?? "http://localhost:9324";
 const SQS_REGION = "us-east-1";
 
 async function isSqsAvailable(): Promise<boolean> {
   try {
-    const response = await fetch(`${SQS_ENDPOINT}/_localstack/health`, {
+    // ListQueues rather than a bare GET: SQS answers 400 without an Action, so
+    // a plain request to the endpoint would read as unavailable. It needs no
+    // credentials, which keeps this a reachability check and nothing more.
+    const response = await fetch(`${SQS_ENDPOINT}/?Action=ListQueues`, {
       signal: AbortSignal.timeout(5000),
     });
     await response.body?.cancel();

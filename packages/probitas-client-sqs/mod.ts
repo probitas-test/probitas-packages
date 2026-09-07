@@ -8,7 +8,7 @@
  * - **Queue Management**: Create, delete, and purge queues
  * - **Message Operations**: Send, receive, and delete messages (single and batch)
  * - **Message Attributes**: Support for custom message attributes
- * - **LocalStack Compatible**: Works with LocalStack for local development
+ * - **Emulator Compatible**: Works with ElasticMQ and other SQS-compatible servers
  * - **Resource Management**: Implements `AsyncDisposable` for proper cleanup
  *
  * ## Installation
@@ -24,7 +24,7 @@
  *
  * const client = await createSqsClient({
  *   region: "us-east-1",
- *   url: "http://localhost:4566", // LocalStack
+ *   url: "http://localhost:9324", // ElasticMQ
  *   credentials: {
  *     accessKeyId: "test",
  *     secretAccessKey: "test",
@@ -67,7 +67,7 @@
  *
  * const client = await createSqsClient({
  *   region: "us-east-1",
- *   url: "http://localhost:4566",
+ *   url: "http://localhost:9324",
  *   credentials: { accessKeyId: "test", secretAccessKey: "test" },
  * });
  *
@@ -97,7 +97,7 @@
  *
  * await using client = await createSqsClient({
  *   region: "us-east-1",
- *   url: "http://localhost:4566",
+ *   url: "http://localhost:9324",
  *   credentials: { accessKeyId: "test", secretAccessKey: "test" },
  * });
  *
@@ -118,7 +118,7 @@
  * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  * - [AWS SQS](https://aws.amazon.com/sqs/)
- * - [LocalStack](https://localstack.cloud/)
+ * - [ElasticMQ](https://github.com/softwaremill/elasticmq)
  *
  * @module
  */
