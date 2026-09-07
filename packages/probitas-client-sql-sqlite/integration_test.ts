@@ -6,6 +6,12 @@ import {
   type SqliteClient,
 } from "./mod.ts";
 
+// createSqliteClient loads @db/sqlite on first use, and @db/sqlite keeps the
+// library open for the lifetime of the process. Loading it here, before any
+// test runs, keeps that one-time load out of the resource sanitizer's scope so
+// it is not reported as a per-test leak.
+import "@db/sqlite";
+
 Deno.test({
   name: "Integration: SqliteClient",
   async fn(t) {
