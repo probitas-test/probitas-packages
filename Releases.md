@@ -1,3 +1,9 @@
+### 2026.09.07
+
+#### @probitas/client-sql-sqlite 0.5.1 (patch)
+
+- fix(@probitas/client-sql-sqlite): load @db/sqlite on first use
+
 ### 2026.01.09
 
 #### @probitas/expect 0.4.1 (patch)
