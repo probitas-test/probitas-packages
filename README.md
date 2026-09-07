@@ -54,7 +54,7 @@ etc.) under a unified workspace for streamlined development and testing.
 | [@probitas/client-mongodb](./packages/probitas-client-mongodb)           | [![JSR](https://jsr.io/badges/@probitas/client-mongodb)](https://jsr.io/@probitas/client-mongodb)           | MongoDB client with session/transaction helpers                    |
 | [@probitas/client-redis](./packages/probitas-client-redis)               | [![JSR](https://jsr.io/badges/@probitas/client-redis)](https://jsr.io/@probitas/client-redis)               | Redis client for command execution                                 |
 | [@probitas/client-deno-kv](./packages/probitas-client-deno-kv)           | [![JSR](https://jsr.io/badges/@probitas/client-deno-kv)](https://jsr.io/@probitas/client-deno-kv)           | Deno KV client for key-value storage                               |
-| [@probitas/client-sqs](./packages/probitas-client-sqs)                   | [![JSR](https://jsr.io/badges/@probitas/client-sqs)](https://jsr.io/@probitas/client-sqs)                   | SQS client targeting LocalStack for integration testing            |
+| [@probitas/client-sqs](./packages/probitas-client-sqs)                   | [![JSR](https://jsr.io/badges/@probitas/client-sqs)](https://jsr.io/@probitas/client-sqs)                   | SQS client targeting ElasticMQ for integration testing             |
 | [@probitas/client-rabbitmq](./packages/probitas-client-rabbitmq)         | [![JSR](https://jsr.io/badges/@probitas/client-rabbitmq)](https://jsr.io/@probitas/client-rabbitmq)         | RabbitMQ client with channel lifecycle management                  |
 
 ## Quick Start
@@ -106,19 +106,19 @@ deno task coverage
 
 `compose.yaml` provides local dependencies for testing:
 
-| Service         | Port  | Docker Image                                                                           |
-| --------------- | ----- | -------------------------------------------------------------------------------------- |
-| echo-http       | 8080  | [ghcr.io/probitas-test/echo-http](https://ghcr.io/probitas-test/echo-http)             |
-| echo-connectrpc | 8090  | [ghcr.io/probitas-test/echo-connectrpc](https://ghcr.io/probitas-test/echo-connectrpc) |
-| echo-grpc       | 50051 | [ghcr.io/probitas-test/echo-grpc](https://ghcr.io/probitas-test/echo-grpc)             |
-| echo-graphql    | 8100  | [ghcr.io/probitas-test/echo-graphql](https://ghcr.io/probitas-test/echo-graphql)       |
-| postgres        | 5432  | [postgres:latest](https://hub.docker.com/_/postgres)                                   |
-| mysql           | 3306  | [mysql:latest](https://hub.docker.com/_/mysql)                                         |
-| redis           | 6379  | [redis:latest](https://hub.docker.com/_/redis)                                         |
-| mongodb         | 27017 | [mongo:latest](https://hub.docker.com/_/mongo)                                         |
-| rabbitmq        | 5672  | [rabbitmq:latest](https://hub.docker.com/_/rabbitmq)                                   |
-| localstack      | 4566  | [localstack/localstack:latest](https://hub.docker.com/r/localstack/localstack)         |
-| denokv          | 4512  | [ghcr.io/denoland/denokv](https://github.com/denoland/denokv/pkgs/container/denokv)    |
+| Service         | Port  | Docker Image                                                                            |
+| --------------- | ----- | --------------------------------------------------------------------------------------- |
+| echo-http       | 8080  | [ghcr.io/probitas-test/echo-http](https://ghcr.io/probitas-test/echo-http)              |
+| echo-connectrpc | 8090  | [ghcr.io/probitas-test/echo-connectrpc](https://ghcr.io/probitas-test/echo-connectrpc)  |
+| echo-grpc       | 50051 | [ghcr.io/probitas-test/echo-grpc](https://ghcr.io/probitas-test/echo-grpc)              |
+| echo-graphql    | 8100  | [ghcr.io/probitas-test/echo-graphql](https://ghcr.io/probitas-test/echo-graphql)        |
+| postgres        | 5432  | [postgres:latest](https://hub.docker.com/_/postgres)                                    |
+| mysql           | 3306  | [mysql:latest](https://hub.docker.com/_/mysql)                                          |
+| redis           | 6379  | [redis:latest](https://hub.docker.com/_/redis)                                          |
+| mongodb         | 27017 | [mongo:latest](https://hub.docker.com/_/mongo)                                          |
+| rabbitmq        | 5672  | [rabbitmq:latest](https://hub.docker.com/_/rabbitmq)                                    |
+| elasticmq       | 9324  | [softwaremill/elasticmq-native](https://hub.docker.com/r/softwaremill/elasticmq-native) |
+| denokv          | 4512  | [ghcr.io/denoland/denokv](https://github.com/denoland/denokv/pkgs/container/denokv)     |
 
 ## Architecture
 

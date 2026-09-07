@@ -329,7 +329,10 @@ function resolveEndpointUrl(
   }
   const protocol = url.protocol ?? "https";
   const host = url.host ?? "localhost";
-  const port = url.port ?? 4566; // LocalStack default
+  // LocalStack's port. Left as the default because callers may rely on it;
+  // this repository tests against ElasticMQ on 9324, but every example passes
+  // a full URL rather than depending on this fallback.
+  const port = url.port ?? 4566;
   const path = url.path ?? "";
   return `${protocol}://${host}:${port}${path}`;
 }
@@ -370,14 +373,14 @@ function resolveEndpointUrl(
  * }
  * ```
  *
- * @example Using LocalStack for local development
+ * @example Using ElasticMQ for local development
  * ```ts
  * import { createSqsClient } from "@probitas/client-sqs";
  *
  * async function example() {
  *   const sqs = await createSqsClient({
  *     region: "us-east-1",
- *     url: "http://localhost:4566",
+ *     url: "http://localhost:9324",
  *     credentials: {
  *       accessKeyId: "test",
  *       secretAccessKey: "test",
@@ -387,7 +390,7 @@ function resolveEndpointUrl(
  *   // Create queue dynamically (also sets queueUrl)
  *   const result = await sqs.ensureQueue("test-queue");
  *   if (result.ok) {
- *     console.log(result.queueUrl);  // http://localhost:4566/000000000000/test-queue
+ *     console.log(result.queueUrl);  // http://localhost:9324/000000000000/test-queue
  *   }
  *
  *   await sqs.close();
@@ -401,7 +404,7 @@ function resolveEndpointUrl(
  * async function example() {
  *   const sqs = await createSqsClient({
  *     region: "us-east-1",
- *     url: "http://localhost:4566",
+ *     url: "http://localhost:9324",
  *     credentials: { accessKeyId: "test", secretAccessKey: "test" },
  *   });
  *   await sqs.ensureQueue("test-queue");
@@ -437,7 +440,7 @@ function resolveEndpointUrl(
  * async function example() {
  *   const sqs = await createSqsClient({
  *     region: "us-east-1",
- *     url: "http://localhost:4566",
+ *     url: "http://localhost:9324",
  *     credentials: { accessKeyId: "test", secretAccessKey: "test" },
  *   });
  *   await sqs.ensureQueue("test-queue");
@@ -472,7 +475,7 @@ function resolveEndpointUrl(
  * async function example() {
  *   await using sqs = await createSqsClient({
  *     region: "us-east-1",
- *     url: "http://localhost:4566",
+ *     url: "http://localhost:9324",
  *     credentials: { accessKeyId: "test", secretAccessKey: "test" },
  *   });
  *

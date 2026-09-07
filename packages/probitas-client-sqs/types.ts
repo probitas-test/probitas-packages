@@ -57,13 +57,13 @@ export interface SqsConnectionConfig extends CommonConnectionConfig {
   readonly protocol?: "http" | "https";
 
   /**
-   * Custom path (for LocalStack or custom endpoints).
+   * Custom path (for emulators or custom endpoints).
    * @default ""
    */
   readonly path?: string;
 
   /**
-   * AWS region (required for AWS, optional for LocalStack).
+   * AWS region (required for AWS, optional for emulators).
    */
   readonly region?: string;
 }
@@ -82,9 +82,9 @@ export interface SqsClientConfig extends SqsOptions {
   /** SQS queue URL (optional - can be set later or used with ensureQueue) */
   readonly queueUrl?: string;
   /**
-   * SQS endpoint URL (e.g., "http://localhost:4566" for LocalStack).
+   * SQS endpoint URL (e.g., "http://localhost:9324" for ElasticMQ).
    * Can be a string URL or a connection config object.
-   * Optional for real AWS (uses default endpoint), required for LocalStack.
+   * Optional for real AWS (uses default endpoint), required for an emulator.
    */
   readonly url?: string | SqsConnectionConfig;
 }
