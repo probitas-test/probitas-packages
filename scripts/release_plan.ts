@@ -10,8 +10,9 @@
  *   tag every package is released (the first release of the Bun build).
  * - **How far**: from the Conventional Commits that touched the package —
  *   breaking (`!`, `BREAKING CHANGE:`, `BREAKING(...)`) is major, `feat` is
- *   minor, any other type is patch, `/unstable` scopes are always patch. In
- *   0.x, major and minor both bump the minor version.
+ *   minor, any other type is patch, `/unstable` scopes are always patch. A
+ *   commit scoped to other packages only is a patch for this one. In 0.x,
+ *   major and minor both bump the minor version.
  * - **Dependents**: siblings pin each other to exact versions, so every
  *   package depending (transitively) on a released one is released with at
  *   least a patch.
@@ -48,13 +49,24 @@ function maxLevel(
 /**
  * Release level a commit message calls for, or undefined for messages that
  * are not Conventional Commits (merge commits and the like)
+ *
+ * With `pkg` (the package name without its npm/JSR scope), a commit whose
+ * scope names only other packages is a patch for `pkg`: it touched the
+ * package in passing (a cross-reference, a shared rename), not its API.
  */
-function classifyCommit(message: string): Level | undefined {
+function classifyCommit(message: string, pkg?: string): Level | undefined {
   const [subject = ""] = message.split("\n", 1);
   const match = subject.match(/^(\w+)(?:\(([^)]*)\))?(!)?:\s/);
   if (!match) return undefined;
   const [, type, scope = "", bang] = match;
-  if (scope.split(",").some((s) => s.trim().endsWith("/unstable"))) {
+  const scopes = scope.split(",").map((s) => s.trim()).filter((s) => s);
+  if (scopes.some((s) => s.endsWith("/unstable"))) {
+    return "patch";
+  }
+  if (
+    pkg !== undefined && scopes.length > 0 && !scopes.includes("*") &&
+    !scopes.some((s) => s.replace(/^@probitas(-test)?\//, "") === pkg)
+  ) {
     return "patch";
   }
   if (
@@ -222,9 +234,10 @@ async function buildPlan(
       continue;
     }
     const messages = commitsTouching(`${previous}..${tag}`, dir);
+    const short = manifest.name.replace(/^@probitas-test\//, "");
     let level: Level | undefined;
     for (const message of messages) {
-      level = maxLevel(level, classifyCommit(message));
+      level = maxLevel(level, classifyCommit(message, short));
     }
     if (level) direct.set(manifest.name, level);
     commits.set(manifest.name, messages.map((m) => m.split("\n", 1)[0]));

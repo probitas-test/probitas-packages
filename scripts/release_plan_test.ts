@@ -38,6 +38,28 @@ test("classifyCommit", async (t) => {
     );
   });
 
+  await t.step("a scope naming other packages is only a patch", () => {
+    const message = "feat(@probitas/client-deno-kv,@probitas/expect)!: remove";
+    assertEquals(classifyCommit(message, "expect"), "major");
+    assertEquals(classifyCommit(message, "client-redis"), "patch");
+    assertEquals(
+      classifyCommit("feat(@probitas-test/runner): add retry", "runner"),
+      "minor",
+    );
+    assertEquals(
+      classifyCommit("feat(@probitas/runner/unstable)!: try", "runner"),
+      "patch",
+    );
+  });
+
+  await t.step(
+    "repository-wide or missing scopes apply to every package",
+    () => {
+      assertEquals(classifyCommit("feat(*)!: drop Deno", "core"), "major");
+      assertEquals(classifyCommit("feat: add", "core"), "minor");
+    },
+  );
+
   await t.step("non-conventional commits are ignored", () => {
     assertEquals(classifyCommit("Merge pull request #26 from x/y"), undefined);
     assertEquals(classifyCommit("WIP"), undefined);
