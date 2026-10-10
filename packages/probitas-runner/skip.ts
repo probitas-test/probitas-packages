@@ -27,7 +27,7 @@
  *
  * const def = scenario("Production Only")
  *   .step("Check environment", () => {
- *     if (Deno.env.get("ENV") !== "production") {
+ *     if (process.env.ENV !== "production") {
  *       throw new Skip("Only runs in production");
  *     }
  *   })

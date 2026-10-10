@@ -47,6 +47,7 @@ import {
   ConnectRpcResponseFailureImpl,
   ConnectRpcResponseSuccessImpl,
 } from "./response.ts";
+import { readFileSync } from "node:fs";
 
 const logger = getLogger(["probitas", "client", "connectrpc"]);
 
@@ -465,7 +466,7 @@ export function createConnectRpcClient(
   } else if (typeof schema === "string") {
     // Load FileDescriptorSet from file path
     logger.debug("Loading FileDescriptorSet from file", { path: schema });
-    const bytes = Deno.readFileSync(schema);
+    const bytes = new Uint8Array(readFileSync(schema));
     const fileDescriptorSet = fromBinary(FileDescriptorSetSchema, bytes);
     staticRegistry = createFileRegistry(fileDescriptorSet);
     logger.debug("Created FileRegistry from file", {

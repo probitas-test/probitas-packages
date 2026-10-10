@@ -59,6 +59,9 @@ function isUserFrame(path: string): boolean {
     "node:",
     "npm:",
     "bun:",
+    // Modules bundled into a `bun build --compile` executable
+    "/$bunfs/",
+    "B:/~BUN/",
     "cloudflare:",
     "http://",
     "https://",

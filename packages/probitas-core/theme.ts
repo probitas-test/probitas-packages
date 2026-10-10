@@ -7,6 +7,7 @@
  */
 
 import { cyan, gray, green, red, yellow } from "@std/fmt/colors";
+import process from "node:process";
 
 /**
  * Apply light gray color (ANSI 256-color mode).
@@ -113,7 +114,7 @@ export const noColorTheme: Theme = {
   lightGray: (text) => text,
 };
 
-export const defaultTheme = Deno.noColor ? noColorTheme : colorTheme;
+export const defaultTheme = process.env.NO_COLOR ? noColorTheme : colorTheme;
 
 /**
  * Regular expression pattern for ANSI escape sequences.

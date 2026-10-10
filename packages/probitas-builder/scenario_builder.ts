@@ -349,7 +349,7 @@ class ScenarioBuilderInit<
    *
    * scenario("Env Test")
    *   .setup(() => {
-   *     const original = Deno.env.get("DEBUG");
+   *     const original = process.env.DEBUG;
    *     Deno.env.set("DEBUG", "true");
    *     return () => {
    *       if (original) Deno.env.set("DEBUG", original);
@@ -403,7 +403,7 @@ class ScenarioBuilderInit<
    *
    * scenario("Env Test")
    *   .setup(() => {
-   *     const original = Deno.env.get("DEBUG");
+   *     const original = process.env.DEBUG;
    *     Deno.env.set("DEBUG", "true");
    *     return () => {
    *       if (original) Deno.env.set("DEBUG", original);

@@ -1,5 +1,6 @@
 import { AbortError, ClientError, TimeoutError } from "@probitas-test/client";
 import { HttpBody } from "./body.ts";
+import { inspect } from "node:util";
 
 /**
  * Format error message with status and body detail.
@@ -18,7 +19,7 @@ function formatErrorMessage(
   let detail: string;
   try {
     const json = body.json;
-    detail = Deno.inspect(json, {
+    detail = inspect(json, {
       compact: false,
       sorted: true,
       trailingComma: true,
