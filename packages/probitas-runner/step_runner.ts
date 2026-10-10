@@ -1,4 +1,4 @@
-import { deadline } from "@std/async/deadline";
+import { abortable } from "@std/async/abortable";
 import type {
   ScenarioMetadata,
   SetupCleanup,
@@ -66,10 +66,12 @@ export class StepRunner {
           // Create attempt-specific context with timeout signal
           const attemptCtx = { ...ctx, signal: attemptSignal };
 
-          return await deadline(
+          // The attempt signal already aborts with StepTimeoutError on timeout.
+          // A second timer (e.g. deadline()) would race it and could win with a
+          // plain TimeoutError, which escapes the no-retry-on-timeout rule.
+          return await abortable(
             this.#run(attemptCtx, step, stack),
-            timeout,
-            { signal: attemptSignal },
+            attemptSignal,
           );
         },
         {
