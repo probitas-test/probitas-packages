@@ -1,5 +1,5 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { GraphqlResponse } from "@probitas/client-graphql";
+import type { GraphqlResponse } from "@probitas-test/client-graphql";
 import {
   expectGraphqlResponse,
   type GraphqlResponseExpectation,

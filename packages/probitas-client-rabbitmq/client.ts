@@ -1,6 +1,6 @@
 import { Buffer } from "node:buffer";
 import * as amqp from "amqplib";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 import { deadline } from "@std/async/deadline";
 import type {
@@ -306,7 +306,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Basic usage with string URL
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({
  *   url: "amqp://guest:guest@localhost:5672",
@@ -324,7 +324,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example With connection config object
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({
  *   url: {
@@ -341,7 +341,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Exchange and binding
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await rabbit.channel();
@@ -360,7 +360,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Consuming messages
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await rabbit.channel();
@@ -377,7 +377,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Get single message (polling)
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await rabbit.channel();
@@ -393,7 +393,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * await using rabbit = await createRabbitMqClient({
  *   url: "amqp://localhost:5672",

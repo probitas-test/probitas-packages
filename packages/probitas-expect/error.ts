@@ -7,8 +7,8 @@
  * @module
  */
 
-import type { Origin } from "@probitas/core/origin";
-import { defaultTheme, type Theme } from "@probitas/core/theme";
+import type { Origin } from "@probitas-test/core/origin";
+import { defaultTheme, type Theme } from "@probitas-test/core/theme";
 import {
   captureOrigin,
   formatSourceContext,

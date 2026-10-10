@@ -1,4 +1,4 @@
-import { AbortError, ClientError, TimeoutError } from "@probitas/client";
+import { AbortError, ClientError, TimeoutError } from "@probitas-test/client";
 import { HttpBody } from "./body.ts";
 
 /**
@@ -52,7 +52,7 @@ export interface HttpErrorOptions extends ErrorOptions {
  *
  * @example Check status code and body
  * ```ts
- * import { createHttpClient, HttpError } from "@probitas/client-http";
+ * import { createHttpClient, HttpError } from "@probitas-test/client-http";
  *
  * const http = createHttpClient({ url: "http://localhost:3000", throwOnError: true });
  * try {

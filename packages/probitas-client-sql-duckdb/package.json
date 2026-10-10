@@ -1,0 +1,16 @@
+{
+  "name": "@probitas-test/client-sql-duckdb",
+  "version": "0.5.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@duckdb/node-api": "1.4.2-r.1",
+    "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+    "@probitas-test/client": "workspace:*",
+    "@probitas-test/client-sql": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1"
+  }
+}

@@ -1,4 +1,4 @@
-import type { DenoKvAtomicResult } from "@probitas/client-deno-kv";
+import type { DenoKvAtomicResult } from "@probitas-test/client-deno-kv";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -14,7 +14,7 @@ export interface DenoKvAtomicResultExpectation {
    *
    * @example
    * ```ts
-   * import type { DenoKvAtomicResult } from "@probitas/client-deno-kv";
+   * import type { DenoKvAtomicResult } from "@probitas-test/client-deno-kv";
    * import { expectDenoKvAtomicResult } from "./atomic.ts";
    * const result = {
    *   kind: "deno-kv:atomic",

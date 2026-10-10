@@ -5,7 +5,7 @@ import type {
   DenoKvGetResult,
   DenoKvListResult,
   DenoKvSetResult,
-} from "@probitas/client-deno-kv";
+} from "@probitas-test/client-deno-kv";
 
 // Mock helpers - create success results by default
 // Note: These use type assertions because the result types are discriminated

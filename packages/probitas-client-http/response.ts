@@ -1,4 +1,4 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import { HttpBody } from "./body.ts";
 import { HttpError, type HttpFailureError } from "./errors.ts";
 
@@ -152,7 +152,7 @@ export interface HttpResponseFailure<T = any> extends HttpResponseBase<T> {
  *
  * @example Type narrowing by ok
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * await using http = createHttpClient({ url: "http://localhost:3000" });
  * const response = await http.get("/users");
@@ -167,7 +167,7 @@ export interface HttpResponseFailure<T = any> extends HttpResponseBase<T> {
  *
  * @example Type narrowing by processed
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * await using http = createHttpClient({ url: "http://localhost:3000" });
  * const response = await http.get("/users");

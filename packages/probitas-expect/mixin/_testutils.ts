@@ -5,7 +5,7 @@
  */
 
 import { assertSnapshot } from "@std/testing/snapshot";
-import { removeColors } from "@probitas/core/theme";
+import { removeColors } from "@probitas-test/core/theme";
 
 /**
  * Assert snapshot after removing ANSI color codes from the actual value.

@@ -1,5 +1,5 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
+import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
 import {
   type ConnectRpcResponseExpectation,
   expectConnectRpcResponse,

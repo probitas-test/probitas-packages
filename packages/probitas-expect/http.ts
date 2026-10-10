@@ -1,4 +1,4 @@
-import type { HttpResponse } from "@probitas/client-http";
+import type { HttpResponse } from "@probitas-test/client-http";
 import { ensureNonNullish } from "./utils.ts";
 import * as mixin from "./mixin.ts";
 
@@ -13,7 +13,7 @@ export interface HttpResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { HttpResponse } from "@probitas/client-http";
+   * import type { HttpResponse } from "@probitas-test/client-http";
    * import { expectHttpResponse } from "./http.ts";
    * const response = {
    *   kind: "http",
@@ -39,7 +39,7 @@ export interface HttpResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { HttpResponse } from "@probitas/client-http";
+   * import type { HttpResponse } from "@probitas-test/client-http";
    * import { expectHttpResponse } from "./http.ts";
    * const response = {
    *   kind: "http",

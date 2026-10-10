@@ -1,4 +1,4 @@
-import type { SqsReceiveResult } from "@probitas/client-sqs";
+import type { SqsReceiveResult } from "@probitas-test/client-sqs";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -16,7 +16,7 @@ export interface SqsReceiveResultExpectation {
    *
    * @example
    * ```ts
-   * import type { SqsReceiveResult } from "@probitas/client-sqs";
+   * import type { SqsReceiveResult } from "@probitas-test/client-sqs";
    * import { expectSqsReceiveResult } from "./receive.ts";
    * const result = {
    *   kind: "sqs:receive",

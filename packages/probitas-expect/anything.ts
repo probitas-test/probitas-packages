@@ -504,7 +504,7 @@ export interface AnythingExpectation {
  *
  * @example
  * ```ts
- * import { expectAnything } from "@probitas/expect";
+ * import { expectAnything } from "@probitas-test/expect";
  *
  * // Method chaining
  * expectAnything(42)

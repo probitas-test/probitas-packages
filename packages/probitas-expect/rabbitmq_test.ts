@@ -5,7 +5,7 @@ import type {
   RabbitMqExchangeResult,
   RabbitMqPublishResult,
   RabbitMqQueueResult,
-} from "@probitas/client-rabbitmq";
+} from "@probitas-test/client-rabbitmq";
 import { expectRabbitMqResult } from "./rabbitmq.ts";
 import {
   mockRabbitMqAckResult,

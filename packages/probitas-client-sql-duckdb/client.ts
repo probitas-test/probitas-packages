@@ -10,7 +10,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import type { DuckDbClientConfig } from "./types.ts";
 import { convertDuckDbError } from "./errors.ts";
 import {
@@ -102,7 +102,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Using in-memory database (default)
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({});
  *
@@ -116,7 +116,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Using file-based database
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({
  *   path: "./data.duckdb",
@@ -126,7 +126,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Query Parquet files directly
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({ path: ":memory:" });
  *
@@ -140,7 +140,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Query CSV files directly
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({ path: ":memory:" });
  *
@@ -153,8 +153,8 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createDuckDbClient({ path: ":memory:" });
  * await client.transaction(async (tx: SqlTransaction) => {
@@ -166,7 +166,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * await using client = await createDuckDbClient({});
  *

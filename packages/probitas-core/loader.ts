@@ -15,7 +15,7 @@ const logger = getLogger(["probitas", "scenario"]);
  *
  * @example Handling import errors
  * ```ts
- * import { loadScenarios } from "@probitas/core/loader";
+ * import { loadScenarios } from "@probitas-test/core/loader";
  *
  * const files: string[] = [];
  *
@@ -57,7 +57,7 @@ export interface LoadScenariosOptions {
  *
  * @example Loading discovered files
  * ```ts
- * import { loadScenarios } from "@probitas/core/loader";
+ * import { loadScenarios } from "@probitas-test/core/loader";
  *
  * // Use with discoverScenarioFiles from @probitas/discover
  * const discoverScenarioFiles = async (_opts: {
@@ -73,7 +73,7 @@ export interface LoadScenariosOptions {
  *
  * @example Loading specific files
  * ```ts
- * import { loadScenarios } from "@probitas/core/loader";
+ * import { loadScenarios } from "@probitas-test/core/loader";
  *
  * const scenarios = await loadScenarios([
  *   "/project/tests/auth.probitas.ts",

@@ -24,7 +24,7 @@ import {
   ServerReflectionClient,
 } from "@lambdalisue/connectrpc-grpcreflect/client";
 import { getLogger } from "@logtape/logtape";
-import { AbortError, ConnectionError, TimeoutError } from "@probitas/client";
+import { AbortError, ConnectionError, TimeoutError } from "@probitas-test/client";
 import type {
   ConnectProtocol,
   ConnectRpcClientConfig,
@@ -306,7 +306,7 @@ function toMethodInfo(
  *
  * @example Basic usage with reflection
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({
  *   url: "http://localhost:50051",
@@ -325,7 +325,7 @@ function toMethodInfo(
  *
  * @example Service discovery with reflection
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({
  *   url: "http://localhost:50051",
@@ -344,7 +344,7 @@ function toMethodInfo(
  *
  * @example Using different protocols
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * // Connect protocol (HTTP/1.1 or HTTP/2)
  * const connectClient = createConnectRpcClient({
@@ -371,7 +371,7 @@ function toMethodInfo(
  *
  * @example Using connection config object
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({
  *   url: {
@@ -386,7 +386,7 @@ function toMethodInfo(
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * await using client = createConnectRpcClient({
  *   url: "http://localhost:50051",

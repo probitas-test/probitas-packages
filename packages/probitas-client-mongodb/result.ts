@@ -1,4 +1,4 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type { Document } from "./types.ts";
 import { MongoError, type MongoFailureError } from "./errors.ts";
 

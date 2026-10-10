@@ -1,0 +1,16 @@
+{
+  "name": "@probitas-test/client-sql-sqlite",
+  "version": "0.5.1",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@db/sqlite": "npm:@jsr/db__sqlite@0.12",
+    "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+    "@probitas-test/client": "workspace:*",
+    "@probitas-test/client-sql": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1"
+  }
+}

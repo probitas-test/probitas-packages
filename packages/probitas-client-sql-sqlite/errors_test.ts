@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
-import { SqlError } from "@probitas/client-sql";
+import { SqlError } from "@probitas-test/client-sql";
 import {
   BusyError,
   convertSqliteError,

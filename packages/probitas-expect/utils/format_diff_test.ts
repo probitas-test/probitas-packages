@@ -5,7 +5,7 @@
  */
 
 import { assertEquals, assertStringIncludes } from "@std/assert";
-import { noColorTheme, type Theme } from "@probitas/core/theme";
+import { noColorTheme, type Theme } from "@probitas-test/core/theme";
 import { formatDiff } from "./format_diff.ts";
 import { Any } from "./diff_any.ts";
 

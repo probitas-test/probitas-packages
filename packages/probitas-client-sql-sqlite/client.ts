@@ -9,7 +9,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import type { SqliteClientConfig } from "./types.ts";
 import { convertSqliteError } from "./errors.ts";
 import {
@@ -98,7 +98,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Using file-based database
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * const client = await createSqliteClient({
  *   path: "./data.db",
@@ -117,7 +117,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Using in-memory database
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * const client = await createSqliteClient({
  *   path: ":memory:",
@@ -127,8 +127,8 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createSqliteClient({ path: ":memory:" });
  * const user = await client.transaction(async (tx: SqlTransaction) => {
@@ -142,7 +142,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Database backup
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * const client = await createSqliteClient({ path: "./data.db" });
  * await client.backup("./backup.db");
@@ -151,7 +151,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * await using client = await createSqliteClient({ path: "./data.db" });
  *

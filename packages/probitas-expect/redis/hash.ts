@@ -1,4 +1,4 @@
-import type { RedisHashResult } from "@probitas/client-redis";
+import type { RedisHashResult } from "@probitas-test/client-redis";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -14,7 +14,7 @@ export interface RedisHashResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RedisHashResult } from "@probitas/client-redis";
+   * import type { RedisHashResult } from "@probitas-test/client-redis";
    * import { expectRedisHashResult } from "./hash.ts";
    * const result = {
    *   kind: "redis:hash",

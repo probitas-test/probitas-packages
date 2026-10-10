@@ -1,4 +1,4 @@
-import type { MongoInsertManyResult } from "@probitas/client-mongodb";
+import type { MongoInsertManyResult } from "@probitas-test/client-mongodb";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -11,7 +11,7 @@ export interface MongoInsertManyResultExpectation {
    *
    * @example
    * ```ts
-   * import type { MongoInsertManyResult } from "@probitas/client-mongodb";
+   * import type { MongoInsertManyResult } from "@probitas-test/client-mongodb";
    * import { expectMongoInsertManyResult } from "./insert_many.ts";
    * const result = {
    *   kind: "mongo:insert-many",

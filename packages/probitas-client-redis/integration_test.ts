@@ -4,7 +4,7 @@ import {
   assertInstanceOf,
   assertRejects,
 } from "@std/assert";
-import { AbortError } from "@probitas/client";
+import { AbortError } from "@probitas-test/client";
 import { createRedisClient } from "./client.ts";
 
 const REDIS_URL = Deno.env.get("REDIS_URL") ?? "redis://localhost:6379";

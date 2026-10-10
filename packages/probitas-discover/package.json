@@ -1,0 +1,16 @@
+{
+  "name": "@probitas-test/discover",
+  "version": "0.4.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@lambdalisue/sandbox": "npm:@jsr/lambdalisue__sandbox@^3",
+    "@logtape/logtape": "npm:@jsr/logtape__logtape@^0",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/fs": "npm:@jsr/std__fs@^1",
+    "@std/path": "npm:@jsr/std__path@^1"
+  }
+}

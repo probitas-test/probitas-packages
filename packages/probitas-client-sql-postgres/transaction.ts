@@ -7,7 +7,7 @@ import {
   SqlQueryResultFailureImpl,
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import { mapPostgresError } from "./errors.ts";
 
 /**

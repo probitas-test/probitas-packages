@@ -1,4 +1,4 @@
-import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
+import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
 import { ensureNonNullish } from "./utils.ts";
 import * as mixin from "./mixin.ts";
 
@@ -15,7 +15,7 @@ export interface ConnectRpcResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
+   * import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
    * import { expectConnectRpcResponse } from "./connectrpc.ts";
    * const mockHeaders = new Map<string, string>();
    * const response = {
@@ -40,7 +40,7 @@ export interface ConnectRpcResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
+   * import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
    * import { expectConnectRpcResponse } from "./connectrpc.ts";
    * const mockHeaders = new Map<string, string>();
    * const response = {

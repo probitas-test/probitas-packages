@@ -20,7 +20,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * const kv = await createDenoKvClient();
  *
@@ -42,7 +42,7 @@
  * ## Atomic Operations
  *
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * const kv = await createDenoKvClient();
  *
@@ -65,7 +65,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * await using kv = await createDenoKvClient();
  *

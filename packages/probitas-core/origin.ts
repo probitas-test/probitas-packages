@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import type { Origin } from "@probitas/core/origin";
+ * import type { Origin } from "@probitas-test/core/origin";
  *
  * const origin: Origin = {
  *   path: "/project/tests/auth.probitas.ts",
@@ -71,7 +71,7 @@ export interface FormatOriginOptions {
  *
  * @example
  * ```ts
- * import { formatOrigin } from "@probitas/core/origin";
+ * import { formatOrigin } from "@probitas-test/core/origin";
  *
  * const origin = { path: "/project/test.ts", line: 42 };
  *

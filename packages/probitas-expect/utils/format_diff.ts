@@ -8,7 +8,7 @@
  */
 
 import { type Change, diffLines } from "diff";
-import type { Theme } from "@probitas/core/theme";
+import type { Theme } from "@probitas-test/core/theme";
 
 /**
  * Options for diff formatting.
@@ -46,7 +46,7 @@ const INSPECT_OPTIONS: Deno.InspectOptions = {
  * @example
  * ```ts
  * import { formatDiff } from "./format_diff.ts";
- * import { noColorTheme } from "@probitas/core/theme";
+ * import { noColorTheme } from "@probitas-test/core/theme";
  *
  * const actual = { name: "Alice", age: 30 };
  * const expected = { name: "Bob", age: 30 };

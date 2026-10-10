@@ -1,4 +1,4 @@
-import type { CommonOptions } from "@probitas/client";
+import type { CommonOptions } from "@probitas-test/client";
 
 /**
  * Configuration for creating a SQLite client.

@@ -5,7 +5,7 @@ import type {
   DenoKvListResult,
   DenoKvResult,
   DenoKvSetResult,
-} from "@probitas/client-deno-kv";
+} from "@probitas-test/client-deno-kv";
 
 // Import all expectation interfaces and functions
 import {
@@ -57,7 +57,7 @@ export type DenoKvExpectation<R extends DenoKvResult> = R extends
  *
  * @example
  * ```ts
- * import type { DenoKvGetResult, DenoKvSetResult, DenoKvListResult, DenoKvDeleteResult, DenoKvAtomicResult } from "@probitas/client-deno-kv";
+ * import type { DenoKvGetResult, DenoKvSetResult, DenoKvListResult, DenoKvDeleteResult, DenoKvAtomicResult } from "@probitas-test/client-deno-kv";
  * import { expectDenoKvResult } from "./deno_kv.ts";
  *
  * // For GET result - returns DenoKvGetResultExpectation<T>

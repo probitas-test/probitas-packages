@@ -20,7 +20,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * // Using string URL
  * const client = await createRabbitMqClient({
@@ -64,7 +64,7 @@
  * ## Exchange and Binding
  *
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const client = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await client.channel();
@@ -88,7 +88,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * await using client = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await client.channel();

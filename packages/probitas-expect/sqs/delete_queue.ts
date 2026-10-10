@@ -1,4 +1,4 @@
-import type { SqsDeleteQueueResult } from "@probitas/client-sqs";
+import type { SqsDeleteQueueResult } from "@probitas-test/client-sqs";
 import * as mixin from "../mixin.ts";
 
 /**
@@ -13,7 +13,7 @@ export interface SqsDeleteQueueResultExpectation {
    *
    * @example
    * ```ts
-   * import type { SqsDeleteQueueResult } from "@probitas/client-sqs";
+   * import type { SqsDeleteQueueResult } from "@probitas-test/client-sqs";
    * import { expectSqsDeleteQueueResult } from "./delete_queue.ts";
    * const result = {
    *   kind: "sqs:delete-queue",

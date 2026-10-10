@@ -5,7 +5,7 @@
  */
 
 import { type Code, ConnectError } from "@connectrpc/connect";
-import { AbortError, ClientError, TimeoutError } from "@probitas/client";
+import { AbortError, ClientError, TimeoutError } from "@probitas-test/client";
 import type { ConnectRpcStatusCode } from "./status.ts";
 
 /**

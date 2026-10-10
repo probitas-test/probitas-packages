@@ -1,0 +1,27 @@
+{
+  "name": "@probitas-test/expect",
+  "version": "0.4.1",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@core/errorutil": "npm:@jsr/core__errorutil@^1",
+    "@probitas-test/client-connectrpc": "workspace:*",
+    "@probitas-test/client-deno-kv": "workspace:*",
+    "@probitas-test/client-graphql": "workspace:*",
+    "@probitas-test/client-grpc": "workspace:*",
+    "@probitas-test/client-http": "workspace:*",
+    "@probitas-test/client-mongodb": "workspace:*",
+    "@probitas-test/client-rabbitmq": "workspace:*",
+    "@probitas-test/client-redis": "workspace:*",
+    "@probitas-test/client-sql": "workspace:*",
+    "@probitas-test/client-sqs": "workspace:*",
+    "@probitas-test/core": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/expect": "npm:@jsr/std__expect@^1",
+    "@std/testing": "npm:@jsr/std__testing@^1",
+    "diff": "^7"
+  }
+}

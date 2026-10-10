@@ -1,0 +1,14 @@
+{
+  "name": "@probitas-test/builder",
+  "version": "0.5.2",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@probitas-test/core": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/testing": "npm:@jsr/std__testing@^1"
+  }
+}

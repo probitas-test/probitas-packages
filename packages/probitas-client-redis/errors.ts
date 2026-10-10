@@ -1,4 +1,4 @@
-import { AbortError, ClientError, TimeoutError } from "@probitas/client";
+import { AbortError, ClientError, TimeoutError } from "@probitas-test/client";
 
 /**
  * Options for Redis errors.

@@ -4,7 +4,7 @@ import {
   SqlConnectionError,
   SqlError,
   type SqlErrorOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 
 /**
  * DuckDB-specific error kinds.

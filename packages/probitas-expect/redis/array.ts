@@ -1,4 +1,4 @@
-import type { RedisArrayResult } from "@probitas/client-redis";
+import type { RedisArrayResult } from "@probitas-test/client-redis";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -16,7 +16,7 @@ export interface RedisArrayResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RedisArrayResult } from "@probitas/client-redis";
+   * import type { RedisArrayResult } from "@probitas-test/client-redis";
    * import { expectRedisArrayResult } from "./array.ts";
    * const result = {
    *   kind: "redis:array",

@@ -1,4 +1,4 @@
-import type { Origin } from "@probitas/core/origin";
+import type { Origin } from "@probitas-test/core/origin";
 import type {
   IntersectReturnTypes,
   PatchTypedChainMethod,

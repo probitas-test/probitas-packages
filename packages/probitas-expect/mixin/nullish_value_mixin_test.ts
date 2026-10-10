@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
 import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createNullishValueMixin } from "./nullish_value_mixin.ts";

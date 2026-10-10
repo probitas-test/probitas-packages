@@ -1,5 +1,5 @@
-import type { Origin } from "@probitas/core/origin";
-import type { Theme } from "@probitas/core/theme";
+import type { Origin } from "@probitas-test/core/origin";
+import type { Theme } from "@probitas-test/core/theme";
 import { assertType, type IsExact } from "@std/testing/types";
 import type { Unit } from "./_typeutils.ts";
 import type {

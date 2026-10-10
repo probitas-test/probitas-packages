@@ -12,7 +12,7 @@ import type {
   ScenarioMetadata,
   StepDefinition,
   StepMetadata,
-} from "@probitas/core";
+} from "@probitas-test/core";
 
 /**
  * Convert ScenarioDefinition to serializable ScenarioMetadata

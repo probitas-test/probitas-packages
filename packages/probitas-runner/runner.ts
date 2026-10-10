@@ -1,5 +1,5 @@
 import { chunk } from "@std/collections/chunk";
-import type { ScenarioDefinition, StepOptions } from "@probitas/core";
+import type { ScenarioDefinition, StepOptions } from "@probitas-test/core";
 import type {
   Reporter,
   RunOptions,
@@ -24,9 +24,9 @@ import { Skip } from "./skip.ts";
  *
  * @example
  * ```ts
- * import { Runner } from "@probitas/runner";
- * import type { Reporter } from "@probitas/runner";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { Runner } from "@probitas-test/runner";
+ * import type { Reporter } from "@probitas-test/runner";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const reporter: Reporter = {};
  * const scenarios: ScenarioDefinition[] = [];

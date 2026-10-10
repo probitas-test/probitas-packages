@@ -5,7 +5,7 @@ import type {
   Db,
   MongoClientOptions,
 } from "mongodb";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 import { deadline } from "@std/async/deadline";
 import type {
@@ -346,7 +346,7 @@ function convertMongoError(
  *
  * @example Basic usage with connection string
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * const mongo = await createMongoClient({
  *   url: "mongodb://localhost:27017",
@@ -367,7 +367,7 @@ function convertMongoError(
  *
  * @example Using connection config object
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * const mongo = await createMongoClient({
  *   url: {
@@ -385,7 +385,7 @@ function convertMongoError(
  *
  * @example Insert and query documents
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * interface User { name: string; age: number }
  *
@@ -415,7 +415,7 @@ function convertMongoError(
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * interface User { _id?: unknown; name: string; age: number }
  *
@@ -441,7 +441,7 @@ function convertMongoError(
  *
  * @example Aggregation pipeline
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * interface User { name: string; age: number; department: string }
  *
@@ -464,7 +464,7 @@ function convertMongoError(
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * await using mongo = await createMongoClient({
  *   url: "mongodb://localhost:27017",

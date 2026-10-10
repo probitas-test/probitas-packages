@@ -1,4 +1,4 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
 import type {
   MongoCountResult,
   MongoDeleteResult,

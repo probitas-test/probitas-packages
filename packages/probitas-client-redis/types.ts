@@ -1,4 +1,4 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
 import type {
   RedisArrayResult,
   RedisCommonResult,
@@ -72,19 +72,19 @@ export interface RedisClientConfig extends CommonOptions {
    *
    * @example String URL
    * ```ts
-   * import type { RedisClientConfig } from "@probitas/client-redis";
+   * import type { RedisClientConfig } from "@probitas-test/client-redis";
    * const config: RedisClientConfig = { url: "redis://localhost:6379" };
    * ```
    *
    * @example With password
    * ```ts
-   * import type { RedisClientConfig } from "@probitas/client-redis";
+   * import type { RedisClientConfig } from "@probitas-test/client-redis";
    * const config: RedisClientConfig = { url: "redis://:password@localhost:6379/0" };
    * ```
    *
    * @example Config object
    * ```ts
-   * import type { RedisClientConfig } from "@probitas/client-redis";
+   * import type { RedisClientConfig } from "@probitas-test/client-redis";
    * const config: RedisClientConfig = {
    *   url: { port: 6379, password: "secret", db: 1 },
    * };

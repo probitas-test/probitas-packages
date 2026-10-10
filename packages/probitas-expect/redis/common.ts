@@ -1,4 +1,4 @@
-import type { RedisCommonResult } from "@probitas/client-redis";
+import type { RedisCommonResult } from "@probitas-test/client-redis";
 import * as mixin from "../mixin.ts";
 
 /**
@@ -12,7 +12,7 @@ export interface RedisCommonResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RedisCommonResult } from "@probitas/client-redis";
+   * import type { RedisCommonResult } from "@probitas-test/client-redis";
    * import { expectRedisCommonResult } from "./common.ts";
    * const result = {
    *   kind: "redis:common",

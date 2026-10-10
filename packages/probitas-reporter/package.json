@@ -1,0 +1,17 @@
+{
+  "name": "@probitas-test/reporter",
+  "version": "0.7.1",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@logtape/logtape": "npm:@jsr/logtape__logtape@^0",
+    "@probitas-test/core": "workspace:*",
+    "@probitas-test/expect": "workspace:*",
+    "@probitas-test/runner": "workspace:*",
+    "@std/streams": "npm:@jsr/std__streams@^1",
+    "@std/testing": "npm:@jsr/std__testing@^1"
+  }
+}

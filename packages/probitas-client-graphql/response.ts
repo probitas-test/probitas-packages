@@ -1,4 +1,4 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type { GraphqlExecutionError, GraphqlFailureError } from "./errors.ts";
 
 /**

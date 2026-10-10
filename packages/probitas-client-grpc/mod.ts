@@ -25,7 +25,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * // Create client (uses reflection by default)
  * const client = createGrpcClient({
@@ -46,7 +46,7 @@
  * ## Service Discovery
  *
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * const client = createGrpcClient({ url: "http://localhost:50051" });
  *
@@ -71,7 +71,7 @@
  *   - `response.raw` — Original protobuf Message with metadata (includes `$typeName`)
  *
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * const client = createGrpcClient({ url: "http://localhost:50051" });
  *
@@ -96,7 +96,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * await using client = createGrpcClient({ url: "http://localhost:50051" });
  *
@@ -125,7 +125,7 @@ import {
   type ConnectRpcClient,
   type ConnectRpcClientConfig,
   createConnectRpcClient,
-} from "@probitas/client-connectrpc";
+} from "@probitas-test/client-connectrpc";
 
 // Re-export types and utilities from client-connectrpc with gRPC-specific aliases
 export {
@@ -154,7 +154,7 @@ export {
   type ServiceDetail,
   type ServiceInfo,
   type TlsConfig,
-} from "@probitas/client-connectrpc";
+} from "@probitas-test/client-connectrpc";
 
 /**
  * Configuration for creating a gRPC client.
@@ -175,7 +175,7 @@ export interface GrpcClientConfig
  *
  * @example Basic usage with reflection
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * const client = createGrpcClient({
  *   url: "http://localhost:50051",
@@ -194,7 +194,7 @@ export interface GrpcClientConfig
  *
  * @example Service discovery with reflection
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * const client = createGrpcClient({
  *   url: "http://localhost:50051",
@@ -213,7 +213,7 @@ export interface GrpcClientConfig
  *
  * @example Testing error responses
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * const client = createGrpcClient({ url: "http://localhost:50051" });
  *
@@ -233,7 +233,7 @@ export interface GrpcClientConfig
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createGrpcClient } from "@probitas/client-grpc";
+ * import { createGrpcClient } from "@probitas-test/client-grpc";
  *
  * await using client = createGrpcClient({
  *   url: "http://localhost:50051",

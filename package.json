@@ -1,0 +1,8 @@
+{
+  "name": "probitas-packages",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ]
+}

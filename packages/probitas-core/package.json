@@ -1,0 +1,22 @@
+{
+  "name": "@probitas-test/core",
+  "version": "0.3.2",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts",
+    "./loader": "./loader.ts",
+    "./origin": "./origin.ts",
+    "./selector": "./selector.ts",
+    "./stack": "./stack.ts",
+    "./theme": "./theme.ts"
+  },
+  "dependencies": {
+    "@cspotcode/outdent": "npm:@jsr/cspotcode__outdent@^0.8",
+    "@lambdalisue/sandbox": "npm:@jsr/lambdalisue__sandbox@^3",
+    "@logtape/logtape": "npm:@jsr/logtape__logtape@^0",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/fmt": "npm:@jsr/std__fmt@^1",
+    "@std/path": "npm:@jsr/std__path@^1"
+  }
+}

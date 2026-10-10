@@ -22,8 +22,8 @@
  *
  * @example Skip based on environment
  * ```ts
- * import { scenario } from "@probitas/builder";
- * import { Skip } from "@probitas/runner";
+ * import { scenario } from "@probitas-test/builder";
+ * import { Skip } from "@probitas-test/runner";
  *
  * const def = scenario("Production Only")
  *   .step("Check environment", () => {
@@ -40,8 +40,8 @@
  *
  * @example Skip based on resource availability
  * ```ts
- * import { scenario } from "@probitas/builder";
- * import { Skip } from "@probitas/runner";
+ * import { scenario } from "@probitas-test/builder";
+ * import { Skip } from "@probitas-test/runner";
  *
  * const Database = { connect: async () => ({ query: (sql: string) => sql }) };
  *
@@ -60,8 +60,8 @@
  *
  * @example Skip with feature flag
  * ```ts
- * import { scenario } from "@probitas/builder";
- * import { Skip } from "@probitas/runner";
+ * import { scenario } from "@probitas-test/builder";
+ * import { Skip } from "@probitas-test/runner";
  *
  * const def = scenario("Beta Feature")
  *   .step("Check feature flag", (ctx) => {
@@ -91,7 +91,7 @@ export class Skip extends Error {
    *
    * @example
    * ```ts
-   * import { Skip } from "@probitas/runner";
+   * import { Skip } from "@probitas-test/runner";
    *
    * const skip1 = new Skip();                    // message: "Skipped", reason: undefined
    * const skip2 = new Skip("Not on Windows");    // message: "Not on Windows", reason: "Not on Windows"

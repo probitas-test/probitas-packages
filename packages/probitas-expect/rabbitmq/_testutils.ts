@@ -4,7 +4,7 @@ import type {
   RabbitMqExchangeResult,
   RabbitMqPublishResult,
   RabbitMqQueueResult,
-} from "@probitas/client-rabbitmq";
+} from "@probitas-test/client-rabbitmq";
 
 // Note: These use type assertions because the result types are discriminated
 // unions with literal types (ok: true, processed: true). The spread operator

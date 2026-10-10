@@ -22,7 +22,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * // In-memory database for testing
  * const client = await createDuckDbClient({
@@ -53,8 +53,8 @@
  * ## Transactions
  *
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createDuckDbClient({ path: ":memory:" });
  * await client.transaction(async (tx: SqlTransaction) => {
@@ -68,7 +68,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * await using client = await createDuckDbClient({ path: ":memory:" });
  *
@@ -107,4 +107,4 @@ export type * from "./types.ts";
 export * from "./errors.ts";
 
 // Re-export common types from @probitas/client-sql
-export * from "@probitas/client-sql";
+export * from "@probitas-test/client-sql";

@@ -1,4 +1,4 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type { SqlError, SqlFailureError } from "./errors.ts";
 
 /**
@@ -132,7 +132,7 @@ export interface SqlQueryResultFailure<T = any> extends SqlQueryResultBase<T> {
  *
  * @example Type narrowing by ok
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * await using client = await createPostgresClient({ url: "postgres://localhost/db" });
  * const result = await client.query("SELECT * FROM users");
@@ -147,7 +147,7 @@ export interface SqlQueryResultFailure<T = any> extends SqlQueryResultBase<T> {
  *
  * @example Type narrowing by processed
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * await using client = await createPostgresClient({ url: "postgres://localhost/db" });
  * const result = await client.query("SELECT * FROM users");

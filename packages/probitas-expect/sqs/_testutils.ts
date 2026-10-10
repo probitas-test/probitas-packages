@@ -7,7 +7,7 @@ import type {
   SqsReceiveResult,
   SqsSendBatchResult,
   SqsSendResult,
-} from "@probitas/client-sqs";
+} from "@probitas-test/client-sqs";
 
 // Note: These use type assertions because the result types are discriminated
 // unions with literal types (ok: true, processed: true). The spread operator

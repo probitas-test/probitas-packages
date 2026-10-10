@@ -1,5 +1,5 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { GrpcResponse } from "@probitas/client-grpc";
+import type { GrpcResponse } from "@probitas-test/client-grpc";
 import { expectGrpcResponse, type GrpcResponseExpectation } from "./grpc.ts";
 
 // Mock GrpcResponse for testing

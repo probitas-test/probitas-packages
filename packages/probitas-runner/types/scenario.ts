@@ -7,7 +7,7 @@
  * @module
  */
 
-import type { ScenarioMetadata } from "@probitas/core";
+import type { ScenarioMetadata } from "@probitas-test/core";
 import type { StepResult } from "./step.ts";
 
 /**
@@ -21,7 +21,7 @@ import type { StepResult } from "./step.ts";
  *
  * @example ScenarioContext structure
  * ```ts
- * import type { ScenarioContext } from "@probitas/runner";
+ * import type { ScenarioContext } from "@probitas-test/runner";
  *
  * // ScenarioContext is created by the runner for each scenario execution
  * const ctx: ScenarioContext = {
@@ -65,7 +65,7 @@ export interface ScenarioContext {
  *
  * @example Passed scenario
  * ```ts
- * import type { ScenarioResult } from "@probitas/runner";
+ * import type { ScenarioResult } from "@probitas-test/runner";
  *
  * const result: ScenarioResult = {
  *   metadata: { name: "Login Flow", tags: [], steps: [], origin: { path: "", line: 0 } },
@@ -78,7 +78,7 @@ export interface ScenarioContext {
  *
  * @example Skipped scenario
  * ```ts
- * import type { ScenarioResult } from "@probitas/runner";
+ * import type { ScenarioResult } from "@probitas-test/runner";
  *
  * const result: ScenarioResult = {
  *   metadata: { name: "Premium Feature", tags: [], steps: [], origin: { path: "", line: 0 } },

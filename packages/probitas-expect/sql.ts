@@ -1,4 +1,4 @@
-import type { SqlQueryResult } from "@probitas/client-sql";
+import type { SqlQueryResult } from "@probitas-test/client-sql";
 import { ensureNonNullish } from "./utils.ts";
 import * as mixin from "./mixin.ts";
 
@@ -15,7 +15,7 @@ export interface SqlQueryResultExpectation {
    *
    * @example
    * ```ts
-   * import type { SqlQueryResult } from "@probitas/client-sql";
+   * import type { SqlQueryResult } from "@probitas-test/client-sql";
    * import { expectSqlQueryResult } from "./sql.ts";
    * const result = {
    *   kind: "sql",
@@ -38,7 +38,7 @@ export interface SqlQueryResultExpectation {
    *
    * @example
    * ```ts
-   * import type { SqlQueryResult } from "@probitas/client-sql";
+   * import type { SqlQueryResult } from "@probitas-test/client-sql";
    * import { expectSqlQueryResult } from "./sql.ts";
    * const result = {
    *   kind: "sql",

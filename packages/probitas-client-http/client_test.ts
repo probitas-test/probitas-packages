@@ -6,7 +6,7 @@ import {
   assertRejects,
   assertThrows,
 } from "@std/assert";
-import { AbortError } from "@probitas/client";
+import { AbortError } from "@probitas-test/client";
 import { createHttpClient } from "./client.ts";
 import { HttpError, HttpNetworkError } from "./errors.ts";
 

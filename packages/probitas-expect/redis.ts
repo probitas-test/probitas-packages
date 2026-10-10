@@ -6,7 +6,7 @@ import type {
   RedisHashResult,
   RedisResult,
   RedisSetResult,
-} from "@probitas/client-redis";
+} from "@probitas-test/client-redis";
 import {
   expectRedisCountResult,
   type RedisCountResultExpectation,
@@ -62,7 +62,7 @@ export type RedisExpectation<R extends RedisResult> = R extends RedisCountResult
  *
  * @example
  * ```ts
- * import type { RedisGetResult, RedisCountResult, RedisArrayResult } from "@probitas/client-redis";
+ * import type { RedisGetResult, RedisCountResult, RedisArrayResult } from "@probitas-test/client-redis";
  * import { expectRedisResult } from "./redis.ts";
  *
  * // For GET result - returns RedisGetResultExpectation

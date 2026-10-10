@@ -154,7 +154,7 @@ export interface DiscoverOptions {
  *
  * @example Discover from directories
  * ```ts
- * import { discoverScenarioFiles } from "@probitas/discover";
+ * import { discoverScenarioFiles } from "@probitas-test/discover";
  *
  * // Use default patterns (*.probitas.ts)
  * const files = await discoverScenarioFiles(["./tests", "./integration"]);

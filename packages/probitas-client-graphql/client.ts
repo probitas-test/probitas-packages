@@ -16,7 +16,7 @@ import {
   GraphqlResponseFailureImpl,
   GraphqlResponseSuccessImpl,
 } from "./response.ts";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 
 const logger = getLogger(["probitas", "client", "graphql"]);
@@ -521,7 +521,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Basic query
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * const client = createGraphqlClient({
  *   url: "http://localhost:4000/graphql",
@@ -539,7 +539,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Using connection config object
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * const client = createGraphqlClient({
  *   url: { host: "api.example.com", port: 443, protocol: "https" },
@@ -549,7 +549,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Mutation with error handling
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * const client = createGraphqlClient({ url: "http://localhost:4000/graphql" });
  *
@@ -568,7 +568,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * await using client = createGraphqlClient({
  *   url: "http://localhost:4000/graphql",

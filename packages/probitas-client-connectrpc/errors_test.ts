@@ -4,7 +4,7 @@
 
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { ConnectRpcError, ConnectRpcNetworkError } from "./errors.ts";
-import { ClientError } from "@probitas/client";
+import { ClientError } from "@probitas-test/client";
 
 Deno.test("ConnectRpcError", async (t) => {
   await t.step("extends ClientError", () => {

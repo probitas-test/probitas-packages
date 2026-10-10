@@ -1,4 +1,4 @@
-import type { DenoKvDeleteResult } from "@probitas/client-deno-kv";
+import type { DenoKvDeleteResult } from "@probitas-test/client-deno-kv";
 import * as mixin from "../mixin.ts";
 
 /**
@@ -13,7 +13,7 @@ export interface DenoKvDeleteResultExpectation {
    *
    * @example
    * ```ts
-   * import type { DenoKvDeleteResult } from "@probitas/client-deno-kv";
+   * import type { DenoKvDeleteResult } from "@probitas-test/client-deno-kv";
    * import { expectDenoKvDeleteResult } from "./delete.ts";
    * const result = {
    *   kind: "deno-kv:delete",

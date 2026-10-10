@@ -39,7 +39,7 @@
  *
  * @example Basic scenario building
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * export default scenario("My Scenario")
  *   .step("First step", () => {
@@ -53,7 +53,7 @@
  *
  * @example With resources and setup
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * // Mock database connection for example
  * const connectDatabase = () =>
@@ -79,7 +79,7 @@
  *
  * @example Custom step options
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * export default scenario("Retry Test", {
  *   stepOptions: { timeout: 30000 } // Default timeout for all steps

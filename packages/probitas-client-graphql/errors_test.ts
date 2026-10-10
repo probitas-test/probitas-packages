@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
-import { ClientError } from "@probitas/client";
+import { ClientError } from "@probitas-test/client";
 import { GraphqlExecutionError, GraphqlNetworkError } from "./errors.ts";
 import type { GraphqlErrorItem } from "./types.ts";
 

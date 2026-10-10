@@ -39,7 +39,7 @@
  *
  * @example Basic usage
  * ```ts
- * import { discoverScenarioFiles } from "@probitas/discover";
+ * import { discoverScenarioFiles } from "@probitas-test/discover";
  *
  * // Discover from current directory
  * const files = await discoverScenarioFiles(["."]);
@@ -49,7 +49,7 @@
  *
  * @example Mixed files and directories
  * ```ts
- * import { discoverScenarioFiles } from "@probitas/discover";
+ * import { discoverScenarioFiles } from "@probitas-test/discover";
  *
  * // Combine specific files with directory scanning
  * const files = await discoverScenarioFiles([
@@ -61,7 +61,7 @@
  *
  * @example Custom patterns
  * ```ts
- * import { discoverScenarioFiles } from "@probitas/discover";
+ * import { discoverScenarioFiles } from "@probitas-test/discover";
  *
  * // Use custom include/exclude patterns
  * const files = await discoverScenarioFiles(["./tests"], {
@@ -72,10 +72,10 @@
  *
  * @example Integration with loader
  * ```ts
- * import { discoverScenarioFiles } from "@probitas/discover";
- * import { loadScenarios } from "@probitas/core/loader";
- * import type { Reporter } from "@probitas/runner";
- * import { Runner } from "@probitas/runner";
+ * import { discoverScenarioFiles } from "@probitas-test/discover";
+ * import { loadScenarios } from "@probitas-test/core/loader";
+ * import type { Reporter } from "@probitas-test/runner";
+ * import { Runner } from "@probitas-test/runner";
  *
  * // Complete workflow: discover -> load -> run
  * const files = await discoverScenarioFiles(["./scenarios"]);

@@ -10,7 +10,7 @@ import {
   DeleteQueueCommand,
   SQSClient,
 } from "@aws-sdk/client-sqs";
-import { AbortError } from "@probitas/client";
+import { AbortError } from "@probitas-test/client";
 import { createSqsClient } from "./client.ts";
 import { SqsCommandError } from "./errors.ts";
 

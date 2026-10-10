@@ -1,0 +1,15 @@
+{
+  "name": "@probitas-test/client-graphql",
+  "version": "0.6.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@cspotcode/outdent": "npm:@jsr/cspotcode__outdent@^0.8.0",
+    "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+    "@probitas-test/client": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1"
+  }
+}

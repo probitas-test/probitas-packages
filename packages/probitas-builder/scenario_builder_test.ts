@@ -6,7 +6,7 @@
 
 import { assertEquals, assertExists } from "@std/assert";
 import { FakeTime } from "@std/testing/time";
-import type { StepDefinition } from "@probitas/core";
+import type { StepDefinition } from "@probitas-test/core";
 import { scenario } from "./scenario_builder.ts";
 
 // Helper to extract steps from steps

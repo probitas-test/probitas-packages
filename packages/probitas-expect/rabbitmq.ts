@@ -5,7 +5,7 @@ import type {
   RabbitMqPublishResult,
   RabbitMqQueueResult,
   RabbitMqResult,
-} from "@probitas/client-rabbitmq";
+} from "@probitas-test/client-rabbitmq";
 import {
   expectRabbitMqPublishResult,
   type RabbitMqPublishResultExpectation,
@@ -55,7 +55,7 @@ export type RabbitMqExpectation<R extends RabbitMqResult> = R extends
  *
  * @example
  * ```ts
- * import type { RabbitMqPublishResult, RabbitMqConsumeResult, RabbitMqQueueResult, RabbitMqExchangeResult, RabbitMqAckResult } from "@probitas/client-rabbitmq";
+ * import type { RabbitMqPublishResult, RabbitMqConsumeResult, RabbitMqQueueResult, RabbitMqExchangeResult, RabbitMqAckResult } from "@probitas-test/client-rabbitmq";
  * import { expectRabbitMqResult } from "./rabbitmq.ts";
  *
  * // For publish result - returns RabbitMqPublishResultExpectation

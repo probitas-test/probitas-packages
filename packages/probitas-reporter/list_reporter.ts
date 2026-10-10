@@ -12,8 +12,8 @@
  *
  * @example
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
- * import { colorTheme } from "@probitas/core/theme";
+ * import { ListReporter } from "@probitas-test/reporter";
+ * import { colorTheme } from "@probitas-test/core/theme";
  *
  * const reporter = new ListReporter({
  *   theme: colorTheme,  // Optional: customize colors
@@ -22,16 +22,16 @@
  * ```
  */
 
-import type { ScenarioMetadata, StepMetadata } from "@probitas/core";
-import { formatOrigin, type Origin } from "@probitas/core/origin";
-import type { Reporter, RunResult, StepResult } from "@probitas/runner";
-import { isExpectationError } from "@probitas/expect";
+import type { ScenarioMetadata, StepMetadata } from "@probitas-test/core";
+import { formatOrigin, type Origin } from "@probitas-test/core/origin";
+import type { Reporter, RunResult, StepResult } from "@probitas-test/runner";
+import { isExpectationError } from "@probitas-test/expect";
 import { Writer, type WriterOptions } from "./writer.ts";
 import {
   defaultTheme,
   type Theme,
   type ThemeFunction,
-} from "@probitas/core/theme";
+} from "@probitas-test/core/theme";
 
 /**
  * Options for ListReporter initialization.
@@ -64,7 +64,7 @@ export interface ListReporterOptions extends WriterOptions {
  *
  * @example
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
+ * import { ListReporter } from "@probitas-test/reporter";
  *
  * const reporter = new ListReporter();
  * void reporter;

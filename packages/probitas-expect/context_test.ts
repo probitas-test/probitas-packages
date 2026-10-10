@@ -11,7 +11,7 @@ import {
   getSourceContext,
   type SourceContext,
 } from "./context.ts";
-import type { Origin } from "@probitas/core/origin";
+import type { Origin } from "@probitas-test/core/origin";
 
 Deno.test("captureOrigin - captures current location", () => {
   const origin = captureOrigin();

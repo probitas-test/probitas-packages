@@ -20,7 +20,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * const client = await createSqsClient({
  *   region: "us-east-1",
@@ -63,7 +63,7 @@
  * ## Batch Operations
  *
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * const client = await createSqsClient({
  *   region: "us-east-1",
@@ -93,7 +93,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * await using client = await createSqsClient({
  *   region: "us-east-1",

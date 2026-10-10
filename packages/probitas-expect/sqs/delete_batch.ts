@@ -1,4 +1,4 @@
-import type { SqsDeleteBatchResult } from "@probitas/client-sqs";
+import type { SqsDeleteBatchResult } from "@probitas-test/client-sqs";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 

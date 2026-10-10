@@ -27,8 +27,8 @@
  *   SqlQueryResult,
  *   SqlError,
  *   ConstraintError,
- * } from "@probitas/client-sql";
- * import type { SqlTransaction, SqlIsolationLevel } from "@probitas/client-sql";
+ * } from "@probitas-test/client-sql";
+ * import type { SqlTransaction, SqlIsolationLevel } from "@probitas-test/client-sql";
  *
  * // Error types are available for use with database-specific clients
  * const isolationLevel: SqlIsolationLevel = "read_committed";

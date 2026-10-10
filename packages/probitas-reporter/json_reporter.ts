@@ -7,13 +7,13 @@
  * @module
  */
 
-import type { ScenarioMetadata, StepMetadata } from "@probitas/core";
+import type { ScenarioMetadata, StepMetadata } from "@probitas-test/core";
 import type {
   Reporter,
   RunResult,
   ScenarioResult,
   StepResult,
-} from "@probitas/runner";
+} from "@probitas-test/runner";
 import { Writer, type WriterOptions } from "./writer.ts";
 
 export interface JSONReporterOptions extends WriterOptions {}

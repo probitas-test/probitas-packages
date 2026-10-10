@@ -1,4 +1,4 @@
-import type { SqsSendBatchResult } from "@probitas/client-sqs";
+import type { SqsSendBatchResult } from "@probitas-test/client-sqs";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -17,7 +17,7 @@ export interface SqsSendBatchResultExpectation {
    *
    * @example
    * ```ts
-   * import type { SqsSendBatchResult } from "@probitas/client-sqs";
+   * import type { SqsSendBatchResult } from "@probitas-test/client-sqs";
    * import { expectSqsSendBatchResult } from "./send_batch.ts";
    * const result = {
    *   kind: "sqs:send-batch",

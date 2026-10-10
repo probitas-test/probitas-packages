@@ -1,5 +1,5 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { SqlQueryResult } from "@probitas/client-sql";
+import type { SqlQueryResult } from "@probitas-test/client-sql";
 import { expectSqlQueryResult, type SqlQueryResultExpectation } from "./sql.ts";
 
 // Mock SqlQueryResult for testing

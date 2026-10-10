@@ -11,7 +11,7 @@ import {
   SendMessageCommand,
   SQSClient,
 } from "@aws-sdk/client-sqs";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 import { deadline } from "@std/async/deadline";
 import type {
@@ -348,7 +348,7 @@ function resolveEndpointUrl(
  *
  * @example Basic usage with existing queue
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * async function example() {
  *   const sqs = await createSqsClient({
@@ -375,7 +375,7 @@ function resolveEndpointUrl(
  *
  * @example Using ElasticMQ for local development
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * async function example() {
  *   const sqs = await createSqsClient({
@@ -399,7 +399,7 @@ function resolveEndpointUrl(
  *
  * @example Receiving messages with long polling
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * async function example() {
  *   const sqs = await createSqsClient({
@@ -435,7 +435,7 @@ function resolveEndpointUrl(
  *
  * @example Batch operations for high throughput
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * async function example() {
  *   const sqs = await createSqsClient({
@@ -470,7 +470,7 @@ function resolveEndpointUrl(
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createSqsClient } from "@probitas/client-sqs";
+ * import { createSqsClient } from "@probitas-test/client-sqs";
  *
  * async function example() {
  *   await using sqs = await createSqsClient({

@@ -7,10 +7,10 @@
  * @module
  */
 
-import type { Origin } from "@probitas/core/origin";
-import { formatOrigin } from "@probitas/core/origin";
-import { captureStack } from "@probitas/core/stack";
-import type { Theme } from "@probitas/core/theme";
+import type { Origin } from "@probitas-test/core/origin";
+import { formatOrigin } from "@probitas-test/core/origin";
+import { captureStack } from "@probitas-test/core/stack";
+import type { Theme } from "@probitas-test/core/theme";
 
 /**
  * Source code context information for error messages.

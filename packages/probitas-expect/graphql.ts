@@ -1,4 +1,4 @@
-import type { GraphqlResponse } from "@probitas/client-graphql";
+import type { GraphqlResponse } from "@probitas-test/client-graphql";
 import { ensureNonNullish } from "./utils.ts";
 import * as mixin from "./mixin.ts";
 
@@ -13,7 +13,7 @@ export interface GraphqlResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { GraphqlResponse } from "@probitas/client-graphql";
+   * import type { GraphqlResponse } from "@probitas-test/client-graphql";
    * import { expectGraphqlResponse } from "./graphql.ts";
    * const mockHeaders = new Map<string, string>();
    * const response = {
@@ -38,7 +38,7 @@ export interface GraphqlResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { GraphqlResponse } from "@probitas/client-graphql";
+   * import type { GraphqlResponse } from "@probitas-test/client-graphql";
    * import { expectGraphqlResponse } from "./graphql.ts";
    * const mockHeaders = new Map<string, string>();
    * const response = {

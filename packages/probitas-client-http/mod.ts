@@ -20,7 +20,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * interface User {
  *   id: string;
@@ -49,7 +49,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * await using http = createHttpClient({ url: "http://localhost:3000" });
  *

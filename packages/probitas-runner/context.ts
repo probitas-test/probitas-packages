@@ -6,7 +6,7 @@
  * @module
  */
 
-import type { ScenarioDefinition, StepContext } from "@probitas/core";
+import type { ScenarioDefinition, StepContext } from "@probitas-test/core";
 import type { ScenarioContext } from "./types.ts";
 
 export function createScenarioContext(

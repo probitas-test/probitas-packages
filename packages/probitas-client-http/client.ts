@@ -1,4 +1,4 @@
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import type {
   BodyInit,
   HttpClient,
@@ -389,7 +389,7 @@ class HttpClientImpl implements HttpClient {
  *
  * @example Basic usage with string URL
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * const http = createHttpClient({ url: "http://localhost:3000" });
  *
@@ -401,7 +401,7 @@ class HttpClientImpl implements HttpClient {
  *
  * @example With connection config object
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * const http = createHttpClient({
  *   url: { host: "api.example.com", port: 443, protocol: "https" },
@@ -411,7 +411,7 @@ class HttpClientImpl implements HttpClient {
  *
  * @example With default headers
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * const http = createHttpClient({
  *   url: "http://localhost:3000",
@@ -425,7 +425,7 @@ class HttpClientImpl implements HttpClient {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * await using http = createHttpClient({ url: "http://localhost:3000" });
  * const response = await http.get("/health");

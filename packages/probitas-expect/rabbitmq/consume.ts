@@ -1,4 +1,4 @@
-import type { RabbitMqConsumeResult } from "@probitas/client-rabbitmq";
+import type { RabbitMqConsumeResult } from "@probitas-test/client-rabbitmq";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -14,7 +14,7 @@ export interface RabbitMqConsumeResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RabbitMqConsumeResult } from "@probitas/client-rabbitmq";
+   * import type { RabbitMqConsumeResult } from "@probitas-test/client-rabbitmq";
    * import { expectRabbitMqConsumeResult } from "./consume.ts";
    * const result = {
    *   kind: "rabbitmq:consume",

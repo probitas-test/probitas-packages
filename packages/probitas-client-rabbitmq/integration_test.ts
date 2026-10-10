@@ -4,7 +4,7 @@ import {
   assertInstanceOf,
   assertRejects,
 } from "@std/assert";
-import { AbortError } from "@probitas/client";
+import { AbortError } from "@probitas-test/client";
 import { createRabbitMqClient } from "./client.ts";
 import { RabbitMqConnectionError } from "./errors.ts";
 

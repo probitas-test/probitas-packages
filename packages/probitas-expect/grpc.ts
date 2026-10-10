@@ -7,7 +7,7 @@
  * @module
  */
 
-import type { GrpcResponse } from "@probitas/client-grpc";
+import type { GrpcResponse } from "@probitas-test/client-grpc";
 import { ensureNonNullish } from "./utils.ts";
 import * as mixin from "./mixin.ts";
 
@@ -24,7 +24,7 @@ export interface GrpcResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { GrpcResponse } from "@probitas/client-grpc";
+   * import type { GrpcResponse } from "@probitas-test/client-grpc";
    * import { expectGrpcResponse } from "./grpc.ts";
    * const mockHeaders = new Map<string, string>();
    * const response = {
@@ -49,7 +49,7 @@ export interface GrpcResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { GrpcResponse } from "@probitas/client-grpc";
+   * import type { GrpcResponse } from "@probitas-test/client-grpc";
    * import { expectGrpcResponse } from "./grpc.ts";
    * const mockHeaders = new Map<string, string>();
    * const response = {

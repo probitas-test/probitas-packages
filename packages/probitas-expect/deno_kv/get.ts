@@ -1,4 +1,4 @@
-import type { DenoKvGetResult } from "@probitas/client-deno-kv";
+import type { DenoKvGetResult } from "@probitas-test/client-deno-kv";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -16,7 +16,7 @@ export interface DenoKvGetResultExpectation<_T = unknown> {
    *
    * @example
    * ```ts
-   * import type { DenoKvGetResult } from "@probitas/client-deno-kv";
+   * import type { DenoKvGetResult } from "@probitas-test/client-deno-kv";
    * import { expectDenoKvGetResult } from "./get.ts";
    * const result = {
    *   kind: "deno-kv:get",

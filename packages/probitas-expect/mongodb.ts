@@ -7,7 +7,7 @@ import type {
   MongoInsertOneResult,
   MongoResult,
   MongoUpdateResult,
-} from "@probitas/client-mongodb";
+} from "@probitas-test/client-mongodb";
 import {
   expectMongoFindResult,
   type MongoFindResultExpectation,
@@ -69,7 +69,7 @@ export type MongoExpectation<R extends MongoResult> = R extends
  *
  * @example
  * ```ts
- * import type { MongoFindResult, MongoInsertOneResult, MongoUpdateResult, MongoDeleteResult, MongoFindOneResult, MongoCountResult } from "@probitas/client-mongodb";
+ * import type { MongoFindResult, MongoInsertOneResult, MongoUpdateResult, MongoDeleteResult, MongoFindOneResult, MongoCountResult } from "@probitas-test/client-mongodb";
  * import { expectMongoResult } from "./mongodb.ts";
  *
  * // For find result - returns MongoFindResultExpectation

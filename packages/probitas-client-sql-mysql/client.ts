@@ -9,7 +9,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import type { MySqlClientConfig, MySqlConnectionConfig } from "./types.ts";
 import { convertMySqlError } from "./errors.ts";
 import { MySqlTransactionImpl } from "./transaction.ts";
@@ -131,7 +131,7 @@ function parseConnectionUrl(url: string): MySqlConnectionConfig {
  *
  * @example Using URL string
  * ```ts
- * import { createMySqlClient } from "@probitas/client-sql-mysql";
+ * import { createMySqlClient } from "@probitas-test/client-sql-mysql";
  *
  * const client = await createMySqlClient({
  *   url: "mysql://user:password@localhost:3306/testdb",
@@ -150,7 +150,7 @@ function parseConnectionUrl(url: string): MySqlConnectionConfig {
  *
  * @example Using connection config object
  * ```ts
- * import { createMySqlClient } from "@probitas/client-sql-mysql";
+ * import { createMySqlClient } from "@probitas-test/client-sql-mysql";
  *
  * const client = await createMySqlClient({
  *   url: {
@@ -167,8 +167,8 @@ function parseConnectionUrl(url: string): MySqlConnectionConfig {
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createMySqlClient } from "@probitas/client-sql-mysql";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createMySqlClient } from "@probitas-test/client-sql-mysql";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createMySqlClient({ url: "mysql://localhost:3306/testdb" });
  * const user = await client.transaction(async (tx: SqlTransaction) => {
@@ -180,7 +180,7 @@ function parseConnectionUrl(url: string): MySqlConnectionConfig {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createMySqlClient } from "@probitas/client-sql-mysql";
+ * import { createMySqlClient } from "@probitas-test/client-sql-mysql";
  *
  * await using client = await createMySqlClient({
  *   url: "mysql://localhost:3306/testdb",

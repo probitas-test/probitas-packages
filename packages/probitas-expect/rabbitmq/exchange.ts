@@ -1,4 +1,4 @@
-import type { RabbitMqExchangeResult } from "@probitas/client-rabbitmq";
+import type { RabbitMqExchangeResult } from "@probitas-test/client-rabbitmq";
 import * as mixin from "../mixin.ts";
 
 /**
@@ -13,7 +13,7 @@ export interface RabbitMqExchangeResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RabbitMqExchangeResult } from "@probitas/client-rabbitmq";
+   * import type { RabbitMqExchangeResult } from "@probitas-test/client-rabbitmq";
    * import { expectRabbitMqExchangeResult } from "./exchange.ts";
    * const result = {
    *   kind: "rabbitmq:exchange",

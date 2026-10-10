@@ -5,7 +5,7 @@ import type {
   StepContext,
   StepDefinition,
   StepOptions,
-} from "@probitas/core";
+} from "@probitas-test/core";
 import type { Reporter, ScenarioContext, StepResult } from "./types.ts";
 import { toStepMetadata } from "./metadata.ts";
 import { timeit } from "./utils/timeit.ts";

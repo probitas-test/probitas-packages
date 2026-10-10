@@ -6,7 +6,7 @@
 
 import { assertEquals, assertExists, assertInstanceOf } from "@std/assert";
 import { createExpectationError } from "./error.ts";
-import type { Origin } from "@probitas/core/origin";
+import type { Origin } from "@probitas-test/core/origin";
 
 Deno.test("createExpectationError - creates Error instance", () => {
   const error = createExpectationError({ message: "Test error" });

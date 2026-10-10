@@ -1,4 +1,4 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
 
 /**
  * SSL/TLS configuration for PostgreSQL connection.
@@ -66,13 +66,13 @@ export interface PostgresClientConfig extends CommonOptions {
    *
    * @example Using a URL string
    * ```ts
-   * import type { PostgresClientConfig } from "@probitas/client-sql-postgres";
+   * import type { PostgresClientConfig } from "@probitas-test/client-sql-postgres";
    * const config: PostgresClientConfig = { url: "postgres://user:pass@localhost:5432/mydb" };
    * ```
    *
    * @example Using a configuration object
    * ```ts
-   * import type { PostgresClientConfig } from "@probitas/client-sql-postgres";
+   * import type { PostgresClientConfig } from "@probitas-test/client-sql-postgres";
    * const config: PostgresClientConfig = {
    *   url: {
    *     host: "localhost",

@@ -22,15 +22,15 @@ import { expectSqlQueryResult, type SqlQueryResultExpectation } from "./sql.ts";
 import { expectSqsResult, type SqsExpectation } from "./sqs.ts";
 import { type AnythingExpectation, expectAnything } from "./anything.ts";
 
-import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
-import type { DenoKvResult } from "@probitas/client-deno-kv";
-import type { GraphqlResponse } from "@probitas/client-graphql";
-import type { HttpResponse } from "@probitas/client-http";
-import type { MongoResult } from "@probitas/client-mongodb";
-import type { RabbitMqResult } from "@probitas/client-rabbitmq";
-import type { RedisResult } from "@probitas/client-redis";
-import type { SqlQueryResult } from "@probitas/client-sql";
-import type { SqsResult } from "@probitas/client-sqs";
+import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
+import type { DenoKvResult } from "@probitas-test/client-deno-kv";
+import type { GraphqlResponse } from "@probitas-test/client-graphql";
+import type { HttpResponse } from "@probitas-test/client-http";
+import type { MongoResult } from "@probitas-test/client-mongodb";
+import type { RabbitMqResult } from "@probitas-test/client-rabbitmq";
+import type { RedisResult } from "@probitas-test/client-redis";
+import type { SqlQueryResult } from "@probitas-test/client-sql";
+import type { SqsResult } from "@probitas-test/client-sqs";
 
 /**
  * Type guard for objects with a `kind` property

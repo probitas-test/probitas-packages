@@ -8,7 +8,7 @@ import type { ConnectError } from "@connectrpc/connect";
 import type { DescMessage } from "@bufbuild/protobuf";
 import { toJson } from "@bufbuild/protobuf";
 import { getLogger } from "@logtape/logtape";
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type {
   ConnectRpcError,
   ConnectRpcFailureError,
@@ -46,7 +46,7 @@ export type ConnectRpcErrorType = ConnectRpcError | ConnectRpcNetworkError;
  *
  * @example
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({ url: "http://localhost:50051" });
  *

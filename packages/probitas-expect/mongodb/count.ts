@@ -1,4 +1,4 @@
-import type { MongoCountResult } from "@probitas/client-mongodb";
+import type { MongoCountResult } from "@probitas-test/client-mongodb";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -11,7 +11,7 @@ export interface MongoCountResultExpectation {
    *
    * @example
    * ```ts
-   * import type { MongoCountResult } from "@probitas/client-mongodb";
+   * import type { MongoCountResult } from "@probitas-test/client-mongodb";
    * import { expectMongoCountResult } from "./count.ts";
    * const result = {
    *   kind: "mongo:count",

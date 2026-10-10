@@ -1,4 +1,4 @@
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 import {
   DenoKvConnectionError,

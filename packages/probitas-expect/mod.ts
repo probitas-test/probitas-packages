@@ -21,7 +21,7 @@
  *
  * @example HTTP Response expectations
  * ```typescript
- * import type { HttpResponse } from "@probitas/client-http";
+ * import type { HttpResponse } from "@probitas-test/client-http";
  * import { expectHttpResponse } from "./mod.ts";
  *
  * // Mock HTTP response for example
@@ -45,7 +45,7 @@
  *
  * @example GraphQL Response expectations
  * ```typescript
- * import type { GraphqlResponse } from "@probitas/client-graphql";
+ * import type { GraphqlResponse } from "@probitas-test/client-graphql";
  * import { expectGraphqlResponse } from "./mod.ts";
  *
  * // Mock GraphQL response for example
@@ -68,7 +68,7 @@
  *
  * @example SQL Query Result expectations
  * ```typescript
- * import type { SqlQueryResult } from "@probitas/client-sql";
+ * import type { SqlQueryResult } from "@probitas-test/client-sql";
  * import { expectSqlQueryResult } from "./mod.ts";
  *
  * // Mock SQL query result for example
@@ -134,7 +134,7 @@
  *
  * @example Using .not modifier
  * ```typescript
- * import type { HttpResponse } from "@probitas/client-http";
+ * import type { HttpResponse } from "@probitas-test/client-http";
  * import { expect, expectHttpResponse } from "./mod.ts";
  *
  * // Mock HTTP response for example
@@ -216,40 +216,40 @@ export { type AnythingExpectation, expectAnything } from "./anything.ts";
 
 // HTTP
 export * from "./http.ts";
-export type * from "@probitas/client-http";
+export type * from "@probitas-test/client-http";
 
 // GraphQL
 export * from "./graphql.ts";
-export type * from "@probitas/client-graphql";
+export type * from "@probitas-test/client-graphql";
 
 // ConnectRPC
 export * from "./connectrpc.ts";
-export type * from "@probitas/client-connectrpc";
+export type * from "@probitas-test/client-connectrpc";
 
 // gRPC
 export * from "./grpc.ts";
-export type * from "@probitas/client-grpc";
+export type * from "@probitas-test/client-grpc";
 
 // Redis
 export * from "./redis.ts";
-export type * from "@probitas/client-redis";
+export type * from "@probitas-test/client-redis";
 
 // MongoDB
 export * from "./mongodb.ts";
-export type * from "@probitas/client-mongodb";
+export type * from "@probitas-test/client-mongodb";
 
 // Deno KV
 export * from "./deno_kv.ts";
-export type * from "@probitas/client-deno-kv";
+export type * from "@probitas-test/client-deno-kv";
 
 // SQS
 export * from "./sqs.ts";
-export type * from "@probitas/client-sqs";
+export type * from "@probitas-test/client-sqs";
 
 // RabbitMQ
 export * from "./rabbitmq.ts";
-export type * from "@probitas/client-rabbitmq";
+export type * from "@probitas-test/client-rabbitmq";
 
 // SQL
 export * from "./sql.ts";
-export type * from "@probitas/client-sql";
+export type * from "@probitas-test/client-sql";

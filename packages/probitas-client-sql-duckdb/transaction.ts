@@ -8,7 +8,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import { convertDuckDbError } from "./errors.ts";
 
 /**

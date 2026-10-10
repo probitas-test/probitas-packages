@@ -3,8 +3,8 @@ import type {
   HttpResponseError,
   HttpResponseFailure,
   HttpResponseSuccess,
-} from "@probitas/client-http";
-import { HttpError, HttpNetworkError } from "@probitas/client-http";
+} from "@probitas-test/client-http";
+import { HttpError, HttpNetworkError } from "@probitas-test/client-http";
 import { expectHttpResponse, type HttpResponseExpectation } from "./http.ts";
 
 // Mock HttpResponseSuccess for testing

@@ -1,4 +1,4 @@
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 import {
   DenoKvConnectionError,
@@ -557,7 +557,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example Basic usage with in-memory database
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * interface User {
  *   name: string;
@@ -578,7 +578,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example Using persistent storage
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * const kv = await createDenoKvClient({
  *   path: "./data.kv",
@@ -589,7 +589,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example Set with expiration (TTL)
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * const kv = await createDenoKvClient();
  * const sessionId = "abc123";
@@ -604,7 +604,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example List entries by prefix
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * interface User {
  *   name: string;
@@ -625,7 +625,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example Atomic transactions
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * const kv = await createDenoKvClient();
  *
@@ -639,7 +639,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * await using kv = await createDenoKvClient();
  *
@@ -649,7 +649,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example Error handling with Failure pattern
  * ```ts
- * import { createDenoKvClient } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient } from "@probitas-test/client-deno-kv";
  *
  * async function example() {
  *   const kv = await createDenoKvClient();
@@ -675,7 +675,7 @@ class DenoKvClientImpl implements DenoKvClient {
  *
  * @example Using throwOnError for traditional exception handling
  * ```ts
- * import { createDenoKvClient, DenoKvError } from "@probitas/client-deno-kv";
+ * import { createDenoKvClient, DenoKvError } from "@probitas-test/client-deno-kv";
  *
  * const kv = await createDenoKvClient({ throwOnError: true });
  *

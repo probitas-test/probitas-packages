@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
-import { SqlConnectionError, SqlError } from "@probitas/client-sql";
+import { SqlConnectionError, SqlError } from "@probitas-test/client-sql";
 import {
   AccessDeniedError,
   ConnectionRefusedError,

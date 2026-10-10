@@ -42,7 +42,7 @@ export type ThemeFunction = (text: string) => string;
  *
  * @example Custom theme
  * ```ts
- * import type { Theme } from "@probitas/core/theme";
+ * import type { Theme } from "@probitas-test/core/theme";
  *
  * const myTheme: Theme = {
  *   success: (t) => `\x1b[32m${t}\x1b[0m`,
@@ -137,7 +137,7 @@ const ANSI_ESCAPE_SEQUENCE_PATTERN = /\x1b\[[0-9;]*m/g;
  *
  * @example
  * ```ts
- * import { removeColors } from "@probitas/core/theme";
+ * import { removeColors } from "@probitas-test/core/theme";
  *
  * const colored = "\x1b[32mSuccess\x1b[0m";
  * const plain = removeColors(colored);

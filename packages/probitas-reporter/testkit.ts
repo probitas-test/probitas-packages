@@ -14,16 +14,16 @@ import type {
   ScenarioOptions,
   StepDefinition,
   StepOptions,
-} from "@probitas/core";
-import type { Origin } from "@probitas/core/origin";
+} from "@probitas-test/core";
+import type { Origin } from "@probitas-test/core/origin";
 import type {
   Reporter,
   RunResult,
   ScenarioResult,
   StepResult,
-} from "@probitas/runner";
+} from "@probitas-test/runner";
 import type { ReporterOptions } from "./types.ts";
-import { colorTheme, noColorTheme } from "@probitas/core/theme";
+import { colorTheme, noColorTheme } from "@probitas-test/core/theme";
 
 // Origin locations for testing
 export const originLocations = {
@@ -404,7 +404,7 @@ function getRawBufferOutput(buffer: Buffer): string {
  *
  * @example
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
+ * import { ListReporter } from "@probitas-test/reporter";
  * import { testReporter } from "./testkit.ts";
  *
  * // Call testReporter in a test file to run snapshot tests

@@ -1,0 +1,12 @@
+{
+  "name": "@probitas-test/client",
+  "version": "0.5.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts"
+  },
+  "dependencies": {
+    "@std/assert": "npm:@jsr/std__assert@^1"
+  }
+}

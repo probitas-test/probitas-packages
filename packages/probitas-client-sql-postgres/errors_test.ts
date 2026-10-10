@@ -5,7 +5,7 @@ import {
   QuerySyntaxError,
   SqlConnectionError,
   SqlError,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import {
   isConnectionError,
   mapPostgresError,

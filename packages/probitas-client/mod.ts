@@ -21,8 +21,8 @@
  * End users rarely need to import from it directly.
  *
  * ```ts
- * import type { CommonOptions, RetryOptions } from "@probitas/client";
- * import { ClientError, ConnectionError, TimeoutError } from "@probitas/client";
+ * import type { CommonOptions, RetryOptions } from "@probitas-test/client";
+ * import { ClientError, ConnectionError, TimeoutError } from "@probitas-test/client";
  *
  * // Use CommonOptions for timeout and abort signal support
  * async function fetchData(options?: CommonOptions) {

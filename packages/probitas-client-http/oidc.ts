@@ -23,7 +23,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * // OIDC Discovery (recommended)
  * const http = await createOidcHttpClient({
@@ -60,7 +60,7 @@
  * an `issuer` URL instead of manually specifying `authUrl` and `tokenUrl`:
  *
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * // Discovery automatically fetches:
  * // - authorization_endpoint
@@ -90,7 +90,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * await using http = await createOidcHttpClient({
  *   url: "http://localhost:3000",
@@ -164,7 +164,7 @@ export interface OidcHttpClient extends HttpClient {
    *
    * @example
    * ```ts
-   * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+   * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
    *
    * const client = await createOidcHttpClient({
    *   url: "http://localhost:3000",
@@ -367,7 +367,7 @@ async function fetchDiscoveryMetadata(
  *
  * @example
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * const http = await createOidcHttpClient({
  *   url: "http://localhost:3000",

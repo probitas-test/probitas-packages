@@ -9,7 +9,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import { convertSqliteError } from "./errors.ts";
 
 /** Internal type alias for bind parameters */

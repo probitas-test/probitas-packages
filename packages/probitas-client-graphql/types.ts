@@ -1,4 +1,4 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
 import type {
   GraphqlResponse,
   GraphqlResponseError,
@@ -78,13 +78,13 @@ export interface GraphqlClientConfig extends CommonOptions {
    *
    * @example String URL
    * ```ts
-   * import type { GraphqlClientConfig } from "@probitas/client-graphql";
+   * import type { GraphqlClientConfig } from "@probitas-test/client-graphql";
    * const config: GraphqlClientConfig = { url: "http://localhost:4000/graphql" };
    * ```
    *
    * @example Connection config object
    * ```ts
-   * import type { GraphqlClientConfig } from "@probitas/client-graphql";
+   * import type { GraphqlClientConfig } from "@probitas-test/client-graphql";
    * const config: GraphqlClientConfig = {
    *   url: { host: "api.example.com", port: 443, protocol: "https" },
    * };

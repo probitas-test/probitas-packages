@@ -1,4 +1,4 @@
-import type { MongoUpdateResult } from "@probitas/client-mongodb";
+import type { MongoUpdateResult } from "@probitas-test/client-mongodb";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -13,7 +13,7 @@ export interface MongoUpdateResultExpectation {
    *
    * @example
    * ```ts
-   * import type { MongoUpdateResult } from "@probitas/client-mongodb";
+   * import type { MongoUpdateResult } from "@probitas-test/client-mongodb";
    * import { expectMongoUpdateResult } from "./update.ts";
    * const result = {
    *   kind: "mongo:update",

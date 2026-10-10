@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 import { deadline } from "@std/async/deadline";
 import type {
@@ -209,7 +209,7 @@ function convertRedisError(
  *
  * @example Using URL string
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({
  *   url: "redis://localhost:6379/0",
@@ -226,7 +226,7 @@ function convertRedisError(
  *
  * @example Using connection config object
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({
  *   url: {
@@ -241,7 +241,7 @@ function convertRedisError(
  *
  * @example Set with expiration
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({ url: "redis://localhost:6379" });
  * const sessionData = JSON.stringify({ userId: "123" });
@@ -258,7 +258,7 @@ function convertRedisError(
  *
  * @example Hash operations
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({ url: "redis://localhost:6379" });
  *
@@ -275,7 +275,7 @@ function convertRedisError(
  *
  * @example Pub/Sub
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({ url: "redis://localhost:6379" });
  *
@@ -292,7 +292,7 @@ function convertRedisError(
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * await using client = await createRedisClient({
  *   url: "redis://localhost:6379",
