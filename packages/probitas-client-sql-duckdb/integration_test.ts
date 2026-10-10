@@ -1,6 +1,7 @@
 import { assert, assertEquals } from "@std/assert";
 import { makeTempFile, test } from "@probitas-test/internal-testing";
 import { rm, writeFile } from "node:fs/promises";
+import process from "node:process";
 
 /**
  * Check if DuckDB native library is available.
@@ -24,7 +25,9 @@ const duckDbAvailable = await isDuckDbAvailable();
 
 test({
   name: "Integration: DuckDbClient",
-  ignore: !duckDbAvailable,
+  // CI supports DuckDB on every runner, so a load failure there is a broken
+  // environment to surface, not a platform to skip.
+  ignore: !duckDbAvailable && !process.env.CI,
   async fn(t) {
     // Dynamic import to avoid module load errors when DuckDB is not available
     const {

@@ -1,0 +1,8 @@
+# Vendored upstream modules are tested upstream; test helpers and build
+# scripts are not shipped code.
+ignore:
+  - "**/_vendor/**"
+  - "**/_testutils.ts"
+  - "**/testkit.ts"
+  - "internal/**"
+  - "scripts/**"
