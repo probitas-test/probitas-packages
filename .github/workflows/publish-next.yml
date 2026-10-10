@@ -30,10 +30,14 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
 
+      # Publishing authenticates through npm trusted publishing (GitHub OIDC),
+      # so no npm token is stored in the repository. Every package must list
+      # this workflow as its trusted publisher on npmjs.com, and the npm CLI
+      # must be 11.5.1 or later.
+      - run: npm install -g npm@^11.5.1
+
       - name: Publish tarballs
         run: |
-          for tarball in dist-pack/*.tgz; do
-            npm publish "$tarball" --tag next --access public --provenance
+          for tarball in ./dist-pack/*.tgz; do
+            npm publish "$tarball" --tag next --access public
           done
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
