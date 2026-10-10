@@ -9,15 +9,15 @@
  * ## Links
  *
  * - [GitHub Repository](https://github.com/probitas-test/probitas)
- * - [@probitas/probitas](https://jsr.io/@probitas/probitas) - Main package (recommended for most users)
+ * - [@probitas-test/probitas](https://www.npmjs.com/package/@probitas-test/probitas) - Main package (recommended for most users)
  *
  * ## Related Packages
  *
  * | Package | Description |
  * |---------|-------------|
- * | [@probitas/builder](https://jsr.io/@probitas/builder) | Uses these types to build scenarios |
- * | [@probitas/runner](https://jsr.io/@probitas/runner) | Executes scenario definitions |
- * | [@probitas/discover](https://jsr.io/@probitas/discover) | Discovers scenario files to load |
+ * | [@probitas-test/builder](https://www.npmjs.com/package/@probitas-test/builder) | Uses these types to build scenarios |
+ * | [@probitas-test/runner](https://www.npmjs.com/package/@probitas-test/runner) | Executes scenario definitions |
+ * | [@probitas-test/discover](https://www.npmjs.com/package/@probitas-test/discover) | Discovers scenario files to load |
  *
  * ## Type Definitions
  *
@@ -34,7 +34,7 @@
  *
  * - {@linkcode ScenarioOptions} - Scenario-level configuration (tags, default step options)
  * - {@linkcode StepOptions} - Step execution settings (timeout, retry strategy)
- * - Import `Origin` from `@probitas/core/origin` for file and line information
+ * - Import `Origin` from `@probitas-test/core/origin` for file and line information
  *
  * ## Function Types
  *

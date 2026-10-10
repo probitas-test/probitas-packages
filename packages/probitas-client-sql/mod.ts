@@ -13,7 +13,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client-sql
+ * npm install @probitas-test/client-sql
  * ```
  *
  * ## Usage
@@ -39,14 +39,14 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client-sql-postgres`](https://jsr.io/@probitas/client-sql-postgres) | PostgreSQL client |
- * | [`@probitas/client-sql-mysql`](https://jsr.io/@probitas/client-sql-mysql) | MySQL client |
- * | [`@probitas/client-sql-sqlite`](https://jsr.io/@probitas/client-sql-sqlite) | SQLite client |
- * | [`@probitas/client-sql-duckdb`](https://jsr.io/@probitas/client-sql-duckdb) | DuckDB client |
+ * | [`@probitas-test/client-sql-postgres`](https://www.npmjs.com/package/@probitas-test/client-sql-postgres) | PostgreSQL client |
+ * | [`@probitas-test/client-sql-mysql`](https://www.npmjs.com/package/@probitas-test/client-sql-mysql) | MySQL client |
+ * | [`@probitas-test/client-sql-sqlite`](https://www.npmjs.com/package/@probitas-test/client-sql-sqlite) | SQLite client |
+ * | [`@probitas-test/client-sql-duckdb`](https://www.npmjs.com/package/@probitas-test/client-sql-duckdb) | DuckDB client |
  *
  * ## Links
  *
- * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
+ * - [GitHub Repository](https://github.com/probitas-test/probitas-packages)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  *
  * @module

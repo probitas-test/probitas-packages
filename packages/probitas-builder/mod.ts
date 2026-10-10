@@ -8,14 +8,14 @@
  * ## Links
  *
  * - [GitHub Repository](https://github.com/probitas-test/probitas)
- * - [@probitas/probitas](https://jsr.io/@probitas/probitas) - Main package (recommended for most users)
+ * - [@probitas-test/probitas](https://www.npmjs.com/package/@probitas-test/probitas) - Main package (recommended for most users)
  *
  * ## Related Packages
  *
  * | Package | Description |
  * |---------|-------------|
- * | [@probitas/core](https://jsr.io/@probitas/core) | Core type definitions used by this builder |
- * | [@probitas/runner](https://jsr.io/@probitas/runner) | Executes scenarios built with this package |
+ * | [@probitas-test/core](https://www.npmjs.com/package/@probitas-test/core) | Core type definitions used by this builder |
+ * | [@probitas-test/runner](https://www.npmjs.com/package/@probitas-test/runner) | Executes scenarios built with this package |
  *
  * ## Key Features
  *

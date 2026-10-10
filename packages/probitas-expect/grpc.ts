@@ -2,7 +2,7 @@
  * gRPC response expectation implementation.
  *
  * This module provides fluent assertion methods for gRPC responses from
- * @probitas/client-grpc. It uses common utilities for formatting and diffing.
+ * @probitas-test/client-grpc. It uses common utilities for formatting and diffing.
  *
  * @module
  */

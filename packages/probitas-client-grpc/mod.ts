@@ -3,7 +3,7 @@
  *
  * This package provides a gRPC client with Server Reflection support, designed for
  * integration testing of gRPC services. It is a thin wrapper around
- * [`@probitas/client-connectrpc`](https://jsr.io/@probitas/client-connectrpc) with
+ * [`@probitas-test/client-connectrpc`](https://www.npmjs.com/package/@probitas-test/client-connectrpc) with
  * `protocol: "grpc"` pre-configured.
  *
  * ## Features
@@ -19,7 +19,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client-grpc
+ * npm install @probitas-test/client-grpc
  * ```
  *
  * ## Quick Start
@@ -109,12 +109,12 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
- * | [`@probitas/client-connectrpc`](https://jsr.io/@probitas/client-connectrpc) | ConnectRPC client (supports Connect, gRPC, gRPC-Web) |
+ * | [`@probitas-test/client`](https://www.npmjs.com/package/@probitas-test/client) | Core utilities and types |
+ * | [`@probitas-test/client-connectrpc`](https://www.npmjs.com/package/@probitas-test/client-connectrpc) | ConnectRPC client (supports Connect, gRPC, gRPC-Web) |
  *
  * ## Links
  *
- * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
+ * - [GitHub Repository](https://github.com/probitas-test/probitas-packages)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  * - [gRPC](https://grpc.io/)
  *

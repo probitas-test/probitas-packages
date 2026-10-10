@@ -8,14 +8,14 @@
  * ## Links
  *
  * - [GitHub Repository](https://github.com/probitas-test/probitas)
- * - [@probitas/probitas](https://jsr.io/@probitas/probitas) - Main package (recommended for most users)
+ * - [@probitas-test/probitas](https://www.npmjs.com/package/@probitas-test/probitas) - Main package (recommended for most users)
  *
  * ## Related Packages
  *
  * | Package | Description |
  * |---------|-------------|
- * | [@probitas/core](https://jsr.io/@probitas/core) | Load discovered files with `loadScenarios` |
- * | [@probitas/cli](https://jsr.io/@probitas/cli) | CLI that uses this discovery |
+ * | [@probitas-test/core](https://www.npmjs.com/package/@probitas-test/core) | Load discovered files with `loadScenarios` |
+ * | [probitas](https://github.com/probitas-test/probitas) | CLI that uses these reporters |
  *
  * ## Core Function
  *

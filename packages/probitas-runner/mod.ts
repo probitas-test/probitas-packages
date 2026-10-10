@@ -2,23 +2,23 @@
  * Test execution and orchestration engine for Probitas scenarios.
  *
  * This package provides the {@linkcode ScenarioRunner} class that executes
- * scenario definitions built with `@probitas/builder`. It handles the complete
+ * scenario definitions built with `@probitas-test/builder`. It handles the complete
  * test lifecycle including resource initialization, setup/cleanup hooks,
  * step execution with retry logic, and result reporting.
  *
  * ## Links
  *
  * - [GitHub Repository](https://github.com/probitas-test/probitas)
- * - [@probitas/probitas](https://jsr.io/@probitas/probitas) - Main package (recommended for most users)
+ * - [@probitas-test/probitas](https://www.npmjs.com/package/@probitas-test/probitas) - Main package (recommended for most users)
  *
  * ## Related Packages
  *
  * | Package | Description |
  * |---------|-------------|
- * | [@probitas/builder](https://jsr.io/@probitas/builder) | Build scenario definitions to execute |
- * | [@probitas/core](https://jsr.io/@probitas/core) | Core type definitions |
- * | [@probitas/reporter](https://jsr.io/@probitas/reporter) | Output formatters for results |
- * | [@probitas/cli](https://jsr.io/@probitas/cli) | CLI that uses this runner |
+ * | [@probitas-test/builder](https://www.npmjs.com/package/@probitas-test/builder) | Build scenario definitions to execute |
+ * | [@probitas-test/core](https://www.npmjs.com/package/@probitas-test/core) | Core type definitions |
+ * | [@probitas-test/reporter](https://www.npmjs.com/package/@probitas-test/reporter) | Output formatters for results |
+ * | [probitas](https://github.com/probitas-test/probitas) | CLI that uses these reporters |
  *
  * ## Key Features
  *
