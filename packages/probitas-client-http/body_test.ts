@@ -1,7 +1,8 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { HttpBody } from "./body.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("HttpBody", async (t) => {
+test("HttpBody", async (t) => {
   await t.step("bytes returns raw bytes", () => {
     const bytes = new TextEncoder().encode("hello");
     const body = new HttpBody(bytes);
@@ -96,7 +97,8 @@ Deno.test("HttpBody", async (t) => {
         headers,
       );
       const blob = body.blob;
-      assertEquals(blob!.type, "application/json");
+      // Bun appends ";charset=utf-8" to text-like Blob types; compare the media type.
+      assertEquals(blob!.type.split(";")[0], "application/json");
       assertEquals(await blob!.text(), '{"a":1}');
     },
   );

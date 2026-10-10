@@ -1,6 +1,7 @@
 import { assertEquals, assertExists } from "@std/assert";
 import type { GrpcResponse } from "@probitas-test/client-grpc";
 import { expectGrpcResponse, type GrpcResponseExpectation } from "./grpc.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Mock GrpcResponse for testing
 function createMockResponse(
@@ -122,7 +123,7 @@ const EXPECTED_METHODS: Record<keyof GrpcResponseExpectation, unknown[]> = {
   toHaveDurationCloseTo: [45, 0],
 };
 
-Deno.test("expectGrpcResponse - method existence check", () => {
+test("expectGrpcResponse - method existence check", () => {
   const response = createMockResponse();
   const expectation = expectGrpcResponse(response);
 
@@ -171,7 +172,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectGrpcResponse - ${methodName} - success`, () => {
+  test(`expectGrpcResponse - ${methodName} - success`, () => {
     const response = createMockResponse();
     const expectation = expectGrpcResponse(response);
 
@@ -189,7 +190,7 @@ for (
   });
 }
 
-Deno.test("expectGrpcResponse - not property - success", () => {
+test("expectGrpcResponse - not property - success", () => {
   const response = createMockResponse({
     ok: false,
     statusCode: 2,
@@ -202,7 +203,7 @@ Deno.test("expectGrpcResponse - not property - success", () => {
   expectation.not.toHaveStatusCode(0);
 });
 
-Deno.test("expectGrpcResponse - nullish value methods - success", () => {
+test("expectGrpcResponse - nullish value methods - success", () => {
   // Test null values (data can be null)
   const nullResponse = createMockResponse({
     data: null,

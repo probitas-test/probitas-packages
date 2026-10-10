@@ -10,5 +10,8 @@
     "@probitas-test/core": "workspace:*",
     "@std/assert": "npm:@jsr/std__assert@^1",
     "@std/testing": "npm:@jsr/std__testing@^1"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

@@ -1,8 +1,9 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { ClientError } from "@probitas-test/client";
 import { HttpError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("HttpError", async (t) => {
+test("HttpError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new HttpError(500, "Internal Server Error");
     assertInstanceOf(error, ClientError);
@@ -127,7 +128,8 @@ Deno.test("HttpError", async (t) => {
     });
     const blob = error.blob;
     assertInstanceOf(blob, Blob);
-    assertEquals(blob?.type, "application/json");
+    // Bun appends ";charset=utf-8" to text-like Blob types; compare the media type.
+    assertEquals(blob?.type.split(";")[0], "application/json");
     assertEquals(blob?.size, body.length);
   });
 

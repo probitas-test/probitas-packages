@@ -4,6 +4,7 @@ import {
   type SqsEnsureQueueResultExpectation,
 } from "./ensure_queue.ts";
 import { mockSqsEnsureQueueResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -42,7 +43,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectSqsEnsureQueueResult - method existence check", () => {
+test("expectSqsEnsureQueueResult - method existence check", () => {
   const result = mockSqsEnsureQueueResult();
   const expectation = expectSqsEnsureQueueResult(result);
 
@@ -81,7 +82,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqsEnsureQueueResult - ${methodName} - success`, () => {
+  test(`expectSqsEnsureQueueResult - ${methodName} - success`, () => {
     const result = mockSqsEnsureQueueResult();
     const expectation = expectSqsEnsureQueueResult(result);
 
@@ -99,7 +100,7 @@ for (
   });
 }
 
-Deno.test("expectSqsEnsureQueueResult - not property - success", () => {
+test("expectSqsEnsureQueueResult - not property - success", () => {
   const result = mockSqsEnsureQueueResult({ ok: false });
   const expectation = expectSqsEnsureQueueResult(result);
 
@@ -108,7 +109,7 @@ Deno.test("expectSqsEnsureQueueResult - not property - success", () => {
   expectation.not.toHaveQueueUrl("wrong-url");
 });
 
-Deno.test("expectSqsEnsureQueueResult - queue url validation - success", () => {
+test("expectSqsEnsureQueueResult - queue url validation - success", () => {
   const result = mockSqsEnsureQueueResult({
     queueUrl: "https://sqs.eu-west-1.amazonaws.com/789/my-queue",
   });
@@ -119,7 +120,7 @@ Deno.test("expectSqsEnsureQueueResult - queue url validation - success", () => {
   expectation.toHaveQueueUrlMatching(/sqs\..*\.amazonaws\.com/);
 });
 
-Deno.test("expectSqsEnsureQueueResult - chaining - success", () => {
+test("expectSqsEnsureQueueResult - chaining - success", () => {
   const result = mockSqsEnsureQueueResult();
   const expectation = expectSqsEnsureQueueResult(result);
 

@@ -6,6 +6,7 @@ import {
 } from "@std/assert";
 import { HttpError } from "./errors.ts";
 import { HttpResponseErrorImpl, HttpResponseSuccessImpl } from "./response.ts";
+import { test } from "@probitas-test/internal-testing";
 
 /**
  * Helper to create HttpResponseSuccessImpl from a Response.
@@ -47,7 +48,7 @@ async function createErrorResponse(
   return new HttpResponseErrorImpl(raw, duration, error);
 }
 
-Deno.test("HttpResponseSuccessImpl", async (t) => {
+test("HttpResponseSuccessImpl", async (t) => {
   await t.step("creates from Response with body", async () => {
     const raw = new Response(JSON.stringify({ name: "test" }), {
       status: 200,
@@ -199,7 +200,7 @@ Deno.test("HttpResponseSuccessImpl", async (t) => {
   });
 });
 
-Deno.test("HttpResponseErrorImpl", async (t) => {
+test("HttpResponseErrorImpl", async (t) => {
   await t.step("creates from 4xx Response", async () => {
     const raw = new Response("not found", {
       status: 404,

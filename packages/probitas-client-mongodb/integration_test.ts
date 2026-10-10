@@ -6,9 +6,11 @@ import {
 } from "@std/assert";
 import { createMongoClient } from "./mod.ts";
 import type { MongoClient } from "./types.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const MONGODB_URL = Deno.env.get("MONGODB_URL") ?? "mongodb://localhost:27017";
-const MONGODB_DATABASE = Deno.env.get("MONGODB_DATABASE") ?? "testdb";
+const MONGODB_URL = process.env.MONGODB_URL ?? "mongodb://localhost:27017";
+const MONGODB_DATABASE = process.env.MONGODB_DATABASE ?? "testdb";
 
 async function isServiceAvailable(): Promise<boolean> {
   try {
@@ -58,7 +60,7 @@ interface User {
   email?: string;
 }
 
-Deno.test({
+test({
   name: "Integration: MongoDB Client",
   ignore: !(await isServiceAvailable()),
   async fn(t) {
@@ -222,7 +224,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: MongoDB Transaction",
   ignore: !(await isReplicaSet()),
   async fn(t) {

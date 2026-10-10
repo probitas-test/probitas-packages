@@ -16,8 +16,9 @@ import {
   ConnectRpcResponseSuccessImpl,
 } from "./response.ts";
 import { ConnectRpcNetworkError, fromConnectError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("ConnectRpcResponseSuccessImpl", async (t) => {
+test("ConnectRpcResponseSuccessImpl", async (t) => {
   await t.step("creates success response with data", () => {
     const response = new ConnectRpcResponseSuccessImpl({
       response: { user: { id: 1, name: "John" } },
@@ -164,7 +165,7 @@ Deno.test("ConnectRpcResponseSuccessImpl", async (t) => {
   });
 });
 
-Deno.test("ConnectRpcResponseErrorImpl", async (t) => {
+test("ConnectRpcResponseErrorImpl", async (t) => {
   await t.step("creates error response", () => {
     const connectError = new ConnectError("Not found", 5);
     const rpcError = fromConnectError(connectError);
@@ -219,7 +220,7 @@ Deno.test("ConnectRpcResponseErrorImpl", async (t) => {
   });
 });
 
-Deno.test("ConnectRpcResponseFailureImpl", async (t) => {
+test("ConnectRpcResponseFailureImpl", async (t) => {
   await t.step("creates failure response", () => {
     const error = new ConnectRpcNetworkError("Connection refused");
     const response = new ConnectRpcResponseFailureImpl({

@@ -13,5 +13,8 @@
     "@probitas-test/runner": "workspace:*",
     "@std/streams": "npm:@jsr/std__streams@^1",
     "@std/testing": "npm:@jsr/std__testing@^1"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

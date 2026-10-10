@@ -10,6 +10,7 @@ import type {
   RedisSetResult,
 } from "./types.ts";
 import { RedisCommandError, RedisConnectionError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
 /**
  * Mock Redis client for unit testing.
@@ -221,7 +222,7 @@ function createMockRedisClient(
   return client;
 }
 
-Deno.test("RedisConnectionError", async (t) => {
+test("RedisConnectionError", async (t) => {
   await t.step("is thrown when connection fails", () => {
     const error = new RedisConnectionError("Failed to connect to Redis");
     assertInstanceOf(error, RedisConnectionError);
@@ -243,7 +244,7 @@ Deno.test("RedisConnectionError", async (t) => {
   });
 });
 
-Deno.test("RedisCommandError", async (t) => {
+test("RedisCommandError", async (t) => {
   await t.step("includes command information", () => {
     const error = new RedisCommandError("Command failed", {
       command: "GET key",
@@ -270,7 +271,7 @@ Deno.test("RedisCommandError", async (t) => {
   });
 });
 
-Deno.test({
+test({
   name: "createRedisClient",
   sanitizeOps: false,
   sanitizeResources: false,
@@ -292,7 +293,7 @@ Deno.test({
   },
 });
 
-Deno.test("RedisClient interface", async (t) => {
+test("RedisClient interface", async (t) => {
   await t.step("implements AsyncDisposable", () => {
     const client = createMockRedisClient();
     assertEquals(typeof client[Symbol.asyncDispose], "function");
@@ -307,7 +308,7 @@ Deno.test("RedisClient interface", async (t) => {
   });
 });
 
-Deno.test("RedisClient.get", async (t) => {
+test("RedisClient.get", async (t) => {
   await t.step("returns RedisGetResult with value", async () => {
     const client = createMockRedisClient({
       get: () =>
@@ -385,7 +386,7 @@ Deno.test("RedisClient.get", async (t) => {
   });
 });
 
-Deno.test("RedisClient.set", async (t) => {
+test("RedisClient.set", async (t) => {
   await t.step("returns RedisSetResult with OK", async () => {
     const client = createMockRedisClient({
       set: () =>
@@ -478,7 +479,7 @@ Deno.test("RedisClient.set", async (t) => {
   });
 });
 
-Deno.test("RedisClient.del", async (t) => {
+test("RedisClient.del", async (t) => {
   await t.step("returns count of deleted keys", async () => {
     const client = createMockRedisClient({
       del: () =>
@@ -517,7 +518,7 @@ Deno.test("RedisClient.del", async (t) => {
   });
 });
 
-Deno.test("RedisClient.incr and decr", async (t) => {
+test("RedisClient.incr and decr", async (t) => {
   await t.step("incr increments value by 1", async () => {
     const client = createMockRedisClient({
       incr: () =>
@@ -555,7 +556,7 @@ Deno.test("RedisClient.incr and decr", async (t) => {
   });
 });
 
-Deno.test("RedisClient hash commands", async (t) => {
+test("RedisClient hash commands", async (t) => {
   await t.step("hget returns field value", async () => {
     const client = createMockRedisClient({
       hget: () =>
@@ -647,7 +648,7 @@ Deno.test("RedisClient hash commands", async (t) => {
   });
 });
 
-Deno.test("RedisClient list commands", async (t) => {
+test("RedisClient list commands", async (t) => {
   await t.step("lpush returns new list length", async () => {
     const client = createMockRedisClient({
       lpush: () =>
@@ -757,7 +758,7 @@ Deno.test("RedisClient list commands", async (t) => {
   });
 });
 
-Deno.test("RedisClient set commands", async (t) => {
+test("RedisClient set commands", async (t) => {
   await t.step("sadd returns count of added members", async () => {
     const client = createMockRedisClient({
       sadd: () =>
@@ -849,7 +850,7 @@ Deno.test("RedisClient set commands", async (t) => {
   });
 });
 
-Deno.test("RedisClient sorted set commands", async (t) => {
+test("RedisClient sorted set commands", async (t) => {
   await t.step("zadd returns count of added members", async () => {
     const client = createMockRedisClient({
       zadd: () =>
@@ -926,7 +927,7 @@ Deno.test("RedisClient sorted set commands", async (t) => {
   });
 });
 
-Deno.test("RedisClient pub/sub", async (t) => {
+test("RedisClient pub/sub", async (t) => {
   await t.step("publish returns count of receivers", async () => {
     const client = createMockRedisClient({
       publish: () =>
@@ -970,7 +971,7 @@ Deno.test("RedisClient pub/sub", async (t) => {
   });
 });
 
-Deno.test("RedisClient transaction", async (t) => {
+test("RedisClient transaction", async (t) => {
   await t.step("multi returns transaction object", () => {
     const client = createMockRedisClient();
     const tx = client.multi();
@@ -1083,7 +1084,7 @@ Deno.test("RedisClient transaction", async (t) => {
   });
 });
 
-Deno.test("RedisClient.command (raw)", async (t) => {
+test("RedisClient.command (raw)", async (t) => {
   await t.step("executes raw command", async () => {
     const client = createMockRedisClient();
 
@@ -1101,7 +1102,7 @@ Deno.test("RedisClient.command (raw)", async (t) => {
   });
 });
 
-Deno.test("RedisClient.close", async (t) => {
+test("RedisClient.close", async (t) => {
   await t.step("closes the client connection", async () => {
     let closed = false;
     const client = createMockRedisClient({
@@ -1133,7 +1134,7 @@ Deno.test("RedisClient.close", async (t) => {
   });
 });
 
-Deno.test("RedisClient duration tracking", async (t) => {
+test("RedisClient duration tracking", async (t) => {
   await t.step("all results include duration", async () => {
     const client = createMockRedisClient();
 
@@ -1149,7 +1150,7 @@ Deno.test("RedisClient duration tracking", async (t) => {
   });
 });
 
-Deno.test("RedisResult ok property", async (t) => {
+test("RedisResult ok property", async (t) => {
   await t.step("ok is true for successful operations", async () => {
     const client = createMockRedisClient();
 

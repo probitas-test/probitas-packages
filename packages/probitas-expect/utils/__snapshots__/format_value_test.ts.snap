@@ -1,0 +1,27 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`formatValue 1`] = `"null"`;
+
+exports[`formatValue 2`] = `"undefined"`;
+
+exports[`formatValue 3`] = `"hello world"`;
+
+exports[`formatValue 4`] = `"42"`;
+
+exports[`formatValue 5`] = `"true"`;
+
+exports[`formatValue 6`] = `"{ name: 'Alice', age: 30 }"`;
+
+exports[`formatValue 7`] = `"{ user: {...}, active: true }"`;
+
+exports[`formatValue 8`] = `"[ 1, 2, 3, 4, 5 ]"`;
+
+exports[`formatValue 9`] = `"[ {...}, {...}, {...} ]"`;
+
+exports[`formatValue 10`] = `"[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]"`;
+
+exports[`formatValue 11`] = `"{ level1: {...} }"`;
+
+exports[`formatValue 12`] = `"{ message: 'This is a very long string that exceeds the abbreviation limit an..."`;
+
+exports[`formatValue 13`] = `"{ users: [...], pagination: {...} }"`;

@@ -4,6 +4,7 @@ import {
   type RabbitMqAckResultExpectation,
 } from "./ack.ts";
 import { mockRabbitMqAckResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -26,7 +27,7 @@ const EXPECTED_METHODS: Record<keyof RabbitMqAckResultExpectation, unknown[]> =
     toHaveDurationCloseTo: [100, 0],
   };
 
-Deno.test("expectRabbitMqAckResult - method existence check", () => {
+test("expectRabbitMqAckResult - method existence check", () => {
   const result = mockRabbitMqAckResult();
   const expectation = expectRabbitMqAckResult(result);
 
@@ -63,7 +64,7 @@ for (
   // Skip NaN test (needs special value)
   if (methodName === "toHaveDurationNaN") continue;
 
-  Deno.test(`expectRabbitMqAckResult - ${methodName} - success`, () => {
+  test(`expectRabbitMqAckResult - ${methodName} - success`, () => {
     const result = mockRabbitMqAckResult();
     const expectation = expectRabbitMqAckResult(result);
 
@@ -81,7 +82,7 @@ for (
   });
 }
 
-Deno.test("expectRabbitMqAckResult - not property - success", () => {
+test("expectRabbitMqAckResult - not property - success", () => {
   const result = mockRabbitMqAckResult({ ok: false });
   const expectation = expectRabbitMqAckResult(result);
 
@@ -90,7 +91,7 @@ Deno.test("expectRabbitMqAckResult - not property - success", () => {
   expectation.not.toHaveDuration(200);
 });
 
-Deno.test("expectRabbitMqAckResult - chaining - success", () => {
+test("expectRabbitMqAckResult - chaining - success", () => {
   const result = mockRabbitMqAckResult({ duration: 150 });
   const expectation = expectRabbitMqAckResult(result);
 

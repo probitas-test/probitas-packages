@@ -7,7 +7,6 @@
  * @module
  */
 
-import { assertSnapshot } from "@std/testing/snapshot";
 import { Buffer } from "@std/streams/buffer";
 import type {
   ScenarioDefinition,
@@ -24,6 +23,7 @@ import type {
 } from "@probitas-test/runner";
 import type { ReporterOptions } from "./types.ts";
 import { colorTheme, noColorTheme } from "@probitas-test/core/theme";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 // Origin locations for testing
 export const originLocations = {
@@ -363,10 +363,10 @@ function normalizeStackPaths(output: string): string {
   // Replace file:// URLs with <file> placeholder
   // Matches patterns like: file:///Users/name/project/src/file.ts:123:45
   // Also matches patterns like: file:///home/runner/work/project/src/file.ts:123:45
-  return output.replace(
-    /file:\/\/\/[^\s:)]+/g,
-    "<file>",
-  );
+  // Bun reports plain absolute paths instead of file:// URLs.
+  return output
+    .replace(/file:\/\/\/[^\s:)]+/g, "<file>")
+    .replace(/(?<=[\s(])\/[^\s:)]+\.ts(?=:\d)/g, "<file>");
 }
 
 /**
@@ -418,7 +418,7 @@ export function testReporter(
   reporterName?: string,
 ): void {
   const name = reporterName ?? ReporterClass.name;
-  Deno.test(name, async (t) => {
+  test(name, async (t) => {
     await t.step("with colors", async (t) => {
       await t.step("complete run with all scenarios passed", async (t) => {
         const buffer = new Buffer();

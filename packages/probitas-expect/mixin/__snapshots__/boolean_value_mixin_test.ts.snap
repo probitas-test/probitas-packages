@@ -1,0 +1,35 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`createBooleanValueMixin - toHaveValueTruthy 1`] = `"Expected value to be truthy, but got false"`;
+
+exports[`createBooleanValueMixin - toHaveValueFalsy 1`] = `"Expected value to be falsy, but got true"`;
+
+exports[`createBooleanValueMixin - toHaveValueTruthy with source context 1`] = `
+"Expected value to be truthy, but got false
+
+Context (packages/probitas-expect/mixin/boolean_value_mixin_test.ts:81:5)
+
+  80│ test("createBooleanValueMixin - toHaveValueTruthy with source context", async (t) => {
+  81│   await t.step("fail (noColor)", async () => {
+  82│     const mixin = createBooleanValueMixin(() => false, () => false, {
+    ┆
+  88│       t,
+  89│       catchError(() => applied.toHaveValueTruthy()).message,
+    │       ^
+  90│     );"
+`;
+
+exports[`createBooleanValueMixin - toHaveValueTruthy with source context 2`] = `
+"\x1B[1m\x1B[31mExpected value to be truthy, but got false\x1B[39m\x1B[0m
+
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/boolean_value_mixin_test.ts:93:5)\x1B[39m
+
+  \x1B[90m 92│ \x1B[39m
+  \x1B[90m 93│   await t.step("fail (withColor)", async () => {\x1B[39m
+  \x1B[90m 94│     const mixin = createBooleanValueMixin(() => false, () => false, {\x1B[39m
+  \x1B[90m   ┆\x1B[39m
+  \x1B[90m101│       t,\x1B[39m
+  \x1B[90m102│       catchError(() => applied.toHaveValueTruthy()).message,\x1B[39m
+  \x1B[90m   │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m103│     );\x1B[39m"
+`;

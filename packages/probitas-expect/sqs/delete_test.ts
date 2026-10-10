@@ -4,6 +4,7 @@ import {
   type SqsDeleteResultExpectation,
 } from "./delete.ts";
 import { mockSqsDeleteResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -25,7 +26,7 @@ const EXPECTED_METHODS: Record<keyof SqsDeleteResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectSqsDeleteResult - method existence check", () => {
+test("expectSqsDeleteResult - method existence check", () => {
   const result = mockSqsDeleteResult();
   const expectation = expectSqsDeleteResult(result);
 
@@ -64,7 +65,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqsDeleteResult - ${methodName} - success`, () => {
+  test(`expectSqsDeleteResult - ${methodName} - success`, () => {
     const result = mockSqsDeleteResult();
     const expectation = expectSqsDeleteResult(result);
 
@@ -82,7 +83,7 @@ for (
   });
 }
 
-Deno.test("expectSqsDeleteResult - not property - success", () => {
+test("expectSqsDeleteResult - not property - success", () => {
   const result = mockSqsDeleteResult({ ok: false });
   const expectation = expectSqsDeleteResult(result);
 
@@ -90,7 +91,7 @@ Deno.test("expectSqsDeleteResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectSqsDeleteResult - chaining - success", () => {
+test("expectSqsDeleteResult - chaining - success", () => {
   const result = mockSqsDeleteResult();
   const expectation = expectSqsDeleteResult(result);
 

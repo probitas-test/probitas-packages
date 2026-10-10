@@ -1,0 +1,75 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`createArrayValueMixin - toHaveItemsContaining 1`] = `"Expected items to contain grape, but got [ 'apple', 'banana' ]"`;
+
+exports[`createArrayValueMixin - toHaveItemsContainingEqual 1`] = `
+"Expected items to contain equal { id: 3 }, but got [ {...}, {...} ]
+
+Diff (-Actual / +Expected):
+
+    [
+      {
+        id: 1,
+      },
+      {
+        id: 2,
+      },
+  +   {
+  +     id: 3,
+  +   },
+    ]"
+`;
+
+exports[`createArrayValueMixin - toHaveItemsMatching 1`] = `
+"Expected items to contain item matching { name: 'Charlie' }, but got [ {...}, {...} ]
+
+Diff (-Actual / +Expected):
+
+    [
+      {
+        id: 1,
+        name: 'Alice',
+        age: 30,
+      },
+      {
+        id: 2,
+        name: 'Bob',
+        age: 25,
+      },
+  +   {
+  +     name: 'Charlie',
+  +   },
+    ]"
+`;
+
+exports[`createArrayValueMixin - toHaveItemsEmpty 1`] = `"Expected items to be empty, but got length 1"`;
+
+exports[`createArrayValueMixin - toHaveItemsContaining with source context 1`] = `
+"Expected items to contain grape, but got [ 'apple', 'banana' ]
+
+Context (packages/probitas-expect/mixin/array_value_mixin_test.ts:154:5)
+
+  153│   await t.step("fail (noColor)", async () => {
+  154│     const mixin = createArrayValueMixin(
+  155│       () => ["apple", "banana"],
+     ┆
+  164│       t,
+  165│       catchError(() => applied.toHaveItemsContaining("grape")).message,
+     │       ^
+  166│     );"
+`;
+
+exports[`createArrayValueMixin - toHaveItemsContaining with source context 2`] = `
+"\x1B[1m\x1B[31mExpected items to contain grape, but got [ 'apple', 'banana' ]\x1B[39m\x1B[0m
+
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/array_value_mixin_test.ts:169:5)\x1B[39m
+
+  \x1B[90m168│ \x1B[39m
+  \x1B[90m169│   await t.step("fail (withColor)", async () => {\x1B[39m
+  \x1B[90m170│     const mixin = createArrayValueMixin(\x1B[39m
+  \x1B[90m   ┆\x1B[39m
+  \x1B[90m181│       t,\x1B[39m
+  \x1B[90m182│       catchError(() => applied.toHaveItemsContaining("grape")).message,\x1B[39m
+  \x1B[90m   │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m183│     );\x1B[39m"
+`;

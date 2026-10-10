@@ -8,10 +8,11 @@ import {
   mockRedisHashResult,
   mockRedisSetResult,
 } from "./redis/_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Integration tests for expectRedisResult dispatcher
 
-Deno.test("expectRedisResult - dispatches redis:count to RedisCountResultExpectation", () => {
+test("expectRedisResult - dispatches redis:count to RedisCountResultExpectation", () => {
   const result = mockRedisCountResult({ value: 5 });
   const expectation = expectRedisResult(result);
 
@@ -28,7 +29,7 @@ Deno.test("expectRedisResult - dispatches redis:count to RedisCountResultExpecta
   expectation.toHaveValueGreaterThan(4);
 });
 
-Deno.test("expectRedisResult - dispatches redis:array to RedisArrayResultExpectation", () => {
+test("expectRedisResult - dispatches redis:array to RedisArrayResultExpectation", () => {
   const result = mockRedisArrayResult<string>({ value: ["item1", "item2"] });
   const expectation = expectRedisResult(result);
 
@@ -45,7 +46,7 @@ Deno.test("expectRedisResult - dispatches redis:array to RedisArrayResultExpecta
   expectation.toHaveValueContaining("item1");
 });
 
-Deno.test("expectRedisResult - dispatches redis:get to RedisGetResultExpectation", () => {
+test("expectRedisResult - dispatches redis:get to RedisGetResultExpectation", () => {
   const result = mockRedisGetResult({ value: "test-value" });
   const expectation = expectRedisResult(result);
 
@@ -63,7 +64,7 @@ Deno.test("expectRedisResult - dispatches redis:get to RedisGetResultExpectation
   expectation.toHaveValueMatching(/value/);
 });
 
-Deno.test("expectRedisResult - dispatches redis:set to RedisSetResultExpectation", () => {
+test("expectRedisResult - dispatches redis:set to RedisSetResultExpectation", () => {
   const result = mockRedisSetResult({ value: "OK" });
   const expectation = expectRedisResult(result);
 
@@ -80,7 +81,7 @@ Deno.test("expectRedisResult - dispatches redis:set to RedisSetResultExpectation
   expectation.toHaveValueMatching(/OK/);
 });
 
-Deno.test("expectRedisResult - dispatches redis:hash to RedisHashResultExpectation", () => {
+test("expectRedisResult - dispatches redis:hash to RedisHashResultExpectation", () => {
   const result = mockRedisHashResult({
     value: { field1: "value1", field2: "value2" },
   });
@@ -100,7 +101,7 @@ Deno.test("expectRedisResult - dispatches redis:hash to RedisHashResultExpectati
   expectation.toHaveValueMatching({ field1: "value1" });
 });
 
-Deno.test("expectRedisResult - dispatches redis:common to RedisCommonResultExpectation", () => {
+test("expectRedisResult - dispatches redis:common to RedisCommonResultExpectation", () => {
   const result = mockRedisCommonResult<string>({ value: "common-value" });
   const expectation = expectRedisResult(result);
 
@@ -116,7 +117,7 @@ Deno.test("expectRedisResult - dispatches redis:common to RedisCommonResultExpec
   expectation.toHaveValue("common-value");
 });
 
-Deno.test("expectRedisResult - throws for unknown result type", () => {
+test("expectRedisResult - throws for unknown result type", () => {
   const unknownResult = {
     kind: "redis:unknown" as const,
     ok: true,
@@ -132,7 +133,7 @@ Deno.test("expectRedisResult - throws for unknown result type", () => {
   );
 });
 
-Deno.test("expectRedisResult - chaining works across dispatch", () => {
+test("expectRedisResult - chaining works across dispatch", () => {
   const countResult = mockRedisCountResult({ value: 10 });
   const arrayResult = mockRedisArrayResult<string>({
     value: ["a", "b", "c"],
@@ -161,7 +162,7 @@ Deno.test("expectRedisResult - chaining works across dispatch", () => {
     .toHaveDuration(100);
 });
 
-Deno.test("expectRedisResult - not property works across dispatch", () => {
+test("expectRedisResult - not property works across dispatch", () => {
   // Note: When ok: false, value must be null per discriminated union
   const countResult = mockRedisCountResult({ ok: false, value: null });
   const arrayResult = mockRedisArrayResult<string>({
@@ -180,7 +181,7 @@ Deno.test("expectRedisResult - not property works across dispatch", () => {
   expectRedisResult(getResult).not.toBeOk();
 });
 
-Deno.test("expectRedisResult - type inference preserves correct expectation type", () => {
+test("expectRedisResult - type inference preserves correct expectation type", () => {
   // This test verifies compile-time type inference
   // The specific methods available should match the result type
 

@@ -11,8 +11,9 @@ import {
   mapPostgresError,
   type PostgresErrorLike,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("mapPostgresError", async (t) => {
+test("mapPostgresError", async (t) => {
   await t.step("maps syntax error (SQLSTATE 42xxx)", async (t) => {
     await t.step("42601 - syntax_error", () => {
       const error = mapPostgresError({
@@ -226,7 +227,7 @@ Deno.test("mapPostgresError", async (t) => {
   });
 });
 
-Deno.test("isConnectionError", async (t) => {
+test("isConnectionError", async (t) => {
   await t.step("returns true for SQLSTATE 08xxx", () => {
     assertEquals(
       isConnectionError({ message: "error", code: "08006" }),

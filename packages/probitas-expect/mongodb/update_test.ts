@@ -4,6 +4,7 @@ import {
   type MongoUpdateResultExpectation,
 } from "./update.ts";
 import { mockMongoUpdateResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -61,7 +62,7 @@ const EXPECTED_METHODS: Record<keyof MongoUpdateResultExpectation, unknown[]> =
     toHaveDurationCloseTo: [100, 0],
   };
 
-Deno.test("expectMongoUpdateResult - method existence check", () => {
+test("expectMongoUpdateResult - method existence check", () => {
   const result = mockMongoUpdateResult();
   const expectation = expectMongoUpdateResult(result);
 
@@ -108,7 +109,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectMongoUpdateResult - ${methodName} - success`, () => {
+  test(`expectMongoUpdateResult - ${methodName} - success`, () => {
     const result = mockMongoUpdateResult();
     const expectation = expectMongoUpdateResult(result);
 
@@ -126,7 +127,7 @@ for (
   });
 }
 
-Deno.test("expectMongoUpdateResult - not property - success", () => {
+test("expectMongoUpdateResult - not property - success", () => {
   const result = mockMongoUpdateResult({ ok: false });
   const expectation = expectMongoUpdateResult(result);
 
@@ -135,7 +136,7 @@ Deno.test("expectMongoUpdateResult - not property - success", () => {
   expectation.not.toHaveMatchedCount(0);
 });
 
-Deno.test("expectMongoUpdateResult - upsert with ID - success", () => {
+test("expectMongoUpdateResult - upsert with ID - success", () => {
   const result = mockMongoUpdateResult({
     upsertedId: "upserted-123",
     matchedCount: 0,
@@ -151,7 +152,7 @@ Deno.test("expectMongoUpdateResult - upsert with ID - success", () => {
   expectation.toHaveModifiedCount(0);
 });
 
-Deno.test("expectMongoUpdateResult - nullish upserted ID - success", () => {
+test("expectMongoUpdateResult - nullish upserted ID - success", () => {
   // Test undefined upsertedId
   const undefinedResult = mockMongoUpdateResult({ upsertedId: undefined });
   const undefinedExpectation = expectMongoUpdateResult(undefinedResult);
@@ -168,7 +169,7 @@ Deno.test("expectMongoUpdateResult - nullish upserted ID - success", () => {
   nullExpectation.toHaveUpsertedIdNullish();
 });
 
-Deno.test("expectMongoUpdateResult - multiple documents updated - success", () => {
+test("expectMongoUpdateResult - multiple documents updated - success", () => {
   const result = mockMongoUpdateResult({
     matchedCount: 5,
     modifiedCount: 3,

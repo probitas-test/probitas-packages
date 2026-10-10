@@ -4,8 +4,9 @@ import type {
   PatchTypedChainMethod,
   Simplify,
 } from "./_typeutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("Simplify - type check", () => {
+test("Simplify - type check", () => {
   type Original = {
     a: number;
   } & {
@@ -23,7 +24,7 @@ Deno.test("Simplify - type check", () => {
   assertType<IsExact<Simplified, Expected>>(true);
 });
 
-Deno.test("PatchChainMethod - type check", () => {
+test("PatchChainMethod - type check", () => {
   type Original = {
     chainMethod: (this: Original, arg: string) => Original;
     normalMethod: (arg: number) => number;
@@ -42,7 +43,7 @@ Deno.test("PatchChainMethod - type check", () => {
   assertType<IsExact<Patched, Expected>>(true);
 });
 
-Deno.test("IntersectReturnTypes - type check", () => {
+test("IntersectReturnTypes - type check", () => {
   // deno-lint-ignore no-explicit-any
   type Func1 = (arg: any) => { a: number };
   // deno-lint-ignore no-explicit-any

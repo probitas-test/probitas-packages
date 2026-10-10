@@ -9,8 +9,9 @@ import {
   mockSqsSendBatchResult,
   mockSqsSendResult,
 } from "./sqs/_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("expectSqsResult - dispatches to send expectation", () => {
+test("expectSqsResult - dispatches to send expectation", () => {
   const result = mockSqsSendResult();
   const expectation = expectSqsResult(result);
 
@@ -25,7 +26,7 @@ Deno.test("expectSqsResult - dispatches to send expectation", () => {
   expectation.toHaveMessageId("msg-123");
 });
 
-Deno.test("expectSqsResult - dispatches to send batch expectation", () => {
+test("expectSqsResult - dispatches to send batch expectation", () => {
   const result = mockSqsSendBatchResult();
   const expectation = expectSqsResult(result);
 
@@ -41,7 +42,7 @@ Deno.test("expectSqsResult - dispatches to send batch expectation", () => {
   expectation.toHaveFailedEmpty();
 });
 
-Deno.test("expectSqsResult - dispatches to receive expectation", () => {
+test("expectSqsResult - dispatches to receive expectation", () => {
   const result = mockSqsReceiveResult();
   const expectation = expectSqsResult(result);
 
@@ -57,7 +58,7 @@ Deno.test("expectSqsResult - dispatches to receive expectation", () => {
   expectation.toHaveMessagesCount(1);
 });
 
-Deno.test("expectSqsResult - dispatches to delete expectation", () => {
+test("expectSqsResult - dispatches to delete expectation", () => {
   const result = mockSqsDeleteResult();
   const expectation = expectSqsResult(result);
 
@@ -71,7 +72,7 @@ Deno.test("expectSqsResult - dispatches to delete expectation", () => {
   expectation.toHaveDuration(100);
 });
 
-Deno.test("expectSqsResult - dispatches to delete batch expectation", () => {
+test("expectSqsResult - dispatches to delete batch expectation", () => {
   const result = mockSqsDeleteBatchResult();
   const expectation = expectSqsResult(result);
 
@@ -84,7 +85,7 @@ Deno.test("expectSqsResult - dispatches to delete batch expectation", () => {
   expectation.toHaveDuration(100);
 });
 
-Deno.test("expectSqsResult - dispatches to ensure queue expectation", () => {
+test("expectSqsResult - dispatches to ensure queue expectation", () => {
   const result = mockSqsEnsureQueueResult();
   const expectation = expectSqsResult(result);
 
@@ -99,7 +100,7 @@ Deno.test("expectSqsResult - dispatches to ensure queue expectation", () => {
   expectation.toHaveQueueUrlContaining("test-queue");
 });
 
-Deno.test("expectSqsResult - dispatches to delete queue expectation", () => {
+test("expectSqsResult - dispatches to delete queue expectation", () => {
   const result = mockSqsDeleteQueueResult();
   const expectation = expectSqsResult(result);
 
@@ -113,7 +114,7 @@ Deno.test("expectSqsResult - dispatches to delete queue expectation", () => {
   expectation.toHaveDuration(100);
 });
 
-Deno.test("expectSqsResult - throws on unknown result type", () => {
+test("expectSqsResult - throws on unknown result type", () => {
   const unknownResult = { kind: "sqs:unknown", ok: true };
 
   assertThrows(
@@ -124,7 +125,7 @@ Deno.test("expectSqsResult - throws on unknown result type", () => {
   );
 });
 
-Deno.test("expectSqsResult - chaining works correctly", () => {
+test("expectSqsResult - chaining works correctly", () => {
   const sendResult = mockSqsSendResult();
   expectSqsResult(sendResult)
     .toBeOk()
@@ -138,7 +139,7 @@ Deno.test("expectSqsResult - chaining works correctly", () => {
     .toHaveDurationLessThan(200);
 });
 
-Deno.test("expectSqsResult - not property works correctly", () => {
+test("expectSqsResult - not property works correctly", () => {
   const failedResult = mockSqsSendResult({ ok: false });
   const expectation = expectSqsResult(failedResult);
 

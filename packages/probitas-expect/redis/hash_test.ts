@@ -4,6 +4,7 @@ import {
   type RedisHashResultExpectation,
 } from "./hash.ts";
 import { mockRedisHashResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -35,7 +36,7 @@ const EXPECTED_METHODS: Record<keyof RedisHashResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectRedisHashResult - method existence check", () => {
+test("expectRedisHashResult - method existence check", () => {
   const result = mockRedisHashResult();
   const expectation = expectRedisHashResult(result);
 
@@ -79,7 +80,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectRedisHashResult - ${methodName} - success`, () => {
+  test(`expectRedisHashResult - ${methodName} - success`, () => {
     const result = mockRedisHashResult();
     const expectation = expectRedisHashResult(result);
 
@@ -97,7 +98,7 @@ for (
   });
 }
 
-Deno.test("expectRedisHashResult - not property - success", () => {
+test("expectRedisHashResult - not property - success", () => {
   // Note: When ok: false, value must be null per discriminated union
   const result = mockRedisHashResult({ ok: false, value: null });
   const expectation = expectRedisHashResult(result);
@@ -106,7 +107,7 @@ Deno.test("expectRedisHashResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectRedisHashResult - NaN duration methods - success", () => {
+test("expectRedisHashResult - NaN duration methods - success", () => {
   // Test NaN values
   const nanResult = mockRedisHashResult({
     duration: NaN,
@@ -116,7 +117,7 @@ Deno.test("expectRedisHashResult - NaN duration methods - success", () => {
   nanExpectation.toHaveDurationNaN();
 });
 
-Deno.test("expectRedisHashResult - toHaveValuePropertyContaining - success", () => {
+test("expectRedisHashResult - toHaveValuePropertyContaining - success", () => {
   const result = mockRedisHashResult({
     value: { items: JSON.stringify(["a", "b", "c"]) },
   });
@@ -125,7 +126,7 @@ Deno.test("expectRedisHashResult - toHaveValuePropertyContaining - success", () 
   expectation.toHaveValuePropertyContaining("items", "b");
 });
 
-Deno.test("expectRedisHashResult - toHaveValuePropertyMatching - success", () => {
+test("expectRedisHashResult - toHaveValuePropertyMatching - success", () => {
   const result = mockRedisHashResult({
     value: { nested: JSON.stringify({ id: 1, name: "test" }) },
   });
@@ -134,7 +135,7 @@ Deno.test("expectRedisHashResult - toHaveValuePropertyMatching - success", () =>
   expectation.toBeOk().toHaveValueProperty("nested");
 });
 
-Deno.test("expectRedisHashResult - chaining - success", () => {
+test("expectRedisHashResult - chaining - success", () => {
   const result = mockRedisHashResult();
   const expectation = expectRedisHashResult(result);
 
@@ -148,7 +149,7 @@ Deno.test("expectRedisHashResult - chaining - success", () => {
     .toHaveDurationLessThan(200);
 });
 
-Deno.test("expectRedisHashResult - nested property access - success", () => {
+test("expectRedisHashResult - nested property access - success", () => {
   const result = mockRedisHashResult({
     value: {
       user: JSON.stringify({

@@ -6,8 +6,9 @@
 
 import { assertEquals, assertExists } from "@std/assert";
 import { captureStack, parseStack, type StackFrame } from "./stack.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("parseStack parses stack trace with function name and parentheses", () => {
+test("parseStack parses stack trace with function name and parentheses", () => {
   const stack = `Error
     at myFunction (file:///Users/test/project/src/file.ts:42:10)`;
 
@@ -22,7 +23,7 @@ Deno.test("parseStack parses stack trace with function name and parentheses", ()
   ]);
 });
 
-Deno.test("parseStack parses stack trace without function name", () => {
+test("parseStack parses stack trace without function name", () => {
   const stack = `Error
     at file:///Users/test/project/src/file.ts:123:5`;
 
@@ -37,7 +38,7 @@ Deno.test("parseStack parses stack trace without function name", () => {
   ]);
 });
 
-Deno.test("parseStack parses stack trace without column number", () => {
+test("parseStack parses stack trace without column number", () => {
   const stack = `Error
     at myFunc (file:///Users/test/file.ts:10)`;
 
@@ -52,7 +53,7 @@ Deno.test("parseStack parses stack trace without column number", () => {
   ]);
 });
 
-Deno.test("parseStack parses multiple stack frames", () => {
+test("parseStack parses multiple stack frames", () => {
   const stack = `Error: something went wrong
     at inner (file:///Users/test/inner.ts:10:5)
     at outer (file:///Users/test/outer.ts:20:10)
@@ -83,7 +84,7 @@ Deno.test("parseStack parses multiple stack frames", () => {
   ]);
 });
 
-Deno.test("parseStack handles complex function names", () => {
+test("parseStack handles complex function names", () => {
   const stack = `Error
     at Object.<anonymous> (file:///Users/test/project/test.ts:5:10)`;
 
@@ -98,7 +99,7 @@ Deno.test("parseStack handles complex function names", () => {
   ]);
 });
 
-Deno.test("parseStack ignores non-matching lines", () => {
+test("parseStack ignores non-matching lines", () => {
   const stack = `Error: something went wrong
 This is not a stack frame
     at myFunction (file:///Users/test/file.ts:10:5)
@@ -115,11 +116,11 @@ Random text`;
   ]);
 });
 
-Deno.test("parseStack returns empty array for empty stack", () => {
+test("parseStack returns empty array for empty stack", () => {
   assertEquals(parseStack(""), []);
 });
 
-Deno.test("parseStack marks ext: frames as non-user", () => {
+test("parseStack marks ext: frames as non-user", () => {
   const stack = `Error
     at fn (ext:runtime/core.js:10:5)`;
 
@@ -134,7 +135,7 @@ Deno.test("parseStack marks ext: frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks deno: frames as non-user", () => {
+test("parseStack marks deno: frames as non-user", () => {
   const stack = `Error
     at fn (deno:core/ops.js:20:10)`;
 
@@ -149,7 +150,7 @@ Deno.test("parseStack marks deno: frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks node: frames as non-user", () => {
+test("parseStack marks node: frames as non-user", () => {
   const stack = `Error
     at fn (node:internal/process:15:8)`;
 
@@ -164,7 +165,7 @@ Deno.test("parseStack marks node: frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks npm: frames as non-user", () => {
+test("parseStack marks npm: frames as non-user", () => {
   const stack = `Error
     at fn (npm:lodash@4.17.21/lodash.js:100:20)`;
 
@@ -179,7 +180,7 @@ Deno.test("parseStack marks npm: frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks bun: frames as non-user", () => {
+test("parseStack marks bun: frames as non-user", () => {
   const stack = `Error
     at fn (bun:internal:25:12)`;
 
@@ -194,7 +195,7 @@ Deno.test("parseStack marks bun: frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks cloudflare: frames as non-user", () => {
+test("parseStack marks cloudflare: frames as non-user", () => {
   const stack = `Error
     at fn (cloudflare:workers:30:5)`;
 
@@ -209,7 +210,7 @@ Deno.test("parseStack marks cloudflare: frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks http:// frames as non-user", () => {
+test("parseStack marks http:// frames as non-user", () => {
   const stack = `Error
     at fn (http://example.com/lib.js:10:5)`;
 
@@ -224,7 +225,7 @@ Deno.test("parseStack marks http:// frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks https:// frames as non-user", () => {
+test("parseStack marks https:// frames as non-user", () => {
   const stack = `Error
     at fn (https://cdn.example.com/lib.js:10:5)`;
 
@@ -239,7 +240,7 @@ Deno.test("parseStack marks https:// frames as non-user", () => {
   ]);
 });
 
-Deno.test("parseStack marks local file paths as user frames", () => {
+test("parseStack marks local file paths as user frames", () => {
   const stack = `Error
     at fn (/Users/test/project/src/file.ts:10:5)`;
 
@@ -254,7 +255,7 @@ Deno.test("parseStack marks local file paths as user frames", () => {
   ]);
 });
 
-Deno.test("parseStack converts file:// URLs to local paths for user frames", () => {
+test("parseStack converts file:// URLs to local paths for user frames", () => {
   const stack = `Error
     at fn (file:///Users/test/project/src/file.ts:10:5)`;
   const frames = parseStack(stack);
@@ -263,7 +264,7 @@ Deno.test("parseStack converts file:// URLs to local paths for user frames", () 
   assertEquals(frames[0].path.includes("file://"), false);
 });
 
-Deno.test("parseStack preserves non-user frame paths without conversion", () => {
+test("parseStack preserves non-user frame paths without conversion", () => {
   const stack = `Error
     at fn (https://jsr.io/@std/testing/mod.ts:10:5)`;
 
@@ -278,14 +279,14 @@ Deno.test("parseStack preserves non-user frame paths without conversion", () => 
   ]);
 });
 
-Deno.test("captureStack captures current call stack", () => {
+test("captureStack captures current call stack", () => {
   const frames = captureStack();
 
   assertExists(frames);
   assertEquals(frames.length > 0, true);
 });
 
-Deno.test("captureStack captures this test file as a frame", () => {
+test("captureStack captures this test file as a frame", () => {
   const frames = captureStack();
 
   const thisFileFrame = frames.find((f) => f.path.includes("stack_test.ts"));
@@ -293,7 +294,7 @@ Deno.test("captureStack captures this test file as a frame", () => {
   assertEquals(thisFileFrame.user, true);
 });
 
-Deno.test("captureStack includes line and column information", () => {
+test("captureStack includes line and column information", () => {
   const frames = captureStack();
 
   const thisFileFrame = frames.find((f) => f.path.includes("stack_test.ts"));
@@ -302,7 +303,7 @@ Deno.test("captureStack includes line and column information", () => {
   assertEquals(thisFileFrame.line! > 0, true);
 });
 
-Deno.test("captureStack returns frames in correct order (innermost first)", () => {
+test("captureStack returns frames in correct order (innermost first)", () => {
   function inner(): StackFrame[] {
     return captureStack();
   }
@@ -322,7 +323,7 @@ Deno.test("captureStack returns frames in correct order (innermost first)", () =
   }
 });
 
-Deno.test("captureStack converts file:// URLs to local paths", () => {
+test("captureStack converts file:// URLs to local paths", () => {
   const frames = captureStack();
 
   const userFrames = frames.filter((f) => f.user);

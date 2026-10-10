@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
 import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createArrayValueMixin } from "./array_value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createArrayValueMixin - type check", () => {
+test("createArrayValueMixin - type check", () => {
   const mixin = createArrayValueMixin(() => ["a", "b"], () => false, {
     valueName: "items",
   });
@@ -27,7 +27,7 @@ Deno.test("createArrayValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createArrayValueMixin - attribute check", () => {
+test("createArrayValueMixin - attribute check", () => {
   const applier = createArrayValueMixin(() => ["a", "b"], () => false, {
     valueName: "items",
   });
@@ -42,7 +42,7 @@ Deno.test("createArrayValueMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createArrayValueMixin - toHaveItemsContaining", async (t) => {
+test("createArrayValueMixin - toHaveItemsContaining", async (t) => {
   await t.step("success", () => {
     const mixin = createArrayValueMixin(
       () => ["apple", "banana"],
@@ -71,7 +71,7 @@ Deno.test("createArrayValueMixin - toHaveItemsContaining", async (t) => {
   });
 });
 
-Deno.test("createArrayValueMixin - toHaveItemsContainingEqual", async (t) => {
+test("createArrayValueMixin - toHaveItemsContainingEqual", async (t) => {
   await t.step("success", () => {
     const mixin = createArrayValueMixin(
       () => [{ id: 1 }, { id: 2 }],
@@ -96,7 +96,7 @@ Deno.test("createArrayValueMixin - toHaveItemsContainingEqual", async (t) => {
   });
 });
 
-Deno.test("createArrayValueMixin - toHaveItemsMatching", async (t) => {
+test("createArrayValueMixin - toHaveItemsMatching", async (t) => {
   await t.step("success", () => {
     const mixin = createArrayValueMixin(
       () => [
@@ -128,7 +128,7 @@ Deno.test("createArrayValueMixin - toHaveItemsMatching", async (t) => {
   });
 });
 
-Deno.test("createArrayValueMixin - toHaveItemsEmpty", async (t) => {
+test("createArrayValueMixin - toHaveItemsEmpty", async (t) => {
   await t.step("success", () => {
     const mixin = createArrayValueMixin(() => [], () => false, {
       valueName: "items",
@@ -149,7 +149,7 @@ Deno.test("createArrayValueMixin - toHaveItemsEmpty", async (t) => {
   });
 });
 
-Deno.test("createArrayValueMixin - toHaveItemsContaining with source context", async (t) => {
+test("createArrayValueMixin - toHaveItemsContaining with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createArrayValueMixin(
       () => ["apple", "banana"],

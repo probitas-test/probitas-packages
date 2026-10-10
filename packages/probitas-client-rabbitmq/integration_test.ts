@@ -7,8 +7,10 @@ import {
 import { AbortError } from "@probitas-test/client";
 import { createRabbitMqClient } from "./client.ts";
 import { RabbitMqConnectionError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const RABBITMQ_URL = Deno.env.get("RABBITMQ_URL") ??
+const RABBITMQ_URL = process.env.RABBITMQ_URL ??
   "amqp://guest:guest@localhost:5672";
 
 async function isRabbitMqAvailable(): Promise<boolean> {
@@ -24,7 +26,7 @@ async function isRabbitMqAvailable(): Promise<boolean> {
   }
 }
 
-Deno.test({
+test({
   name: "Integration: RabbitMQ Client",
   ignore: !(await isRabbitMqAvailable()),
   async fn(t) {
@@ -359,7 +361,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: RabbitMQ consume (streaming)",
   ignore: !(await isRabbitMqAvailable()),
   async fn() {

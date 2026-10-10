@@ -12,5 +12,8 @@
     "@std/assert": "npm:@jsr/std__assert@^1",
     "@std/async": "npm:@jsr/std__async@^1.0.15",
     "mongodb": "^6.12.0"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

@@ -12,5 +12,8 @@
     "@std/assert": "npm:@jsr/std__assert@^1",
     "@std/async": "npm:@jsr/std__async@^1.0.15",
     "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

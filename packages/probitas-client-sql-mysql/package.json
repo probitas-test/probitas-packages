@@ -12,5 +12,8 @@
     "@probitas-test/client-sql": "workspace:*",
     "@std/assert": "npm:@jsr/std__assert@^1",
     "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

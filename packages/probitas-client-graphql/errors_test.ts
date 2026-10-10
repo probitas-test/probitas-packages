@@ -2,8 +2,9 @@ import { assertEquals, assertInstanceOf } from "@std/assert";
 import { ClientError } from "@probitas-test/client";
 import { GraphqlExecutionError, GraphqlNetworkError } from "./errors.ts";
 import type { GraphqlErrorItem } from "./types.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("GraphqlNetworkError", async (t) => {
+test("GraphqlNetworkError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new GraphqlNetworkError("connection refused");
     assertInstanceOf(error, ClientError);
@@ -24,7 +25,7 @@ Deno.test("GraphqlNetworkError", async (t) => {
   });
 });
 
-Deno.test("GraphqlExecutionError", async (t) => {
+test("GraphqlExecutionError", async (t) => {
   await t.step("extends ClientError", () => {
     const errors: GraphqlErrorItem[] = [
       {

@@ -10,8 +10,9 @@ import {
   buildMatchingExpected,
   buildPropertyExpected,
 } from "./build_expected.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("buildMatchingExpected with matching properties uses pattern values for matching keys", () => {
+test("buildMatchingExpected with matching properties uses pattern values for matching keys", () => {
   const actual = { name: "Alice", age: 30 };
   const pattern = { name: "Bob" };
 
@@ -20,7 +21,7 @@ Deno.test("buildMatchingExpected with matching properties uses pattern values fo
   assertEquals(result, { name: "Bob", age: 30 });
 });
 
-Deno.test("buildMatchingExpected with matching properties preserves actual values for non-pattern keys", () => {
+test("buildMatchingExpected with matching properties preserves actual values for non-pattern keys", () => {
   const actual = { name: "Alice", age: 30, city: "Tokyo" };
   const pattern = { name: "Alice" };
 
@@ -29,7 +30,7 @@ Deno.test("buildMatchingExpected with matching properties preserves actual value
   assertEquals(result, { name: "Alice", age: 30, city: "Tokyo" });
 });
 
-Deno.test("buildMatchingExpected with matching properties includes pattern keys missing from actual", () => {
+test("buildMatchingExpected with matching properties includes pattern keys missing from actual", () => {
   const actual = { name: "Alice" };
   const pattern = { name: "Alice", age: 25 };
 
@@ -38,7 +39,7 @@ Deno.test("buildMatchingExpected with matching properties includes pattern keys 
   assertEquals(result, { name: "Alice", age: 25 });
 });
 
-Deno.test("buildMatchingExpected with matching properties handles empty pattern", () => {
+test("buildMatchingExpected with matching properties handles empty pattern", () => {
   const actual = { name: "Alice", age: 30 };
   const pattern = {};
 
@@ -47,7 +48,7 @@ Deno.test("buildMatchingExpected with matching properties handles empty pattern"
   assertEquals(result, { name: "Alice", age: 30 });
 });
 
-Deno.test("buildMatchingExpected with matching properties handles empty actual", () => {
+test("buildMatchingExpected with matching properties handles empty actual", () => {
   const actual = {};
   const pattern = { name: "Bob" };
 
@@ -56,7 +57,7 @@ Deno.test("buildMatchingExpected with matching properties handles empty actual",
   assertEquals(result, { name: "Bob" });
 });
 
-Deno.test("buildMatchingExpected with nested objects replaces nested objects from pattern", () => {
+test("buildMatchingExpected with nested objects replaces nested objects from pattern", () => {
   const actual = { user: { name: "Alice", age: 30 } };
   const pattern = { user: { name: "Bob" } };
 
@@ -66,7 +67,7 @@ Deno.test("buildMatchingExpected with nested objects replaces nested objects fro
   assertEquals(result, { user: { name: "Bob" } });
 });
 
-Deno.test("buildMatchingExpected with nested objects preserves nested objects from actual when not in pattern", () => {
+test("buildMatchingExpected with nested objects preserves nested objects from actual when not in pattern", () => {
   const actual = { user: { name: "Alice" }, meta: { id: 1 } };
   const pattern = { user: { name: "Bob" } };
 
@@ -75,7 +76,7 @@ Deno.test("buildMatchingExpected with nested objects preserves nested objects fr
   assertEquals(result, { user: { name: "Bob" }, meta: { id: 1 } });
 });
 
-Deno.test("buildMatchingExpected with arrays replaces arrays from pattern", () => {
+test("buildMatchingExpected with arrays replaces arrays from pattern", () => {
   const actual = { items: [1, 2, 3] };
   const pattern = { items: [4, 5] };
 
@@ -84,7 +85,7 @@ Deno.test("buildMatchingExpected with arrays replaces arrays from pattern", () =
   assertEquals(result, { items: [4, 5] });
 });
 
-Deno.test("buildMatchingExpected with arrays preserves arrays from actual when not in pattern", () => {
+test("buildMatchingExpected with arrays preserves arrays from actual when not in pattern", () => {
   const actual = { items: [1, 2, 3], tags: ["a", "b"] };
   const pattern = { items: [4, 5] };
 
@@ -93,7 +94,7 @@ Deno.test("buildMatchingExpected with arrays preserves arrays from actual when n
   assertEquals(result, { items: [4, 5], tags: ["a", "b"] });
 });
 
-Deno.test("buildPropertyExpected with simple property path builds expected with Any marker when no expected value", () => {
+test("buildPropertyExpected with simple property path builds expected with Any marker when no expected value", () => {
   const actual = { name: "Alice", age: 30 };
 
   const result = buildPropertyExpected(actual, "foo");
@@ -103,7 +104,7 @@ Deno.test("buildPropertyExpected with simple property path builds expected with 
   assertEquals(result.foo, Any);
 });
 
-Deno.test("buildPropertyExpected with simple property path builds expected with specified value", () => {
+test("buildPropertyExpected with simple property path builds expected with specified value", () => {
   const actual = { name: "Alice", age: 30 };
 
   const result = buildPropertyExpected(actual, "foo", "bar");
@@ -111,7 +112,7 @@ Deno.test("buildPropertyExpected with simple property path builds expected with 
   assertEquals(result, { name: "Alice", age: 30, foo: "bar" });
 });
 
-Deno.test("buildPropertyExpected with simple property path overwrites existing property with Any when no expected value", () => {
+test("buildPropertyExpected with simple property path overwrites existing property with Any when no expected value", () => {
   const actual = { name: "Alice", age: 30 };
 
   const result = buildPropertyExpected(actual, "name");
@@ -120,7 +121,7 @@ Deno.test("buildPropertyExpected with simple property path overwrites existing p
   assertEquals(result.age, 30);
 });
 
-Deno.test("buildPropertyExpected with simple property path overwrites existing property with specified value", () => {
+test("buildPropertyExpected with simple property path overwrites existing property with specified value", () => {
   const actual = { name: "Alice", age: 30 };
 
   const result = buildPropertyExpected(actual, "name", "Bob");
@@ -128,7 +129,7 @@ Deno.test("buildPropertyExpected with simple property path overwrites existing p
   assertEquals(result, { name: "Bob", age: 30 });
 });
 
-Deno.test("buildPropertyExpected with nested property path builds nested expected with Any marker", () => {
+test("buildPropertyExpected with nested property path builds nested expected with Any marker", () => {
   const actual = { user: { name: "Alice" } };
 
   const result = buildPropertyExpected(actual, "user.age");
@@ -138,7 +139,7 @@ Deno.test("buildPropertyExpected with nested property path builds nested expecte
   assertEquals(user.age, Any);
 });
 
-Deno.test("buildPropertyExpected with nested property path builds nested expected with specified value", () => {
+test("buildPropertyExpected with nested property path builds nested expected with specified value", () => {
   const actual = { user: { name: "Alice" } };
 
   const result = buildPropertyExpected(actual, "user.age", 30);
@@ -146,7 +147,7 @@ Deno.test("buildPropertyExpected with nested property path builds nested expecte
   assertEquals(result, { user: { name: "Alice", age: 30 } });
 });
 
-Deno.test("buildPropertyExpected with nested property path creates intermediate objects when path does not exist", () => {
+test("buildPropertyExpected with nested property path creates intermediate objects when path does not exist", () => {
   const actual = { name: "Alice" };
 
   const result = buildPropertyExpected(actual, "user.profile.bio");
@@ -157,7 +158,7 @@ Deno.test("buildPropertyExpected with nested property path creates intermediate 
   assertEquals(profile.bio, Any);
 });
 
-Deno.test("buildPropertyExpected with nested property path handles deeply nested paths", () => {
+test("buildPropertyExpected with nested property path handles deeply nested paths", () => {
   const actual = {};
 
   const result = buildPropertyExpected(actual, "a.b.c.d", "value");
@@ -165,7 +166,7 @@ Deno.test("buildPropertyExpected with nested property path handles deeply nested
   assertEquals(result, { a: { b: { c: { d: "value" } } } });
 });
 
-Deno.test("buildPropertyExpected with array index in path handles array index notation", () => {
+test("buildPropertyExpected with array index in path handles array index notation", () => {
   const actual = { items: [{ id: 1 }, { id: 2 }] };
 
   const result = buildPropertyExpected(actual, "items[0].name");
@@ -176,7 +177,7 @@ Deno.test("buildPropertyExpected with array index in path handles array index no
   assertEquals(items[1], { id: 2 });
 });
 
-Deno.test("buildPropertyExpected with array index in path handles array index with specified value", () => {
+test("buildPropertyExpected with array index in path handles array index with specified value", () => {
   const actual = { items: [{ id: 1 }] };
 
   const result = buildPropertyExpected(actual, "items[0].name", "foo");
@@ -184,7 +185,7 @@ Deno.test("buildPropertyExpected with array index in path handles array index wi
   assertEquals(result, { items: [{ id: 1, name: "foo" }] });
 });
 
-Deno.test("buildPropertyExpected edge cases handles empty actual object", () => {
+test("buildPropertyExpected edge cases handles empty actual object", () => {
   const actual = {};
 
   const result = buildPropertyExpected(actual, "foo");
@@ -192,7 +193,7 @@ Deno.test("buildPropertyExpected edge cases handles empty actual object", () => 
   assertEquals(result.foo, Any);
 });
 
-Deno.test("buildPropertyExpected edge cases preserves non-object values in actual", () => {
+test("buildPropertyExpected edge cases preserves non-object values in actual", () => {
   const actual = { count: 42, active: true, label: "test" };
 
   const result = buildPropertyExpected(actual, "newProp", "value");

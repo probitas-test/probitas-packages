@@ -9,8 +9,9 @@ import {
   MongoValidationError,
   MongoWriteError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("MongoError", async (t) => {
+test("MongoError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new MongoError("test message");
     assertInstanceOf(error, ClientError);
@@ -36,7 +37,7 @@ Deno.test("MongoError", async (t) => {
   });
 });
 
-Deno.test("MongoConnectionError", async (t) => {
+test("MongoConnectionError", async (t) => {
   await t.step("extends MongoError", () => {
     const error = new MongoConnectionError("connection failed");
     assertInstanceOf(error, ClientError);
@@ -58,7 +59,7 @@ Deno.test("MongoConnectionError", async (t) => {
   });
 });
 
-Deno.test("MongoQueryError", async (t) => {
+test("MongoQueryError", async (t) => {
   await t.step("extends MongoError", () => {
     const error = new MongoQueryError("query failed", "users");
     assertInstanceOf(error, ClientError);
@@ -82,7 +83,7 @@ Deno.test("MongoQueryError", async (t) => {
   });
 });
 
-Deno.test("MongoDuplicateKeyError", async (t) => {
+test("MongoDuplicateKeyError", async (t) => {
   await t.step("extends MongoError", () => {
     const error = new MongoDuplicateKeyError(
       "duplicate key",
@@ -119,7 +120,7 @@ Deno.test("MongoDuplicateKeyError", async (t) => {
   });
 });
 
-Deno.test("MongoValidationError", async (t) => {
+test("MongoValidationError", async (t) => {
   await t.step("extends MongoError", () => {
     const error = new MongoValidationError("validation failed", [
       "name is required",
@@ -138,7 +139,7 @@ Deno.test("MongoValidationError", async (t) => {
   });
 });
 
-Deno.test("MongoWriteError", async (t) => {
+test("MongoWriteError", async (t) => {
   await t.step("extends MongoError", () => {
     const error = new MongoWriteError("write failed", []);
     assertInstanceOf(error, ClientError);
@@ -158,7 +159,7 @@ Deno.test("MongoWriteError", async (t) => {
   });
 });
 
-Deno.test("MongoNotFoundError", async (t) => {
+test("MongoNotFoundError", async (t) => {
   await t.step("extends MongoError", () => {
     const error = new MongoNotFoundError("not found");
     assertInstanceOf(error, ClientError);

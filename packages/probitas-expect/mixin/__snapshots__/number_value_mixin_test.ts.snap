@@ -1,0 +1,43 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`createNumberValueMixin - toHaveScoreNaN 1`] = `"Expected score to be NaN, but got 100"`;
+
+exports[`createNumberValueMixin - toHaveScoreGreaterThan 1`] = `"Expected score to be greater than 200, but got 100"`;
+
+exports[`createNumberValueMixin - toHaveScoreGreaterThanOrEqual 1`] = `"Expected score to be greater than or equal to 200, but got 100"`;
+
+exports[`createNumberValueMixin - toHaveScoreLessThan 1`] = `"Expected score to be less than 50, but got 100"`;
+
+exports[`createNumberValueMixin - toHaveScoreLessThanOrEqual 1`] = `"Expected score to be less than or equal to 50, but got 100"`;
+
+exports[`createNumberValueMixin - toHaveScoreCloseTo 1`] = `"Expected score to be close to 200 (within 2 digits), but got 100"`;
+
+exports[`createNumberValueMixin - toHaveScoreGreaterThan with source context 1`] = `
+"Expected score to be greater than 200, but got 100
+
+Context (packages/probitas-expect/mixin/number_value_mixin_test.ts:184:5)
+
+  183│   await t.step("fail (noColor)", async () => {
+  184│     const mixin = createNumberValueMixin(() => 100, () => false, {
+  185│       valueName: "score",
+     ┆
+  190│       t,
+  191│       catchError(() => applied.toHaveScoreGreaterThan(200)).message,
+     │       ^
+  192│     );"
+`;
+
+exports[`createNumberValueMixin - toHaveScoreGreaterThan with source context 2`] = `
+"\x1B[1m\x1B[31mExpected score to be greater than 200, but got 100\x1B[39m\x1B[0m
+
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/number_value_mixin_test.ts:196:5)\x1B[39m
+
+  \x1B[90m195│   await t.step("fail (withColor)", async () => {\x1B[39m
+  \x1B[90m196│     const mixin = createNumberValueMixin(() => 100, () => false, {\x1B[39m
+  \x1B[90m197│       valueName: "score",\x1B[39m
+  \x1B[90m   ┆\x1B[39m
+  \x1B[90m203│       t,\x1B[39m
+  \x1B[90m204│       catchError(() => applied.toHaveScoreGreaterThan(200)).message,\x1B[39m
+  \x1B[90m   │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m205│     );\x1B[39m"
+`;

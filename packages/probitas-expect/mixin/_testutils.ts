@@ -4,8 +4,8 @@
  * @module
  */
 
-import { assertSnapshot } from "@std/testing/snapshot";
 import { removeColors } from "@probitas-test/core/theme";
+import { type TestContext, assertSnapshot } from "@probitas-test/internal-testing";
 
 /**
  * Assert snapshot after removing ANSI color codes from the actual value.
@@ -13,11 +13,11 @@ import { removeColors } from "@probitas-test/core/theme";
  * This ensures consistent snapshot comparisons across environments
  * regardless of terminal color settings.
  *
- * @param context - Test context from Deno.test
+ * @param context - Test context from `test()`
  * @param actual - The string to compare (color codes will be removed)
  */
 export async function assertSnapshotWithoutColors(
-  context: Deno.TestContext,
+  context: TestContext,
   actual: string,
 ): Promise<void> {
   await assertSnapshot(context, removeColors(actual));

@@ -9,8 +9,10 @@
 
 import { assert, assertEquals, assertFalse } from "@std/assert";
 import { createOidcHttpClient } from "./oidc.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const ECHO_HTTP_URL = Deno.env.get("ECHO_HTTP_URL") ?? "http://localhost:8080";
+const ECHO_HTTP_URL = process.env.ECHO_HTTP_URL ?? "http://localhost:8080";
 
 async function isEchoHttpAvailable(): Promise<boolean> {
   try {
@@ -24,7 +26,7 @@ async function isEchoHttpAvailable(): Promise<boolean> {
   }
 }
 
-Deno.test({
+test({
   name: "Integration: OIDC Discovery",
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {
@@ -75,7 +77,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: OIDC Authorization Code Grant",
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {
@@ -167,7 +169,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: OIDC with manual endpoint configuration",
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {
@@ -193,7 +195,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: OIDC token management",
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {

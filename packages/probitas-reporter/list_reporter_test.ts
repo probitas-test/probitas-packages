@@ -9,7 +9,6 @@
  * @module
  */
 
-import { assertSnapshot } from "@std/testing/snapshot";
 import { Buffer } from "@std/streams/buffer";
 import { ListReporter } from "./list_reporter.ts";
 import {
@@ -20,6 +19,7 @@ import {
 } from "./testkit.ts";
 import { colorTheme, noColorTheme } from "@probitas-test/core/theme";
 import type { StepDefinition } from "@probitas-test/core";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 testReporter(ListReporter);
 
@@ -45,7 +45,7 @@ const stepSkippedWithMultilineReason: StepDefinition = {
   retry: { maxAttempts: 1, backoff: "linear" },
 };
 
-Deno.test("ListReporter - multiline error messages with colors shows only first line of multiline error in onStepEnd", async (t) => {
+test("ListReporter - multiline error messages with colors shows only first line of multiline error in onStepEnd", async (t) => {
   const buffer = new Buffer();
   const reporter = new ListReporter({
     output: buffer.writable,
@@ -62,7 +62,7 @@ Deno.test("ListReporter - multiline error messages with colors shows only first 
   await assertSnapshot(t, output);
 });
 
-Deno.test("ListReporter - multiline error messages with colors shows only first line of multiline skip reason in onStepEnd", async (t) => {
+test("ListReporter - multiline error messages with colors shows only first line of multiline skip reason in onStepEnd", async (t) => {
   const buffer = new Buffer();
   const reporter = new ListReporter({
     output: buffer.writable,
@@ -79,7 +79,7 @@ Deno.test("ListReporter - multiline error messages with colors shows only first 
   await assertSnapshot(t, output);
 });
 
-Deno.test("ListReporter - multiline error messages without colors shows only first line of multiline error in onStepEnd", async (t) => {
+test("ListReporter - multiline error messages without colors shows only first line of multiline error in onStepEnd", async (t) => {
   const buffer = new Buffer();
   const reporter = new ListReporter({
     output: buffer.writable,
@@ -99,7 +99,7 @@ Deno.test("ListReporter - multiline error messages without colors shows only fir
   await assertSnapshot(t, noColor);
 });
 
-Deno.test("ListReporter - multiline error messages without colors shows only first line of multiline skip reason in onStepEnd", async (t) => {
+test("ListReporter - multiline error messages without colors shows only first line of multiline skip reason in onStepEnd", async (t) => {
   const buffer = new Buffer();
   const reporter = new ListReporter({
     output: buffer.writable,

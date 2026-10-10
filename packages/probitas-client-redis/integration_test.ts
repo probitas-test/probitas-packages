@@ -6,8 +6,10 @@ import {
 } from "@std/assert";
 import { AbortError } from "@probitas-test/client";
 import { createRedisClient } from "./client.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const REDIS_URL = Deno.env.get("REDIS_URL") ?? "redis://localhost:6379";
+const REDIS_URL = process.env.REDIS_URL ?? "redis://localhost:6379";
 
 async function isRedisAvailable(): Promise<boolean> {
   try {
@@ -22,7 +24,7 @@ async function isRedisAvailable(): Promise<boolean> {
   }
 }
 
-Deno.test({
+test({
   name: "Integration: Redis Client",
   ignore: !(await isRedisAvailable()),
   async fn(t) {

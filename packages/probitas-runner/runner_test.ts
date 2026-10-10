@@ -10,10 +10,11 @@ import { Skip } from "./skip.ts";
 import { Runner } from "./runner.ts";
 import { createScopedSignal } from "./utils/signal.ts";
 import { ScenarioTimeoutError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
 const reporter = new TestReporter();
 
-Deno.test("Runner run runs single scenario", async () => {
+test("Runner run runs single scenario", async () => {
   const runner = new Runner(reporter);
   const scenarios = [
     createTestScenario({
@@ -36,7 +37,7 @@ Deno.test("Runner run runs single scenario", async () => {
   });
 });
 
-Deno.test("Runner run runs single scenario (skip)", async () => {
+test("Runner run runs single scenario (skip)", async () => {
   const runner = new Runner(reporter);
   const scenarios = [
     createTestScenario({
@@ -59,7 +60,7 @@ Deno.test("Runner run runs single scenario (skip)", async () => {
   });
 });
 
-Deno.test("Runner run runs multiple scenarios", async () => {
+test("Runner run runs multiple scenarios", async () => {
   const runner = new Runner(reporter);
   const scenarios = [
     createTestScenario({
@@ -100,7 +101,7 @@ Deno.test("Runner run runs multiple scenarios", async () => {
   });
 });
 
-Deno.test("Runner run runs multiple scenarios (skip)", async () => {
+test("Runner run runs multiple scenarios (skip)", async () => {
   const runner = new Runner(reporter);
   const scenarios = [
     createTestScenario({
@@ -141,7 +142,7 @@ Deno.test("Runner run runs multiple scenarios (skip)", async () => {
   });
 });
 
-Deno.test("Runner run runs multiple scenarios (failed) - aborts on maxFailures", async () => {
+test("Runner run runs multiple scenarios (failed) - aborts on maxFailures", async () => {
   using signal = createScopedSignal();
   const runner = new Runner(reporter);
   const scenarios = [
@@ -200,7 +201,7 @@ Deno.test("Runner run runs multiple scenarios (failed) - aborts on maxFailures",
   });
 });
 
-Deno.test("Runner run with maxFailures skips remaining scenarios (sequential)", async () => {
+test("Runner run with maxFailures skips remaining scenarios (sequential)", async () => {
   const runner = new Runner(reporter);
   const executionOrder: string[] = [];
   const scenarios = [
@@ -283,7 +284,7 @@ Deno.test("Runner run with maxFailures skips remaining scenarios (sequential)", 
   expect(results[3].metadata.name).toBe("Scenario 4");
 });
 
-Deno.test("Runner run with maxFailures aborts in-progress scenarios (parallel)", async () => {
+test("Runner run with maxFailures aborts in-progress scenarios (parallel)", async () => {
   using signal = createScopedSignal();
   const runner = new Runner(reporter);
   const executionOrder: string[] = [];
@@ -402,7 +403,7 @@ Deno.test("Runner run with maxFailures aborts in-progress scenarios (parallel)",
   expect(scenario4.status).toBe("skipped");
 });
 
-Deno.test({
+test({
   name: "Runner run handles scenario timeout",
   sanitizeResources: false, // Timeout tests inherently leak timers
   sanitizeOps: false,
@@ -475,7 +476,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Runner run handles timeout for multiple scenarios independently",
   sanitizeResources: false,
   sanitizeOps: false,
@@ -561,7 +562,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Runner run without timeout runs normally",
   async fn() {
     const runner = new Runner(reporter);
@@ -592,7 +593,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name:
     "Runner run handles scenario timeout between steps (throwIfAborted case)",
   sanitizeResources: false,
@@ -644,7 +645,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Runner run with timeout includes step info in ScenarioTimeoutError",
   sanitizeResources: false,
   sanitizeOps: false,
@@ -704,7 +705,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Runner run with timeout on first step includes step index 0",
   sanitizeResources: false,
   sanitizeOps: false,

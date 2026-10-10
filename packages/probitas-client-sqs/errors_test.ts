@@ -9,8 +9,9 @@ import {
   SqsMessageTooLargeError,
   SqsQueueNotFoundError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("SqsError", async (t) => {
+test("SqsError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new SqsError("test message");
     assertInstanceOf(error, ClientError);
@@ -34,7 +35,7 @@ Deno.test("SqsError", async (t) => {
   });
 });
 
-Deno.test("SqsConnectionError", async (t) => {
+test("SqsConnectionError", async (t) => {
   await t.step("extends SqsError", () => {
     const error = new SqsConnectionError("connection failed");
     assertInstanceOf(error, SqsError);
@@ -49,7 +50,7 @@ Deno.test("SqsConnectionError", async (t) => {
   });
 });
 
-Deno.test("SqsCommandError", async (t) => {
+test("SqsCommandError", async (t) => {
   await t.step("extends SqsError", () => {
     const error = new SqsCommandError("command failed", {
       operation: "send",
@@ -69,7 +70,7 @@ Deno.test("SqsCommandError", async (t) => {
   });
 });
 
-Deno.test("SqsQueueNotFoundError", async (t) => {
+test("SqsQueueNotFoundError", async (t) => {
   await t.step("extends SqsError", () => {
     const error = new SqsQueueNotFoundError(
       "queue not found",
@@ -87,7 +88,7 @@ Deno.test("SqsQueueNotFoundError", async (t) => {
   });
 });
 
-Deno.test("SqsMessageNotFoundError", async (t) => {
+test("SqsMessageNotFoundError", async (t) => {
   await t.step("extends SqsError", () => {
     const error = new SqsMessageNotFoundError("message not found");
     assertInstanceOf(error, SqsError);
@@ -100,7 +101,7 @@ Deno.test("SqsMessageNotFoundError", async (t) => {
   });
 });
 
-Deno.test("SqsMessageTooLargeError", async (t) => {
+test("SqsMessageTooLargeError", async (t) => {
   await t.step("extends SqsError", () => {
     const error = new SqsMessageTooLargeError(
       "message too large",
@@ -123,7 +124,7 @@ Deno.test("SqsMessageTooLargeError", async (t) => {
   });
 });
 
-Deno.test("SqsBatchError", async (t) => {
+test("SqsBatchError", async (t) => {
   await t.step("extends SqsError", () => {
     const error = new SqsBatchError("batch operation failed", 3);
     assertInstanceOf(error, SqsError);

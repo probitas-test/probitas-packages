@@ -4,6 +4,7 @@ import {
   type MongoDeleteResultExpectation,
 } from "./delete.ts";
 import { mockMongoDeleteResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -37,7 +38,7 @@ const EXPECTED_METHODS: Record<keyof MongoDeleteResultExpectation, unknown[]> =
     toHaveDurationCloseTo: [100, 0],
   };
 
-Deno.test("expectMongoDeleteResult - method existence check", () => {
+test("expectMongoDeleteResult - method existence check", () => {
   const result = mockMongoDeleteResult();
   const expectation = expectMongoDeleteResult(result);
 
@@ -79,7 +80,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectMongoDeleteResult - ${methodName} - success`, () => {
+  test(`expectMongoDeleteResult - ${methodName} - success`, () => {
     const result = mockMongoDeleteResult();
     const expectation = expectMongoDeleteResult(result);
 
@@ -97,7 +98,7 @@ for (
   });
 }
 
-Deno.test("expectMongoDeleteResult - not property - success", () => {
+test("expectMongoDeleteResult - not property - success", () => {
   const result = mockMongoDeleteResult({ ok: false });
   const expectation = expectMongoDeleteResult(result);
 
@@ -106,7 +107,7 @@ Deno.test("expectMongoDeleteResult - not property - success", () => {
   expectation.not.toHaveDeletedCount(0);
 });
 
-Deno.test("expectMongoDeleteResult - no documents deleted - success", () => {
+test("expectMongoDeleteResult - no documents deleted - success", () => {
   const result = mockMongoDeleteResult({ deletedCount: 0 });
   const expectation = expectMongoDeleteResult(result);
 
@@ -114,7 +115,7 @@ Deno.test("expectMongoDeleteResult - no documents deleted - success", () => {
   expectation.toHaveDeletedCountLessThan(1);
 });
 
-Deno.test("expectMongoDeleteResult - multiple documents deleted - success", () => {
+test("expectMongoDeleteResult - multiple documents deleted - success", () => {
   const result = mockMongoDeleteResult({ deletedCount: 10 });
   const expectation = expectMongoDeleteResult(result);
 

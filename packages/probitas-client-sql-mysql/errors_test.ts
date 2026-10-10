@@ -6,8 +6,9 @@ import {
   convertMySqlError,
   MySqlError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("MySqlError", async (t) => {
+test("MySqlError", async (t) => {
   await t.step("extends SqlError", () => {
     const error = new MySqlError("test error");
     assertInstanceOf(error, SqlError);
@@ -35,7 +36,7 @@ Deno.test("MySqlError", async (t) => {
   });
 });
 
-Deno.test("AccessDeniedError", async (t) => {
+test("AccessDeniedError", async (t) => {
   await t.step("extends MySqlError with access_denied mysqlKind", () => {
     const error = new AccessDeniedError("Access denied for user", {
       errno: 1045,
@@ -48,7 +49,7 @@ Deno.test("AccessDeniedError", async (t) => {
   });
 });
 
-Deno.test("ConnectionRefusedError", async (t) => {
+test("ConnectionRefusedError", async (t) => {
   await t.step("extends MySqlError with connection_refused mysqlKind", () => {
     const error = new ConnectionRefusedError("Connection refused");
 
@@ -58,7 +59,7 @@ Deno.test("ConnectionRefusedError", async (t) => {
   });
 });
 
-Deno.test("convertMySqlError", async (t) => {
+test("convertMySqlError", async (t) => {
   await t.step("handles non-Error values", () => {
     const error = convertMySqlError("string error");
 

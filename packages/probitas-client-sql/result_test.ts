@@ -11,8 +11,9 @@ import {
   SqlQueryResultSuccessImpl,
 } from "./result.ts";
 import { QuerySyntaxError, SqlConnectionError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("SqlQueryResultSuccessImpl", async (t) => {
+test("SqlQueryResultSuccessImpl", async (t) => {
   await t.step("creates with all properties", () => {
     const result = new SqlQueryResultSuccessImpl({
       rows: [{ id: 1, name: "Alice" }],
@@ -99,7 +100,7 @@ Deno.test("SqlQueryResultSuccessImpl", async (t) => {
   });
 });
 
-Deno.test("SqlQueryResultErrorImpl", async (t) => {
+test("SqlQueryResultErrorImpl", async (t) => {
   await t.step("creates with error", () => {
     const error = new QuerySyntaxError("Syntax error near SELECT");
     const result = new SqlQueryResultErrorImpl(error, 10);
@@ -141,7 +142,7 @@ Deno.test("SqlQueryResultErrorImpl", async (t) => {
   });
 });
 
-Deno.test("SqlQueryResultFailureImpl", async (t) => {
+test("SqlQueryResultFailureImpl", async (t) => {
   await t.step("creates with connection error", () => {
     const error = new SqlConnectionError("Connection refused");
     const result = new SqlQueryResultFailureImpl(error, 100);
@@ -176,7 +177,7 @@ Deno.test("SqlQueryResultFailureImpl", async (t) => {
   });
 });
 
-Deno.test("SqlQueryResult type narrowing", async (t) => {
+test("SqlQueryResult type narrowing", async (t) => {
   await t.step("narrows by ok property", () => {
     const successResult: SqlQueryResult<{ id: number }> =
       new SqlQueryResultSuccessImpl({

@@ -5,8 +5,9 @@ import {
   parseSetCookie,
   pathMatches,
 } from "./cookie.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("parseSetCookie", async (t) => {
+test("parseSetCookie", async (t) => {
   await t.step("parses simple cookie", () => {
     const url = new URL("http://example.com/");
     const cookie = parseSetCookie("session=abc123", url);
@@ -75,7 +76,7 @@ Deno.test("parseSetCookie", async (t) => {
   });
 });
 
-Deno.test("domainMatches", async (t) => {
+test("domainMatches", async (t) => {
   await t.step("exact match", () => {
     assertEquals(domainMatches("example.com", "example.com"), true);
   });
@@ -95,7 +96,7 @@ Deno.test("domainMatches", async (t) => {
   });
 });
 
-Deno.test("pathMatches", async (t) => {
+test("pathMatches", async (t) => {
   await t.step("exact match", () => {
     assertEquals(pathMatches("/api/users", "/api/users"), true);
   });
@@ -120,7 +121,7 @@ Deno.test("pathMatches", async (t) => {
   });
 });
 
-Deno.test("CookieJar", async (t) => {
+test("CookieJar", async (t) => {
   await t.step("stores and retrieves cookie", () => {
     const jar = new CookieJar();
     const url = new URL("http://example.com/");

@@ -4,6 +4,7 @@ import {
   type MongoInsertOneResultExpectation,
 } from "./insert_one.ts";
 import { mockMongoInsertOneResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -35,7 +36,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectMongoInsertOneResult - method existence check", () => {
+test("expectMongoInsertOneResult - method existence check", () => {
   const result = mockMongoInsertOneResult();
   const expectation = expectMongoInsertOneResult(result);
 
@@ -74,7 +75,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectMongoInsertOneResult - ${methodName} - success`, () => {
+  test(`expectMongoInsertOneResult - ${methodName} - success`, () => {
     const result = mockMongoInsertOneResult();
     const expectation = expectMongoInsertOneResult(result);
 
@@ -92,7 +93,7 @@ for (
   });
 }
 
-Deno.test("expectMongoInsertOneResult - not property - success", () => {
+test("expectMongoInsertOneResult - not property - success", () => {
   const result = mockMongoInsertOneResult({ ok: false });
   const expectation = expectMongoInsertOneResult(result);
 
@@ -101,7 +102,7 @@ Deno.test("expectMongoInsertOneResult - not property - success", () => {
   expectation.not.toHaveInsertedId("456");
 });
 
-Deno.test("expectMongoInsertOneResult - custom inserted ID - success", () => {
+test("expectMongoInsertOneResult - custom inserted ID - success", () => {
   const result = mockMongoInsertOneResult({
     insertedId: "custom-uuid-12345",
   });

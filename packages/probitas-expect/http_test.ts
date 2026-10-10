@@ -6,6 +6,7 @@ import type {
 } from "@probitas-test/client-http";
 import { HttpError, HttpNetworkError } from "@probitas-test/client-http";
 import { expectHttpResponse, type HttpResponseExpectation } from "./http.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Mock HttpResponseSuccess for testing
 function createMockSuccessResponse(
@@ -218,7 +219,7 @@ const EXPECTED_METHODS: Record<keyof HttpResponseExpectation, unknown[]> = {
   toHaveDurationCloseTo: [123, 0],
 };
 
-Deno.test("expectHttpResponse - method existence check", () => {
+test("expectHttpResponse - method existence check", () => {
   const response = createMockSuccessResponse();
   const expectation = expectHttpResponse(response);
 
@@ -273,7 +274,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectHttpResponse - ${methodName} - success`, () => {
+  test(`expectHttpResponse - ${methodName} - success`, () => {
     const response = createMockSuccessResponse();
     const expectation = expectHttpResponse(response);
 
@@ -291,7 +292,7 @@ for (
   });
 }
 
-Deno.test("expectHttpResponse - not property - success", () => {
+test("expectHttpResponse - not property - success", () => {
   const response = createMockErrorResponse();
   const expectation = expectHttpResponse(response);
 
@@ -300,7 +301,7 @@ Deno.test("expectHttpResponse - not property - success", () => {
   expectation.not.toHaveStatus(200);
 });
 
-Deno.test("expectHttpResponse - nullish value methods - success", () => {
+test("expectHttpResponse - nullish value methods - success", () => {
   // Test null values
   const nullResponse = createMockSuccessResponse({
     body: null,
@@ -323,7 +324,7 @@ Deno.test("expectHttpResponse - nullish value methods - success", () => {
 });
 
 // HttpResponseFailure tests
-Deno.test("expectHttpResponse - failure response - ok and url work", () => {
+test("expectHttpResponse - failure response - ok and url work", () => {
   const response = createMockFailureResponse();
   const expectation = expectHttpResponse(response);
 
@@ -333,7 +334,7 @@ Deno.test("expectHttpResponse - failure response - ok and url work", () => {
   expectation.toHaveDuration(50);
 });
 
-Deno.test("expectHttpResponse - failure response - status throws", () => {
+test("expectHttpResponse - failure response - status throws", () => {
   const response = createMockFailureResponse();
   const expectation = expectHttpResponse(response);
 
@@ -344,7 +345,7 @@ Deno.test("expectHttpResponse - failure response - status throws", () => {
   );
 });
 
-Deno.test("expectHttpResponse - failure response - statusText throws", () => {
+test("expectHttpResponse - failure response - statusText throws", () => {
   const response = createMockFailureResponse();
   const expectation = expectHttpResponse(response);
 
@@ -355,7 +356,7 @@ Deno.test("expectHttpResponse - failure response - statusText throws", () => {
   );
 });
 
-Deno.test("expectHttpResponse - failure response - headers throws", () => {
+test("expectHttpResponse - failure response - headers throws", () => {
   const response = createMockFailureResponse();
   const expectation = expectHttpResponse(response);
 

@@ -4,6 +4,7 @@ import {
   type SqsReceiveResultExpectation,
 } from "./receive.ts";
 import { mockSqsReceiveResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -45,7 +46,7 @@ const EXPECTED_METHODS: Record<keyof SqsReceiveResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectSqsReceiveResult - method existence check", () => {
+test("expectSqsReceiveResult - method existence check", () => {
   const result = mockSqsReceiveResult();
   const expectation = expectSqsReceiveResult(result);
 
@@ -89,7 +90,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqsReceiveResult - ${methodName} - success`, () => {
+  test(`expectSqsReceiveResult - ${methodName} - success`, () => {
     const result = mockSqsReceiveResult();
     const expectation = expectSqsReceiveResult(result);
 
@@ -107,7 +108,7 @@ for (
   });
 }
 
-Deno.test("expectSqsReceiveResult - not property - success", () => {
+test("expectSqsReceiveResult - not property - success", () => {
   const result = mockSqsReceiveResult({ ok: false });
   const expectation = expectSqsReceiveResult(result);
 
@@ -115,7 +116,7 @@ Deno.test("expectSqsReceiveResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectSqsReceiveResult - empty messages - success", () => {
+test("expectSqsReceiveResult - empty messages - success", () => {
   const result = mockSqsReceiveResult({ messages: [] });
   const expectation = expectSqsReceiveResult(result);
 
@@ -123,7 +124,7 @@ Deno.test("expectSqsReceiveResult - empty messages - success", () => {
   expectation.toHaveMessagesCount(0);
 });
 
-Deno.test("expectSqsReceiveResult - multiple messages - success", () => {
+test("expectSqsReceiveResult - multiple messages - success", () => {
   const result = mockSqsReceiveResult({
     messages: [
       {
@@ -149,7 +150,7 @@ Deno.test("expectSqsReceiveResult - multiple messages - success", () => {
   expectation.not.toHaveMessagesEmpty();
 });
 
-Deno.test("expectSqsReceiveResult - chaining - success", () => {
+test("expectSqsReceiveResult - chaining - success", () => {
   const result = mockSqsReceiveResult();
   const expectation = expectSqsReceiveResult(result);
 

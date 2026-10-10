@@ -14,5 +14,8 @@
     "@std/collections": "npm:@jsr/std__collections@^1",
     "@std/expect": "npm:@jsr/std__expect@^1",
     "@std/testing": "npm:@jsr/std__testing@^1"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

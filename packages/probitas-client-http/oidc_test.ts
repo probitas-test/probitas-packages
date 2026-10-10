@@ -1,5 +1,6 @@
 import { assert, assertEquals, assertFalse, assertRejects } from "@std/assert";
 import { createOidcHttpClient } from "./oidc.ts";
+import { test } from "@probitas-test/internal-testing";
 
 function createMockFetch(
   handler: (req: Request) => Response | Promise<Response>,
@@ -10,7 +11,7 @@ function createMockFetch(
   };
 }
 
-Deno.test("createOidcHttpClient", async (t) => {
+test("createOidcHttpClient", async (t) => {
   await t.step("returns OidcHttpClient with OIDC methods", async () => {
     const client = await createOidcHttpClient({
       url: "http://localhost:3000",
@@ -47,7 +48,7 @@ Deno.test("createOidcHttpClient", async (t) => {
   });
 });
 
-Deno.test("OidcHttpClient.login", async (t) => {
+test("OidcHttpClient.login", async (t) => {
   await t.step("performs Authorization Code Grant flow", async () => {
     const requests: Request[] = [];
     let capturedState: string | null = null;
@@ -352,7 +353,7 @@ Deno.test("OidcHttpClient.login", async (t) => {
   });
 });
 
-Deno.test("OidcHttpClient.getToken", async (t) => {
+test("OidcHttpClient.getToken", async (t) => {
   await t.step("returns null when not authenticated", async () => {
     const client = await createOidcHttpClient({
       url: "http://localhost:3000",
@@ -419,7 +420,7 @@ Deno.test("OidcHttpClient.getToken", async (t) => {
   });
 });
 
-Deno.test("OidcHttpClient.logout", async (t) => {
+test("OidcHttpClient.logout", async (t) => {
   await t.step("clears token state", async () => {
     let state: string | null = null;
 
@@ -473,7 +474,7 @@ Deno.test("OidcHttpClient.logout", async (t) => {
   });
 });
 
-Deno.test("OIDC Discovery", async (t) => {
+test("OIDC Discovery", async (t) => {
   await t.step("fetches endpoints via Discovery", async () => {
     const mockFetch = createMockFetch((req) => {
       if (req.url.includes("/.well-known/openid-configuration")) {

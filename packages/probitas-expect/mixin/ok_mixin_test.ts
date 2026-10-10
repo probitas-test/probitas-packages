@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
 import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createOkMixin } from "./ok_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createOkMixin - type check", () => {
+test("createOkMixin - type check", () => {
   const applier = createOkMixin(() => true, () => false, {
     valueName: "response",
   });
@@ -21,7 +21,7 @@ Deno.test("createOkMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createOkMixin - attribute check", () => {
+test("createOkMixin - attribute check", () => {
   const applier = createOkMixin(() => true, () => false, {
     valueName: "response",
   });
@@ -33,7 +33,7 @@ Deno.test("createOkMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createOkMixin - toBeOk", async (t) => {
+test("createOkMixin - toBeOk", async (t) => {
   await t.step("success", () => {
     const applier = createOkMixin(() => true, () => false, {
       valueName: "response",

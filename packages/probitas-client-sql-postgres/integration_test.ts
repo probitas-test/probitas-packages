@@ -19,6 +19,7 @@ import {
   type PostgresClient,
   QuerySyntaxError,
 } from "./mod.ts";
+import { test } from "@probitas-test/internal-testing";
 
 const CONNECTION_STRING =
   "postgres://testuser:testpassword@localhost:5432/testdb";
@@ -40,7 +41,7 @@ async function isPostgresAvailable(): Promise<boolean> {
 
 const postgresAvailable = await isPostgresAvailable();
 
-Deno.test({
+test({
   name: "Integration: PostgresClient",
   ignore: !postgresAvailable,
   async fn(t) {

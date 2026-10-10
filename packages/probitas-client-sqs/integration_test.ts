@@ -13,8 +13,10 @@ import {
 import { AbortError } from "@probitas-test/client";
 import { createSqsClient } from "./client.ts";
 import { SqsCommandError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const SQS_ENDPOINT = Deno.env.get("SQS_ENDPOINT") ?? "http://localhost:9324";
+const SQS_ENDPOINT = process.env.SQS_ENDPOINT ?? "http://localhost:9324";
 const SQS_REGION = "us-east-1";
 
 async function isSqsAvailable(): Promise<boolean> {
@@ -61,7 +63,7 @@ async function createTestQueue(
   };
 }
 
-Deno.test({
+test({
   name: "Integration: SQS Client",
   ignore: !(await isSqsAvailable()),
   async fn(t) {
@@ -417,7 +419,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: SQS Client without queueUrl",
   ignore: !(await isSqsAvailable()),
   async fn(t) {

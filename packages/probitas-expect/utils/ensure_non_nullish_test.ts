@@ -6,8 +6,9 @@
 
 import { assertEquals, assertThrows } from "@std/assert";
 import { ensureNonNullish } from "./ensure_non_nullish.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("ensureNonNullish", async (t) => {
+test("ensureNonNullish", async (t) => {
   await t.step("returns value when not null or undefined", () => {
     assertEquals(ensureNonNullish(42, "number"), 42);
     assertEquals(ensureNonNullish("hello", "string"), "hello");

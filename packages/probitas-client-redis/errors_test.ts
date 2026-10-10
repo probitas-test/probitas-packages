@@ -6,8 +6,9 @@ import {
   RedisError,
   RedisScriptError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("RedisError", async (t) => {
+test("RedisError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new RedisError("test message");
     assertInstanceOf(error, ClientError);
@@ -33,7 +34,7 @@ Deno.test("RedisError", async (t) => {
   });
 });
 
-Deno.test("RedisConnectionError", async (t) => {
+test("RedisConnectionError", async (t) => {
   await t.step("extends RedisError", () => {
     const error = new RedisConnectionError("connection failed");
     assertInstanceOf(error, ClientError);
@@ -55,7 +56,7 @@ Deno.test("RedisConnectionError", async (t) => {
   });
 });
 
-Deno.test("RedisCommandError", async (t) => {
+test("RedisCommandError", async (t) => {
   await t.step("extends RedisError", () => {
     const error = new RedisCommandError("command failed", { command: "GET" });
     assertInstanceOf(error, ClientError);
@@ -82,7 +83,7 @@ Deno.test("RedisCommandError", async (t) => {
   });
 });
 
-Deno.test("RedisScriptError", async (t) => {
+test("RedisScriptError", async (t) => {
   await t.step("extends RedisError", () => {
     const error = new RedisScriptError("script failed", {
       script: "return 1",

@@ -18,5 +18,8 @@
     "@std/assert": "npm:@jsr/std__assert@^1",
     "@std/fmt": "npm:@jsr/std__fmt@^1",
     "@std/path": "npm:@jsr/std__path@^1"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

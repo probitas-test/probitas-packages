@@ -1,6 +1,7 @@
 import { assertEquals, assertExists } from "@std/assert";
 import { expectRedisGetResult, type RedisGetResultExpectation } from "./get.ts";
 import { mockRedisGetResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -33,7 +34,7 @@ const EXPECTED_METHODS: Record<keyof RedisGetResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectRedisGetResult - method existence check", () => {
+test("expectRedisGetResult - method existence check", () => {
   const result = mockRedisGetResult();
   const expectation = expectRedisGetResult(result);
 
@@ -77,7 +78,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectRedisGetResult - ${methodName} - success`, () => {
+  test(`expectRedisGetResult - ${methodName} - success`, () => {
     const result = mockRedisGetResult();
     const expectation = expectRedisGetResult(result);
 
@@ -95,7 +96,7 @@ for (
   });
 }
 
-Deno.test("expectRedisGetResult - not property - success", () => {
+test("expectRedisGetResult - not property - success", () => {
   // Note: When ok: false, value must be null per discriminated union
   const result = mockRedisGetResult({ ok: false, value: null });
   const expectation = expectRedisGetResult(result);
@@ -104,7 +105,7 @@ Deno.test("expectRedisGetResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectRedisGetResult - NaN duration methods - success", () => {
+test("expectRedisGetResult - NaN duration methods - success", () => {
   // Test NaN values
   const nanResult = mockRedisGetResult({
     duration: NaN,
@@ -114,7 +115,7 @@ Deno.test("expectRedisGetResult - NaN duration methods - success", () => {
   nanExpectation.toHaveDurationNaN();
 });
 
-Deno.test("expectRedisGetResult - chaining - success", () => {
+test("expectRedisGetResult - chaining - success", () => {
   const result = mockRedisGetResult();
   const expectation = expectRedisGetResult(result);
 
@@ -128,7 +129,7 @@ Deno.test("expectRedisGetResult - chaining - success", () => {
     .toHaveDurationLessThan(200);
 });
 
-Deno.test("expectRedisGetResult - null value - success", () => {
+test("expectRedisGetResult - null value - success", () => {
   const result = mockRedisGetResult({ value: null });
   const expectation = expectRedisGetResult(result);
 

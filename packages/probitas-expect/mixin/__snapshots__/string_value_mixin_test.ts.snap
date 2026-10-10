@@ -1,0 +1,35 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`createStringValueMixin - toHaveMessageContaining 1`] = `"Expected message to contain hello, but got goodbye world"`;
+
+exports[`createStringValueMixin - toHaveMessageMatching 1`] = `"Expected message to match /hello/, but got goodbye world"`;
+
+exports[`createStringValueMixin - toHaveMessageContaining with source context 1`] = `
+"Expected message to contain hello, but got goodbye world
+
+Context (packages/probitas-expect/mixin/string_value_mixin_test.ts:82:5)
+
+  81│   await t.step("fail (noColor)", async () => {
+  82│     const mixin = createStringValueMixin(() => "goodbye world", () => false, {
+  83│       valueName: "message",
+    ┆
+  88│       t,
+  89│       catchError(() => applied.toHaveMessageContaining("hello")).message,
+    │       ^
+  90│     );"
+`;
+
+exports[`createStringValueMixin - toHaveMessageContaining with source context 2`] = `
+"\x1B[1m\x1B[31mExpected message to contain hello, but got goodbye world\x1B[39m\x1B[0m
+
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/string_value_mixin_test.ts:94:5)\x1B[39m
+
+  \x1B[90m 93│   await t.step("fail (withColor)", async () => {\x1B[39m
+  \x1B[90m 94│     const mixin = createStringValueMixin(() => "goodbye world", () => false, {\x1B[39m
+  \x1B[90m 95│       valueName: "message",\x1B[39m
+  \x1B[90m   ┆\x1B[39m
+  \x1B[90m101│       t,\x1B[39m
+  \x1B[90m102│       catchError(() => applied.toHaveMessageContaining("hello")).message,\x1B[39m
+  \x1B[90m   │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m103│     );\x1B[39m"
+`;

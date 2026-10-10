@@ -23,8 +23,9 @@ import type { RabbitMqPublishResult } from "@probitas-test/client-rabbitmq";
 import type { RedisGetResult } from "@probitas-test/client-redis";
 import type { SqlQueryResult } from "@probitas-test/client-sql";
 import type { SqsSendResult } from "@probitas-test/client-sqs";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("expect - infers expectation types", async (t) => {
+test("expect - infers expectation types", async (t) => {
   await t.step("http response", () => {
     const response = {} as HttpResponse;
     const expectation = expect(response);

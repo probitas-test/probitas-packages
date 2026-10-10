@@ -22,5 +22,8 @@
     "@std/expect": "npm:@jsr/std__expect@^1",
     "@std/testing": "npm:@jsr/std__testing@^1",
     "diff": "^7"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }

@@ -4,6 +4,7 @@ import {
   expectGraphqlResponse,
   type GraphqlResponseExpectation,
 } from "./graphql.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Mock GraphqlResponse for testing
 function createMockResponse(
@@ -118,7 +119,7 @@ const EXPECTED_METHODS: Record<keyof GraphqlResponseExpectation, unknown[]> = {
   toHaveDurationCloseTo: [123, 0],
 };
 
-Deno.test("expectGraphqlResponse - method existence check", () => {
+test("expectGraphqlResponse - method existence check", () => {
   const response = createMockResponse();
   const expectation = expectGraphqlResponse(response);
 
@@ -162,7 +163,7 @@ for (
     continue;
   }
 
-  Deno.test(`expectGraphqlResponse - ${methodName} - success`, () => {
+  test(`expectGraphqlResponse - ${methodName} - success`, () => {
     const response = createMockResponse();
     const expectation = expectGraphqlResponse(response);
 
@@ -180,7 +181,7 @@ for (
   });
 }
 
-Deno.test("expectGraphqlResponse - not property - success", () => {
+test("expectGraphqlResponse - not property - success", () => {
   const response = createMockResponse({ ok: false, status: 500 });
   const expectation = expectGraphqlResponse(response);
 
@@ -189,7 +190,7 @@ Deno.test("expectGraphqlResponse - not property - success", () => {
   expectation.not.toHaveStatus(200);
 });
 
-Deno.test("expectGraphqlResponse - error methods - success", () => {
+test("expectGraphqlResponse - error methods - success", () => {
   // Test with error present
   const errorResponse = createMockResponse({
     ok: false,

@@ -1,4 +1,6 @@
 import { assert, assertEquals } from "@std/assert";
+import { makeTempFile, test } from "@probitas-test/internal-testing";
+import { rm, writeFile } from "node:fs/promises";
 
 /**
  * Check if DuckDB native library is available.
@@ -20,7 +22,7 @@ async function isDuckDbAvailable(): Promise<boolean> {
 
 const duckDbAvailable = await isDuckDbAvailable();
 
-Deno.test({
+test({
   name: "Integration: DuckDbClient",
   ignore: !duckDbAvailable,
   async fn(t) {
@@ -382,11 +384,11 @@ Deno.test({
 
     await t.step("DuckDB specific: queryCsv reads CSV file", async () => {
       const client = await createDuckDbClient({});
-      const csvPath = await Deno.makeTempFile({ suffix: ".csv" });
+      const csvPath = await makeTempFile({ suffix: ".csv" });
 
       try {
         // Create a CSV file
-        await Deno.writeTextFile(
+        await writeFile(
           csvPath,
           "id,name,value\n1,Alice,100\n2,Bob,200\n",
         );
@@ -403,7 +405,7 @@ Deno.test({
         assertEquals(result.rows[1].name, "Bob");
       } finally {
         await client.close();
-        await Deno.remove(csvPath);
+        await rm(csvPath);
       }
     });
 
@@ -411,7 +413,7 @@ Deno.test({
       "DuckDB specific: queryParquet reads Parquet file",
       async () => {
         const client = await createDuckDbClient({});
-        const parquetPath = await Deno.makeTempFile({ suffix: ".parquet" });
+        const parquetPath = await makeTempFile({ suffix: ".parquet" });
 
         try {
           // Create a Parquet file using DuckDB's COPY command
@@ -442,7 +444,7 @@ Deno.test({
           assertEquals(result.rows[1].name, "Bob");
         } finally {
           await client.close();
-          await Deno.remove(parquetPath);
+          await rm(parquetPath);
         }
       },
     );

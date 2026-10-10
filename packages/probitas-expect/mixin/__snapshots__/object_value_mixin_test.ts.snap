@@ -1,0 +1,139 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`createObjectValueMixin - toHaveUserMatching 1`] = `
+"Expected user to match { name: 'Bob' }, but got { name: 'Alice', age: 30 }
+
+Diff (-Actual / +Expected):
+
+    {
+  -   name: 'Alice',
+  +   name: 'Bob',
+      age: 30,
+    }"
+`;
+
+exports[`createObjectValueMixin - toHaveUserProperty 1`] = `
+"Expected user to have property "email"
+
+Diff (-Actual / +Expected):
+
+    {
+      name: 'Alice',
+      age: 30,
+  +   email: [Any],
+    }"
+`;
+
+exports[`createObjectValueMixin - toHaveUserProperty 2`] = `
+"Expected data to have property "user.address.country"
+
+Diff (-Actual / +Expected):
+
+    {
+      user: {
+        address: {
+          city: 'Tokyo',
+  +       country: [Any],
+        },
+      },
+    }"
+`;
+
+exports[`createObjectValueMixin - toHaveUserProperty 3`] = `
+"Expected user to have property "name" with value Bob
+
+Diff (-Actual / +Expected):
+
+    {
+  -   name: 'Alice',
+  +   name: 'Bob',
+      age: 30,
+    }"
+`;
+
+exports[`createObjectValueMixin - toHaveUserProperty 4`] = `
+"Expected data to have property "user.address.city" with value Osaka
+
+Diff (-Actual / +Expected):
+
+    {
+      user: {
+        address: {
+  -       city: 'Tokyo',
+  +       city: 'Osaka',
+        },
+      },
+    }"
+`;
+
+exports[`createObjectValueMixin - toHaveUserProperty 5`] = `
+"Expected data to have property "user.name"
+
+Diff (-Actual / +Expected):
+
+    {
+      'user.name': 'Alice',
+      age: 30,
+  +   user: {
+  +     name: [Any],
+  +   },
+    }"
+`;
+
+exports[`createObjectValueMixin - toHaveUserPropertyContaining 1`] = `"Expected data property "message" to contain goodbye"`;
+
+exports[`createObjectValueMixin - toHaveUserPropertyContaining 2`] = `"Expected data property "user.tags" to contain guest"`;
+
+exports[`createObjectValueMixin - toHaveUserPropertyMatching 1`] = `"Expected data property "config" to match { port: 3000 }"`;
+
+exports[`createObjectValueMixin - toHaveUserPropertyMatching 2`] = `"Expected data property "server.database" to match { port: 3306 }"`;
+
+exports[`createObjectValueMixin - toHaveUserPropertySatisfying 1`] = `"Expected data property "message" to satisfy the matcher, but it failed: Must be goodbye"`;
+
+exports[`createObjectValueMixin - toHaveUserPropertySatisfying 2`] = `"Expected data property "user.profile.age" to satisfy the matcher, but it failed: Must be 18 or older"`;
+
+exports[`createObjectValueMixin - toHaveUserMatching with source context 1`] = `
+"Expected user to match { name: 'Bob' }, but got { name: 'Alice', age: 30 }
+
+Diff (-Actual / +Expected):
+
+    {
+  -   name: 'Alice',
+  +   name: 'Bob',
+      age: 30,
+    }
+
+Context (packages/probitas-expect/mixin/object_value_mixin_test.ts:236:5)
+
+  235│     const applied = mixin({ dummy: true });
+  236│     await assertSnapshotWithoutColors(
+  237│       t,
+     ┆
+  558│       t,
+  559│       catchError(() => applied.toHaveUserMatching({ name: "Bob" })).message,
+     │       ^
+  560│     );"
+`;
+
+exports[`createObjectValueMixin - toHaveUserMatching with source context 2`] = `
+"\x1B[1m\x1B[31mExpected user to match { name: 'Bob' }, but got { name: 'Alice', age: 30 }\x1B[39m\x1B[0m
+
+\x1B[1mDiff (\x1B[31m-Actual\x1B[39m / \x1B[32m+Expected\x1B[39m):\x1B[0m
+
+\x1B[90m    {\x1B[39m
+\x1B[31m  -   name: 'Alice',\x1B[39m
+\x1B[32m  +   name: 'Bob',\x1B[39m
+\x1B[90m      age: 30,\x1B[39m
+\x1B[90m    }\x1B[39m
+
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/object_value_mixin_test.ts:251:5)\x1B[39m
+
+  \x1B[90m250│       );\x1B[39m
+  \x1B[90m251│       const applied = mixin({ dummy: true });\x1B[39m
+  \x1B[90m252│       await assertSnapshotWithoutColors(\x1B[39m
+  \x1B[90m   ┆\x1B[39m
+  \x1B[90m575│       t,\x1B[39m
+  \x1B[90m576│       catchError(() => applied.toHaveUserMatching({ name: "Bob" })).message,\x1B[39m
+  \x1B[90m   │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m577│     );\x1B[39m"
+`;

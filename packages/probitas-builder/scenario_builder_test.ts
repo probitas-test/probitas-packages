@@ -8,6 +8,7 @@ import { assertEquals, assertExists } from "@std/assert";
 import { FakeTime } from "@std/testing/time";
 import type { StepDefinition } from "@probitas-test/core";
 import { scenario } from "./scenario_builder.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Helper to extract steps from steps
 function getSteps(steps: readonly StepDefinition[]) {
@@ -24,12 +25,12 @@ function getSetups(steps: readonly StepDefinition[]) {
   return steps.filter((v) => v.kind === "setup");
 }
 
-Deno.test("ScenarioBuilder creation builds scenario definition with name", () => {
+test("ScenarioBuilder creation builds scenario definition with name", () => {
   const definition = scenario("My Scenario").build();
   assertEquals(definition.name, "My Scenario");
 });
 
-Deno.test("ScenarioBuilder creation captures scenario origin at build time", () => {
+test("ScenarioBuilder creation captures scenario origin at build time", () => {
   const definition = scenario("Test").build();
   assertExists(definition.origin);
   // Location should point to the test file where build() was called
@@ -39,12 +40,12 @@ Deno.test("ScenarioBuilder creation captures scenario origin at build time", () 
   );
 });
 
-Deno.test("ScenarioBuilder options applies default options to scenario", () => {
+test("ScenarioBuilder options applies default options to scenario", () => {
   const definition = scenario("Test").build();
   assertEquals(definition.tags.length, 0);
 });
 
-Deno.test("ScenarioBuilder options allows partial scenario options override", () => {
+test("ScenarioBuilder options allows partial scenario options override", () => {
   const definition = scenario("Test", {
     tags: ["api", "integration"],
   }).build();
@@ -53,7 +54,7 @@ Deno.test("ScenarioBuilder options allows partial scenario options override", ()
   assertEquals(definition.tags[1], "integration");
 });
 
-Deno.test("ScenarioBuilder passes undefined when no options specified", () => {
+test("ScenarioBuilder passes undefined when no options specified", () => {
   const definition = scenario("Test")
     .step("Test Step", () => {})
     .build();
@@ -62,7 +63,7 @@ Deno.test("ScenarioBuilder passes undefined when no options specified", () => {
   assertEquals(steps[0].retry, undefined);
 });
 
-Deno.test("ScenarioBuilder passes step-level options as-is", () => {
+test("ScenarioBuilder passes step-level options as-is", () => {
   const definition = scenario("Test")
     .step("Test Step", () => {}, {
       timeout: 5000,
@@ -75,7 +76,7 @@ Deno.test("ScenarioBuilder passes step-level options as-is", () => {
   assertEquals(steps[0].retry?.backoff, "exponential");
 });
 
-Deno.test("ScenarioBuilder step addition supports named step addition", () => {
+test("ScenarioBuilder step addition supports named step addition", () => {
   const definition = scenario("Test")
     .step("First Step", () => 42)
     .build();
@@ -84,7 +85,7 @@ Deno.test("ScenarioBuilder step addition supports named step addition", () => {
   assertEquals(steps[0].name, "First Step");
 });
 
-Deno.test("ScenarioBuilder step addition supports unnamed step addition with auto-naming", () => {
+test("ScenarioBuilder step addition supports unnamed step addition with auto-naming", () => {
   const definition = scenario("Test")
     .step(() => 1)
     .step(() => 2)
@@ -95,7 +96,7 @@ Deno.test("ScenarioBuilder step addition supports unnamed step addition with aut
   assertEquals(steps[1].name, "Execution step 2");
 });
 
-Deno.test("ScenarioBuilder step execution step functions receive typed context", () => {
+test("ScenarioBuilder step execution step functions receive typed context", () => {
   const results: unknown[] = [];
 
   const definition = scenario("Test")
@@ -115,7 +116,7 @@ Deno.test("ScenarioBuilder step execution step functions receive typed context",
   assertEquals(steps[1].name, "Step 2");
 });
 
-Deno.test("ScenarioBuilder step execution supports async step functions", async () => {
+test("ScenarioBuilder step execution supports async step functions", async () => {
   using time = new FakeTime();
   const definition = scenario("Test")
     .step("Async", () => {
@@ -141,7 +142,7 @@ Deno.test("ScenarioBuilder step execution supports async step functions", async 
   assertEquals(result, "done");
 });
 
-Deno.test("ScenarioBuilder setup method adds setup entry", () => {
+test("ScenarioBuilder setup method adds setup entry", () => {
   const setupFn = () => {};
   const definition = scenario("Test")
     .setup(setupFn)
@@ -152,7 +153,7 @@ Deno.test("ScenarioBuilder setup method adds setup entry", () => {
   assertEquals(typeof setups[0].fn, "function");
 });
 
-Deno.test("ScenarioBuilder setup can be called multiple times", () => {
+test("ScenarioBuilder setup can be called multiple times", () => {
   const definition = scenario("Test")
     .setup(() => {})
     .step("Step 1", () => 42)
@@ -163,7 +164,7 @@ Deno.test("ScenarioBuilder setup can be called multiple times", () => {
   assertEquals(setups.length, 2);
 });
 
-Deno.test("ScenarioBuilder setup can be chained with steps", () => {
+test("ScenarioBuilder setup can be chained with steps", () => {
   const setupFn = () => {};
 
   const definition = scenario("Test")
@@ -177,7 +178,7 @@ Deno.test("ScenarioBuilder setup can be chained with steps", () => {
   assertEquals(steps.length, 1);
 });
 
-Deno.test("ScenarioBuilder setup and step can be called in any order", () => {
+test("ScenarioBuilder setup and step can be called in any order", () => {
   const definition = scenario("Test")
     .step("Step 1", () => 42)
     .setup(() => {})
@@ -190,7 +191,7 @@ Deno.test("ScenarioBuilder setup and step can be called in any order", () => {
   assertEquals(setups.length, 1);
 });
 
-Deno.test("ScenarioBuilder setup supports async functions", () => {
+test("ScenarioBuilder setup supports async functions", () => {
   const asyncSetup = async () => {
     await Promise.resolve();
   };
@@ -204,7 +205,7 @@ Deno.test("ScenarioBuilder setup supports async functions", () => {
   assertEquals(setups.length, 1);
 });
 
-Deno.test("ScenarioBuilder step can be called directly without setup", () => {
+test("ScenarioBuilder step can be called directly without setup", () => {
   const definition = scenario("Test")
     .step("Step 1", () => 42)
     .build();
@@ -215,7 +216,7 @@ Deno.test("ScenarioBuilder step can be called directly without setup", () => {
   assertEquals(steps.length, 1);
 });
 
-Deno.test("ScenarioBuilder branching allows branching from a common base", () => {
+test("ScenarioBuilder branching allows branching from a common base", () => {
   const base = scenario("Base")
     .setup(() => {})
     .step("Common step 1", () => 1)
@@ -240,7 +241,7 @@ Deno.test("ScenarioBuilder branching allows branching from a common base", () =>
   assertEquals(stepsB[2].name, "B specific step");
 });
 
-Deno.test("ScenarioBuilder branching does not mutate the original builder", () => {
+test("ScenarioBuilder branching does not mutate the original builder", () => {
   const base = scenario("Test")
     .step("Step 1", () => 1);
 
@@ -264,7 +265,7 @@ Deno.test("ScenarioBuilder branching does not mutate the original builder", () =
   assertEquals(steps2[1].name, "Step 2b");
 });
 
-Deno.test("ScenarioBuilder branching allows branching from setup", () => {
+test("ScenarioBuilder branching allows branching from setup", () => {
   const baseWithSetup = scenario("Test").setup(() => {});
 
   const withStep1 = baseWithSetup.step("Step A", () => 1);
@@ -286,7 +287,7 @@ Deno.test("ScenarioBuilder branching allows branching from setup", () => {
   assertEquals(steps2[0].name, "Step B");
 });
 
-Deno.test("ScenarioBuilder branching allows complex branching scenarios", () => {
+test("ScenarioBuilder branching allows complex branching scenarios", () => {
   const common = scenario("API Test")
     .setup(() => {})
     .step("Login", () => ({ token: "abc" }))
@@ -316,7 +317,7 @@ Deno.test("ScenarioBuilder branching allows complex branching scenarios", () => 
   assertEquals(stepsError[2].name, "Perform invalid action");
 });
 
-Deno.test("ScenarioBuilder resource management registers resources", () => {
+test("ScenarioBuilder resource management registers resources", () => {
   const definition = scenario("Test")
     .resource("api", () => ({
       name: "api",
@@ -332,7 +333,7 @@ Deno.test("ScenarioBuilder resource management registers resources", () => {
   assertEquals(resources[0].name, "api");
 });
 
-Deno.test("ScenarioBuilder resource management supports multiple resources", () => {
+test("ScenarioBuilder resource management supports multiple resources", () => {
   const definition = scenario("Test")
     .resource("api", () => ({ [Symbol.dispose]() {} }))
     .resource("db", () => ({ [Symbol.dispose]() {} }))
@@ -346,7 +347,7 @@ Deno.test("ScenarioBuilder resource management supports multiple resources", () 
   assertEquals(resources.length, 2);
 });
 
-Deno.test("ScenarioBuilder resource management allows resource dependencies", () => {
+test("ScenarioBuilder resource management allows resource dependencies", () => {
   const definition = scenario("Test")
     .resource("pool", () => ({
       type: "pool",
@@ -367,7 +368,7 @@ Deno.test("ScenarioBuilder resource management allows resource dependencies", ()
   assertEquals(resources.length, 2);
 });
 
-Deno.test("ScenarioBuilder resource management allows resource() before setup()", () => {
+test("ScenarioBuilder resource management allows resource() before setup()", () => {
   const definition = scenario("Test")
     .resource("api", () => ({ [Symbol.dispose]() {} }))
     .setup((ctx) => {
@@ -382,7 +383,7 @@ Deno.test("ScenarioBuilder resource management allows resource() before setup()"
   assertEquals(setups.length, 1);
 });
 
-Deno.test("ScenarioBuilder resource management allows resource() at any point", () => {
+test("ScenarioBuilder resource management allows resource() at any point", () => {
   const definition = scenario("Test")
     .resource("api", () => ({ [Symbol.dispose]() {} }))
     .step("Test", (ctx) => {

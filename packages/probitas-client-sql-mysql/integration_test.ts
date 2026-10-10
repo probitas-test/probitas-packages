@@ -17,12 +17,14 @@ import {
 } from "@std/assert";
 import { createMySqlClient, type MySqlClient } from "./client.ts";
 import type { MySqlConnectionConfig } from "./types.ts";
+import { isPortOpen, test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const MYSQL_HOST = Deno.env.get("MYSQL_HOST") ?? "localhost";
-const MYSQL_PORT = parseInt(Deno.env.get("MYSQL_PORT") ?? "3306", 10);
-const MYSQL_USER = Deno.env.get("MYSQL_USER") ?? "testuser";
-const MYSQL_PASSWORD = Deno.env.get("MYSQL_PASSWORD") ?? "testpassword";
-const MYSQL_DATABASE = Deno.env.get("MYSQL_DATABASE") ?? "testdb";
+const MYSQL_HOST = process.env.MYSQL_HOST ?? "localhost";
+const MYSQL_PORT = parseInt(process.env.MYSQL_PORT ?? "3306", 10);
+const MYSQL_USER = process.env.MYSQL_USER ?? "testuser";
+const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD ?? "testpassword";
+const MYSQL_DATABASE = process.env.MYSQL_DATABASE ?? "testdb";
 
 const connectionConfig: MySqlConnectionConfig = {
   host: MYSQL_HOST,
@@ -34,12 +36,7 @@ const connectionConfig: MySqlConnectionConfig = {
 
 async function isMySqlServerAvailable(): Promise<boolean> {
   try {
-    const conn = await Deno.connect({
-      hostname: MYSQL_HOST,
-      port: MYSQL_PORT,
-    });
-    conn.close();
-    return true;
+    return await isPortOpen(MYSQL_HOST, MYSQL_PORT);
   } catch {
     return false;
   }
@@ -49,7 +46,7 @@ async function createTestClient(): Promise<MySqlClient> {
   return await createMySqlClient({ url: connectionConfig });
 }
 
-Deno.test({
+test({
   name: "Integration: MySQL",
   ignore: !(await isMySqlServerAvailable()),
   async fn(t) {

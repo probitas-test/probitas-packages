@@ -7,8 +7,10 @@ import { fromBinary } from "@bufbuild/protobuf";
 import { FileDescriptorSetSchema } from "@bufbuild/protobuf/wkt";
 import { createConnectRpcClient } from "./client.ts";
 import type { FileDescriptorSet } from "./types.ts";
+import { makeTempFile, test } from "@probitas-test/internal-testing";
+import { rm, writeFile } from "node:fs/promises";
 
-Deno.test("createConnectRpcClient - creates client with reflection by default", async () => {
+test("createConnectRpcClient - creates client with reflection by default", async () => {
   const client = createConnectRpcClient({
     url: "http://localhost:50051",
   });
@@ -23,7 +25,7 @@ Deno.test("createConnectRpcClient - creates client with reflection by default", 
   }
 });
 
-Deno.test("createConnectRpcClient - supports different protocols", async () => {
+test("createConnectRpcClient - supports different protocols", async () => {
   const protocols = ["connect", "grpc", "grpc-web"] as const;
 
   for (const protocol of protocols) {
@@ -41,7 +43,7 @@ Deno.test("createConnectRpcClient - supports different protocols", async () => {
   }
 });
 
-Deno.test("createConnectRpcClient - supports different HTTP versions", async () => {
+test("createConnectRpcClient - supports different HTTP versions", async () => {
   const versions = ["1.1", "2"] as const;
 
   for (const httpVersion of versions) {
@@ -59,7 +61,7 @@ Deno.test("createConnectRpcClient - supports different HTTP versions", async () 
   }
 });
 
-Deno.test("createConnectRpcClient - handles TLS config", async () => {
+test("createConnectRpcClient - handles TLS config", async () => {
   const client = createConnectRpcClient({
     url: "http://localhost:50051",
     tls: {
@@ -76,7 +78,7 @@ Deno.test("createConnectRpcClient - handles TLS config", async () => {
   }
 });
 
-Deno.test("createConnectRpcClient - supports metadata", async () => {
+test("createConnectRpcClient - supports metadata", async () => {
   const client = createConnectRpcClient({
     url: "http://localhost:50051",
     metadata: {
@@ -94,7 +96,7 @@ Deno.test("createConnectRpcClient - supports metadata", async () => {
   }
 });
 
-Deno.test("createConnectRpcClient - using statement support", async () => {
+test("createConnectRpcClient - using statement support", async () => {
   let closed = false;
 
   {
@@ -116,7 +118,7 @@ Deno.test("createConnectRpcClient - using statement support", async () => {
   assertEquals(closed, true);
 });
 
-Deno.test("createConnectRpcClient - throwOnError config option", async () => {
+test("createConnectRpcClient - throwOnError config option", async () => {
   const client = createConnectRpcClient({
     url: "http://localhost:50051",
     throwOnError: false,
@@ -130,7 +132,7 @@ Deno.test("createConnectRpcClient - throwOnError config option", async () => {
   }
 });
 
-Deno.test("createConnectRpcClient - supports Uint8Array schema (FileDescriptorSet)", async () => {
+test("createConnectRpcClient - supports Uint8Array schema (FileDescriptorSet)", async () => {
   // Create a minimal FileDescriptorSet binary for testing.
   // This is generated from a simple proto file using `buf build --output`.
   // For this test, we use an empty FileDescriptorSet which is valid but contains no services.
@@ -156,7 +158,7 @@ Deno.test("createConnectRpcClient - supports Uint8Array schema (FileDescriptorSe
   }
 });
 
-Deno.test("createConnectRpcClient - Uint8Array schema creates FileRegistry for RPC calls", async () => {
+test("createConnectRpcClient - Uint8Array schema creates FileRegistry for RPC calls", async () => {
   // Empty FileDescriptorSet - valid proto binary that decodes to empty file list
   const emptyFileDescriptorSet = new Uint8Array([]);
 
@@ -186,7 +188,7 @@ Deno.test("createConnectRpcClient - Uint8Array schema creates FileRegistry for R
   }
 });
 
-Deno.test("createConnectRpcClient - FileDescriptorSet object schema creates FileRegistry", async () => {
+test("createConnectRpcClient - FileDescriptorSet object schema creates FileRegistry", async () => {
   // Create a FileDescriptorSet object from empty binary
   const emptyBytes = new Uint8Array([]);
   const fileDescriptorSet: FileDescriptorSet = fromBinary(
@@ -220,12 +222,12 @@ Deno.test("createConnectRpcClient - FileDescriptorSet object schema creates File
   }
 });
 
-Deno.test("createConnectRpcClient - string schema loads file and creates FileRegistry", async () => {
+test("createConnectRpcClient - string schema loads file and creates FileRegistry", async () => {
   // Create a temporary file with empty FileDescriptorSet binary
-  const tempFile = await Deno.makeTempFile({ suffix: ".binpb" });
+  const tempFile = await makeTempFile({ suffix: ".binpb" });
   try {
     // Write empty FileDescriptorSet binary to file
-    await Deno.writeFile(tempFile, new Uint8Array([]));
+    await writeFile(tempFile, new Uint8Array([]));
 
     const client = createConnectRpcClient({
       url: "http://localhost:50051",
@@ -252,11 +254,11 @@ Deno.test("createConnectRpcClient - string schema loads file and creates FileReg
       await client.close();
     }
   } finally {
-    await Deno.remove(tempFile);
+    await rm(tempFile);
   }
 });
 
-Deno.test("createConnectRpcClient - string schema throws on non-existent file", async () => {
+test("createConnectRpcClient - string schema throws on non-existent file", async () => {
   await assertRejects(
     async () => {
       const client = createConnectRpcClient({
@@ -267,6 +269,7 @@ Deno.test("createConnectRpcClient - string schema throws on non-existent file", 
       // But we need to ensure the client is closed if creation somehow succeeds
       await client.close();
     },
-    Deno.errors.NotFound,
+    Error,
+    "ENOENT",
   );
 });

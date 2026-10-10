@@ -15,6 +15,8 @@ import {
   assertLess,
 } from "@std/assert";
 import { ConnectRpcError, createConnectRpcClient } from "./mod.ts";
+import { isPortOpen, test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
 // Suppress HTTP/2 cleanup errors from Deno's node:http2 compatibility layer.
 // This is a known Deno bug where async stream handlers fire after session destruction.
@@ -33,24 +35,19 @@ globalThis.addEventListener("unhandledrejection", (event) => {
   }
 });
 
-const CONNECTRPC_URL = Deno.env.get("CONNECTRPC_URL") ??
+const CONNECTRPC_URL = process.env.CONNECTRPC_URL ??
   "http://localhost:8090";
 
 async function isServiceAvailable(): Promise<boolean> {
   try {
     const url = new URL(CONNECTRPC_URL);
-    const conn = await Deno.connect({
-      hostname: url.hostname,
-      port: parseInt(url.port, 10),
-    });
-    conn.close();
-    return true;
+    return await isPortOpen(url.hostname, parseInt(url.port, 10));
   } catch {
     return false;
   }
 }
 
-Deno.test({
+test({
   name: "Integration: createConnectRpcClient with reflection",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -63,7 +60,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: reflection.listServices",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -83,7 +80,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: reflection.hasService",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -105,7 +102,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: reflection.getServiceInfo",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -140,7 +137,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: reflection.listMethods",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -171,7 +168,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: unary call",
   ignore: !(await isServiceAvailable()),
   async fn(t) {
@@ -237,7 +234,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: throwOnError behavior",
   ignore: !(await isServiceAvailable()),
   async fn(t) {
@@ -298,7 +295,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: metadata handling",
   ignore: !(await isServiceAvailable()),
   async fn(t) {
@@ -340,7 +337,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: AsyncDisposable",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -358,7 +355,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: server streaming",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -384,7 +381,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: AbortSignal cancels request",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -409,7 +406,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: protocol - connect",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -428,7 +425,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: protocol - grpc",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -447,7 +444,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: protocol - grpc-web",
   ignore: !(await isServiceAvailable()),
   async fn() {
@@ -466,7 +463,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: error handling",
   ignore: !(await isServiceAvailable()),
   async fn(t) {
