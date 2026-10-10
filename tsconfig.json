@@ -13,6 +13,6 @@
     "noImplicitOverride": true,
     "skipLibCheck": true
   },
-  "include": ["packages/**/*.ts", "internal/**/*.ts"],
+  "include": ["packages/**/*.ts", "internal/**/*.ts", "scripts/**/*.ts"],
   "exclude": ["**/node_modules/**"]
 }

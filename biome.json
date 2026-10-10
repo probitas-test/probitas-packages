@@ -4,7 +4,9 @@
     "includes": [
       "packages/**/*.ts",
       "internal/**/*.ts",
-      "!**/node_modules"
+      "scripts/**/*.ts",
+      "!**/node_modules",
+      "!**/_vendor"
     ]
   },
   "formatter": {

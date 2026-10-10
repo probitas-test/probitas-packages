@@ -11,6 +11,7 @@
   "excludes": [
     "**/node_modules",
     "**/__snapshots__",
+    "**/_vendor",
     "bun.lock"
   ],
   "plugins": [
