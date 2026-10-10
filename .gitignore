@@ -2,3 +2,4 @@
 .worktrees
 deno.lock
 node_modules/
+.coverage/
