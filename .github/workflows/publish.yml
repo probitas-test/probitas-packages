@@ -1,65 +1,121 @@
 name: Publish
 
-# The only workflow that publishes to npm. npm trusted publishing ties each
-# package to a single workflow file, so prereleases and releases share this
-# one rather than each having their own.
+# The only workflow that publishes the packages. npm trusted publishing ties
+# each package to a single workflow file, so releases and prereleases share
+# this one.
 #
-# - `next`: every package as <version>-next.<run number> under the `next`
-#   dist-tag, so downstream repositories (probitas) can depend on unreleased
-#   changes.
-# - `latest`: every package at its current version, skipping versions already
-#   on npm, so a release only publishes the packages it bumped.
+# - A published GitHub Release with a calendar tag (v20261008.01) releases
+#   every package changed since the previous release to npm (`latest`) and
+#   JSR, with versions decided by scripts/release_plan.ts. The plan is
+#   attached to the Release as versions.json and reused on re-runs, so a
+#   failed run never bumps a version twice.
+# - A GitHub Release marked as a pre-release is a dry run: the plan is
+#   computed and attached, nothing is published. Pre-releases do not become
+#   the "latest" release, so they are safe for trying the workflow out.
+# - Running the workflow manually publishes the planned versions as
+#   `<version>-next.<run number>` under npm's `next` dist-tag, so downstream
+#   repositories (probitas) can depend on unreleased changes.
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
-    inputs:
-      dist-tag:
-        description: npm dist-tag to publish under
-        type: choice
-        options:
-          - next
-          - latest
-        default: next
 
 permissions:
-  contents: read
-  id-token: write # npm provenance / trusted publishing
+  contents: write # attach versions.json and edit the release notes
+  id-token: write # npm trusted publishing and JSR OIDC
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
-      DIST_TAG: ${{ inputs.dist-tag }}
+      GH_TOKEN: ${{ github.token }}
+      PLAN: ${{ runner.temp }}/versions.json
+      NOTES: ${{ runner.temp }}/notes.md
     steps:
       - uses: actions/checkout@v6
-      - uses: nixbuild/nix-quick-install-action@v34
+        with:
+          fetch-depth: 0 # the plan compares against the previous release tag
 
+      - uses: nixbuild/nix-quick-install-action@v34
       - run: nix develop -c bun install --frozen-lockfile
       - run: nix develop -c bun run check
-      - if: inputs.dist-tag == 'next'
-        run: nix develop -c bun scripts/set_prerelease.ts next.${{ github.run_number }}
-      - run: nix develop -c bun run build
-      - run: nix develop -c bun run pack
+
+      - name: Decide what to publish
+        id: mode
+        env:
+          EVENT: ${{ github.event_name }}
+          TAG: ${{ github.event.release.tag_name }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
+        run: |
+          if [ "$EVENT" = "release" ]; then
+            case "$TAG" in
+              v[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].[0-9][0-9]) ;;
+              *) echo "::error::Release tags look like v20261008.01, got $TAG"; exit 1 ;;
+            esac
+            echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+            echo "dist-tag=latest" >> "$GITHUB_OUTPUT"
+            echo "dry-run=$PRERELEASE" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+            echo "dist-tag=next" >> "$GITHUB_OUTPUT"
+            echo "dry-run=false" >> "$GITHUB_OUTPUT"
+          fi
+          # Newest published, non-pre-release Release other than this one.
+          previous=$(gh release list --exclude-drafts --exclude-pre-releases \
+            --limit 100 --json tagName --jq ".[].tagName | select(. != \"$TAG\")" | head -n 1)
+          echo "previous=$previous" >> "$GITHUB_OUTPUT"
+          echo "Previous release: ${previous:-(none)}"
+
+      - name: Plan versions
+        env:
+          EVENT: ${{ github.event_name }}
+          TAG: ${{ steps.mode.outputs.tag }}
+          PREVIOUS: ${{ steps.mode.outputs.previous }}
+        run: |
+          if [ "$EVENT" = "release" ] &&
+            gh release download "$TAG" --pattern versions.json --output "$PLAN" 2>/dev/null; then
+            echo "Reusing the plan attached to $TAG"
+            exit 0
+          fi
+          nix develop -c bun scripts/release_plan.ts --tag "$TAG" --previous "$PREVIOUS" \
+            --out "$PLAN" --notes "$NOTES"
+          if [ "$EVENT" = "release" ]; then
+            gh release upload "$TAG" "$PLAN"
+            gh release view "$TAG" --json body --jq .body > "$RUNNER_TEMP/body.md"
+            printf '\n\n' >> "$RUNNER_TEMP/body.md"
+            cat "$NOTES" >> "$RUNNER_TEMP/body.md"
+            gh release edit "$TAG" --notes-file "$RUNNER_TEMP/body.md"
+          fi
+
+      - name: Apply versions
+        if: steps.mode.outputs.dry-run != 'true'
+        run: |
+          if [ "${{ steps.mode.outputs.dist-tag }}" = "next" ]; then
+            nix develop -c bun scripts/apply_versions.ts --plan "$PLAN" --suffix "next.${{ github.run_number }}"
+          else
+            nix develop -c bun scripts/apply_versions.ts --plan "$PLAN"
+          fi
+          nix develop -c bun run build
+          nix develop -c bun run pack
+          nix develop -c bun run jsr:sync
 
       - uses: actions/setup-node@v5
+        if: steps.mode.outputs.dry-run != 'true'
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
 
-      # Publishing authenticates through npm trusted publishing (GitHub OIDC),
-      # so no npm token is stored in the repository. Every package must list
-      # this workflow as its trusted publisher on npmjs.com, and the npm CLI
-      # must be 11.5.1 or later.
-      - run: npm install -g npm@^11.5.1
+      # npm trusted publishing (GitHub OIDC) needs npm 11.5.1 or later; every
+      # package lists this workflow as its trusted publisher on npmjs.com.
+      - if: steps.mode.outputs.dry-run != 'true'
+        run: npm install -g npm@^11.5.1
 
-      - name: Publish tarballs
-        run: |
-          for tarball in ./dist-pack/*.tgz; do
-            spec=$(tar -xOzf "$tarball" package/package.json | node -p 'const m = JSON.parse(require("fs").readFileSync(0, "utf8")); `${m.name}@${m.version}`')
-            if npm view "$spec" version >/dev/null 2>&1; then
-              echo "skip $spec (already published)"
-              continue
-            fi
-            npm publish "$tarball" --tag "$DIST_TAG" --access public
-          done
+      - name: Publish
+        if: steps.mode.outputs.dry-run != 'true'
+        run: nix develop -c bun scripts/publish.ts --plan "$PLAN" --dist-tag "${{ steps.mode.outputs.dist-tag }}"
