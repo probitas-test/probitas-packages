@@ -11,14 +11,16 @@
     "fmt:check": "dprint check",
     "lint": "biome lint .",
     "check": "tsc -p .",
-    "test": "bun test --timeout 60000 ./internal ./packages",
-    "verify": "dprint check && biome lint . && tsc -p . && bun test --timeout 60000 ./internal ./packages",
+    "test": "bun test --timeout 60000 ./internal ./packages ./scripts",
+    "verify": "dprint check && biome lint . && tsc -p . && bun test --timeout 60000 ./internal ./packages ./scripts",
     "build": "bun scripts/build.ts",
     "pack": "bun scripts/pack.ts",
     "jsr:sync": "bun scripts/sync_jsr.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
+    "@probitas-test/internal-testing": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1",
     "@types/bun": "^1.4.2",
     "dprint": "0.61.1",
     "typescript": "5.9.3"
