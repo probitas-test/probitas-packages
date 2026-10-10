@@ -90,12 +90,13 @@ export function isConnectionError(error: unknown): boolean {
     return false;
   }
 
-  const err = error as Error & { code?: number };
+  const err = error as Error & { code?: number | string; errno?: number };
   const message = err.message.toLowerCase();
+  const extendedCode = typeof err.code === "number" ? err.code : err.errno;
 
   // Check for SQLite error codes
-  if (err.code !== undefined) {
-    const primaryCode = err.code & 0xff;
+  if (extendedCode !== undefined) {
+    const primaryCode = extendedCode & 0xff;
     if (primaryCode === SQLITE_CANTOPEN) {
       return true;
     }
@@ -133,9 +134,10 @@ export function convertSqliteError(error: unknown): SqlError {
     errno?: number;
   };
 
+  const extendedCode = typeof err.code === "number" ? err.code : err.errno;
   const options: SqliteErrorOptions = {
     cause: error,
-    extendedCode: typeof err.code === "number" ? err.code : err.errno,
+    extendedCode,
   };
 
   // Check for connection errors first
@@ -226,8 +228,8 @@ export function convertSqliteError(error: unknown): SqlError {
   }
 
   // If we have an error code, try to classify by code
-  if (err.code !== undefined) {
-    const primaryCode = err.code & 0xff;
+  if (extendedCode !== undefined) {
+    const primaryCode = extendedCode & 0xff;
 
     if (primaryCode === SQLITE_BUSY) {
       return new BusyError(err.message, options);
