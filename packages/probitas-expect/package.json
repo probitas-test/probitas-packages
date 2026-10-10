@@ -9,7 +9,6 @@
   "dependencies": {
     "@core/errorutil": "npm:@jsr/core__errorutil@^1",
     "@probitas-test/client-connectrpc": "workspace:*",
-    "@probitas-test/client-deno-kv": "workspace:*",
     "@probitas-test/client-graphql": "workspace:*",
     "@probitas-test/client-grpc": "workspace:*",
     "@probitas-test/client-http": "workspace:*",

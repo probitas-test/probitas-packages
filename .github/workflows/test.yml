@@ -65,13 +65,6 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
-      denokv:
-        image: ghcr.io/denoland/denokv
-        ports:
-          - 4512:4512
-        env:
-          DENO_KV_SQLITE_PATH: ":memory:"
-          DENO_KV_ACCESS_TOKEN: testtoken1234
       redis:
         image: redis:7
         ports:
@@ -105,8 +98,6 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
-    env:
-      DENO_KV_ACCESS_TOKEN: testtoken1234
     steps:
       # MongoDB is started via action instead of services because:
       # - GitHub Actions services don't support custom command options

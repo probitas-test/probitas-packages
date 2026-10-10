@@ -113,7 +113,6 @@
  * - **SQL** - {@linkcode expectSqlQueryResult} for database queries
  * - **Redis** - {@linkcode expectRedisResult} for Redis operations
  * - **MongoDB** - {@linkcode expectMongoResult} for MongoDB operations
- * - **Deno KV** - {@linkcode expectDenoKvResult} for Deno KV operations
  * - **RabbitMQ** - {@linkcode expectRabbitMqResult} for message queue operations
  * - **SQS** - {@linkcode expectSqsResult} for AWS SQS operations
  *
@@ -238,9 +237,6 @@ export type * from "@probitas-test/client-redis";
 export * from "./mongodb.ts";
 export type * from "@probitas-test/client-mongodb";
 
-// Deno KV
-export * from "./deno_kv.ts";
-export type * from "@probitas-test/client-deno-kv";
 
 // SQS
 export * from "./sqs.ts";

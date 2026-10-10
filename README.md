@@ -16,7 +16,7 @@ etc.) under a unified workspace for streamlined development and testing.
 - **Framework Packages**: Type-safe scenario builder, execution engine,
   reporters, and expectation library
 - **Multi-Protocol Clients**: HTTP, ConnectRPC/gRPC/gRPC-Web, GraphQL, SQL
-  (Postgres/MySQL/SQLite/DuckDB), MongoDB, Redis, RabbitMQ, SQS, and Deno KV
+  (Postgres/MySQL/SQLite/DuckDB), MongoDB, Redis, RabbitMQ, and SQS
 - **Shared Error Model**: Consistent `ClientError` hierarchy across all clients
   for uniform error handling
 - **Resource Management**: AsyncDisposable-aware clients for automatic cleanup
@@ -53,7 +53,6 @@ etc.) under a unified workspace for streamlined development and testing.
 | [@probitas/client-sql-duckdb](./packages/probitas-client-sql-duckdb)     | [![JSR](https://jsr.io/badges/@probitas/client-sql-duckdb)](https://jsr.io/@probitas/client-sql-duckdb)     | DuckDB client built on the shared SQL types                        |
 | [@probitas/client-mongodb](./packages/probitas-client-mongodb)           | [![JSR](https://jsr.io/badges/@probitas/client-mongodb)](https://jsr.io/@probitas/client-mongodb)           | MongoDB client with session/transaction helpers                    |
 | [@probitas/client-redis](./packages/probitas-client-redis)               | [![JSR](https://jsr.io/badges/@probitas/client-redis)](https://jsr.io/@probitas/client-redis)               | Redis client for command execution                                 |
-| [@probitas/client-deno-kv](./packages/probitas-client-deno-kv)           | [![JSR](https://jsr.io/badges/@probitas/client-deno-kv)](https://jsr.io/@probitas/client-deno-kv)           | Deno KV client for key-value storage                               |
 | [@probitas/client-sqs](./packages/probitas-client-sqs)                   | [![JSR](https://jsr.io/badges/@probitas/client-sqs)](https://jsr.io/@probitas/client-sqs)                   | SQS client targeting ElasticMQ for integration testing             |
 | [@probitas/client-rabbitmq](./packages/probitas-client-rabbitmq)         | [![JSR](https://jsr.io/badges/@probitas/client-rabbitmq)](https://jsr.io/@probitas/client-rabbitmq)         | RabbitMQ client with channel lifecycle management                  |
 
@@ -118,7 +117,6 @@ deno task coverage
 | mongodb         | 27017 | [mongo:latest](https://hub.docker.com/_/mongo)                                          |
 | rabbitmq        | 5672  | [rabbitmq:latest](https://hub.docker.com/_/rabbitmq)                                    |
 | elasticmq       | 9324  | [softwaremill/elasticmq-native](https://hub.docker.com/r/softwaremill/elasticmq-native) |
-| denokv          | 4512  | [ghcr.io/denoland/denokv](https://github.com/denoland/denokv/pkgs/container/denokv)     |
 
 ## Architecture
 

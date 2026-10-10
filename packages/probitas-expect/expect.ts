@@ -9,7 +9,6 @@ import {
   type ConnectRpcResponseExpectation,
   expectConnectRpcResponse,
 } from "./connectrpc.ts";
-import { type DenoKvExpectation, expectDenoKvResult } from "./deno_kv.ts";
 import {
   expectGraphqlResponse,
   type GraphqlResponseExpectation,
@@ -23,7 +22,6 @@ import { expectSqsResult, type SqsExpectation } from "./sqs.ts";
 import { type AnythingExpectation, expectAnything } from "./anything.ts";
 
 import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
-import type { DenoKvResult } from "@probitas-test/client-deno-kv";
 import type { GraphqlResponse } from "@probitas-test/client-graphql";
 import type { HttpResponse } from "@probitas-test/client-http";
 import type { MongoResult } from "@probitas-test/client-mongodb";
@@ -73,9 +71,6 @@ export function expect<T extends GraphqlResponse>(
 export function expect<T extends SqlQueryResult>(
   value: NotAny<T>,
 ): SqlQueryResultExpectation;
-export function expect<T extends DenoKvResult>(
-  value: NotAny<T>,
-): DenoKvExpectation<T>;
 export function expect<T extends RedisResult>(
   value: NotAny<T>,
 ): RedisExpectation<T>;
@@ -109,9 +104,6 @@ export function expect(value: unknown): unknown {
     }
 
     // Prefix-based kind matches
-    if (kind.startsWith("deno-kv:")) {
-      return expectDenoKvResult(value as unknown as DenoKvResult);
-    }
     if (kind.startsWith("redis:")) {
       return expectRedisResult(value as unknown as RedisResult);
     }

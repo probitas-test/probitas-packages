@@ -34,15 +34,6 @@
         "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
-    "packages/probitas-client-deno-kv": {
-      "name": "@probitas-test/client-deno-kv",
-      "version": "0.5.0",
-      "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
-        "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-      },
-    },
     "packages/probitas-client-graphql": {
       "name": "@probitas-test/client-graphql",
       "version": "0.6.0",
@@ -195,7 +186,6 @@
       "dependencies": {
         "@core/errorutil": "npm:@jsr/core__errorutil@^1",
         "@probitas-test/client-connectrpc": "workspace:*",
-        "@probitas-test/client-deno-kv": "workspace:*",
         "@probitas-test/client-graphql": "workspace:*",
         "@probitas-test/client-grpc": "workspace:*",
         "@probitas-test/client-http": "workspace:*",
@@ -335,8 +325,6 @@
     "@probitas-test/client": ["@probitas-test/client@workspace:packages/probitas-client"],
 
     "@probitas-test/client-connectrpc": ["@probitas-test/client-connectrpc@workspace:packages/probitas-client-connectrpc"],
-
-    "@probitas-test/client-deno-kv": ["@probitas-test/client-deno-kv@workspace:packages/probitas-client-deno-kv"],
 
     "@probitas-test/client-graphql": ["@probitas-test/client-graphql@workspace:packages/probitas-client-graphql"],
 

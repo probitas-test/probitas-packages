@@ -119,7 +119,6 @@
  * | Package | Description |
  * |---------|-------------|
  * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
- * | [`@probitas/client-deno-kv`](https://jsr.io/@probitas/client-deno-kv) | Deno KV client |
  *
  * ## Links
  *
