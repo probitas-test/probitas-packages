@@ -1,4 +1,8 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+  Fetch,
+} from "@probitas-test/client";
 import type {
   HttpResponse,
   HttpResponseError,
@@ -140,7 +144,7 @@ export interface HttpClientConfig extends CommonOptions {
   readonly headers?: HeadersInit;
 
   /** Custom fetch implementation (for testing/mocking) */
-  readonly fetch?: typeof fetch;
+  readonly fetch?: Fetch;
 
   /**
    * Default redirect handling mode.

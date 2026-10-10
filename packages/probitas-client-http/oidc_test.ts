@@ -1,10 +1,11 @@
 import { assert, assertEquals, assertFalse, assertRejects } from "@std/assert";
+import type { Fetch } from "@probitas-test/client";
 import { createOidcHttpClient } from "./oidc.ts";
 import { test } from "@probitas-test/internal-testing";
 
 function createMockFetch(
   handler: (req: Request) => Response | Promise<Response>,
-): typeof fetch {
+): Fetch {
   return (input: RequestInfo | URL, init?: RequestInit) => {
     const request = new Request(input, init);
     return Promise.resolve(handler(request));

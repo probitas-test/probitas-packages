@@ -199,3 +199,15 @@ export interface ClientResult {
    */
   readonly duration: number;
 }
+
+/**
+ * A `fetch`-compatible function.
+ *
+ * Declared structurally instead of as `typeof fetch` because runtime typings
+ * add members (Bun's `fetch.preconnect`) that a custom implementation or test
+ * double should not have to provide.
+ */
+export type Fetch = (
+  input: RequestInfo | URL,
+  init?: RequestInit,
+) => Promise<Response>;

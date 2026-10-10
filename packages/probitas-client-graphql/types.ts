@@ -1,4 +1,8 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+  Fetch,
+} from "@probitas-test/client";
 import type {
   GraphqlResponse,
   GraphqlResponseError,
@@ -99,7 +103,7 @@ export interface GraphqlClientConfig extends CommonOptions {
   readonly wsEndpoint?: string;
 
   /** Custom fetch implementation (for testing/mocking) */
-  readonly fetch?: typeof fetch;
+  readonly fetch?: Fetch;
 
   /**
    * Whether to throw GraphqlError when response contains errors or request fails.

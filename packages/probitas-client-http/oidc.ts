@@ -150,6 +150,7 @@ import type {
   HttpRequestOptions,
 } from "./types.ts";
 import { createHttpClient } from "./client.ts";
+import type { Fetch } from "@probitas-test/client";
 
 /**
  * OIDC-enabled HTTP client with authentication methods
@@ -217,7 +218,7 @@ export interface OidcClientConfig {
   cookies?: CookieConfig;
 
   /** Custom fetch implementation (for testing/mocking) */
-  fetch?: typeof fetch;
+  fetch?: Fetch;
 
   /** OIDC-specific configuration */
   oidc: {
@@ -325,7 +326,7 @@ export interface OidcError {
  */
 async function fetchDiscoveryMetadata(
   issuerUrl: string,
-  fetchFn: typeof fetch = fetch,
+  fetchFn: Fetch = fetch,
 ): Promise<OidcDiscoveryMetadata | null> {
   try {
     // Construct well-known URL
