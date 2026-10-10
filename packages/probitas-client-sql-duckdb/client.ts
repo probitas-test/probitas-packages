@@ -1,5 +1,4 @@
 import type { DuckDBConnection } from "@duckdb/node-api";
-import { DuckDBInstance } from "@duckdb/node-api";
 import { getLogger } from "@logtape/logtape";
 import {
   SqlConnectionError,
@@ -187,6 +186,10 @@ export async function createDuckDbClient(
       instanceConfig["access_mode"] = "READ_ONLY";
     }
 
+    // Imported here rather than at the top: @duckdb/node-api loads its native
+    // binding on import, and every Probitas scenario imports this module
+    // through the client hub whether or not it uses DuckDB.
+    const { DuckDBInstance } = await import("@duckdb/node-api");
     const instance = await DuckDBInstance.create(
       path,
       Object.keys(instanceConfig).length > 0 ? instanceConfig : undefined,
