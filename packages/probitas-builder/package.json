@@ -1,11 +1,31 @@
 {
   "name": "@probitas-test/builder",
   "version": "0.5.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probitas-test/probitas-packages.git",
+    "directory": "packages/probitas-builder"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./mod.ts"
+    ".": {
+      "bun": "./mod.ts",
+      "types": "./dist/mod.d.ts",
+      "default": "./dist/mod.js"
+    }
   },
+  "files": [
+    "dist",
+    "**/*.ts",
+    "!dist/**/*.ts.map",
+    "!**/*_test.ts",
+    "!**/_testutils.ts",
+    "!**/testkit.ts",
+    "!node_modules",
+    "_vendor/**/LICENSE",
+    "_vendor/**/README.md"
+  ],
   "dependencies": {
     "@probitas-test/core": "workspace:*"
   },
@@ -13,5 +33,8 @@
     "@probitas-test/internal-testing": "workspace:*",
     "@std/assert": "npm:@jsr/std__assert@^1",
     "@std/testing": "npm:@jsr/std__testing@^1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

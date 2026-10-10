@@ -1,11 +1,31 @@
 {
   "name": "@probitas-test/client-connectrpc",
   "version": "0.7.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probitas-test/probitas-packages.git",
+    "directory": "packages/probitas-client-connectrpc"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./mod.ts"
+    ".": {
+      "bun": "./mod.ts",
+      "types": "./dist/mod.d.ts",
+      "default": "./dist/mod.js"
+    }
   },
+  "files": [
+    "dist",
+    "**/*.ts",
+    "!dist/**/*.ts.map",
+    "!**/*_test.ts",
+    "!**/_testutils.ts",
+    "!**/testkit.ts",
+    "!node_modules",
+    "_vendor/**/LICENSE",
+    "_vendor/**/README.md"
+  ],
   "dependencies": {
     "@bufbuild/protobuf": "^2.7.0",
     "@connectrpc/connect": "^2.1.1",
@@ -17,5 +37,8 @@
   "devDependencies": {
     "@probitas-test/internal-testing": "workspace:*",
     "@std/assert": "npm:@jsr/std__assert@^1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

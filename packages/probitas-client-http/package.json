@@ -1,12 +1,36 @@
 {
   "name": "@probitas-test/client-http",
   "version": "0.7.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probitas-test/probitas-packages.git",
+    "directory": "packages/probitas-client-http"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./mod.ts",
-    "./oidc": "./oidc.ts"
+    ".": {
+      "bun": "./mod.ts",
+      "types": "./dist/mod.d.ts",
+      "default": "./dist/mod.js"
+    },
+    "./oidc": {
+      "bun": "./oidc.ts",
+      "types": "./dist/oidc.d.ts",
+      "default": "./dist/oidc.js"
+    }
   },
+  "files": [
+    "dist",
+    "**/*.ts",
+    "!dist/**/*.ts.map",
+    "!**/*_test.ts",
+    "!**/_testutils.ts",
+    "!**/testkit.ts",
+    "!node_modules",
+    "_vendor/**/LICENSE",
+    "_vendor/**/README.md"
+  ],
   "dependencies": {
     "@logtape/logtape": "^1.3.11",
     "@probitas-test/client": "workspace:*"
@@ -14,5 +38,8 @@
   "devDependencies": {
     "@probitas-test/internal-testing": "workspace:*",
     "@std/assert": "npm:@jsr/std__assert@^1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

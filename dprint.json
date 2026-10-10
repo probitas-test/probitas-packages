@@ -12,6 +12,8 @@
     "**/node_modules",
     "**/__snapshots__",
     "**/_vendor",
+    "**/dist",
+    "dist-pack",
     "bun.lock"
   ],
   "plugins": [

@@ -6,7 +6,8 @@
       "internal/**/*.ts",
       "scripts/**/*.ts",
       "!**/node_modules",
-      "!**/_vendor"
+      "!**/_vendor",
+      "!**/dist"
     ]
   },
   "formatter": {

@@ -11,8 +11,9 @@
     "noEmit": true,
     "strict": true,
     "noImplicitOverride": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "customConditions": ["bun"]
   },
   "include": ["packages/**/*.ts", "internal/**/*.ts", "scripts/**/*.ts"],
-  "exclude": ["**/node_modules/**"]
+  "exclude": ["**/node_modules/**", "**/dist/**"]
 }
