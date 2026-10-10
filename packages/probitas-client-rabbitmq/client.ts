@@ -221,7 +221,9 @@ function convertAmqpError(
 /**
  * Convert amqplib message to RabbitMqMessage.
  */
-function convertMessage(msg: amqp.ConsumeMessage): RabbitMqMessage {
+function convertMessage(
+  msg: amqp.ConsumeMessage | amqp.GetMessage,
+): RabbitMqMessage {
   const properties: RabbitMqMessageProperties = {
     contentType: msg.properties.contentType,
     contentEncoding: msg.properties.contentEncoding,

@@ -190,7 +190,7 @@ test({
       timeout: 100, // 100ms timeout
       fn: spy(async (ctx) => {
         // Sleep for 200ms to trigger timeout, but respect abort signal
-        let timerId: number | undefined;
+        let timerId: ReturnType<typeof setTimeout> | undefined;
         try {
           await new Promise((resolve, reject) => {
             if (ctx.signal?.aborted) {
@@ -266,7 +266,7 @@ test({
       },
       fn: spy(async (ctx) => {
         // Sleep for 100ms to trigger timeout
-        let timerId: number | undefined;
+        let timerId: ReturnType<typeof setTimeout> | undefined;
         try {
           await new Promise((resolve, reject) => {
             if (ctx.signal?.aborted) {

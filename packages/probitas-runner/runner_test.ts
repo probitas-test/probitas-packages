@@ -417,7 +417,7 @@ test({
             name: "Slow Step",
             fn: async (ctx) => {
               // Sleep for 200ms to trigger scenario timeout
-              let timerId: number | undefined;
+              let timerId: ReturnType<typeof setTimeout> | undefined;
               try {
                 await new Promise((resolve, reject) => {
                   if (ctx.signal?.aborted) {
@@ -502,7 +502,7 @@ test({
             name: "Slow Step",
             fn: async (ctx) => {
               // Sleep for 200ms to trigger scenario timeout
-              let timerId: number | undefined;
+              let timerId: ReturnType<typeof setTimeout> | undefined;
               try {
                 await new Promise((resolve, reject) => {
                   if (ctx.signal?.aborted) {

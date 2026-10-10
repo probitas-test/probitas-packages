@@ -47,7 +47,6 @@ function formatGraphqlErrors(errors: readonly GraphqlErrorItem[]): string {
   const detail = inspect(errors, {
     compact: false,
     sorted: true,
-    trailingComma: true,
   });
   const indented = detail
     .split("\n")

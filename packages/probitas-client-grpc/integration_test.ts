@@ -20,23 +20,6 @@ import { createGrpcClient, GrpcError } from "./mod.ts";
 import { isPortOpen, test } from "@probitas-test/internal-testing";
 import process from "node:process";
 
-// Suppress HTTP/2 cleanup errors from Deno's node:http2 compatibility layer.
-// This is a known Deno bug where async stream handlers fire after session destruction.
-// See: https://github.com/denoland/deno/issues/26234
-// See: https://github.com/denoland/deno/issues/28610
-// Fix in progress: https://github.com/denoland/deno/pull/30955
-globalThis.addEventListener("unhandledrejection", (event) => {
-  const error = event.reason;
-  if (
-    error instanceof Error &&
-    (error.name === "BadResource" ||
-      error.message.includes("broken pipe") ||
-      error.message.includes("stream closed"))
-  ) {
-    event.preventDefault();
-  }
-});
-
 // Use echo-grpc service
 const GRPC_URL = process.env.GRPC_URL ?? "http://localhost:50051";
 

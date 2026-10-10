@@ -106,9 +106,18 @@ export function test(
  *
  * Snapshots are keyed by the enclosing `test()` name and call order, so steps
  * within one test share a sequence just as they did with `@std/testing`.
+ * `options.name` becomes the snapshot hint.
  */
-export function assertSnapshot(_t: TestContext, actual: unknown): void {
-  expect(actual).toMatchSnapshot();
+export function assertSnapshot(
+  _t: TestContext,
+  actual: unknown,
+  options: { name?: string } = {},
+): void {
+  if (options.name === undefined) {
+    expect(actual).toMatchSnapshot();
+  } else {
+    expect(actual).toMatchSnapshot(options.name);
+  }
 }
 
 export interface Sandbox extends AsyncDisposable {

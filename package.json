@@ -5,5 +5,9 @@
   "workspaces": [
     "packages/*",
     "internal/*"
-  ]
+  ],
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "typescript": "5"
+  }
 }

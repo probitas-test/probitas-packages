@@ -24,6 +24,7 @@
     "diff": "^7"
   },
   "devDependencies": {
-    "@probitas-test/internal-testing": "workspace:*"
+    "@probitas-test/internal-testing": "workspace:*",
+    "@types/diff": "7"
   }
 }

@@ -14,6 +14,7 @@
     "amqplib": "^0.10.5"
   },
   "devDependencies": {
-    "@probitas-test/internal-testing": "workspace:*"
+    "@probitas-test/internal-testing": "workspace:*",
+    "@types/amqplib": "0.10"
   }
 }

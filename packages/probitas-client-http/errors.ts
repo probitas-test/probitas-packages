@@ -22,7 +22,6 @@ function formatErrorMessage(
     detail = inspect(json, {
       compact: false,
       sorted: true,
-      trailingComma: true,
     });
   } catch {
     detail = text;
