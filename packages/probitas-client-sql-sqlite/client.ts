@@ -1,4 +1,4 @@
-import type { BindValue, Database } from "@db/sqlite";
+import { type BindValue, Database } from "./_driver.ts";
 import { getLogger } from "@logtape/logtape";
 import {
   SqlConnectionError,
@@ -163,12 +163,6 @@ export async function createSqliteClient(
   config: SqliteClientConfig,
 ): Promise<SqliteClient> {
   try {
-    // Imported here rather than at module scope because @db/sqlite dlopens the
-    // SQLite library as it evaluates. A static import would make every consumer
-    // of this package pay that dlopen — and inherit its failure modes — even
-    // when no SQLite client is ever created.
-    const { Database } = await import("@db/sqlite");
-
     // Build open flags
     // SQLITE_OPEN_READWRITE = 0x00000002
     // SQLITE_OPEN_READONLY = 0x00000001

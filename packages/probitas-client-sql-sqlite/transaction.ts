@@ -1,4 +1,4 @@
-import type { BindValue, Database } from "@db/sqlite";
+import type { BindValue, Database } from "./_driver.ts";
 import {
   SqlConnectionError,
   type SqlIsolationLevel,

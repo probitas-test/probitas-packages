@@ -116,24 +116,26 @@ export function isConnectionError(error: unknown): boolean {
 }
 
 /**
- * Convert a @db/sqlite error to the appropriate error class.
+ * Convert a bun:sqlite error to the appropriate error class.
  *
- * Note: @db/sqlite throws plain Error objects without SQLite error codes.
- * Error classification is based on message content analysis.
+ * Classification is based on SQLite's message text, which is stable across
+ * drivers; the extended result code is kept for diagnostics.
  */
 export function convertSqliteError(error: unknown): SqlError {
   if (!(error instanceof Error)) {
     return new SqliteError(String(error));
   }
 
-  // @db/sqlite errors may have code property (but often don't)
+  // bun:sqlite's SQLiteError carries the extended result code in `errno`
+  // (`code` is its symbolic name, e.g. "SQLITE_CONSTRAINT_UNIQUE").
   const err = error as Error & {
-    code?: number;
+    code?: number | string;
+    errno?: number;
   };
 
   const options: SqliteErrorOptions = {
     cause: error,
-    extendedCode: err.code,
+    extendedCode: typeof err.code === "number" ? err.code : err.errno,
   };
 
   // Check for connection errors first
