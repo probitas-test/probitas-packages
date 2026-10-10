@@ -90,7 +90,7 @@ services:
       retries: 10
 
   rabbitmq:
-    image: rabbitmq:latest
+    image: rabbitmq:3-management
     ports:
       - "5672:5672"
     environment:
