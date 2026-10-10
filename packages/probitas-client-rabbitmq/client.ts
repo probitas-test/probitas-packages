@@ -459,6 +459,12 @@ class RabbitMqClientImpl implements RabbitMqClient {
   ) {
     this.config = config;
     this.#connection = connection;
+    // amqplib emits "error" when the broker closes the connection. With no
+    // listener, EventEmitter rethrows it as an uncaught exception, which kills
+    // the whole process; the failing operation already reports it.
+    connection.on("error", (error: unknown) => {
+      logger.debug("RabbitMQ connection error", { error });
+    });
   }
 
   async channel(): Promise<RabbitMqChannel> {
@@ -468,6 +474,11 @@ class RabbitMqClientImpl implements RabbitMqClient {
       logger.debug("Creating RabbitMQ channel");
 
       const ch = await this.#connection.createChannel();
+      // Same as the connection: a broker-side channel close (e.g. 406
+      // PRECONDITION_FAILED) is returned by the operation and also emitted.
+      ch.on("error", (error: unknown) => {
+        logger.debug("RabbitMQ channel error", { error });
+      });
 
       if (this.config.prefetch !== undefined) {
         await ch.prefetch(this.config.prefetch);

@@ -406,3 +406,23 @@ test({
     }
   },
 });
+
+test({
+  name: "Integration: server-side channel close does not crash the process",
+  ignore: !(await isRabbitMqAvailable()),
+  async fn() {
+    await using client = await createRabbitMqClient({ url: RABBITMQ_URL });
+    const channel = await client.channel();
+    const queue = `probitas-close-${crypto.randomUUID()}`;
+
+    assertEquals((await channel.assertQueue(queue, { durable: false })).ok, true);
+    // Redeclaring with a different `durable` makes the broker close the
+    // channel (406 PRECONDITION_FAILED); amqplib then emits "error" on it.
+    const redeclared = await channel.assertQueue(queue, { durable: true });
+    assertEquals(redeclared.ok, false);
+
+    // An unhandled "error" event surfaces as an uncaught exception after the
+    // operation has already returned, so give it a chance to fire.
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  },
+});
