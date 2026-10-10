@@ -1,7 +1,7 @@
 /**
  * Append a prerelease suffix to every package version, in place.
  *
- * Used by the "Publish next" workflow on a throwaway checkout; the change is
+ * Used by the Publish workflow (`next` prereleases) on a throwaway checkout; the change is
  * never committed. `workspace:*` dependencies follow automatically because
  * `bun pm pack` replaces them with the sibling's (now suffixed) version.
  *

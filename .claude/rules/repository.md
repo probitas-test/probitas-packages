@@ -56,8 +56,9 @@ BREAKING(@probitas/runner/unstable): change unstable API signature  # Still patc
   scopes, not file paths
 - Use `(*)` to affect all packages at once
 - Use `(scope/unstable)` for unstable API changes (always results in patch)
-- Prereleases: the `publish-next.yml` workflow publishes every package to npm as
-  `<version>-next.<run>` under the `next` dist-tag, authenticating through npm
-  trusted publishing (no npm token). A new package must be published once by
-  hand and given `publish-next.yml` as its trusted publisher before the workflow
-  can publish it
+- Publishing: `publish.yml` is the only workflow that publishes to npm, because
+  npm trusted publishing ties each package to one workflow file. Run it with
+  `next` for prereleases (`<version>-next.<run>` under the `next` dist-tag) or
+  `latest` for releases (versions already on npm are skipped). It authenticates
+  through trusted publishing (no npm token), so a new package must be published
+  once by hand and given `publish.yml` as its trusted publisher first

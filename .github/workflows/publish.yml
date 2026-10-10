@@ -1,0 +1,65 @@
+name: Publish
+
+# The only workflow that publishes to npm. npm trusted publishing ties each
+# package to a single workflow file, so prereleases and releases share this
+# one rather than each having their own.
+#
+# - `next`: every package as <version>-next.<run number> under the `next`
+#   dist-tag, so downstream repositories (probitas) can depend on unreleased
+#   changes.
+# - `latest`: every package at its current version, skipping versions already
+#   on npm, so a release only publishes the packages it bumped.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dist-tag:
+        description: npm dist-tag to publish under
+        type: choice
+        options:
+          - next
+          - latest
+        default: next
+
+permissions:
+  contents: read
+  id-token: write # npm provenance / trusted publishing
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DIST_TAG: ${{ inputs.dist-tag }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: nixbuild/nix-quick-install-action@v34
+
+      - run: nix develop -c bun install --frozen-lockfile
+      - run: nix develop -c bun run check
+      - if: inputs.dist-tag == 'next'
+        run: nix develop -c bun scripts/set_prerelease.ts next.${{ github.run_number }}
+      - run: nix develop -c bun run build
+      - run: nix develop -c bun run pack
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      # Publishing authenticates through npm trusted publishing (GitHub OIDC),
+      # so no npm token is stored in the repository. Every package must list
+      # this workflow as its trusted publisher on npmjs.com, and the npm CLI
+      # must be 11.5.1 or later.
+      - run: npm install -g npm@^11.5.1
+
+      - name: Publish tarballs
+        run: |
+          for tarball in ./dist-pack/*.tgz; do
+            spec=$(tar -xOzf "$tarball" package/package.json | node -p 'const m = JSON.parse(require("fs").readFileSync(0, "utf8")); `${m.name}@${m.version}`')
+            if npm view "$spec" version >/dev/null 2>&1; then
+              echo "skip $spec (already published)"
+              continue
+            fi
+            npm publish "$tarball" --tag "$DIST_TAG" --access public
+          done
