@@ -4,7 +4,7 @@
  * @module
  */
 
-import { toFileUrl } from "@std/path";
+import { pathToFileURL } from "node:url";
 import { getLogger } from "@logtape/logtape";
 import type { ScenarioDefinition } from "./types.ts";
 
@@ -96,7 +96,7 @@ export async function loadScenarios(
     try {
       const fileUrl = scenarioFile instanceof URL
         ? scenarioFile
-        : toFileUrl(scenarioFile);
+        : pathToFileURL(scenarioFile);
 
       logger.debug("Importing scenario file", { file: fileUrl.href });
 

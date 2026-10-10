@@ -7,7 +7,7 @@
  * @module
  */
 
-import { delay } from "@std/async/delay";
+import { delay } from "./async.ts";
 
 /**
  * Configuration options for retry behavior

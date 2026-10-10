@@ -7,14 +7,14 @@
     ".": "./mod.ts"
   },
   "dependencies": {
-    "@logtape/logtape": "npm:@jsr/logtape__logtape@^0",
+    "@logtape/logtape": "^1.3.11",
     "@probitas-test/core": "workspace:*",
     "@probitas-test/expect": "workspace:*",
-    "@probitas-test/runner": "workspace:*",
-    "@std/streams": "npm:@jsr/std__streams@^1",
-    "@std/testing": "npm:@jsr/std__testing@^1"
+    "@probitas-test/runner": "workspace:*"
   },
   "devDependencies": {
-    "@probitas-test/internal-testing": "workspace:*"
+    "@probitas-test/internal-testing": "workspace:*",
+    "@std/streams": "npm:@jsr/std__streams@^1",
+    "@std/testing": "npm:@jsr/std__testing@^1"
   }
 }

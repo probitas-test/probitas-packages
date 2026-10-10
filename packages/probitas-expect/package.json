@@ -7,7 +7,6 @@
     ".": "./mod.ts"
   },
   "dependencies": {
-    "@core/errorutil": "npm:@jsr/core__errorutil@^1",
     "@probitas-test/client-connectrpc": "workspace:*",
     "@probitas-test/client-graphql": "workspace:*",
     "@probitas-test/client-grpc": "workspace:*",
@@ -18,13 +17,14 @@
     "@probitas-test/client-sql": "workspace:*",
     "@probitas-test/client-sqs": "workspace:*",
     "@probitas-test/core": "workspace:*",
-    "@std/assert": "npm:@jsr/std__assert@^1",
-    "@std/expect": "npm:@jsr/std__expect@^1",
-    "@std/testing": "npm:@jsr/std__testing@^1",
     "diff": "^7"
   },
   "devDependencies": {
+    "@core/errorutil": "npm:@jsr/core__errorutil@^1",
     "@probitas-test/internal-testing": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/expect": "npm:@jsr/std__expect@^1",
+    "@std/testing": "npm:@jsr/std__testing@^1",
     "@types/diff": "7"
   }
 }

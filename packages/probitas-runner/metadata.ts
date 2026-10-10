@@ -6,7 +6,7 @@
  * @module
  */
 
-import { omit } from "@std/collections/omit";
+import { omit } from "./utils/collections.ts";
 import type {
   ScenarioDefinition,
   ScenarioMetadata,

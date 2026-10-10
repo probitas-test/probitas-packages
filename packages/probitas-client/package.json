@@ -6,10 +6,9 @@
   "exports": {
     ".": "./mod.ts"
   },
-  "dependencies": {
-    "@std/assert": "npm:@jsr/std__assert@^1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@probitas-test/internal-testing": "workspace:*"
+    "@probitas-test/internal-testing": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1"
   }
 }

@@ -5,7 +5,7 @@
  */
 
 import { walk } from "./_walk.ts";
-import { globToRegExp } from "@std/path/glob-to-regexp";
+import { globToRegExp } from "./_vendor/std_path/glob_to_regexp.ts";
 import { getLogger } from "@logtape/logtape";
 import { stat as fsStat } from "node:fs/promises";
 

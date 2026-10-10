@@ -7,7 +7,10 @@
  * @module
  */
 
-import { expect as expectStd, type Expected } from "@std/expect";
+import {
+  expect as expectStd,
+  type Expected,
+} from "./_vendor/std_expect/mod.ts";
 
 /**
  * Chainable expectation interface for any value using @std/expect matchers.

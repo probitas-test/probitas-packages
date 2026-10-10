@@ -7,13 +7,13 @@
     ".": "./mod.ts"
   },
   "dependencies": {
-    "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+    "@logtape/logtape": "^1.3.11",
     "@probitas-test/client": "workspace:*",
     "@probitas-test/client-sql": "workspace:*",
-    "@std/assert": "npm:@jsr/std__assert@^1",
     "mysql2": "^3.11.0"
   },
   "devDependencies": {
-    "@probitas-test/internal-testing": "workspace:*"
+    "@probitas-test/internal-testing": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1"
   }
 }

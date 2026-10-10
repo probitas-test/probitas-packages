@@ -75,4 +75,4 @@ export type * from "./types.ts";
 export * from "./errors.ts";
 export type * from "./response.ts";
 export * from "./client.ts";
-export { outdent } from "@cspotcode/outdent";
+export { outdent } from "outdent";

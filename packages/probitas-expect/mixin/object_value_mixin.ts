@@ -1,4 +1,4 @@
-import { expect as stdExpect } from "@std/expect";
+import { expect as stdExpect } from "../_vendor/std_expect/mod.ts";
 import { createExpectationError } from "../error.ts";
 import {
   Any,

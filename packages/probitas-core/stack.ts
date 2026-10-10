@@ -1,4 +1,4 @@
-import { fromFileUrl } from "@std/path/from-file-url";
+import { fileURLToPath } from "node:url";
 
 const STACK_FRAME_REGEX = /^\s*at\s+(?:(.+?)\s+\()?(.+?):(\d+)(?::(\d+))?\)?$/;
 
@@ -49,7 +49,7 @@ function parsePath(path: string): string {
   if (!isUserFrame(path)) {
     return path;
   }
-  return path.startsWith("file://") ? fromFileUrl(path) : path;
+  return path.startsWith("file://") ? fileURLToPath(path) : path;
 }
 
 function isUserFrame(path: string): boolean {

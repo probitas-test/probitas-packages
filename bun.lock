@@ -20,21 +20,19 @@
       "version": "0.5.2",
       "dependencies": {
         "@probitas-test/core": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-        "@std/testing": "npm:@jsr/std__testing@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
+        "@std/testing": "npm:@jsr/std__testing@^1",
       },
     },
     "packages/probitas-client": {
       "name": "@probitas-test/client",
       "version": "0.5.0",
-      "dependencies": {
-        "@std/assert": "npm:@jsr/std__assert@^1",
-      },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-connectrpc": {
@@ -45,25 +43,25 @@
         "@connectrpc/connect": "^2.1.1",
         "@connectrpc/connect-node": "^2.1.1",
         "@lambdalisue/connectrpc-grpcreflect": "^0.5.0",
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-graphql": {
       "name": "@probitas-test/client-graphql",
       "version": "0.6.0",
       "dependencies": {
-        "@cspotcode/outdent": "npm:@jsr/cspotcode__outdent@^0.8.0",
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
+        "outdent": "^0.8.0",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-grpc": {
@@ -71,50 +69,50 @@
       "version": "0.6.0",
       "dependencies": {
         "@probitas-test/client-connectrpc": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-http": {
       "name": "@probitas-test/client-http",
       "version": "0.7.2",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-mongodb": {
       "name": "@probitas-test/client-mongodb",
       "version": "0.6.0",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-        "@std/async": "npm:@jsr/std__async@^1.0.15",
         "mongodb": "^6.12.0",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
+        "@std/async": "npm:@jsr/std__async@^1.0.15",
       },
     },
     "packages/probitas-client-rabbitmq": {
       "name": "@probitas-test/client-rabbitmq",
       "version": "0.5.0",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-        "@std/async": "npm:@jsr/std__async@^1.0.15",
         "amqplib": "^0.10.5",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
+        "@std/async": "npm:@jsr/std__async@^1.0.15",
         "@types/amqplib": "0.10",
       },
     },
@@ -122,14 +120,14 @@
       "name": "@probitas-test/client-redis",
       "version": "0.5.0",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-        "@std/async": "npm:@jsr/std__async@^1.0.15",
         "ioredis": "^5.4.1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
+        "@std/async": "npm:@jsr/std__async@^1.0.15",
       },
     },
     "packages/probitas-client-sql": {
@@ -137,10 +135,10 @@
       "version": "0.5.0",
       "dependencies": {
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-sql-duckdb": {
@@ -148,54 +146,54 @@
       "version": "0.5.0",
       "dependencies": {
         "@duckdb/node-api": "1.4.2-r.1",
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
         "@probitas-test/client-sql": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-sql-mysql": {
       "name": "@probitas-test/client-sql-mysql",
       "version": "0.5.0",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
         "@probitas-test/client-sql": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
         "mysql2": "^3.11.0",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-sql-postgres": {
       "name": "@probitas-test/client-sql-postgres",
       "version": "0.5.0",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
         "@probitas-test/client-sql": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
         "postgres": "^3",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-sql-sqlite": {
       "name": "@probitas-test/client-sql-sqlite",
       "version": "0.5.1",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
         "@probitas-test/client-sql": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
       },
     },
     "packages/probitas-client-sqs": {
@@ -203,48 +201,47 @@
       "version": "0.5.0",
       "dependencies": {
         "@aws-sdk/client-sqs": "^3.700.0",
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^1",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/client": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-        "@std/async": "npm:@jsr/std__async@^1.0.15",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
+        "@std/async": "npm:@jsr/std__async@^1.0.15",
       },
     },
     "packages/probitas-core": {
       "name": "@probitas-test/core",
       "version": "0.3.2",
       "dependencies": {
+        "@logtape/logtape": "^1.3.11",
+      },
+      "devDependencies": {
         "@cspotcode/outdent": "npm:@jsr/cspotcode__outdent@^0.8",
         "@lambdalisue/sandbox": "npm:@jsr/lambdalisue__sandbox@^3",
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^0",
+        "@probitas-test/internal-testing": "workspace:*",
         "@std/assert": "npm:@jsr/std__assert@^1",
         "@std/fmt": "npm:@jsr/std__fmt@^1",
         "@std/path": "npm:@jsr/std__path@^1",
-      },
-      "devDependencies": {
-        "@probitas-test/internal-testing": "workspace:*",
       },
     },
     "packages/probitas-discover": {
       "name": "@probitas-test/discover",
       "version": "0.4.0",
       "dependencies": {
-        "@lambdalisue/sandbox": "npm:@jsr/lambdalisue__sandbox@^3",
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^0",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-        "@std/path": "npm:@jsr/std__path@^1",
+        "@logtape/logtape": "^1.3.11",
       },
       "devDependencies": {
+        "@lambdalisue/sandbox": "npm:@jsr/lambdalisue__sandbox@^3",
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
+        "@std/path": "npm:@jsr/std__path@^1",
       },
     },
     "packages/probitas-expect": {
       "name": "@probitas-test/expect",
       "version": "0.4.1",
       "dependencies": {
-        "@core/errorutil": "npm:@jsr/core__errorutil@^1",
         "@probitas-test/client-connectrpc": "workspace:*",
         "@probitas-test/client-graphql": "workspace:*",
         "@probitas-test/client-grpc": "workspace:*",
@@ -255,13 +252,14 @@
         "@probitas-test/client-sql": "workspace:*",
         "@probitas-test/client-sqs": "workspace:*",
         "@probitas-test/core": "workspace:*",
-        "@std/assert": "npm:@jsr/std__assert@^1",
-        "@std/expect": "npm:@jsr/std__expect@^1",
-        "@std/testing": "npm:@jsr/std__testing@^1",
         "diff": "^7",
       },
       "devDependencies": {
+        "@core/errorutil": "npm:@jsr/core__errorutil@^1",
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/assert": "npm:@jsr/std__assert@^1",
+        "@std/expect": "npm:@jsr/std__expect@^1",
+        "@std/testing": "npm:@jsr/std__testing@^1",
         "@types/diff": "7",
       },
     },
@@ -269,31 +267,31 @@
       "name": "@probitas-test/reporter",
       "version": "0.7.1",
       "dependencies": {
-        "@logtape/logtape": "npm:@jsr/logtape__logtape@^0",
+        "@logtape/logtape": "^1.3.11",
         "@probitas-test/core": "workspace:*",
         "@probitas-test/expect": "workspace:*",
         "@probitas-test/runner": "workspace:*",
-        "@std/streams": "npm:@jsr/std__streams@^1",
-        "@std/testing": "npm:@jsr/std__testing@^1",
       },
       "devDependencies": {
         "@probitas-test/internal-testing": "workspace:*",
+        "@std/streams": "npm:@jsr/std__streams@^1",
+        "@std/testing": "npm:@jsr/std__testing@^1",
       },
     },
     "packages/probitas-runner": {
       "name": "@probitas-test/runner",
       "version": "0.5.6",
       "dependencies": {
-        "@core/errorutil": "npm:@jsr/core__errorutil@^1",
         "@probitas-test/core": "workspace:*",
+      },
+      "devDependencies": {
+        "@core/errorutil": "npm:@jsr/core__errorutil@^1",
+        "@probitas-test/internal-testing": "workspace:*",
         "@std/assert": "npm:@jsr/std__assert@^1",
         "@std/async": "npm:@jsr/std__async@^1",
         "@std/collections": "npm:@jsr/std__collections@^1",
         "@std/expect": "npm:@jsr/std__expect@^1",
         "@std/testing": "npm:@jsr/std__testing@^1",
-      },
-      "devDependencies": {
-        "@probitas-test/internal-testing": "workspace:*",
       },
     },
   },
@@ -426,7 +424,7 @@
 
     "@lambdalisue/sandbox": ["@jsr/lambdalisue__sandbox@3.0.1", "https://npm.jsr.io/~/11/@jsr/lambdalisue__sandbox/3.0.1.tgz", { "dependencies": { "@jsr/std__path": "^1" } }, "sha512-qv6H6BCNe1SW7lDNdvltdkZAPDNPtLSUOoPP5zQzl7JlJnh6l0i7tdqlKgZ5QoWHlxeqrqyPVP47E92jY1RYWA=="],
 
-    "@logtape/logtape": ["@jsr/logtape__logtape@1.3.11", "https://npm.jsr.io/~/11/@jsr/logtape__logtape/1.3.11.tgz", {}, "sha512-hei5OZz7Q1Ldi3daAnglgrPpBzxtaXBH8/ij2bI4e8GBMD/HTtFyNHE2Gh42g8oCGEZjeKvxTTPBQ222wJb1mA=="],
+    "@logtape/logtape": ["@logtape/logtape@1.3.11", "", {}, "sha512-mxkQOyySbjNGweavPudypBf0qZJxLOTXl2NAXYnsZF/ds5dQpTLA7YMSJbc8uFWlTkG+YjAnVL8tQWivIVPOJg=="],
 
     "@mongodb-js/saslprep": ["@mongodb-js/saslprep@1.6.0", "", { "dependencies": { "sparse-bitfield": "^3.0.3" } }, "sha512-19jGXfpctLDJUELLUZGJ5BllcLT7rHdF+gTTaN2jzqu0bGkUhpdcYtgK2Vux+g3zuBAa0TM/W666QMIjYhYujw=="],
 
@@ -558,6 +556,8 @@
 
     "named-placeholders": ["named-placeholders@1.1.6", "", { "dependencies": { "lru.min": "^1.1.0" } }, "sha512-Tz09sEL2EEuv5fFowm419c1+a/jSMiBjI9gHxVLrVdbUkkNUUfjsVYs9pVZu5oCon/kmRh9TfLEObFtkVxmY0w=="],
 
+    "outdent": ["outdent@0.8.0", "", {}, "sha512-KiOAIsdpUTcAXuykya5fnVVT+/5uS0Q1mrkRHcF89tpieSmY33O/tmc54CqwA+bfhbtEfZUNLHaPUiB9X3jt1A=="],
+
     "postgres": ["postgres@3.4.9", "", {}, "sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw=="],
 
     "punycode": ["punycode@2.3.1", "", {}, "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg=="],
@@ -591,11 +591,5 @@
     "webidl-conversions": ["webidl-conversions@7.0.0", "", {}, "sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g=="],
 
     "whatwg-url": ["whatwg-url@14.2.0", "", { "dependencies": { "tr46": "^5.1.0", "webidl-conversions": "^7.0.0" } }, "sha512-De72GdQZzNTUBBChsXueQUnPKDkg/5A5zp7pFDuQAj5UFoENpiACU0wlCvzpAGnTkj++ihpKwKyYewn/XNUbKw=="],
-
-    "@probitas-test/core/@logtape/logtape": ["@jsr/logtape__logtape@0.12.3", "https://npm.jsr.io/~/11/@jsr/logtape__logtape/0.12.3.tgz", {}, "sha512-zjwzAyH1K6LUfdYYXdJ0kuVQid+VtSO0QAWcqJzS39jI++cawa06YumhcnSg07CvvUq5qnay+uaq1uAYmFVG3A=="],
-
-    "@probitas-test/discover/@logtape/logtape": ["@jsr/logtape__logtape@0.12.3", "https://npm.jsr.io/~/11/@jsr/logtape__logtape/0.12.3.tgz", {}, "sha512-zjwzAyH1K6LUfdYYXdJ0kuVQid+VtSO0QAWcqJzS39jI++cawa06YumhcnSg07CvvUq5qnay+uaq1uAYmFVG3A=="],
-
-    "@probitas-test/reporter/@logtape/logtape": ["@jsr/logtape__logtape@0.12.3", "https://npm.jsr.io/~/11/@jsr/logtape__logtape/0.12.3.tgz", {}, "sha512-zjwzAyH1K6LUfdYYXdJ0kuVQid+VtSO0QAWcqJzS39jI++cawa06YumhcnSg07CvvUq5qnay+uaq1uAYmFVG3A=="],
   }
 }

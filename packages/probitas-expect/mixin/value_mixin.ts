@@ -1,4 +1,4 @@
-import { expect as stdExpect } from "@std/expect";
+import { expect as stdExpect } from "../_vendor/std_expect/mod.ts";
 import { createExpectationError } from "../error.ts";
 import { formatValue } from "../utils.ts";
 import { toPascalCase } from "../utils.ts";

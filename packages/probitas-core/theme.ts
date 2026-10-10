@@ -6,8 +6,17 @@
  * @module
  */
 
-import { cyan, gray, green, red, yellow } from "@std/fmt/colors";
 import process from "node:process";
+
+// Always-on ANSI colors, matching @std/fmt/colors outside Deno. Whether to
+// color at all is decided by picking colorTheme or noColorTheme below.
+const ansi = (open: number) => (s: string): string =>
+  `\x1b[${open}m${s}\x1b[39m`;
+const red = ansi(31);
+const green = ansi(32);
+const yellow = ansi(33);
+const cyan = ansi(36);
+const gray = ansi(90);
 
 /**
  * Apply light gray color (ANSI 256-color mode).

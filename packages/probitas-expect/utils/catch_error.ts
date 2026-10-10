@@ -7,8 +7,6 @@
  * @module
  */
 
-import { tryOrElse } from "@core/errorutil/try-or-else";
-
 /**
  * Catches an error thrown by a function and returns it as an Error object.
  *
@@ -42,7 +40,12 @@ import { tryOrElse } from "@core/errorutil/try-or-else";
  * ```
  */
 export function catchError(fn: () => unknown): Error {
-  const err = tryOrElse(() => void fn(), (err) => err);
+  let err: unknown;
+  try {
+    fn();
+  } catch (e) {
+    err = e;
+  }
 
   if (err === undefined) {
     throw new Error(

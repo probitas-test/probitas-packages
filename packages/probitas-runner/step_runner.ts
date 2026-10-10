@@ -1,4 +1,4 @@
-import { abortable } from "@std/async/abortable";
+import { abortable } from "./utils/async.ts";
 import type {
   ScenarioMetadata,
   SetupCleanup,

@@ -1,4 +1,4 @@
-import { chunk } from "@std/collections/chunk";
+import { chunk } from "./utils/collections.ts";
 import type { ScenarioDefinition, StepOptions } from "@probitas-test/core";
 import type {
   Reporter,
