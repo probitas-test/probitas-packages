@@ -21,8 +21,8 @@ etc.) under a unified workspace for streamlined development and testing.
   for uniform error handling
 - **Resource Management**: AsyncDisposable-aware clients for automatic cleanup
   in scenarios
-- **Built for Deno 2.x**: All packages published on JSR under the `@probitas/*`
-  namespace
+- **Built for Bun**: Published on npm under `@probitas-test/*` and on JSR under
+  `@probitas/*`
 
 ## Packages
 
@@ -67,7 +67,7 @@ framework package with unified API for writing scenarios.
 
 ### Prerequisites
 
-- Deno 2.x (or use Nix: `nix develop`)
+- Bun 1.4+ (or use Nix: `nix develop`)
 - Docker Compose (for integration testing services)
 
 ### Setup
@@ -80,6 +80,9 @@ cd probitas-packages
 # Enter development environment (optional, using Nix)
 nix develop
 
+# Install dependencies
+bun install
+
 # Start integration test services
 docker compose up -d
 ```
@@ -88,17 +91,16 @@ docker compose up -d
 
 ```bash
 # Run all checks and tests (recommended before committing)
-deno task verify
+bun run verify
 
 # Individual tasks
-deno fmt              # Format code
-deno lint             # Lint code
-deno task check       # Type check
-deno task test        # Run tests
+bun run fmt           # Format code (dprint)
+bun run lint          # Lint code (Biome)
+bun run check         # Type check (tsc)
+bun run test          # Run tests
 
 # Coverage
-deno task test:coverage
-deno task coverage
+bun run test --coverage
 ```
 
 ### Integration Services
@@ -166,7 +168,7 @@ docs(*): update copyright headers
 - Scopes must use full package names (e.g., `@probitas/expect`)
 - `feat:` → minor bump, `fix:`/`docs:`/`refactor:` → patch bump
 - `BREAKING:` → major bump (except for `/unstable` scopes, always patch)
-- Run `deno task verify` before committing
+- Run `bun run verify` before committing
 
 See [`.claude/rules/repository.md`](./.claude/rules/repository.md) for detailed
 contribution guidelines.

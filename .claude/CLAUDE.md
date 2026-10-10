@@ -4,11 +4,10 @@ Monorepo for Probitas scenario-based testing framework and client libraries.
 
 ## Quick Reference
 
-- **Runtime**: Deno 2.x
-- **Registry**: JSR (`@probitas/*`)
+- **Runtime**: Bun 1.4+ (pinned in `flake.nix`)
+- **Registries**: npm (`@probitas-test/*`) and JSR (`@probitas/*`)
 - **Framework Entry Point**: `@probitas/probitas` (user-facing API)
 - **Client Packages**: `@probitas/client-*` (HTTP, gRPC, SQL, etc.)
-- **Example Scenarios**: `probitas/*.probitas.ts`
 
 ## Repository Structure
 
@@ -24,7 +23,7 @@ Note: `@probitas/probitas` (Entrypoint, CLI) is maintained separately.
 ## Commands
 
 ```bash
-deno task verify      # Run format, lint, type check and tests (USE THIS)
-deno task test        # Run tests only
-deno task probitas    # Run the CLI (e.g., deno task probitas run)
+bun run verify        # Run format check, lint, type check and tests (USE THIS)
+bun run test          # Run tests only
+bun run fmt           # Format with dprint
 ```

@@ -1,5 +1,5 @@
 ---
-paths: "packages/**/*, deno.jsonc"
+paths: "packages/**/*, package.json"
 ---
 
 # Package Structure
@@ -10,9 +10,9 @@ Workspace organization and dependency management for Probitas monorepo.
 
 ```
 probitas-packages/
-├── deno.jsonc                    # Root workspace config
+├── package.json                  # Bun workspace root (scripts, dev tools)
+├── internal/testing/             # Private test helpers (bun:test adapter)
 ├── packages/
-│   ├── probitas/                 # @probitas/probitas - Primary library (user-facing API)
 │   ├── probitas-builder/         # @probitas/builder - Type-safe scenario definition
 │   ├── probitas-runner/          # @probitas/runner - Scenario execution engine
 │   ├── probitas-reporter/        # @probitas/reporter - Output formatters
@@ -26,11 +26,10 @@ probitas-packages/
 │   ├── probitas-client-sql-postgres/
 │   ├── probitas-client-sql-mysql/
 │   └── ... (redis, mongodb, rabbitmq, sqs, etc.)
-└── probitas/                     # Example scenarios
 ```
 
-Note: The CLI is maintained in a
-[separate repository](https://github.com/jsr-probitas/cli).
+Note: `@probitas/probitas` (the user-facing entry point and CLI) is maintained
+in the [probitas repository](https://github.com/probitas-test/probitas).
 
 ## Package Hierarchy
 
@@ -60,11 +59,14 @@ graph TD
 
 ## Dependency Management
 
-- **Workspace-level dependencies**: All dependencies are managed in the
-  workspace root `deno.jsonc`. Individual package `deno.json` files should not
-  contain `imports` or `scopes`.
-- **JSR protocol for internal deps**: Use `jsr:@probitas/xxx@^0` for
-  inter-package dependencies (workspace root provides path overrides for
-  development)
-- Root `deno.jsonc` contains: workspace definition, all project dependencies,
-  shared dev dependencies (testing), and local path overrides for development.
+- **Each package declares its own dependencies** in its `package.json`. Bun
+  installs workspaces in isolated mode, so an undeclared import does not resolve
+  even if a sibling depends on it.
+- **Inter-package dependencies** use `"@probitas-test/<name>": "workspace:*"`.
+- **npm names use the `@probitas-test` scope** (`@probitas` is taken on npm);
+  JSR names stay `@probitas/*`. Import specifiers in source use the npm names.
+- **JSR-only dependencies** (`@std/*`, `@core/*`) come from the `@jsr` npm
+  mirror configured in `bunfig.toml`, e.g.
+  `"@std/assert": "npm:@jsr/std__assert@^1"`.
+- **Shared dev tools** (TypeScript, Biome, dprint) live in the root
+  `package.json`.

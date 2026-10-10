@@ -2,9 +2,9 @@
 paths: "**/*.ts"
 ---
 
-# Deno/TypeScript Rules
+# TypeScript Rules
 
-Language-specific conventions and patterns for Deno projects.
+Language-specific conventions and patterns for this Bun workspace.
 
 ## Module Organization
 
@@ -64,11 +64,12 @@ Usage in tests:
 
 ```ts
 // parser_test.ts
+import { test } from "@probitas-test/internal-testing";
 import { _internal, parse } from "./parser.ts";
 
 const { parseValue, validateInput } = _internal;
 
-Deno.test("parseValue handles edge case", () => {
+test("parseValue handles edge case", () => {
   const result = parseValue("edge-case");
   // ...
 });
@@ -119,23 +120,28 @@ import { expectMongoResult } from "@probitas/expect/mongodb";
 import { expectMongoResult } from "@probitas/expect/mongodb/mod";
 ```
 
-## Package Config (deno.json)
+## Package Config (package.json)
 
 ```json
 {
-  "name": "@probitas/{package-name}",
+  "name": "@probitas-test/{package-name}",
   "version": "0.2.2",
-  "exports": "./mod.ts",
-  "publish": {
-    "exclude": ["**/*_test.ts", "**/*_bench.ts"]
+  "license": "MIT",
+  "type": "module",
+  "exports": { ".": "./mod.ts" },
+  "dependencies": {
+    "@probitas-test/client": "workspace:*"
+  },
+  "devDependencies": {
+    "@probitas-test/internal-testing": "workspace:*"
   }
 }
 ```
 
 ## Documentation Comments
 
-Code examples in JSDoc comments must be type-checked. Use `@example` tags with
-proper TypeScript code blocks:
+Code examples in JSDoc comments should be valid TypeScript. Use `@example` tags
+with proper TypeScript code blocks:
 
 ````ts
 /**
@@ -152,7 +158,8 @@ export function add(a: number, b: number): number {
 }
 ````
 
-Deno's `deno test --doc` validates these examples during CI.
+Nothing type-checks these examples automatically (Deno's `deno test --doc` is
+gone), so keep them small and copy them from code that compiles.
 
 ## Private Fields
 
@@ -274,9 +281,10 @@ export function createTestStep(
 Usage in tests:
 
 ```ts
+import { test } from "@probitas-test/internal-testing";
 import { createTestScenario } from "./_testutils.ts";
 
-Deno.test("scenario execution", async () => {
+test("scenario execution", async () => {
   const scenario = createTestScenario({ name: "my-test" });
   // ...
 });
@@ -325,6 +333,7 @@ Follow test-driven development principles:
 
 ## Development Environment
 
-- A Nix flake is provided to supply the Deno toolchain without global installs.
+- A Nix flake is provided to supply the Bun toolchain without global installs.
+  nixpkgs lags behind Bun releases, so the flake pins the upstream release.
 - Enter the shell with `nix develop`, or add `use flake` to `.envrc` and
   `direnv allow` for auto-activation.

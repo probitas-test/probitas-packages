@@ -34,13 +34,7 @@ Key exports:
 **Unit Tests (`*_test.ts`)**
 
 - Test in isolation without external dependencies
-- Run with `deno task test`
-
-**Example Scenarios (`probitas/`)**
-
-- Example scenarios for documentation and manual testing
-- Files named `*.probitas.ts`
-- Run with `deno task probitas run`
+- Run with `bun run test`
 
 ### Client Packages
 
@@ -55,7 +49,10 @@ Key exports:
 - Use `isServiceAvailable()` pattern to skip when unavailable:
 
 ```ts
-const SERVICE_URL = Deno.env.get("SERVICE_URL") ?? "http://localhost:8080";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
+
+const SERVICE_URL = process.env.SERVICE_URL ?? "http://localhost:8080";
 
 async function isServiceAvailable(): Promise<boolean> {
   try {
@@ -67,12 +64,15 @@ async function isServiceAvailable(): Promise<boolean> {
   }
 }
 
-Deno.test({
+test({
   name: "Integration: ServiceName",
   ignore: !(await isServiceAvailable()),
   fn() {/* ... */},
 });
 ```
+
+`test` comes from the private `@probitas-test/internal-testing` package, which
+maps `Deno.test`-style tests (with `t.step`) onto `bun:test`.
 
 When adding integration tests: update both `compose.yaml` and
 `.github/workflows/test.yml` services section.
