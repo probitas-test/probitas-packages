@@ -1,19 +1,30 @@
 {
   "name": "@probitas/reporter",
   "version": "0.7.1",
-  "exports": "./mod.ts",
+  "license": "MIT",
+  "exports": {
+    ".": "./mod.ts"
+  },
   "imports": {
-    "@std/streams": "jsr:@std/streams@^1",
-    "@std/testing": "jsr:@std/testing@^1",
-    "@logtape/logtape": "jsr:@logtape/logtape@^0",
-    "@probitas/core": "jsr:@probitas/core@^0",
-    "@probitas/expect": "jsr:@probitas/expect@^0",
-    "@probitas/runner": "jsr:@probitas/runner@^0"
+    "@logtape/logtape": "npm:@logtape/logtape@^1.3.11",
+    "@logtape/logtape/": "npm:@logtape/logtape@^1.3.11/",
+    "@probitas-test/core": "jsr:@probitas/core@^0.3.2",
+    "@probitas-test/core/loader": "jsr:@probitas/core@^0.3.2/loader",
+    "@probitas-test/core/origin": "jsr:@probitas/core@^0.3.2/origin",
+    "@probitas-test/core/selector": "jsr:@probitas/core@^0.3.2/selector",
+    "@probitas-test/core/stack": "jsr:@probitas/core@^0.3.2/stack",
+    "@probitas-test/core/theme": "jsr:@probitas/core@^0.3.2/theme",
+    "@probitas-test/expect": "jsr:@probitas/expect@^0.4.1",
+    "@probitas-test/runner": "jsr:@probitas/runner@^0.5.6"
   },
   "publish": {
     "exclude": [
       "**/*_test.ts",
-      "**/*_bench.ts"
+      "**/_testutils.ts",
+      "**/testkit.ts",
+      "dist",
+      "node_modules",
+      "package.json"
     ]
   }
 }
