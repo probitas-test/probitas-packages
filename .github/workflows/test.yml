@@ -17,6 +17,8 @@ jobs:
       - run: nix develop -c bun run fmt:check
       - run: nix develop -c bun run lint
       - run: nix develop -c bun run check
+      - run: nix develop -c bun scripts/sync_jsr.ts --check
+      - run: nix develop -c bun run build
 
   test:
     runs-on: ubuntu-latest
