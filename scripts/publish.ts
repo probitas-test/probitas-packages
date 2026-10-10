@@ -34,9 +34,53 @@ function run(command: string, args: string[], cwd = root): void {
   }
 }
 
+/**
+ * Run a command, retrying failures; only for commands that are safe to
+ * repeat (`jsr publish` skips the versions it already published).
+ */
+function runWithRetry(command: string, args: string[], attempts = 3): void {
+  for (let attempt = 1;; attempt++) {
+    try {
+      run(command, args);
+      return;
+    } catch (err) {
+      if (attempt >= attempts) throw err;
+      console.log(`retrying in 30s (attempt ${attempt} of ${attempts} failed)`);
+      Bun.sleepSync(30_000);
+    }
+  }
+}
+
 function onNpm(spec: string): boolean {
   return spawnSync("npm", ["view", spec, "version"], { stdio: "ignore" })
     .status === 0;
+}
+
+/**
+ * Whether npm refused a publish because the version already exists. `npm
+ * view` can miss a version published moments ago (registry caching), so a
+ * re-run may still try to publish it.
+ */
+function alreadyPublished(stderr: string): boolean {
+  return /Cannot publish over previously|cannot publish over the previously published/i
+    .test(stderr);
+}
+
+function npmPublish(args: string[]): void {
+  console.log(`$ npm ${args.join(" ")}`);
+  const result = spawnSync("npm", args, {
+    cwd: root,
+    stdio: ["inherit", "inherit", "pipe"],
+    encoding: "utf8",
+  });
+  if (result.error) throw result.error;
+  process.stderr.write(result.stderr);
+  if (result.status === 0) return;
+  if (alreadyPublished(result.stderr)) {
+    console.log("skip (already on npm)");
+    return;
+  }
+  throw new Error(`npm exited with ${result.status}`);
 }
 
 /** `bun pm pack` names tarballs `<scope>-<name>-<version>.tgz`. */
@@ -73,7 +117,7 @@ function main(): void {
       console.log(`skip ${spec} (already on npm)`);
       continue;
     }
-    run("npm", [
+    npmPublish([
       "publish",
       `./dist-pack/${tarballName(p.name, version)}`,
       "--tag",
@@ -85,8 +129,17 @@ function main(): void {
   }
 
   if (distTag === "latest") {
-    run("npx", ["--yes", "jsr", "publish", "--allow-dirty", ...dryRun]);
+    runWithRetry("npx", [
+      "--yes",
+      "jsr",
+      "publish",
+      "--allow-dirty",
+      ...dryRun,
+    ]);
   }
 }
+
+/** @internal */
+export const _internal = { alreadyPublished };
 
 if (import.meta.main) main();
