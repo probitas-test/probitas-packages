@@ -148,8 +148,7 @@ bun run test --coverage
 
 ## Contributing
 
-This repository uses Conventional Commits for automatic versioning with
-[@deno/bump-workspaces](https://github.com/denoland/bump-workspaces):
+This repository uses Conventional Commits:
 
 ```bash
 # Single package

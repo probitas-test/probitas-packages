@@ -12,9 +12,10 @@ bun run verify
 
 ## Commit Conventions
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/)
-with [@deno/bump-workspaces](https://jsr.io/@deno/bump-workspaces) for automatic
-version management.
+This project uses [Conventional Commits](https://www.conventionalcommits.org/).
+The release tooling that turns them into version bumps is being replaced (the
+previous one, `@deno/bump-workspaces`, required Deno); until then, keep writing
+messages as below.
 
 ### Version Bump Rules
 
@@ -55,7 +56,5 @@ BREAKING(@probitas/runner/unstable): change unstable API signature  # Still patc
   scopes, not file paths
 - Use `(*)` to affect all packages at once
 - Use `(scope/unstable)` for unstable API changes (always results in patch)
-- Run `deno run -A jsr:@deno/bump-workspaces/cli --dry-run` to preview version
-  bumps
-- The `bump.yml` workflow creates a PR with version updates when manually
-  triggered
+- Prereleases: the `publish-next.yml` workflow publishes every package to npm as
+  `<version>-next.<run>` under the `next` dist-tag
