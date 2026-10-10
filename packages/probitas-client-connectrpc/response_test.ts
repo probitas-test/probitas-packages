@@ -102,7 +102,7 @@ test("ConnectRpcResponseSuccessImpl", async (t) => {
   await t.step("with schema: data and raw are different objects", () => {
     // When schema is provided (even if invalid for toJson),
     // the code attempts conversion and may fall back
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const mockSchema: any = {
       typeName: "test.Message",
       fields: [],
@@ -137,7 +137,7 @@ test("ConnectRpcResponseSuccessImpl", async (t) => {
 
   await t.step("falls back to raw message when toJson fails", () => {
     // Create an invalid schema that will cause toJson to fail
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const invalidSchema: any = {
       typeName: "invalid.Schema",
       fields: undefined, // Invalid structure

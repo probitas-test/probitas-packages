@@ -38,7 +38,8 @@ export class Writer {
    * @param options - Configuration options (output stream)
    */
   constructor(options: WriterOptions = {}) {
-    this.#output = options.output ?? (Writable.toWeb(process.stderr) as WritableStream<Uint8Array>);
+    this.#output = options.output ??
+      (Writable.toWeb(process.stderr) as WritableStream<Uint8Array>);
   }
 
   /**

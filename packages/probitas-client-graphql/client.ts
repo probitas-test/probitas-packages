@@ -99,7 +99,7 @@ class GraphqlClientImpl implements GraphqlClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<TData = any, TVariables = Record<string, any>>(
     query: string,
     variables?: TVariables,
@@ -108,7 +108,7 @@ class GraphqlClientImpl implements GraphqlClient {
     return this.execute<TData, TVariables>(query, variables, options);
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   mutation<TData = any, TVariables = Record<string, any>>(
     mutation: string,
     variables?: TVariables,
@@ -117,7 +117,7 @@ class GraphqlClientImpl implements GraphqlClient {
     return this.execute<TData, TVariables>(mutation, variables, options);
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async execute<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,
@@ -270,7 +270,7 @@ class GraphqlClientImpl implements GraphqlClient {
     return response;
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async *subscribe<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,

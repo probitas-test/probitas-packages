@@ -40,7 +40,7 @@ interface SqlQueryResultBase<T> extends ClientResult {
  *
  * The query was executed successfully and returned results.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface SqlQueryResultSuccess<T = any> extends SqlQueryResultBase<T> {
   /** Server processed the query. */
   readonly processed: true;
@@ -69,7 +69,7 @@ export interface SqlQueryResultSuccess<T = any> extends SqlQueryResultBase<T> {
  *
  * Server received and processed the query, but it failed due to a SQL error.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface SqlQueryResultError<T = any> extends SqlQueryResultBase<T> {
   /** Server processed the query. */
   readonly processed: true;
@@ -99,7 +99,7 @@ export interface SqlQueryResultError<T = any> extends SqlQueryResultBase<T> {
  * Query could not be processed by the server (connection refused, timeout,
  * pool exhausted, authentication failure, etc.).
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface SqlQueryResultFailure<T = any> extends SqlQueryResultBase<T> {
   /** Server did not process the query. */
   readonly processed: false;
@@ -160,7 +160,7 @@ export interface SqlQueryResultFailure<T = any> extends SqlQueryResultBase<T> {
  * }
  * ```
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type SqlQueryResult<T = any> =
   | SqlQueryResultSuccess<T>
   | SqlQueryResultError<T>
@@ -169,7 +169,7 @@ export type SqlQueryResult<T = any> =
 /**
  * Parameters for creating a SqlQueryResultSuccess.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface SqlQueryResultSuccessParams<T = any> {
   /** The result rows */
   readonly rows: readonly T[];

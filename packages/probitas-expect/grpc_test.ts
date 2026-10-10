@@ -79,7 +79,7 @@ const EXPECTED_METHODS: Record<keyof GrpcResponseExpectation, unknown[]> = {
   toHaveTrailersEqual: [],
   toHaveTrailersStrictEqual: [],
   toHaveTrailersSatisfying: [
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     (v: Record<string, any>) => assertExists(v),
   ],
   toHaveTrailersMatching: [{ "grpc-status": "0" }],
@@ -95,7 +95,7 @@ const EXPECTED_METHODS: Record<keyof GrpcResponseExpectation, unknown[]> = {
   toHaveDataEqual: [],
   toHaveDataStrictEqual: [],
   toHaveDataSatisfying: [
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     (v: Record<string, any> | null) => assertExists(v),
   ],
   toHaveDataPresent: [],
@@ -177,7 +177,7 @@ for (
     const expectation = expectGrpcResponse(response);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const result = method.call(expectation, ...args);
 

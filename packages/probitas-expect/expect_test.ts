@@ -105,7 +105,7 @@ test("expect - infers expectation types", async (t) => {
   });
 
   await t.step("fallback to std expect (any)", () => {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const expectation = expect("value" as any);
     type Actual = typeof expectation;
     type Expected = AnythingExpectation;

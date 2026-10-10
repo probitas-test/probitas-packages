@@ -89,7 +89,7 @@ test("expectRabbitMqResult - throws for unknown result type", () => {
   };
 
   assertThrows(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     () => expectRabbitMqResult(unknownResult as any),
     Error,
     "Unknown RabbitMQ result kind: rabbitmq:unknown",

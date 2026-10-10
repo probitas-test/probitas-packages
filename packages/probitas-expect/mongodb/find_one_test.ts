@@ -96,7 +96,7 @@ for (
     const expectation = expectMongoFindOneResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 

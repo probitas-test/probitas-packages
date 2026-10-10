@@ -315,8 +315,8 @@ test("captureStack returns frames in correct order (innermost first)", () => {
   const contexts = frames.map((f) => f.context);
 
   // The first frame should be captureStack or inner, before outer
-  const innerIndex = contexts.findIndex((c) => c === "inner");
-  const outerIndex = contexts.findIndex((c) => c === "outer");
+  const innerIndex = contexts.indexOf("inner");
+  const outerIndex = contexts.indexOf("outer");
 
   if (innerIndex !== -1 && outerIndex !== -1) {
     assertEquals(innerIndex < outerIndex, true);

@@ -415,7 +415,10 @@ test({
     const channel = await client.channel();
     const queue = `probitas-close-${crypto.randomUUID()}`;
 
-    assertEquals((await channel.assertQueue(queue, { durable: false })).ok, true);
+    assertEquals(
+      (await channel.assertQueue(queue, { durable: false })).ok,
+      true,
+    );
     // Redeclaring with a different `durable` makes the broker close the
     // channel (406 PRECONDITION_FAILED); amqplib then emits "error" on it.
     const redeclared = await channel.assertQueue(queue, { durable: true });

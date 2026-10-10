@@ -1625,7 +1625,7 @@ class RedisClientImpl implements RedisClient {
 
   // Raw command
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async command<T = any>(
     cmd: string,
     args: unknown[],
@@ -1695,7 +1695,7 @@ class RedisClientImpl implements RedisClient {
 }
 
 class RedisTransactionImpl implements RedisTransaction {
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   readonly #pipeline: any;
   readonly #config: RedisClientConfig;
   #discarded = false;
@@ -1852,7 +1852,7 @@ class RedisTransactionImpl implements RedisTransaction {
     try {
       const results = await this.#pipeline.exec();
       // ioredis returns [[error, result], ...] format
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       const values = results?.map(([err, val]: [Error | null, any]) => {
         if (err) throw err;
         return val;

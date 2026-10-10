@@ -186,7 +186,7 @@ export interface SqlQueryResultExpectation {
    * Asserts that the last insert ID satisfies the provided matcher function.
    * @param matcher - A function that receives the last insert ID and performs assertions
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toHaveLastInsertIdSatisfying(matcher: (value: any) => void): this;
 
   /**
@@ -339,7 +339,7 @@ export interface SqlQueryResultExpectation {
   toHaveDurationCloseTo(expected: number, numDigits?: number): this;
 }
 
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export function expectSqlQueryResult<T = Record<string, any>>(
   result: SqlQueryResult<T>,
 ): SqlQueryResultExpectation {

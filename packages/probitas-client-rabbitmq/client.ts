@@ -676,7 +676,7 @@ class RabbitMqChannelImpl implements RabbitMqChannel {
         maxLength: options?.maxLength,
       });
 
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       const queueOptions: any = {
         durable: options?.durable,
         exclusive: options?.exclusive,

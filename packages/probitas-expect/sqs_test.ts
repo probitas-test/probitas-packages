@@ -118,7 +118,7 @@ test("expectSqsResult - throws on unknown result type", () => {
   const unknownResult = { kind: "sqs:unknown", ok: true };
 
   assertThrows(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     () => expectSqsResult(unknownResult as any),
     Error,
     "Unknown SQS result kind: sqs:unknown",

@@ -78,8 +78,8 @@ export type ValueMixin<V, C extends MixinConfig> = <T extends object>(
  * ```
  */
 export function createValueMixin<
-  // deno-lint-ignore no-explicit-any
-  V extends any = any,
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
+  V = any,
   const C extends MixinConfig = MixinConfig,
 >(
   getter: () => V,

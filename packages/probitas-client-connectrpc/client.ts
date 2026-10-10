@@ -24,7 +24,11 @@ import {
   ServerReflectionClient,
 } from "@lambdalisue/connectrpc-grpcreflect/client";
 import { getLogger } from "@logtape/logtape";
-import { AbortError, ConnectionError, TimeoutError } from "@probitas-test/client";
+import {
+  AbortError,
+  ConnectionError,
+  TimeoutError,
+} from "@probitas-test/client";
 import type {
   ConnectProtocol,
   ConnectRpcClientConfig,
@@ -718,7 +722,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();
@@ -823,7 +827,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();
@@ -931,7 +935,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();
@@ -1035,7 +1039,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();

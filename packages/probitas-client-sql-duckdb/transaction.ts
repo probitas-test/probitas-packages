@@ -44,7 +44,7 @@ export class DuckDbTransactionImpl implements SqlTransaction {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -73,7 +73,7 @@ export class DuckDbTransactionImpl implements SqlTransaction {
         trimmedSql.startsWith("SHOW") ||
         trimmedSql.startsWith("WITH");
 
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       let rows: any[];
 
       if (params && params.length > 0) {
@@ -152,7 +152,7 @@ export class DuckDbTransactionImpl implements SqlTransaction {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

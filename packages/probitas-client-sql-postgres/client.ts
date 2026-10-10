@@ -39,7 +39,7 @@ export interface PostgresClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -53,7 +53,7 @@ export interface PostgresClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -159,7 +159,7 @@ class PostgresClientImpl implements PostgresClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -235,7 +235,7 @@ class PostgresClientImpl implements PostgresClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

@@ -83,7 +83,7 @@ export function expect<T extends RabbitMqResult>(
 export function expect<T extends SqsResult>(
   value: NotAny<T>,
 ): SqsExpectation<T>;
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export function expect(value: any): AnythingExpectation;
 export function expect(value: unknown): unknown {
   if (hasKind(value)) {

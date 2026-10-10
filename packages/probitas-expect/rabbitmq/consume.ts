@@ -55,7 +55,7 @@ export interface RabbitMqConsumeResultExpectation {
    * Asserts that the message satisfies the provided matcher function.
    * @param matcher - A function that receives the message and performs assertions
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toHaveMessageSatisfying(matcher: (value: any) => void): this;
 
   /**
@@ -120,7 +120,7 @@ export interface RabbitMqConsumeResultExpectation {
    */
   toHaveMessagePropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 
@@ -146,7 +146,7 @@ export interface RabbitMqConsumeResultExpectation {
    * Asserts that the content satisfies the provided matcher function.
    * @param matcher - A function that receives the content and performs assertions
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toHaveContentSatisfying(matcher: (value: any) => void): this;
 
   /**

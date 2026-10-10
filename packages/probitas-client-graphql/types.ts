@@ -121,7 +121,7 @@ export interface GraphqlClient extends AsyncDisposable {
   readonly config: GraphqlClientConfig;
 
   /** Execute a GraphQL query */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<TData = any, TVariables = Record<string, any>>(
     query: string,
     variables?: TVariables,
@@ -129,7 +129,7 @@ export interface GraphqlClient extends AsyncDisposable {
   ): Promise<GraphqlResponse<TData>>;
 
   /** Execute a GraphQL mutation */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   mutation<TData = any, TVariables = Record<string, any>>(
     mutation: string,
     variables?: TVariables,
@@ -137,7 +137,7 @@ export interface GraphqlClient extends AsyncDisposable {
   ): Promise<GraphqlResponse<TData>>;
 
   /** Execute a GraphQL document (query or mutation) */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   execute<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,
@@ -145,7 +145,7 @@ export interface GraphqlClient extends AsyncDisposable {
   ): Promise<GraphqlResponse<TData>>;
 
   /** Subscribe to a GraphQL subscription via WebSocket */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   subscribe<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,

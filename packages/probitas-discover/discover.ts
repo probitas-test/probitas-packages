@@ -272,7 +272,6 @@ export async function discoverScenarioFiles(
           path,
           filesFound: filePaths.size,
         });
-        continue;
       }
     } catch (err) {
       // Only skip if file not found, otherwise propagate error

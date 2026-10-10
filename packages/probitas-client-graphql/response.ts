@@ -4,7 +4,7 @@ import type { GraphqlExecutionError, GraphqlFailureError } from "./errors.ts";
 /**
  * Base interface for all GraphQL response types.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 interface GraphqlResponseBase<T = any> extends ClientResult {
   /**
    * Result kind discriminator.
@@ -72,7 +72,7 @@ interface GraphqlResponseBase<T = any> extends ClientResult {
 /**
  * Successful GraphQL response (no errors).
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface GraphqlResponseSuccess<T = any>
   extends GraphqlResponseBase<T> {
   readonly processed: true;
@@ -101,7 +101,7 @@ export interface GraphqlResponseSuccess<T = any>
  * Note: GraphQL allows partial success where both data and errors are present.
  * Use data() to access any partial data.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface GraphqlResponseError<T = any> extends GraphqlResponseBase<T> {
   readonly processed: true;
   readonly ok: false;
@@ -128,7 +128,7 @@ export interface GraphqlResponseError<T = any> extends GraphqlResponseBase<T> {
  *
  * The request did not reach GraphQL processing.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface GraphqlResponseFailure<T = any>
   extends GraphqlResponseBase<T> {
   readonly processed: false;
@@ -162,7 +162,7 @@ export interface GraphqlResponseFailure<T = any>
  * - `ok === true`: Success (no errors)
  * - `ok === false`: Error or Failure
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type GraphqlResponse<T = any> =
   | GraphqlResponseSuccess<T>
   | GraphqlResponseError<T>

@@ -126,7 +126,7 @@ test("expectRedisResult - throws for unknown result type", () => {
   };
 
   assertThrows(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     () => expectRedisResult(unknownResult as any),
     Error,
     "Unknown Redis result kind: redis:unknown",

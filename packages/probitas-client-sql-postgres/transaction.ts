@@ -48,7 +48,7 @@ export class PostgresTransaction implements SqlTransaction {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -97,7 +97,7 @@ export class PostgresTransaction implements SqlTransaction {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

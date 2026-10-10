@@ -191,7 +191,7 @@ export interface GraphqlResponseExpectation {
    */
   toHaveHeadersPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 
@@ -217,7 +217,7 @@ export interface GraphqlResponseExpectation {
    * Asserts that the error satisfies the provided matcher function.
    * @param matcher - A function that receives the error and performs assertions
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toHaveErrorSatisfying(matcher: (value: any) => void): this;
 
   /**
@@ -263,7 +263,7 @@ export interface GraphqlResponseExpectation {
    * @param matcher - A function that receives the extensions and performs assertions
    */
   toHaveExtensionsSatisfying(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: Record<string, any>) => void,
   ): this;
 
@@ -309,7 +309,7 @@ export interface GraphqlResponseExpectation {
    */
   toHaveExtensionsPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 
@@ -355,7 +355,7 @@ export interface GraphqlResponseExpectation {
    * Asserts that the data satisfies the provided matcher function.
    * @param matcher - A function that receives the data and performs assertions
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toHaveDataSatisfying(matcher: (value: any) => void): this;
 
   /**
@@ -400,7 +400,7 @@ export interface GraphqlResponseExpectation {
    */
   toHaveDataPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 

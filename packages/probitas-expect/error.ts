@@ -125,7 +125,10 @@ export function createExpectationError(
   if (expectOrigin && matcherOrigin) {
     const ctx = getSourceContext(expectOrigin, matcherOrigin);
     if (ctx) {
-      const contextStr = formatSourceContext(ctx, { cwd: process.cwd(), theme });
+      const contextStr = formatSourceContext(ctx, {
+        cwd: process.cwd(),
+        theme,
+      });
       parts.push(contextStr);
     }
   }

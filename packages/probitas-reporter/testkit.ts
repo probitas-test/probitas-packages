@@ -374,7 +374,7 @@ function normalizeStackPaths(output: string): string {
  */
 function getBufferOutputNoColor(buffer: Buffer): string {
   const output = new TextDecoder().decode(buffer.bytes());
-  // deno-lint-ignore no-control-regex
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: matches ANSI escape sequences
   const noColor = output.replace(/\x1b\[[0-9;]*m/g, "");
   return normalizeStackPaths(noColor);
 }

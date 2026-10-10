@@ -124,7 +124,7 @@ export const defaultTheme = process.env.NO_COLOR ? noColorTheme : colorTheme;
  * - `\x1b[32m` (green)
  * - `\x1b[1;31m` (bold red)
  */
-// deno-lint-ignore no-control-regex
+// biome-ignore lint/suspicious/noControlCharactersInRegex: matches ANSI escape sequences
 const ANSI_ESCAPE_SEQUENCE_PATTERN = /\x1b\[[0-9;]*m/g;
 
 /**

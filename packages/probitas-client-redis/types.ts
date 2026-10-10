@@ -1,4 +1,7 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+} from "@probitas-test/client";
 import type {
   RedisArrayResult,
   RedisCommonResult,
@@ -241,7 +244,7 @@ export interface RedisClient extends AsyncDisposable {
   multi(): RedisTransaction;
 
   // Raw command
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   command<T = any>(
     cmd: string,
     args: unknown[],

@@ -70,7 +70,9 @@ function createContext(path: string): TestContext {
       try {
         await definition.fn(createContext(stepPath));
       } catch (error) {
-        throw error instanceof StepError ? error : new StepError(stepPath, error);
+        throw error instanceof StepError
+          ? error
+          : new StepError(stepPath, error);
       }
       return true;
     },

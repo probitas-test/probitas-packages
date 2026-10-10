@@ -36,7 +36,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -49,7 +49,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -72,7 +72,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * DuckDB can read Parquet files without importing them.
    * @param path - Path to the Parquet file
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryParquet<T = Record<string, any>>(
     path: string,
   ): Promise<SqlQueryResult<T>>;
@@ -82,7 +82,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * DuckDB can read CSV files without importing them.
    * @param path - Path to the CSV file
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryCsv<T = Record<string, any>>(path: string): Promise<SqlQueryResult<T>>;
 
   /**
@@ -215,7 +215,7 @@ class DuckDbClientImpl implements DuckDbClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -256,7 +256,7 @@ class DuckDbClientImpl implements DuckDbClient {
         trimmedSql.startsWith("SHOW") ||
         trimmedSql.startsWith("WITH");
 
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       let rows: any[];
 
       if (params && params.length > 0) {
@@ -354,7 +354,7 @@ class DuckDbClientImpl implements DuckDbClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -409,7 +409,7 @@ class DuckDbClientImpl implements DuckDbClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryParquet<T = Record<string, any>>(
     path: string,
   ): Promise<SqlQueryResult<T>> {
@@ -422,7 +422,7 @@ class DuckDbClientImpl implements DuckDbClient {
     return this.query<T>(`SELECT * FROM read_parquet('${escapedPath}')`);
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryCsv<T = Record<string, any>>(path: string): Promise<SqlQueryResult<T>> {
     logger.info("DuckDB queryCsv starting", {
       path,

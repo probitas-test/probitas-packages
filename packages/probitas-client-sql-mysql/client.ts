@@ -33,7 +33,7 @@ export interface MySqlClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -46,7 +46,7 @@ export interface MySqlClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -270,7 +270,7 @@ class MySqlClientImpl implements MySqlClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -302,7 +302,7 @@ class MySqlClientImpl implements MySqlClient {
     });
 
     try {
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       const [rows, _fields] = await (this.#pool as any).execute(sql, params);
       const duration = performance.now() - startTime;
 
@@ -328,7 +328,7 @@ class MySqlClientImpl implements MySqlClient {
       }
 
       // Handle INSERT/UPDATE/DELETE queries (ResultSetHeader)
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       const resultHeader = rows as any;
 
       logger.info("MySQL query success", {
@@ -373,7 +373,7 @@ class MySqlClientImpl implements MySqlClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

@@ -6,7 +6,10 @@
 
 import type { MessageShape } from "@bufbuild/protobuf";
 import type { FileDescriptorSetSchema } from "@bufbuild/protobuf/wkt";
-import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+} from "@probitas-test/client";
 import type {
   ConnectRpcResponse,
   ConnectRpcResponseError,

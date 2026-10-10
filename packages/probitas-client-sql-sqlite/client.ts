@@ -38,7 +38,7 @@ export interface SqliteClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -51,7 +51,7 @@ export interface SqliteClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -212,7 +212,7 @@ class SqliteClientImpl implements SqliteClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -256,9 +256,9 @@ class SqliteClientImpl implements SqliteClient {
         try {
           const rows = (
             params
-              // deno-lint-ignore no-explicit-any
+              // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
               ? stmt.all<Record<string, any>>(...(params as BindParams))
-              // deno-lint-ignore no-explicit-any
+              // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
               : stmt.all<Record<string, any>>()
           ) as T[];
           const duration = performance.now() - startTime;
@@ -348,7 +348,7 @@ class SqliteClientImpl implements SqliteClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

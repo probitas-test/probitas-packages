@@ -55,7 +55,7 @@ export interface RedisHashResultExpectation {
    * Asserts that the value satisfies the provided matcher function.
    * @param matcher - A function that receives the value and performs assertions
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toHaveValueSatisfying(matcher: (value: any) => void): this;
 
   /**
@@ -100,7 +100,7 @@ export interface RedisHashResultExpectation {
    */
   toHaveValuePropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 

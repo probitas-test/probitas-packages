@@ -94,7 +94,7 @@ test("ListReporter - multiline error messages without colors shows only first li
 
   const output = new TextDecoder().decode(buffer.bytes());
   // Remove ANSI color codes for consistent snapshot comparison
-  // deno-lint-ignore no-control-regex
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: matches ANSI escape sequences
   const noColor = output.replace(/\x1b\[[0-9;]*m/g, "");
   await assertSnapshot(t, noColor);
 });
@@ -114,7 +114,7 @@ test("ListReporter - multiline error messages without colors shows only first li
 
   const output = new TextDecoder().decode(buffer.bytes());
   // Remove ANSI color codes for consistent snapshot comparison
-  // deno-lint-ignore no-control-regex
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: matches ANSI escape sequences
   const noColor = output.replace(/\x1b\[[0-9;]*m/g, "");
   await assertSnapshot(t, noColor);
 });

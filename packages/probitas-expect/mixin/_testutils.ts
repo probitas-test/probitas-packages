@@ -5,7 +5,10 @@
  */
 
 import { removeColors } from "@probitas-test/core/theme";
-import { type TestContext, assertSnapshot } from "@probitas-test/internal-testing";
+import {
+  assertSnapshot,
+  type TestContext,
+} from "@probitas-test/internal-testing";
 
 /**
  * Assert snapshot after removing ANSI color codes from the actual value.

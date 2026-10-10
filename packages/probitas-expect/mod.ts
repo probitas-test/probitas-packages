@@ -237,7 +237,6 @@ export type * from "@probitas-test/client-redis";
 export * from "./mongodb.ts";
 export type * from "@probitas-test/client-mongodb";
 
-
 // SQS
 export * from "./sqs.ts";
 export type * from "@probitas-test/client-sqs";

@@ -1,4 +1,8 @@
-import { AbortError, ClientError, TimeoutError } from "@probitas-test/client";
+import {
+  type AbortError,
+  ClientError,
+  type TimeoutError,
+} from "@probitas-test/client";
 import type { GraphqlErrorItem } from "./types.ts";
 import { inspect } from "node:util";
 

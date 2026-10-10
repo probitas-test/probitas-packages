@@ -1,4 +1,7 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas-test/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+} from "@probitas-test/client";
 
 /**
  * TLS/SSL configuration for MySQL connections.

@@ -251,7 +251,7 @@ export interface ConnectRpcResponseExpectation {
    */
   toHaveHeadersPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 
@@ -323,7 +323,7 @@ export interface ConnectRpcResponseExpectation {
    */
   toHaveTrailersPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 
@@ -350,7 +350,7 @@ export interface ConnectRpcResponseExpectation {
    * @param matcher - A function that receives the data and performs assertions
    */
   toHaveDataSatisfying(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: Record<string, any> | null) => void,
   ): this;
 
@@ -416,7 +416,7 @@ export interface ConnectRpcResponseExpectation {
    */
   toHaveDataPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 

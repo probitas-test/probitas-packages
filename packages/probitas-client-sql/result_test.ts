@@ -131,6 +131,7 @@ test("SqlQueryResultErrorImpl", async (t) => {
 
   await t.step("as() returns empty array", () => {
     class User {
+      // biome-ignore lint/complexity/noUselessConstructor: as() is typed against this constructor signature
       constructor(_row: { id: number }) {}
     }
 
@@ -166,6 +167,7 @@ test("SqlQueryResultFailureImpl", async (t) => {
 
   await t.step("as() returns empty array", () => {
     class User {
+      // biome-ignore lint/complexity/noUselessConstructor: as() is typed against this constructor signature
       constructor(_row: { id: number }) {}
     }
 
