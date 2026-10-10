@@ -1,9 +1,9 @@
-export const snapshot = {};
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
-snapshot[`applyOneOfValueMixin - toHaveStatusOneOf 1`] = `"Expected status to be one of 200, 201, but got 500"`;
+exports[`applyOneOfValueMixin - toHaveStatusOneOf 1`] = `"Expected status to be one of 200, 201, but got 500"`;
 
-snapshot[`createOneOfValueMixin - toHaveStatusOneOf with source context 1`] = `
-'Expected status to be one of 200, 201, but got 500
+exports[`createOneOfValueMixin - toHaveStatusOneOf with source context 1`] = `
+"Expected status to be one of 200, 201, but got 500
 
 Context (packages/probitas-expect/mixin/one_of_value_mixin_test.ts:59:5)
 
@@ -13,21 +13,21 @@ Context (packages/probitas-expect/mixin/one_of_value_mixin_test.ts:59:5)
     ┆
   65│       t,
   66│       catchError(() => applied.toHaveStatusOneOf([200, 201])).message,
-    │                                ^
-  67│     );'
+    │       ^
+  67│     );"
 `;
 
-snapshot[`createOneOfValueMixin - toHaveStatusOneOf with source context 2`] = `
-'[1m[31mExpected status to be one of 200, 201, but got 500[39m[0m
+exports[`createOneOfValueMixin - toHaveStatusOneOf with source context 2`] = `
+"\x1B[1m\x1B[31mExpected status to be one of 200, 201, but got 500\x1B[39m\x1B[0m
 
-[1mContext[0m [90m(packages/probitas-expect/mixin/one_of_value_mixin_test.ts:71:5)[39m
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/one_of_value_mixin_test.ts:71:5)\x1B[39m
 
-  [90m70│   await t.step("fail (withColor)", async () => {[39m
-  [90m71│     const mixin = createOneOfValueMixin(() => 500, () => false, {[39m
-  [90m72│       valueName: "status",[39m
-  [90m  ┆[39m
-  [90m78│       t,[39m
-  [90m79│       catchError(() => applied.toHaveStatusOneOf([200, 201])).message,[39m
-  [90m  │                                [39m[31m^[39m
-  [90m80│     );[39m'
+  \x1B[90m70│   await t.step("fail (withColor)", async () => {\x1B[39m
+  \x1B[90m71│     const mixin = createOneOfValueMixin(() => 500, () => false, {\x1B[39m
+  \x1B[90m72│       valueName: "status",\x1B[39m
+  \x1B[90m  ┆\x1B[39m
+  \x1B[90m78│       t,\x1B[39m
+  \x1B[90m79│       catchError(() => applied.toHaveStatusOneOf([200, 201])).message,\x1B[39m
+  \x1B[90m  │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m80│     );\x1B[39m"
 `;

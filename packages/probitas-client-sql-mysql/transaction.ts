@@ -9,7 +9,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import { convertMySqlError } from "./errors.ts";
 
 /**
@@ -43,7 +43,7 @@ const ISOLATION_LEVEL_MAP: Record<SqlIsolationLevel, string> = {
   serializable: "SERIALIZABLE",
 };
 
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 type AnyPoolConnection = mysql.PoolConnection | any;
 
 export class MySqlTransactionImpl implements MySqlTransaction {
@@ -77,7 +77,7 @@ export class MySqlTransactionImpl implements MySqlTransaction {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -110,7 +110,7 @@ export class MySqlTransactionImpl implements MySqlTransaction {
       }
 
       // Handle INSERT/UPDATE/DELETE queries (ResultSetHeader)
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       const resultHeader = rows as any;
       return new SqlQueryResultSuccessImpl<T>({
         rows: [],
@@ -141,7 +141,7 @@ export class MySqlTransactionImpl implements MySqlTransaction {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

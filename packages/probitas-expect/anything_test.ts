@@ -1,8 +1,9 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { expectAnything } from "./anything.ts";
 import { expect as expectStd, fn } from "@std/expect";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("expectAnything - basic matchers", async (t) => {
+test("expectAnything - basic matchers", async (t) => {
   await t.step("toBe", () => {
     expectAnything(42).toBe(42);
     assertThrows(() => expectAnything(42).toBe(43));
@@ -55,7 +56,7 @@ Deno.test("expectAnything - basic matchers", async (t) => {
   });
 });
 
-Deno.test("expectAnything - comparison matchers", async (t) => {
+test("expectAnything - comparison matchers", async (t) => {
   await t.step("toBeGreaterThan", () => {
     expectAnything(42).toBeGreaterThan(40);
     assertThrows(() => expectAnything(42).toBeGreaterThan(42));
@@ -87,7 +88,7 @@ Deno.test("expectAnything - comparison matchers", async (t) => {
   });
 });
 
-Deno.test("expectAnything - string matchers", async (t) => {
+test("expectAnything - string matchers", async (t) => {
   await t.step("toMatch - RegExp", () => {
     expectAnything("hello world").toMatch(/world/);
     expectAnything("hello world").toMatch(/^hello/);
@@ -103,7 +104,7 @@ Deno.test("expectAnything - string matchers", async (t) => {
   });
 });
 
-Deno.test("expectAnything - array/object matchers", async (t) => {
+test("expectAnything - array/object matchers", async (t) => {
   await t.step("toContainEqual", () => {
     expectAnything([{ a: 1 }, { b: 2 }]).toContainEqual({ a: 1 });
     assertThrows(() =>
@@ -136,7 +137,7 @@ Deno.test("expectAnything - array/object matchers", async (t) => {
   });
 });
 
-Deno.test("expectAnything - type matchers", async (t) => {
+test("expectAnything - type matchers", async (t) => {
   await t.step("toBeInstanceOf", () => {
     expectAnything(new Date()).toBeInstanceOf(Date);
     expectAnything(new Error("test")).toBeInstanceOf(Error);
@@ -161,7 +162,7 @@ Deno.test("expectAnything - type matchers", async (t) => {
   });
 });
 
-Deno.test("expectAnything - mock matchers", async (t) => {
+test("expectAnything - mock matchers", async (t) => {
   await t.step("toHaveBeenCalled", () => {
     const mock = fn();
     assertThrows(() => expectAnything(mock).toHaveBeenCalled());
@@ -246,7 +247,7 @@ Deno.test("expectAnything - mock matchers", async (t) => {
   });
 });
 
-Deno.test("expectAnything - negation with .not", async (t) => {
+test("expectAnything - negation with .not", async (t) => {
   await t.step("not.toBe", () => {
     expectAnything(42).not.toBe(43);
     assertThrows(() => expectAnything(42).not.toBe(42));
@@ -268,7 +269,7 @@ Deno.test("expectAnything - negation with .not", async (t) => {
   });
 });
 
-Deno.test("expectAnything - state-based negation", async (t) => {
+test("expectAnything - state-based negation", async (t) => {
   await t.step("double negation (.not.not) cancels out", () => {
     // .not.not should result in positive assertion
     expectAnything(42).not.not.toBe(42);
@@ -313,7 +314,7 @@ Deno.test("expectAnything - state-based negation", async (t) => {
   });
 });
 
-Deno.test("expectAnything - method chaining", async (t) => {
+test("expectAnything - method chaining", async (t) => {
   await t.step("chain multiple assertions", () => {
     expectAnything(42)
       .toBeDefined()
@@ -376,7 +377,7 @@ Deno.test("expectAnything - method chaining", async (t) => {
 // of wrapping @std/expect's Proxy-based implementation.
 // For Promise testing, use @std/expect directly or await the promise first.
 
-Deno.test("expectAnything - method coverage", async (t) => {
+test("expectAnything - method coverage", async (t) => {
   await t.step("covers all @std/expect matchers", () => {
     // Get methods from @std/expect
     const stdExpectInstance = expectStd(42);

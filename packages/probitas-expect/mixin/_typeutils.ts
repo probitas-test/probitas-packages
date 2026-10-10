@@ -3,7 +3,7 @@
  * Intersecting with Unit (`T & Unit`) has no runtime or type-level effect,
  * but helps trigger TypeScript's type simplification.
  */
-// deno-lint-ignore ban-types
+// biome-ignore lint/complexity/noBannedTypes: intentional
 export type Unit = {};
 
 /**
@@ -70,7 +70,7 @@ export type PatchTypedChainMethod<
 /**
  * Any function type used as a constraint for generic function processing.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type AnyFunction = (...args: any[]) => any;
 
 /**

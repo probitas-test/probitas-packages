@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createBooleanValueMixin } from "./boolean_value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createBooleanValueMixin - type check", () => {
+test("createBooleanValueMixin - type check", () => {
   const mixin = createBooleanValueMixin(() => true, () => false, {
     valueName: "value",
   });
@@ -22,7 +22,7 @@ Deno.test("createBooleanValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createBooleanValueMixin - attribute check", () => {
+test("createBooleanValueMixin - attribute check", () => {
   const applier = createBooleanValueMixin(() => true, () => false, {
     valueName: "value",
   });
@@ -35,7 +35,7 @@ Deno.test("createBooleanValueMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createBooleanValueMixin - toHaveValueTruthy", async (t) => {
+test("createBooleanValueMixin - toHaveValueTruthy", async (t) => {
   await t.step("success", () => {
     const mixin = createBooleanValueMixin(() => true, () => false, {
       valueName: "value",
@@ -56,7 +56,7 @@ Deno.test("createBooleanValueMixin - toHaveValueTruthy", async (t) => {
   });
 });
 
-Deno.test("createBooleanValueMixin - toHaveValueFalsy", async (t) => {
+test("createBooleanValueMixin - toHaveValueFalsy", async (t) => {
   await t.step("success", () => {
     const mixin = createBooleanValueMixin(() => false, () => false, {
       valueName: "value",
@@ -77,7 +77,7 @@ Deno.test("createBooleanValueMixin - toHaveValueFalsy", async (t) => {
   });
 });
 
-Deno.test("createBooleanValueMixin - toHaveValueTruthy with source context", async (t) => {
+test("createBooleanValueMixin - toHaveValueTruthy with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createBooleanValueMixin(() => false, () => false, {
       valueName: "value",

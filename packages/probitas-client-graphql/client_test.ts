@@ -5,19 +5,21 @@ import {
   assertInstanceOf,
   assertRejects,
 } from "@std/assert";
+import type { Fetch } from "@probitas-test/client";
 import { createGraphqlClient } from "./client.ts";
 import { GraphqlExecutionError, GraphqlNetworkError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
 function createMockFetch(
   handler: (req: Request) => Response | Promise<Response>,
-): typeof fetch {
+): Fetch {
   return (input: RequestInfo | URL, init?: RequestInit) => {
     const request = new Request(input, init);
     return Promise.resolve(handler(request));
   };
 }
 
-Deno.test("createGraphqlClient", async (t) => {
+test("createGraphqlClient", async (t) => {
   await t.step("returns GraphqlClient with config", () => {
     const client = createGraphqlClient({
       url: "http://localhost:4000/graphql",
@@ -34,7 +36,7 @@ Deno.test("createGraphqlClient", async (t) => {
   });
 });
 
-Deno.test("GraphqlClient.query", async (t) => {
+test("GraphqlClient.query", async (t) => {
   await t.step("sends POST request with query", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -232,7 +234,7 @@ Deno.test("GraphqlClient.query", async (t) => {
   );
 });
 
-Deno.test("GraphqlClient.mutation", async (t) => {
+test("GraphqlClient.mutation", async (t) => {
   await t.step("sends mutation request", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -257,7 +259,7 @@ Deno.test("GraphqlClient.mutation", async (t) => {
   });
 });
 
-Deno.test("GraphqlClient.execute", async (t) => {
+test("GraphqlClient.execute", async (t) => {
   await t.step("works for queries", async () => {
     const mockFetch = createMockFetch(() => {
       return new Response(JSON.stringify({ data: { test: true } }));
@@ -291,7 +293,7 @@ Deno.test("GraphqlClient.execute", async (t) => {
   });
 });
 
-Deno.test("GraphqlClient headers", async (t) => {
+test("GraphqlClient headers", async (t) => {
   await t.step("sends Content-Type header", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -364,7 +366,7 @@ Deno.test("GraphqlClient headers", async (t) => {
   });
 });
 
-Deno.test("GraphqlClient response", async (t) => {
+test("GraphqlClient response", async (t) => {
   await t.step("includes duration in response", async () => {
     const mockFetch = createMockFetch(() => {
       return new Response(JSON.stringify({ data: { test: true } }));
@@ -436,7 +438,7 @@ Deno.test("GraphqlClient response", async (t) => {
   });
 });
 
-Deno.test("GraphqlClient network errors", async (t) => {
+test("GraphqlClient network errors", async (t) => {
   await t.step(
     "returns GraphqlResponseFailure on fetch failure by default",
     async () => {
@@ -581,7 +583,7 @@ Deno.test("GraphqlClient network errors", async (t) => {
   );
 });
 
-Deno.test("GraphqlClient partial data with errors", async (t) => {
+test("GraphqlClient partial data with errors", async (t) => {
   await t.step(
     "returns partial data with errors when throwOnError: false",
     async () => {
@@ -610,7 +612,7 @@ Deno.test("GraphqlClient partial data with errors", async (t) => {
   );
 });
 
-Deno.test("GraphqlClient.subscribe", async (t) => {
+test("GraphqlClient.subscribe", async (t) => {
   await t.step(
     "throws GraphqlNetworkError when wsEndpoint is not configured",
     async () => {

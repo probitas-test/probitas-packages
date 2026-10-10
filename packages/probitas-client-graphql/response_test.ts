@@ -10,8 +10,9 @@ import {
   GraphqlResponseSuccessImpl,
 } from "./response.ts";
 import { GraphqlExecutionError, GraphqlNetworkError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("GraphqlResponseSuccessImpl", async (t) => {
+test("GraphqlResponseSuccessImpl", async (t) => {
   await t.step("creates success response with data", () => {
     const response = new GraphqlResponseSuccessImpl({
       url: "http://localhost:4000/graphql",
@@ -96,7 +97,7 @@ Deno.test("GraphqlResponseSuccessImpl", async (t) => {
   });
 });
 
-Deno.test("GraphqlResponseErrorImpl", async (t) => {
+test("GraphqlResponseErrorImpl", async (t) => {
   await t.step("creates error response", () => {
     const error = new GraphqlExecutionError([
       { message: "Not found", locations: null, path: null, extensions: null },
@@ -156,7 +157,7 @@ Deno.test("GraphqlResponseErrorImpl", async (t) => {
   });
 });
 
-Deno.test("GraphqlResponseFailureImpl", async (t) => {
+test("GraphqlResponseFailureImpl", async (t) => {
   await t.step("creates failure response", () => {
     const error = new GraphqlNetworkError("Connection refused");
     const response = new GraphqlResponseFailureImpl({

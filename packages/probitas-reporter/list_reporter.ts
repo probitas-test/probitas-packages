@@ -12,8 +12,8 @@
  *
  * @example
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
- * import { colorTheme } from "@probitas/core/theme";
+ * import { ListReporter } from "@probitas-test/reporter";
+ * import { colorTheme } from "@probitas-test/core/theme";
  *
  * const reporter = new ListReporter({
  *   theme: colorTheme,  // Optional: customize colors
@@ -22,16 +22,16 @@
  * ```
  */
 
-import type { ScenarioMetadata, StepMetadata } from "@probitas/core";
-import { formatOrigin, type Origin } from "@probitas/core/origin";
-import type { Reporter, RunResult, StepResult } from "@probitas/runner";
-import { isExpectationError } from "@probitas/expect";
+import type { ScenarioMetadata, StepMetadata } from "@probitas-test/core";
+import { formatOrigin, type Origin } from "@probitas-test/core/origin";
+import type { Reporter, RunResult, StepResult } from "@probitas-test/runner";
+import { isExpectationError } from "@probitas-test/expect";
 import { Writer, type WriterOptions } from "./writer.ts";
 import {
   defaultTheme,
   type Theme,
   type ThemeFunction,
-} from "@probitas/core/theme";
+} from "@probitas-test/core/theme";
 
 /**
  * Options for ListReporter initialization.
@@ -64,7 +64,7 @@ export interface ListReporterOptions extends WriterOptions {
  *
  * @example
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
+ * import { ListReporter } from "@probitas-test/reporter";
  *
  * const reporter = new ListReporter();
  * void reporter;
@@ -266,7 +266,8 @@ export class ListReporter implements Reporter {
             if (step.error instanceof Error && step.error.stack) {
               // Extract only "at ..." lines from stack (excludes message and Context)
               const stackLines = step.error.stack.split("\n")
-                .filter((line) => line.trimStart().startsWith("at "));
+                .filter((line) => line.trimStart().startsWith("at "))
+                .filter((line) => !isRuntimeInternalFrame(line));
               if (stackLines.length > 0) {
                 failedTestsLines.push(`${this.#theme.dim(" ┆")}`);
                 // Stack trace title (bold)
@@ -344,4 +345,15 @@ function getErrorMessage(err: unknown): string {
     return err.name;
   }
   return String(err);
+}
+
+/**
+ * Whether a stack frame belongs to the JavaScript runtime itself
+ *
+ * JavaScriptCore (Bun) reports its module loader and microtask frames as
+ * `unknown:` / `native:` locations; they carry no information for users.
+ */
+function isRuntimeInternalFrame(line: string): boolean {
+  return /\((?:unknown|native)(?::\d+)*\)$/.test(line.trim()) ||
+    /^at (?:unknown|native)(?::\d+)*$/.test(line.trim());
 }

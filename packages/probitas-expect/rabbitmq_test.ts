@@ -5,7 +5,7 @@ import type {
   RabbitMqExchangeResult,
   RabbitMqPublishResult,
   RabbitMqQueueResult,
-} from "@probitas/client-rabbitmq";
+} from "@probitas-test/client-rabbitmq";
 import { expectRabbitMqResult } from "./rabbitmq.ts";
 import {
   mockRabbitMqAckResult,
@@ -14,8 +14,9 @@ import {
   mockRabbitMqPublishResult,
   mockRabbitMqQueueResult,
 } from "./rabbitmq/_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("expectRabbitMqResult - dispatches to publish expectation", () => {
+test("expectRabbitMqResult - dispatches to publish expectation", () => {
   const result: RabbitMqPublishResult = mockRabbitMqPublishResult();
   const expectation = expectRabbitMqResult(result);
 
@@ -27,7 +28,7 @@ Deno.test("expectRabbitMqResult - dispatches to publish expectation", () => {
   expectation.toBeOk().toHaveDuration(100);
 });
 
-Deno.test("expectRabbitMqResult - dispatches to consume expectation", () => {
+test("expectRabbitMqResult - dispatches to consume expectation", () => {
   const result: RabbitMqConsumeResult = mockRabbitMqConsumeResult();
   const expectation = expectRabbitMqResult(result);
 
@@ -41,7 +42,7 @@ Deno.test("expectRabbitMqResult - dispatches to consume expectation", () => {
   expectation.toBeOk().toHaveMessagePresent();
 });
 
-Deno.test("expectRabbitMqResult - dispatches to queue expectation", () => {
+test("expectRabbitMqResult - dispatches to queue expectation", () => {
   const result: RabbitMqQueueResult = mockRabbitMqQueueResult();
   const expectation = expectRabbitMqResult(result);
 
@@ -56,7 +57,7 @@ Deno.test("expectRabbitMqResult - dispatches to queue expectation", () => {
   expectation.toBeOk().toHaveQueue("test-queue").toHaveMessageCount(10);
 });
 
-Deno.test("expectRabbitMqResult - dispatches to ack expectation", () => {
+test("expectRabbitMqResult - dispatches to ack expectation", () => {
   const result: RabbitMqAckResult = mockRabbitMqAckResult();
   const expectation = expectRabbitMqResult(result);
 
@@ -68,7 +69,7 @@ Deno.test("expectRabbitMqResult - dispatches to ack expectation", () => {
   expectation.toBeOk().toHaveDuration(100);
 });
 
-Deno.test("expectRabbitMqResult - dispatches to exchange expectation", () => {
+test("expectRabbitMqResult - dispatches to exchange expectation", () => {
   const result: RabbitMqExchangeResult = mockRabbitMqExchangeResult();
   const expectation = expectRabbitMqResult(result);
 
@@ -80,7 +81,7 @@ Deno.test("expectRabbitMqResult - dispatches to exchange expectation", () => {
   expectation.toBeOk().toHaveDuration(100);
 });
 
-Deno.test("expectRabbitMqResult - throws for unknown result type", () => {
+test("expectRabbitMqResult - throws for unknown result type", () => {
   const unknownResult = {
     kind: "rabbitmq:unknown" as const,
     ok: true,
@@ -88,14 +89,14 @@ Deno.test("expectRabbitMqResult - throws for unknown result type", () => {
   };
 
   assertThrows(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     () => expectRabbitMqResult(unknownResult as any),
     Error,
     "Unknown RabbitMQ result kind: rabbitmq:unknown",
   );
 });
 
-Deno.test("expectRabbitMqResult - type inference works correctly", () => {
+test("expectRabbitMqResult - type inference works correctly", () => {
   // These tests verify that TypeScript correctly infers the return type
   // based on the input result type
 
@@ -130,7 +131,7 @@ Deno.test("expectRabbitMqResult - type inference works correctly", () => {
   exchangeExpectation.toHaveDuration(100);
 });
 
-Deno.test("expectRabbitMqResult - all result types support .not", () => {
+test("expectRabbitMqResult - all result types support .not", () => {
   // Publish
   const publishResult = mockRabbitMqPublishResult({ ok: false });
   expectRabbitMqResult(publishResult).not.toBeOk();

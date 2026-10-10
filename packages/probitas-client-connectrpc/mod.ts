@@ -22,7 +22,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * // Create client (uses reflection by default)
  * const client = createConnectRpcClient({
@@ -51,7 +51,7 @@
  * ## Testing Error Responses
  *
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({ url: "http://localhost:50051" });
  *
@@ -72,7 +72,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * await using client = createConnectRpcClient({ url: "http://localhost:50051" });
  *

@@ -4,6 +4,7 @@ import {
   type MongoFindOneResultExpectation,
 } from "./find_one.ts";
 import { mockMongoFindOneResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -45,7 +46,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectMongoFindOneResult - method existence check", () => {
+test("expectMongoFindOneResult - method existence check", () => {
   const result = mockMongoFindOneResult();
   const expectation = expectMongoFindOneResult(result);
 
@@ -90,12 +91,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectMongoFindOneResult - ${methodName} - success`, () => {
+  test(`expectMongoFindOneResult - ${methodName} - success`, () => {
     const result = mockMongoFindOneResult();
     const expectation = expectMongoFindOneResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 
@@ -108,7 +109,7 @@ for (
   });
 }
 
-Deno.test("expectMongoFindOneResult - not property - success", () => {
+test("expectMongoFindOneResult - not property - success", () => {
   const result = mockMongoFindOneResult({ ok: false });
   const expectation = expectMongoFindOneResult(result);
 
@@ -116,7 +117,7 @@ Deno.test("expectMongoFindOneResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectMongoFindOneResult - nullish value methods - success", () => {
+test("expectMongoFindOneResult - nullish value methods - success", () => {
   // Test null values
   const nullResult = mockMongoFindOneResult({ doc: null });
   const nullExpectation = expectMongoFindOneResult(nullResult);

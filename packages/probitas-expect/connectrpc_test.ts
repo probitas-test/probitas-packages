@@ -1,9 +1,10 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
+import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
 import {
   type ConnectRpcResponseExpectation,
   expectConnectRpcResponse,
 } from "./connectrpc.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Mock ConnectRpcResponse for testing
 function createMockResponse(
@@ -126,7 +127,7 @@ const EXPECTED_METHODS: Record<keyof ConnectRpcResponseExpectation, unknown[]> =
     toHaveDurationCloseTo: [123, 0],
   };
 
-Deno.test("expectConnectRpcResponse - method existence check", () => {
+test("expectConnectRpcResponse - method existence check", () => {
   const response = createMockResponse();
   const expectation = expectConnectRpcResponse(response);
 
@@ -174,12 +175,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectConnectRpcResponse - ${methodName} - success`, () => {
+  test(`expectConnectRpcResponse - ${methodName} - success`, () => {
     const response = createMockResponse();
     const expectation = expectConnectRpcResponse(response);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const result = method.call(expectation, ...args);
 
@@ -192,7 +193,7 @@ for (
   });
 }
 
-Deno.test("expectConnectRpcResponse - not property - success", () => {
+test("expectConnectRpcResponse - not property - success", () => {
   const response = createMockResponse({ ok: false, statusCode: 1 });
   const expectation = expectConnectRpcResponse(response);
 
@@ -201,7 +202,7 @@ Deno.test("expectConnectRpcResponse - not property - success", () => {
   expectation.not.toHaveStatusCode(0);
 });
 
-Deno.test("expectConnectRpcResponse - nullish value methods - success", () => {
+test("expectConnectRpcResponse - nullish value methods - success", () => {
   // Test null values
   const nullResponse = createMockResponse({
     data: null,

@@ -1,4 +1,4 @@
-import type { ScenarioDefinition, StepOptions } from "@probitas/core";
+import type { ScenarioDefinition, StepOptions } from "@probitas-test/core";
 import type { Reporter, ScenarioResult, StepResult } from "./types.ts";
 import { Skip } from "./skip.ts";
 import { StepRunner } from "./step_runner.ts";

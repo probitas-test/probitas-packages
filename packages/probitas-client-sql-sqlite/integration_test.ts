@@ -5,14 +5,10 @@ import {
   QuerySyntaxError,
   type SqliteClient,
 } from "./mod.ts";
+import { sandbox, test } from "@probitas-test/internal-testing";
+import { rm } from "node:fs/promises";
 
-// createSqliteClient loads @db/sqlite on first use, and @db/sqlite keeps the
-// library open for the lifetime of the process. Loading it here, before any
-// test runs, keeps that one-time load out of the resource sanitizer's scope so
-// it is not reported as a per-test leak.
-import "@db/sqlite";
-
-Deno.test({
+test({
   name: "Integration: SqliteClient",
   async fn(t) {
     await t.step("has dialect property", async () => {
@@ -375,7 +371,10 @@ Deno.test({
         path: ":memory:",
       });
 
-      const backupPath = await Deno.makeTempFile({ suffix: ".db" });
+      // VACUUM INTO refuses an existing file, even an empty one, so give it a
+      // path that does not exist yet.
+      await using sbox = await sandbox();
+      const backupPath = sbox.resolve("backup.db");
 
       try {
         await client.query("CREATE TABLE backup_test (id INTEGER, name TEXT)");
@@ -406,7 +405,7 @@ Deno.test({
         await client.close();
         // Clean up backup file
         try {
-          await Deno.remove(backupPath);
+          await rm(backupPath);
         } catch {
           // Ignore cleanup errors
         }

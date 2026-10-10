@@ -1,5 +1,10 @@
-import { AbortError, ClientError, TimeoutError } from "@probitas/client";
+import {
+  type AbortError,
+  ClientError,
+  type TimeoutError,
+} from "@probitas-test/client";
 import type { GraphqlErrorItem } from "./types.ts";
+import { inspect } from "node:util";
 
 /**
  * Error thrown for GraphQL execution errors.
@@ -43,10 +48,9 @@ export class GraphqlNetworkError extends ClientError {
  * Format GraphQL errors for display.
  */
 function formatGraphqlErrors(errors: readonly GraphqlErrorItem[]): string {
-  const detail = Deno.inspect(errors, {
+  const detail = inspect(errors, {
     compact: false,
     sorted: true,
-    trailingComma: true,
   });
   const indented = detail
     .split("\n")

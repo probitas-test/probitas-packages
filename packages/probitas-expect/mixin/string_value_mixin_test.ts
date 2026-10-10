@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createStringValueMixin } from "./string_value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createStringValueMixin - type check", () => {
+test("createStringValueMixin - type check", () => {
   const mixin = createStringValueMixin(() => "hello world", () => false, {
     valueName: "message",
   });
@@ -22,7 +22,7 @@ Deno.test("createStringValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createStringValueMixin - attribute check", () => {
+test("createStringValueMixin - attribute check", () => {
   const applier = createStringValueMixin(() => "hello world", () => false, {
     valueName: "message",
   });
@@ -35,7 +35,7 @@ Deno.test("createStringValueMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createStringValueMixin - toHaveMessageContaining", async (t) => {
+test("createStringValueMixin - toHaveMessageContaining", async (t) => {
   await t.step("success", () => {
     const mixin = createStringValueMixin(() => "hello world", () => false, {
       valueName: "message",
@@ -56,7 +56,7 @@ Deno.test("createStringValueMixin - toHaveMessageContaining", async (t) => {
   });
 });
 
-Deno.test("createStringValueMixin - toHaveMessageMatching", async (t) => {
+test("createStringValueMixin - toHaveMessageMatching", async (t) => {
   await t.step("success", () => {
     const mixin = createStringValueMixin(() => "hello world", () => false, {
       valueName: "message",
@@ -77,7 +77,7 @@ Deno.test("createStringValueMixin - toHaveMessageMatching", async (t) => {
   });
 });
 
-Deno.test("createStringValueMixin - toHaveMessageContaining with source context", async (t) => {
+test("createStringValueMixin - toHaveMessageContaining with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createStringValueMixin(() => "goodbye world", () => false, {
       valueName: "message",

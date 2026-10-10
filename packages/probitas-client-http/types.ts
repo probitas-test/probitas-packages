@@ -1,4 +1,8 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+  Fetch,
+} from "@probitas-test/client";
 import type {
   HttpResponse,
   HttpResponseError,
@@ -122,13 +126,13 @@ export interface HttpClientConfig extends CommonOptions {
    *
    * @example String URL
    * ```ts
-   * import type { HttpClientConfig } from "@probitas/client-http";
+   * import type { HttpClientConfig } from "@probitas-test/client-http";
    * const config: HttpClientConfig = { url: "http://localhost:3000" };
    * ```
    *
    * @example Connection config object
    * ```ts
-   * import type { HttpClientConfig } from "@probitas/client-http";
+   * import type { HttpClientConfig } from "@probitas-test/client-http";
    * const config: HttpClientConfig = {
    *   url: { host: "api.example.com", port: 443, protocol: "https" },
    * };
@@ -140,7 +144,7 @@ export interface HttpClientConfig extends CommonOptions {
   readonly headers?: HeadersInit;
 
   /** Custom fetch implementation (for testing/mocking) */
-  readonly fetch?: typeof fetch;
+  readonly fetch?: Fetch;
 
   /**
    * Default redirect handling mode.

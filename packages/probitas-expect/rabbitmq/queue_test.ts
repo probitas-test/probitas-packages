@@ -4,6 +4,7 @@ import {
   type RabbitMqQueueResultExpectation,
 } from "./queue.ts";
 import { mockRabbitMqQueueResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -57,7 +58,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectRabbitMqQueueResult - method existence check", () => {
+test("expectRabbitMqQueueResult - method existence check", () => {
   const result = mockRabbitMqQueueResult();
   const expectation = expectRabbitMqQueueResult(result);
 
@@ -100,12 +101,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectRabbitMqQueueResult - ${methodName} - success`, () => {
+  test(`expectRabbitMqQueueResult - ${methodName} - success`, () => {
     const result = mockRabbitMqQueueResult();
     const expectation = expectRabbitMqQueueResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const returnValue = method.call(expectation, ...args);
 
@@ -118,7 +119,7 @@ for (
   });
 }
 
-Deno.test("expectRabbitMqQueueResult - not property - success", () => {
+test("expectRabbitMqQueueResult - not property - success", () => {
   const result = mockRabbitMqQueueResult({ ok: false });
   const expectation = expectRabbitMqQueueResult(result);
 
@@ -127,7 +128,7 @@ Deno.test("expectRabbitMqQueueResult - not property - success", () => {
   expectation.not.toHaveQueue("other-queue");
 });
 
-Deno.test("expectRabbitMqQueueResult - chaining - success", () => {
+test("expectRabbitMqQueueResult - chaining - success", () => {
   const result = mockRabbitMqQueueResult({
     queue: "my-queue",
     messageCount: 50,
@@ -148,7 +149,7 @@ Deno.test("expectRabbitMqQueueResult - chaining - success", () => {
     .toHaveDuration(150);
 });
 
-Deno.test("expectRabbitMqQueueResult - empty queue - success", () => {
+test("expectRabbitMqQueueResult - empty queue - success", () => {
   const result = mockRabbitMqQueueResult({
     messageCount: 0,
     consumerCount: 0,

@@ -1,4 +1,4 @@
-import type { RedisGetResult } from "@probitas/client-redis";
+import type { RedisGetResult } from "@probitas-test/client-redis";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -13,7 +13,7 @@ export interface RedisGetResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RedisGetResult } from "@probitas/client-redis";
+   * import type { RedisGetResult } from "@probitas-test/client-redis";
    * import { expectRedisGetResult } from "./get.ts";
    * const result = {
    *   kind: "redis:get",

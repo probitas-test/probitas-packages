@@ -1,13 +1,14 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
-import { SqlError } from "@probitas/client-sql";
+import { SqlError } from "@probitas-test/client-sql";
 import {
   CatalogError,
   convertDuckDbError,
   DuckDbError,
   IoError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("DuckDbError", async (t) => {
+test("DuckDbError", async (t) => {
   await t.step("extends SqlError", () => {
     const error = new DuckDbError("test error");
     assertInstanceOf(error, SqlError);
@@ -33,7 +34,7 @@ Deno.test("DuckDbError", async (t) => {
   });
 });
 
-Deno.test("IoError", async (t) => {
+test("IoError", async (t) => {
   await t.step("extends DuckDbError with io duckdbKind", () => {
     const error = new IoError("file not found", {
       errorType: "IO",
@@ -46,7 +47,7 @@ Deno.test("IoError", async (t) => {
   });
 });
 
-Deno.test("CatalogError", async (t) => {
+test("CatalogError", async (t) => {
   await t.step("extends DuckDbError with catalog duckdbKind", () => {
     const error = new CatalogError("table not found");
 
@@ -56,7 +57,7 @@ Deno.test("CatalogError", async (t) => {
   });
 });
 
-Deno.test("convertDuckDbError", async (t) => {
+test("convertDuckDbError", async (t) => {
   await t.step("handles non-Error values", () => {
     const error = convertDuckDbError("string error");
 

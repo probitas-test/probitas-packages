@@ -6,20 +6,22 @@ import {
   assertRejects,
   assertThrows,
 } from "@std/assert";
-import { AbortError } from "@probitas/client";
+import type { Fetch } from "@probitas-test/client";
+import { AbortError } from "@probitas-test/client";
 import { createHttpClient } from "./client.ts";
 import { HttpError, HttpNetworkError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
 function createMockFetch(
   handler: (req: Request) => Response | Promise<Response>,
-): typeof fetch {
+): Fetch {
   return (input: RequestInfo | URL, init?: RequestInit) => {
     const request = new Request(input, init);
     return Promise.resolve(handler(request));
   };
 }
 
-Deno.test("createHttpClient", async (t) => {
+test("createHttpClient", async (t) => {
   await t.step("returns HttpClient with config", () => {
     const client = createHttpClient({
       url: "http://localhost:3000",
@@ -37,7 +39,7 @@ Deno.test("createHttpClient", async (t) => {
   });
 });
 
-Deno.test("HttpClient.get", async (t) => {
+test("HttpClient.get", async (t) => {
   await t.step("sends GET request to correct URL", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -149,7 +151,7 @@ Deno.test("HttpClient.get", async (t) => {
   });
 });
 
-Deno.test("HttpClient.head", async (t) => {
+test("HttpClient.head", async (t) => {
   await t.step("sends HEAD request", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -174,7 +176,7 @@ Deno.test("HttpClient.head", async (t) => {
   });
 });
 
-Deno.test("HttpClient.post", async (t) => {
+test("HttpClient.post", async (t) => {
   await t.step("sends POST request with JSON body", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -282,7 +284,7 @@ Deno.test("HttpClient.post", async (t) => {
   });
 });
 
-Deno.test("HttpClient.put", async (t) => {
+test("HttpClient.put", async (t) => {
   await t.step("sends PUT request", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -305,7 +307,7 @@ Deno.test("HttpClient.put", async (t) => {
   });
 });
 
-Deno.test("HttpClient.patch", async (t) => {
+test("HttpClient.patch", async (t) => {
   await t.step("sends PATCH request", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -328,7 +330,7 @@ Deno.test("HttpClient.patch", async (t) => {
   });
 });
 
-Deno.test("HttpClient.delete", async (t) => {
+test("HttpClient.delete", async (t) => {
   await t.step("sends DELETE request", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -369,7 +371,7 @@ Deno.test("HttpClient.delete", async (t) => {
   });
 });
 
-Deno.test("HttpClient.options", async (t) => {
+test("HttpClient.options", async (t) => {
   await t.step("sends OPTIONS request", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -394,7 +396,7 @@ Deno.test("HttpClient.options", async (t) => {
   });
 });
 
-Deno.test("HttpClient.request", async (t) => {
+test("HttpClient.request", async (t) => {
   await t.step("sends request with arbitrary method", async () => {
     let capturedRequest: Request | undefined;
     const mockFetch = createMockFetch((req) => {
@@ -407,10 +409,12 @@ Deno.test("HttpClient.request", async (t) => {
       fetch: mockFetch,
     });
 
-    await client.request("CUSTOM", "/resource");
+    // Bun only passes through methods it knows (WebDAV, PURGE, ...); any other
+    // token is silently sent as GET, so use a non-standard one it supports.
+    await client.request("PURGE", "/resource");
     await client.close();
 
-    assertEquals(capturedRequest?.method, "CUSTOM");
+    assertEquals(capturedRequest?.method, "PURGE");
     assertEquals(capturedRequest?.url, "http://localhost:3000/resource");
   });
 
@@ -435,7 +439,7 @@ Deno.test("HttpClient.request", async (t) => {
   });
 });
 
-Deno.test("HttpClient error handling", async (t) => {
+test("HttpClient error handling", async (t) => {
   await t.step(
     "throws HttpError for 404 when throwOnError: true",
     async () => {
@@ -463,7 +467,7 @@ Deno.test("HttpClient error handling", async (t) => {
   );
 });
 
-Deno.test("HttpClient response duration", async (t) => {
+test("HttpClient response duration", async (t) => {
   await t.step("includes duration in response", async () => {
     const mockFetch = createMockFetch(() => {
       return new Response("ok", { status: 200 });
@@ -482,7 +486,7 @@ Deno.test("HttpClient response duration", async (t) => {
   });
 });
 
-Deno.test("HttpClient throwOnError option", async (t) => {
+test("HttpClient throwOnError option", async (t) => {
   await t.step("returns response by default for 4xx response", async () => {
     const mockFetch = createMockFetch(() => {
       return new Response("Not Found", {
@@ -623,7 +627,7 @@ Deno.test("HttpClient throwOnError option", async (t) => {
       fetch: mockFetch,
     });
 
-    const response = await client.request("CUSTOM", "/resource", {
+    const response = await client.request("PURGE", "/resource", {
       throwOnError: false,
     });
     await client.close();
@@ -632,7 +636,7 @@ Deno.test("HttpClient throwOnError option", async (t) => {
   });
 });
 
-Deno.test("HttpClient cookie handling", async (t) => {
+test("HttpClient cookie handling", async (t) => {
   await t.step("getCookies returns empty object when no cookies set", () => {
     const client = createHttpClient({
       url: "http://localhost:3000",
@@ -832,13 +836,13 @@ Deno.test("HttpClient cookie handling", async (t) => {
   });
 });
 
-function createFailingFetch(error: Error): typeof fetch {
+function createFailingFetch(error: Error): Fetch {
   return () => {
     return Promise.reject(error);
   };
 }
 
-Deno.test("HttpClient network failure handling", async (t) => {
+test("HttpClient network failure handling", async (t) => {
   await t.step(
     "returns HttpResponseFailure for network error when throwOnError: false",
     async () => {

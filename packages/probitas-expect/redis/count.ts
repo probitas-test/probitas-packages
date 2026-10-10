@@ -1,4 +1,4 @@
-import type { RedisCountResult } from "@probitas/client-redis";
+import type { RedisCountResult } from "@probitas-test/client-redis";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -14,7 +14,7 @@ export interface RedisCountResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RedisCountResult } from "@probitas/client-redis";
+   * import type { RedisCountResult } from "@probitas-test/client-redis";
    * import { expectRedisCountResult } from "./count.ts";
    * const result = {
    *   kind: "redis:count",

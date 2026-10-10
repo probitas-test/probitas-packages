@@ -106,10 +106,8 @@ export function buildPropertyExpected(
  */
 function parsePropertyPath(path: string): (string | number)[] {
   const segments: (string | number)[] = [];
-  const regex = /([^.\[\]]+)|\[(\d+)\]/g;
-  let match: RegExpExecArray | null;
-
-  while ((match = regex.exec(path)) !== null) {
+  const regex = /([^.[\]]+)|\[(\d+)\]/g;
+  for (const match of path.matchAll(regex)) {
     if (match[1] !== undefined) {
       // Property name (e.g., "name", "user")
       segments.push(match[1]);

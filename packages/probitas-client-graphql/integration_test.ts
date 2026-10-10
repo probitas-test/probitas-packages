@@ -16,8 +16,10 @@ import {
   assertLess,
 } from "@std/assert";
 import { createGraphqlClient, GraphqlNetworkError, outdent } from "./mod.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const GRAPHQL_URL = Deno.env.get("GRAPHQL_URL") ??
+const GRAPHQL_URL = process.env.GRAPHQL_URL ??
   "http://localhost:8100/graphql";
 
 async function isGraphqlServerAvailable(): Promise<boolean> {
@@ -35,7 +37,7 @@ async function isGraphqlServerAvailable(): Promise<boolean> {
   }
 }
 
-Deno.test({
+test({
   name: "Integration: echo-graphql",
   ignore: !(await isGraphqlServerAvailable()),
   async fn(t) {

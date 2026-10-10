@@ -7,7 +7,10 @@
  * @module
  */
 
-import { expect as expectStd, type Expected } from "@std/expect";
+import {
+  expect as expectStd,
+  type Expected,
+} from "./_vendor/std_expect/mod.ts";
 
 /**
  * Chainable expectation interface for any value using @std/expect matchers.
@@ -295,7 +298,7 @@ export interface AnythingExpectation {
    * expectAnything(new Error("oops")).toBeInstanceOf(Error);
    * ```
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toBeInstanceOf(expected: new (...args: any[]) => any): this;
 
   /**
@@ -504,7 +507,7 @@ export interface AnythingExpectation {
  *
  * @example
  * ```ts
- * import { expectAnything } from "@probitas/expect";
+ * import { expectAnything } from "@probitas-test/expect";
  *
  * // Method chaining
  * expectAnything(42)
@@ -700,7 +703,7 @@ export function expectAnything<T>(
       return self;
     },
 
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     toBeInstanceOf(expected: new (...args: any[]) => any) {
       const negate = getNegate();
       const stdExpect = getExpect(negate);

@@ -4,6 +4,7 @@ import {
   type MongoCountResultExpectation,
 } from "./count.ts";
 import { mockMongoCountResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -36,7 +37,7 @@ const EXPECTED_METHODS: Record<keyof MongoCountResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectMongoCountResult - method existence check", () => {
+test("expectMongoCountResult - method existence check", () => {
   const result = mockMongoCountResult();
   const expectation = expectMongoCountResult(result);
 
@@ -75,12 +76,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectMongoCountResult - ${methodName} - success`, () => {
+  test(`expectMongoCountResult - ${methodName} - success`, () => {
     const result = mockMongoCountResult();
     const expectation = expectMongoCountResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 
@@ -93,7 +94,7 @@ for (
   });
 }
 
-Deno.test("expectMongoCountResult - not property - success", () => {
+test("expectMongoCountResult - not property - success", () => {
   const result = mockMongoCountResult({ ok: false });
   const expectation = expectMongoCountResult(result);
 
@@ -102,7 +103,7 @@ Deno.test("expectMongoCountResult - not property - success", () => {
   expectation.not.toHaveCount(0);
 });
 
-Deno.test("expectMongoCountResult - zero count - success", () => {
+test("expectMongoCountResult - zero count - success", () => {
   const result = mockMongoCountResult({ count: 0 });
   const expectation = expectMongoCountResult(result);
 
@@ -111,7 +112,7 @@ Deno.test("expectMongoCountResult - zero count - success", () => {
   expectation.toHaveCountGreaterThanOrEqual(0);
 });
 
-Deno.test("expectMongoCountResult - large count - success", () => {
+test("expectMongoCountResult - large count - success", () => {
   const result = mockMongoCountResult({ count: 1000000 });
   const expectation = expectMongoCountResult(result);
 

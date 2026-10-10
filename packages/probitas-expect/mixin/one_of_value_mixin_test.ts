@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createOneOfValueMixin } from "./one_of_value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createOneOfValueMixin - type check", () => {
+test("createOneOfValueMixin - type check", () => {
   const mixin = createOneOfValueMixin(() => 200, () => false, {
     valueName: "status",
   });
@@ -21,7 +21,7 @@ Deno.test("createOneOfValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createOkMixin - attribute check", () => {
+test("createOkMixin - attribute check", () => {
   const applier = createOneOfValueMixin(() => 200, () => false, {
     valueName: "status",
   });
@@ -33,7 +33,7 @@ Deno.test("createOkMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("applyOneOfValueMixin - toHaveStatusOneOf", async (t) => {
+test("applyOneOfValueMixin - toHaveStatusOneOf", async (t) => {
   await t.step("success", () => {
     const mixin = createOneOfValueMixin(() => 200, () => false, {
       valueName: "status",
@@ -54,7 +54,7 @@ Deno.test("applyOneOfValueMixin - toHaveStatusOneOf", async (t) => {
   });
 });
 
-Deno.test("createOneOfValueMixin - toHaveStatusOneOf with source context", async (t) => {
+test("createOneOfValueMixin - toHaveStatusOneOf with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createOneOfValueMixin(() => 500, () => false, {
       valueName: "status",

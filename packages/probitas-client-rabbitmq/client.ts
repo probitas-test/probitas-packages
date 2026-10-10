@@ -1,8 +1,7 @@
 import { Buffer } from "node:buffer";
 import * as amqp from "amqplib";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
-import { deadline } from "@std/async/deadline";
 import type {
   RabbitMqChannel,
   RabbitMqClient,
@@ -88,22 +87,32 @@ function convertDeadlineError(
 }
 
 /**
- * Execute a promise with abort signal support only.
+ * Settle with `promise`, or reject once `ms` elapses or `signal` aborts.
  *
- * This function exists as a workaround for @std/async@1.0.15's `deadline` limitation.
- * In v1.0.15, `deadline(promise, Infinity, { signal })` throws:
- *   "TypeError: Failed to execute 'AbortSignal.timeout': Argument 1 is not a finite number"
- *
- * This is because v1.0.15 unconditionally calls `AbortSignal.timeout(ms)`:
- *   const signals = [AbortSignal.timeout(ms)];  // Always called, even when ms=Infinity
- *
- * The fix has been merged to main branch (adding `ms < Number.MAX_SAFE_INTEGER` check)
- * and is expected to be released in @std/async@1.0.16 or later.
- *
- * Once the fix is released, this function can be removed and `withOptions` can
- * simply use `deadline(promise, Infinity, { signal })` for signal-only cases.
- *
- * @see https://github.com/denoland/std/blob/main/async/deadline.ts
+ * Same contract as `deadline()` from `@std/async`: the rejection is the
+ * aborting signal's reason, i.e. a DOMException named "TimeoutError" when the
+ * time runs out.
+ */
+function deadline<T>(
+  promise: Promise<T>,
+  ms: number,
+  options: { signal?: AbortSignal } = {},
+): Promise<T> {
+  const signals = [AbortSignal.timeout(ms)];
+  if (options.signal) signals.push(options.signal);
+  const signal = AbortSignal.any(signals);
+  if (signal.aborted) return Promise.reject(signal.reason);
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => reject(signal.reason);
+    signal.addEventListener("abort", onAbort, { once: true });
+    promise.then(resolve, reject).finally(() => {
+      signal.removeEventListener("abort", onAbort);
+    });
+  });
+}
+
+/**
+ * Settle with `promise`, or reject with AbortError once `signal` aborts.
  */
 function withSignal<T>(
   promise: Promise<T>,
@@ -135,8 +144,8 @@ function withSignal<T>(
  *
  * Routes to appropriate implementation based on options:
  * - No options: return promise as-is
- * - Signal only: use withSignal (workaround for @std/async@1.0.15)
- * - Timeout (±signal): use deadline from @std/async
+ * - Signal only: reject with AbortError when the signal aborts
+ * - Timeout (±signal): reject on timeout or abort via deadline()
  */
 function withOptions<T>(
   promise: Promise<T>,
@@ -146,8 +155,6 @@ function withOptions<T>(
   if (!options?.timeout && !options?.signal) {
     return promise;
   }
-  // Signal-only: use withSignal workaround (see withSignal JSDoc for details)
-  // TODO: Replace with `deadline(promise, Infinity, { signal })` after @std/async@1.0.16
   if (!options.timeout && options.signal) {
     return withSignal(promise, options.signal, operation);
   }
@@ -221,7 +228,9 @@ function convertAmqpError(
 /**
  * Convert amqplib message to RabbitMqMessage.
  */
-function convertMessage(msg: amqp.ConsumeMessage): RabbitMqMessage {
+function convertMessage(
+  msg: amqp.ConsumeMessage | amqp.GetMessage,
+): RabbitMqMessage {
   const properties: RabbitMqMessageProperties = {
     contentType: msg.properties.contentType,
     contentEncoding: msg.properties.contentEncoding,
@@ -306,7 +315,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Basic usage with string URL
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({
  *   url: "amqp://guest:guest@localhost:5672",
@@ -324,7 +333,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example With connection config object
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({
  *   url: {
@@ -341,7 +350,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Exchange and binding
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await rabbit.channel();
@@ -360,7 +369,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Consuming messages
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await rabbit.channel();
@@ -377,7 +386,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Get single message (polling)
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * const rabbit = await createRabbitMqClient({ url: "amqp://localhost:5672" });
  * const channel = await rabbit.channel();
@@ -393,7 +402,7 @@ function resolveRabbitMqUrl(url: string | RabbitMqConnectionConfig): string {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createRabbitMqClient } from "@probitas/client-rabbitmq";
+ * import { createRabbitMqClient } from "@probitas-test/client-rabbitmq";
  *
  * await using rabbit = await createRabbitMqClient({
  *   url: "amqp://localhost:5672",
@@ -457,6 +466,12 @@ class RabbitMqClientImpl implements RabbitMqClient {
   ) {
     this.config = config;
     this.#connection = connection;
+    // amqplib emits "error" when the broker closes the connection. With no
+    // listener, EventEmitter rethrows it as an uncaught exception, which kills
+    // the whole process; the failing operation already reports it.
+    connection.on("error", (error: unknown) => {
+      logger.debug("RabbitMQ connection error", { error });
+    });
   }
 
   async channel(): Promise<RabbitMqChannel> {
@@ -466,6 +481,11 @@ class RabbitMqClientImpl implements RabbitMqClient {
       logger.debug("Creating RabbitMQ channel");
 
       const ch = await this.#connection.createChannel();
+      // Same as the connection: a broker-side channel close (e.g. 406
+      // PRECONDITION_FAILED) is returned by the operation and also emitted.
+      ch.on("error", (error: unknown) => {
+        logger.debug("RabbitMQ channel error", { error });
+      });
 
       if (this.config.prefetch !== undefined) {
         await ch.prefetch(this.config.prefetch);
@@ -663,7 +683,7 @@ class RabbitMqChannelImpl implements RabbitMqChannel {
         maxLength: options?.maxLength,
       });
 
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       const queueOptions: any = {
         durable: options?.durable,
         exclusive: options?.exclusive,

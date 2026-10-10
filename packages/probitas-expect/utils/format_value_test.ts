@@ -4,10 +4,10 @@
  * @module
  */
 
-import { assertSnapshot } from "@std/testing/snapshot";
 import { formatValue } from "./format_value.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
-Deno.test("formatValue", async (t) => {
+test("formatValue", async (t) => {
   await t.step("formats null", async (t) => {
     await assertSnapshot(t, formatValue(null));
   });

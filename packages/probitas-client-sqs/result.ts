@@ -1,4 +1,8 @@
-import type { AbortError, ClientResult, TimeoutError } from "@probitas/client";
+import type {
+  AbortError,
+  ClientResult,
+  TimeoutError,
+} from "@probitas-test/client";
 import type {
   SqsBatchFailedEntry,
   SqsBatchSuccessEntry,

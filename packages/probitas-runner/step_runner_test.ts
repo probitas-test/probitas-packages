@@ -9,11 +9,12 @@ import {
 } from "./_testutils.ts";
 import { StepRunner } from "./step_runner.ts";
 import { StepTimeoutError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
 const reporter = new TestReporter();
 const scenario = createTestScenario();
 
-Deno.test("StepRunner run runs resource step", async () => {
+test("StepRunner run runs resource step", async () => {
   await using stack = new AsyncDisposableStack();
   const scenarioCtx = createTestScenarioContext(scenario);
   const runner = new StepRunner(
@@ -41,7 +42,7 @@ Deno.test("StepRunner run runs resource step", async () => {
   });
 });
 
-Deno.test("StepRunner run runs resource step (fail)", async () => {
+test("StepRunner run runs resource step (fail)", async () => {
   await using stack = new AsyncDisposableStack();
   const scenarioCtx = createTestScenarioContext(scenario);
   const runner = new StepRunner(
@@ -67,7 +68,7 @@ Deno.test("StepRunner run runs resource step (fail)", async () => {
   expect(scenarioCtx.resources).toEqual({});
 });
 
-Deno.test("StepRunner run runs setup step", async () => {
+test("StepRunner run runs setup step", async () => {
   await using stack = new AsyncDisposableStack();
   const scenarioCtx = createTestScenarioContext(scenario);
   const runner = new StepRunner(
@@ -93,7 +94,7 @@ Deno.test("StepRunner run runs setup step", async () => {
   expect(scenarioCtx.resources).toEqual({});
 });
 
-Deno.test("StepRunner run runs setup step (fail)", async () => {
+test("StepRunner run runs setup step (fail)", async () => {
   await using stack = new AsyncDisposableStack();
   const scenarioCtx = createTestScenarioContext(scenario);
   const runner = new StepRunner(
@@ -119,7 +120,7 @@ Deno.test("StepRunner run runs setup step (fail)", async () => {
   expect(scenarioCtx.resources).toEqual({});
 });
 
-Deno.test("StepRunner run runs execution step", async () => {
+test("StepRunner run runs execution step", async () => {
   await using stack = new AsyncDisposableStack();
   const scenarioCtx = createTestScenarioContext(scenario);
   const runner = new StepRunner(
@@ -145,7 +146,7 @@ Deno.test("StepRunner run runs execution step", async () => {
   expect(scenarioCtx.resources).toEqual({});
 });
 
-Deno.test("StepRunner run runs execution step (fail)", async () => {
+test("StepRunner run runs execution step (fail)", async () => {
   await using stack = new AsyncDisposableStack();
   const scenarioCtx = createTestScenarioContext(scenario);
   const runner = new StepRunner(
@@ -171,7 +172,7 @@ Deno.test("StepRunner run runs execution step (fail)", async () => {
   expect(scenarioCtx.resources).toEqual({});
 });
 
-Deno.test({
+test({
   name: "StepRunner run handles step timeout",
   sanitizeResources: false, // Timeout tests inherently leak timers
   sanitizeOps: false,
@@ -189,7 +190,7 @@ Deno.test({
       timeout: 100, // 100ms timeout
       fn: spy(async (ctx) => {
         // Sleep for 200ms to trigger timeout, but respect abort signal
-        let timerId: number | undefined;
+        let timerId: ReturnType<typeof setTimeout> | undefined;
         try {
           await new Promise((resolve, reject) => {
             if (ctx.signal?.aborted) {
@@ -240,7 +241,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "StepRunner run handles timeout with retry configured",
   sanitizeResources: false, // Timeout tests inherently leak timers
   sanitizeOps: false,
@@ -265,7 +266,7 @@ Deno.test({
       },
       fn: spy(async (ctx) => {
         // Sleep for 100ms to trigger timeout
-        let timerId: number | undefined;
+        let timerId: ReturnType<typeof setTimeout> | undefined;
         try {
           await new Promise((resolve, reject) => {
             if (ctx.signal?.aborted) {

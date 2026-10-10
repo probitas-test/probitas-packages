@@ -1,4 +1,8 @@
-import { AbortError, ClientError, TimeoutError } from "@probitas/client";
+import {
+  type AbortError,
+  ClientError,
+  type TimeoutError,
+} from "@probitas-test/client";
 
 /**
  * SQL-specific error kinds.

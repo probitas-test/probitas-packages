@@ -4,9 +4,10 @@
  * @module
  */
 
-import { walk } from "@std/fs/walk";
-import { globToRegExp } from "@std/path/glob-to-regexp";
+import { walk } from "./_walk.ts";
+import { globToRegExp } from "./_vendor/std_path/glob_to_regexp.ts";
 import { getLogger } from "@logtape/logtape";
+import { stat as fsStat } from "node:fs/promises";
 
 const logger = getLogger(["probitas", "discover"]);
 
@@ -154,7 +155,7 @@ export interface DiscoverOptions {
  *
  * @example Discover from directories
  * ```ts
- * import { discoverScenarioFiles } from "@probitas/discover";
+ * import { discoverScenarioFiles } from "@probitas-test/discover";
  *
  * // Use default patterns (*.probitas.ts)
  * const files = await discoverScenarioFiles(["./tests", "./integration"]);
@@ -198,9 +199,9 @@ export async function discoverScenarioFiles(
   for (const path of paths) {
     try {
       logger.debug("Processing path", { path });
-      const stat = await Deno.stat(path);
+      const stat = await fsStat(path);
 
-      if (stat.isFile) {
+      if (stat.isFile()) {
         // Direct file specification
         logger.debug("Path is a file, adding directly", { path });
         filePaths.add(path);
@@ -208,7 +209,7 @@ export async function discoverScenarioFiles(
         continue;
       }
 
-      if (stat.isDirectory) {
+      if (stat.isDirectory()) {
         // Directory - discover files within it using walk
         logger.debug("Path is a directory, scanning with patterns", {
           path,
@@ -234,7 +235,6 @@ export async function discoverScenarioFiles(
         let lastReportedDir = "";
         for await (
           const entry of walk(path, {
-            includeDirs: false,
             skip: skipPatterns,
           })
         ) {
@@ -272,11 +272,10 @@ export async function discoverScenarioFiles(
           path,
           filesFound: filePaths.size,
         });
-        continue;
       }
     } catch (err) {
       // Only skip if file not found, otherwise propagate error
-      if (!(err instanceof Deno.errors.NotFound)) {
+      if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
         throw err;
       }
       logger.debug("Path not found, skipping", { path });

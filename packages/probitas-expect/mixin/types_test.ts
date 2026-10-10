@@ -1,5 +1,5 @@
-import type { Origin } from "@probitas/core/origin";
-import type { Theme } from "@probitas/core/theme";
+import type { Origin } from "@probitas-test/core/origin";
+import type { Theme } from "@probitas-test/core/theme";
 import { assertType, type IsExact } from "@std/testing/types";
 import type { Unit } from "./_typeutils.ts";
 import type {
@@ -8,8 +8,9 @@ import type {
   MixinConfig,
   MixinDefinition,
 } from "./types.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("MixinConfig - type check with default methodBase", () => {
+test("MixinConfig - type check with default methodBase", () => {
   type Config = MixinConfig<"string">;
   type Expected = {
     readonly valueName: "string";
@@ -21,7 +22,7 @@ Deno.test("MixinConfig - type check with default methodBase", () => {
   assertType<IsExact<Config, Expected>>(true);
 });
 
-Deno.test("MixinConfig - type check with custom methodBase", () => {
+test("MixinConfig - type check with custom methodBase", () => {
   type Config = MixinConfig<"custom_type", "CustomType">;
   type Expected = {
     readonly valueName: "custom_type";
@@ -33,34 +34,34 @@ Deno.test("MixinConfig - type check with custom methodBase", () => {
   assertType<IsExact<Config, Expected>>(true);
 });
 
-Deno.test("ExtractMethodBase - with explicit methodBase", () => {
+test("ExtractMethodBase - with explicit methodBase", () => {
   type Config = { readonly valueName: "array"; readonly methodBase: "Array" };
   type Extracted = ExtractMethodBase<Config>;
   type Expected = "Array";
   assertType<IsExact<Extracted, Expected>>(true);
 });
 
-Deno.test("ExtractMethodBase - without methodBase (uses PascalCase)", () => {
+test("ExtractMethodBase - without methodBase (uses PascalCase)", () => {
   type Config = { readonly valueName: "string" };
   type Extracted = ExtractMethodBase<Config>;
   type Expected = "String";
   assertType<IsExact<Extracted, Expected>>(true);
 });
 
-Deno.test("ExtractMethodBase - complex valueName converted to PascalCase", () => {
+test("ExtractMethodBase - complex valueName converted to PascalCase", () => {
   type Config = { readonly valueName: "one_of_value" };
   type Extracted = ExtractMethodBase<Config>;
   type Expected = "OneOfValue";
   assertType<IsExact<Extracted, Expected>>(true);
 });
 
-Deno.test("MixinDefinition - empty array", () => {
+test("MixinDefinition - empty array", () => {
   type Definition = MixinDefinition<[]>;
   type Expected = Unit;
   assertType<IsExact<Definition, Expected>>(true);
 });
 
-Deno.test("MixinDefinition - single method", () => {
+test("MixinDefinition - single method", () => {
   type Definition = MixinDefinition<
     [["toBeString", () => void]]
   >;
@@ -70,7 +71,7 @@ Deno.test("MixinDefinition - single method", () => {
   assertType<IsExact<Definition, Expected>>(true);
 });
 
-Deno.test("MixinDefinition - multiple methods", () => {
+test("MixinDefinition - multiple methods", () => {
   type Definition = MixinDefinition<
     [
       ["toBeString", () => void],
@@ -86,7 +87,7 @@ Deno.test("MixinDefinition - multiple methods", () => {
   assertType<IsExact<Definition, Expected>>(true);
 });
 
-Deno.test("MixinDefinition - with chainable methods", () => {
+test("MixinDefinition - with chainable methods", () => {
   type Self = { value: string };
   type Definition = MixinDefinition<
     [
@@ -101,7 +102,7 @@ Deno.test("MixinDefinition - with chainable methods", () => {
   assertType<IsExact<Definition, Expected>>(true);
 });
 
-Deno.test("MixinApplied - simple mixin application", () => {
+test("MixinApplied - simple mixin application", () => {
   type Base = {
     value: unknown;
   };
@@ -116,7 +117,7 @@ Deno.test("MixinApplied - simple mixin application", () => {
   assertType<IsExact<Applied, Expected>>(true);
 });
 
-Deno.test("MixinApplied - with chainable methods", () => {
+test("MixinApplied - with chainable methods", () => {
   type Base = {
     value: unknown;
   };
@@ -135,7 +136,7 @@ Deno.test("MixinApplied - with chainable methods", () => {
   assertType<IsExact<Applied, Expected>>(true);
 });
 
-Deno.test("MixinApplied - multiple mixins composition", () => {
+test("MixinApplied - multiple mixins composition", () => {
   type Base = {
     value: unknown;
   };

@@ -4,6 +4,7 @@ import {
   type MongoInsertManyResultExpectation,
 } from "./insert_many.ts";
 import { mockMongoInsertManyResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -50,7 +51,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectMongoInsertManyResult - method existence check", () => {
+test("expectMongoInsertManyResult - method existence check", () => {
   const result = mockMongoInsertManyResult();
   const expectation = expectMongoInsertManyResult(result);
 
@@ -94,12 +95,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectMongoInsertManyResult - ${methodName} - success`, () => {
+  test(`expectMongoInsertManyResult - ${methodName} - success`, () => {
     const result = mockMongoInsertManyResult();
     const expectation = expectMongoInsertManyResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 
@@ -112,7 +113,7 @@ for (
   });
 }
 
-Deno.test("expectMongoInsertManyResult - not property - success", () => {
+test("expectMongoInsertManyResult - not property - success", () => {
   const result = mockMongoInsertManyResult({ ok: false });
   const expectation = expectMongoInsertManyResult(result);
 
@@ -121,7 +122,7 @@ Deno.test("expectMongoInsertManyResult - not property - success", () => {
   expectation.not.toHaveInsertedCount(0);
 });
 
-Deno.test("expectMongoInsertManyResult - empty inserted IDs - success", () => {
+test("expectMongoInsertManyResult - empty inserted IDs - success", () => {
   const result = mockMongoInsertManyResult({
     insertedIds: [],
     insertedCount: 0,
@@ -132,7 +133,7 @@ Deno.test("expectMongoInsertManyResult - empty inserted IDs - success", () => {
   expectation.toHaveInsertedCount(0);
 });
 
-Deno.test("expectMongoInsertManyResult - single insert - success", () => {
+test("expectMongoInsertManyResult - single insert - success", () => {
   const result = mockMongoInsertManyResult({
     insertedIds: ["single-id"],
     insertedCount: 1,

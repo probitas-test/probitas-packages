@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createValueMixin } from "./value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createValueMixin - type check", () => {
+test("createValueMixin - type check", () => {
   const mixin = createValueMixin(() => 200, () => false, {
     valueName: "status",
   });
@@ -27,7 +27,7 @@ Deno.test("createValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createValueMixin - attribute check", () => {
+test("createValueMixin - attribute check", () => {
   const applier = createValueMixin(() => 200, () => false, {
     valueName: "status",
   });
@@ -42,7 +42,7 @@ Deno.test("createValueMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createValueMixin - toHaveStatus", async (t) => {
+test("createValueMixin - toHaveStatus", async (t) => {
   await t.step("success", () => {
     const mixin = createValueMixin(() => 200, () => false, {
       valueName: "status",
@@ -63,7 +63,7 @@ Deno.test("createValueMixin - toHaveStatus", async (t) => {
   });
 });
 
-Deno.test("createValueMixin - toHaveStatusEqual", async (t) => {
+test("createValueMixin - toHaveStatusEqual", async (t) => {
   await t.step("success", () => {
     const mixin = createValueMixin(() => ({ x: 1 }), () => false, {
       valueName: "data",
@@ -84,7 +84,7 @@ Deno.test("createValueMixin - toHaveStatusEqual", async (t) => {
   });
 });
 
-Deno.test("createValueMixin - toHaveStatusStrictEqual", async (t) => {
+test("createValueMixin - toHaveStatusStrictEqual", async (t) => {
   await t.step("success", () => {
     const mixin = createValueMixin(() => 200, () => false, {
       valueName: "status",
@@ -106,7 +106,7 @@ Deno.test("createValueMixin - toHaveStatusStrictEqual", async (t) => {
   });
 });
 
-Deno.test("createValueMixin - toHaveStatusSatisfying", async (t) => {
+test("createValueMixin - toHaveStatusSatisfying", async (t) => {
   await t.step("success", () => {
     const mixin = createValueMixin(() => 200, () => false, {
       valueName: "status",
@@ -136,7 +136,7 @@ Deno.test("createValueMixin - toHaveStatusSatisfying", async (t) => {
   });
 });
 
-Deno.test("createValueMixin - toHaveStatus with source context", async (t) => {
+test("createValueMixin - toHaveStatus with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createValueMixin(() => 200, () => false, {
       valueName: "status",

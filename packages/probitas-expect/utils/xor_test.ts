@@ -1,14 +1,15 @@
 import { assertEquals } from "@std/assert";
 import { xor } from "./xor.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("xor - truth table verification", () => {
+test("xor - truth table verification", () => {
   assertEquals(xor(false, false), false);
   assertEquals(xor(false, true), true);
   assertEquals(xor(true, false), true);
   assertEquals(xor(true, true), false);
 });
 
-Deno.test("xor - negation logic for mixin pattern", () => {
+test("xor - negation logic for mixin pattern", () => {
   // negate=false: pass if check passes
   assertEquals(xor(false, true), true);
   assertEquals(xor(false, false), false);

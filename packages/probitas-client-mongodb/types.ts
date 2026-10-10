@@ -1,4 +1,7 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+} from "@probitas-test/client";
 import type {
   MongoCountResult,
   MongoDeleteResult,
@@ -60,21 +63,21 @@ export interface MongoConnectionConfig extends CommonConnectionConfig {
 /**
  * MongoDB document type
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type Document<T = any> = Record<string, T>;
 
 /**
  * MongoDB filter type (simplified for compatibility with mongodb driver)
  * Allows query operators like $gte, $lt, $in, etc.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type Filter = Record<string, any>;
 
 /**
  * MongoDB update filter type (simplified for compatibility with mongodb driver)
  * Allows update operators like $set, $inc, $unset, etc.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type UpdateFilter = Record<string, any>;
 
 /**

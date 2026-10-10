@@ -24,7 +24,11 @@ import {
   ServerReflectionClient,
 } from "@lambdalisue/connectrpc-grpcreflect/client";
 import { getLogger } from "@logtape/logtape";
-import { AbortError, ConnectionError, TimeoutError } from "@probitas/client";
+import {
+  AbortError,
+  ConnectionError,
+  TimeoutError,
+} from "@probitas-test/client";
 import type {
   ConnectProtocol,
   ConnectRpcClientConfig,
@@ -47,6 +51,7 @@ import {
   ConnectRpcResponseFailureImpl,
   ConnectRpcResponseSuccessImpl,
 } from "./response.ts";
+import { readFileSync } from "node:fs";
 
 const logger = getLogger(["probitas", "client", "connectrpc"]);
 
@@ -306,7 +311,7 @@ function toMethodInfo(
  *
  * @example Basic usage with reflection
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({
  *   url: "http://localhost:50051",
@@ -325,7 +330,7 @@ function toMethodInfo(
  *
  * @example Service discovery with reflection
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({
  *   url: "http://localhost:50051",
@@ -344,7 +349,7 @@ function toMethodInfo(
  *
  * @example Using different protocols
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * // Connect protocol (HTTP/1.1 or HTTP/2)
  * const connectClient = createConnectRpcClient({
@@ -371,7 +376,7 @@ function toMethodInfo(
  *
  * @example Using connection config object
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({
  *   url: {
@@ -386,7 +391,7 @@ function toMethodInfo(
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * await using client = createConnectRpcClient({
  *   url: "http://localhost:50051",
@@ -465,7 +470,7 @@ export function createConnectRpcClient(
   } else if (typeof schema === "string") {
     // Load FileDescriptorSet from file path
     logger.debug("Loading FileDescriptorSet from file", { path: schema });
-    const bytes = Deno.readFileSync(schema);
+    const bytes = new Uint8Array(readFileSync(schema));
     const fileDescriptorSet = fromBinary(FileDescriptorSetSchema, bytes);
     staticRegistry = createFileRegistry(fileDescriptorSet);
     logger.debug("Created FileRegistry from file", {
@@ -717,7 +722,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();
@@ -822,7 +827,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();
@@ -930,7 +935,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();
@@ -1034,7 +1039,7 @@ class ConnectRpcClientImpl implements ConnectRpcClient {
 
     const shouldThrow = this.#shouldThrow(options);
 
-    let dynamicClient;
+    let dynamicClient: DynamicDispatchClient;
     const startTime = performance.now();
     try {
       dynamicClient = await this.#getDynamicClient();

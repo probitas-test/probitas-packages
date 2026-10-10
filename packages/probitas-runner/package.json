@@ -1,0 +1,44 @@
+{
+  "name": "@probitas-test/runner",
+  "version": "0.5.6",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probitas-test/probitas-packages.git",
+    "directory": "packages/probitas-runner"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./mod.ts",
+      "types": "./dist/mod.d.ts",
+      "default": "./dist/mod.js"
+    }
+  },
+  "files": [
+    "dist",
+    "**/*.ts",
+    "!dist/**/*.ts.map",
+    "!**/*_test.ts",
+    "!**/_testutils.ts",
+    "!**/testkit.ts",
+    "!node_modules",
+    "_vendor/**/LICENSE",
+    "_vendor/**/README.md"
+  ],
+  "dependencies": {
+    "@probitas-test/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@core/errorutil": "npm:@jsr/core__errorutil@^1",
+    "@probitas-test/internal-testing": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/async": "npm:@jsr/std__async@^1",
+    "@std/collections": "npm:@jsr/std__collections@^1",
+    "@std/expect": "npm:@jsr/std__expect@^1",
+    "@std/testing": "npm:@jsr/std__testing@^1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

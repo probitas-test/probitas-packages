@@ -1,4 +1,4 @@
-import type { MongoFindOneResult } from "@probitas/client-mongodb";
+import type { MongoFindOneResult } from "@probitas-test/client-mongodb";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -13,7 +13,7 @@ export interface MongoFindOneResultExpectation<_T = unknown> {
    *
    * @example
    * ```ts
-   * import type { MongoFindOneResult } from "@probitas/client-mongodb";
+   * import type { MongoFindOneResult } from "@probitas-test/client-mongodb";
    * import { expectMongoFindOneResult } from "./find_one.ts";
    * const result = {
    *   kind: "mongo:find-one",
@@ -120,7 +120,7 @@ export interface MongoFindOneResultExpectation<_T = unknown> {
    */
   toHaveDocPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 

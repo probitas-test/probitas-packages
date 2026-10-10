@@ -136,8 +136,8 @@ export function parseSelector(input: string): Selector[] {
  *
  * @example
  * ```ts
- * import { matchesSelector } from "@probitas/core/selector";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { matchesSelector } from "@probitas-test/core/selector";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const scenario: ScenarioDefinition = {
  *   name: "Login Test",
@@ -187,8 +187,8 @@ export function matchesSelector(
  *
  * @example OR logic - match any selector string
  * ```ts
- * import { applySelectors } from "@probitas/core/selector";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { applySelectors } from "@probitas-test/core/selector";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const scenarios: ScenarioDefinition[] = [];
  *
@@ -198,8 +198,8 @@ export function matchesSelector(
  *
  * @example AND logic - match all within comma-separated
  * ```ts
- * import { applySelectors } from "@probitas/core/selector";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { applySelectors } from "@probitas-test/core/selector";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const scenarios: ScenarioDefinition[] = [];
  *
@@ -209,8 +209,8 @@ export function matchesSelector(
  *
  * @example Combined AND/OR/NOT
  * ```ts
- * import { applySelectors } from "@probitas/core/selector";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { applySelectors } from "@probitas-test/core/selector";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const scenarios: ScenarioDefinition[] = [];
  *
@@ -223,8 +223,8 @@ export function matchesSelector(
  *
  * @example Exclude by name pattern
  * ```ts
- * import { applySelectors } from "@probitas/core/selector";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { applySelectors } from "@probitas-test/core/selector";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const scenarios: ScenarioDefinition[] = [];
  *

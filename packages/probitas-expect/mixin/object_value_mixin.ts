@@ -1,4 +1,4 @@
-import { expect as stdExpect } from "@std/expect";
+import { expect as stdExpect } from "../_vendor/std_expect/mod.ts";
 import { createExpectationError } from "../error.ts";
 import {
   Any,
@@ -63,7 +63,7 @@ type Definition<T, MethodBase extends string> = MixinDefinition<[
     (
       this: T,
       keyPath: string | string[],
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       matcher: (value: any) => void,
     ) => T,
   ],
@@ -310,7 +310,7 @@ export function createObjectValueMixin<
     [`toHave${methodBase}PropertySatisfying`](
       this: T,
       keyPath: string | string[],
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       matcher: (value: any) => void,
     ): T {
       const isNegated = negate();
@@ -353,7 +353,7 @@ function getPropertyValue<T>(
   keyPath: string | string[],
 ): T | undefined {
   const keys = Array.isArray(keyPath) ? keyPath : keyPath.split(".");
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   let current: any = obj;
 
   for (const key of keys) {

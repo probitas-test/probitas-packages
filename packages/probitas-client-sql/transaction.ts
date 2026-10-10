@@ -1,4 +1,4 @@
-import type { CommonOptions } from "@probitas/client";
+import type { CommonOptions } from "@probitas-test/client";
 import type { SqlQueryResult } from "./result.ts";
 
 /**
@@ -41,7 +41,7 @@ export interface SqlTransaction {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -54,7 +54,7 @@ export interface SqlTransaction {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

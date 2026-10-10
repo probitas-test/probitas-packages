@@ -4,7 +4,7 @@
  * @module
  */
 
-import { toFileUrl } from "@std/path";
+import { pathToFileURL } from "node:url";
 import { getLogger } from "@logtape/logtape";
 import type { ScenarioDefinition } from "./types.ts";
 
@@ -15,7 +15,7 @@ const logger = getLogger(["probitas", "scenario"]);
  *
  * @example Handling import errors
  * ```ts
- * import { loadScenarios } from "@probitas/core/loader";
+ * import { loadScenarios } from "@probitas-test/core/loader";
  *
  * const files: string[] = [];
  *
@@ -57,7 +57,7 @@ export interface LoadScenariosOptions {
  *
  * @example Loading discovered files
  * ```ts
- * import { loadScenarios } from "@probitas/core/loader";
+ * import { loadScenarios } from "@probitas-test/core/loader";
  *
  * // Use with discoverScenarioFiles from @probitas/discover
  * const discoverScenarioFiles = async (_opts: {
@@ -73,7 +73,7 @@ export interface LoadScenariosOptions {
  *
  * @example Loading specific files
  * ```ts
- * import { loadScenarios } from "@probitas/core/loader";
+ * import { loadScenarios } from "@probitas-test/core/loader";
  *
  * const scenarios = await loadScenarios([
  *   "/project/tests/auth.probitas.ts",
@@ -96,7 +96,7 @@ export async function loadScenarios(
     try {
       const fileUrl = scenarioFile instanceof URL
         ? scenarioFile
-        : toFileUrl(scenarioFile);
+        : pathToFileURL(scenarioFile);
 
       logger.debug("Importing scenario file", { file: fileUrl.href });
 

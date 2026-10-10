@@ -1,6 +1,7 @@
 import { assertEquals, assertExists } from "@std/assert";
 import { expectRedisSetResult, type RedisSetResultExpectation } from "./set.ts";
 import { mockRedisSetResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -29,7 +30,7 @@ const EXPECTED_METHODS: Record<keyof RedisSetResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectRedisSetResult - method existence check", () => {
+test("expectRedisSetResult - method existence check", () => {
   const result = mockRedisSetResult();
   const expectation = expectRedisSetResult(result);
 
@@ -68,12 +69,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectRedisSetResult - ${methodName} - success`, () => {
+  test(`expectRedisSetResult - ${methodName} - success`, () => {
     const result = mockRedisSetResult();
     const expectation = expectRedisSetResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 
@@ -86,7 +87,7 @@ for (
   });
 }
 
-Deno.test("expectRedisSetResult - not property - success", () => {
+test("expectRedisSetResult - not property - success", () => {
   const result = mockRedisSetResult({ ok: false, value: undefined });
   const expectation = expectRedisSetResult(result);
 
@@ -95,7 +96,7 @@ Deno.test("expectRedisSetResult - not property - success", () => {
   expectation.not.toHaveValue("OK");
 });
 
-Deno.test("expectRedisSetResult - NaN duration methods - success", () => {
+test("expectRedisSetResult - NaN duration methods - success", () => {
   // Test NaN values
   const nanResult = mockRedisSetResult({
     duration: NaN,
@@ -105,7 +106,7 @@ Deno.test("expectRedisSetResult - NaN duration methods - success", () => {
   nanExpectation.toHaveDurationNaN();
 });
 
-Deno.test("expectRedisSetResult - chaining - success", () => {
+test("expectRedisSetResult - chaining - success", () => {
   const result = mockRedisSetResult();
   const expectation = expectRedisSetResult(result);
 
@@ -119,7 +120,7 @@ Deno.test("expectRedisSetResult - chaining - success", () => {
     .toHaveDurationLessThan(200);
 });
 
-Deno.test("expectRedisSetResult - undefined value (NX/XX condition not met) - success", () => {
+test("expectRedisSetResult - undefined value (NX/XX condition not met) - success", () => {
   const result = mockRedisSetResult({ value: undefined });
   const expectation = expectRedisSetResult(result);
 

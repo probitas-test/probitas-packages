@@ -7,14 +7,16 @@
  * @module
  */
 
-import type { Origin } from "@probitas/core/origin";
-import { defaultTheme, type Theme } from "@probitas/core/theme";
+import type { Origin } from "@probitas-test/core/origin";
+import { defaultTheme, type Theme } from "@probitas-test/core/theme";
 import {
   captureOrigin,
   formatSourceContext,
   getSourceContext,
 } from "./context.ts";
 import { formatDiff } from "./utils/format_diff.ts";
+import process from "node:process";
+import { inspect } from "node:util";
 
 /**
  * Custom error class for expectation failures.
@@ -123,7 +125,10 @@ export function createExpectationError(
   if (expectOrigin && matcherOrigin) {
     const ctx = getSourceContext(expectOrigin, matcherOrigin);
     if (ctx) {
-      const contextStr = formatSourceContext(ctx, { cwd: Deno.cwd(), theme });
+      const contextStr = formatSourceContext(ctx, {
+        cwd: process.cwd(),
+        theme,
+      });
       parts.push(contextStr);
     }
   }
@@ -146,7 +151,7 @@ function buildDiffSection(diff: DiffInfo, theme: Theme): string | undefined {
     if (typeof actual !== "object" || actual === null) {
       return undefined;
     }
-    const actualStr = Deno.inspect(actual, { depth: Infinity, colors: false });
+    const actualStr = inspect(actual, { depth: Infinity, colors: false });
     const lines = actualStr.split("\n").map((line) => theme.dim(`    ${line}`));
     return `${theme.title("Actual:")}\n${lines.join("\n")}`;
   }
@@ -170,7 +175,7 @@ function buildDiffSection(diff: DiffInfo, theme: Theme): string | undefined {
  */
 function buildSubjectSection(subject: unknown, theme: Theme): string {
   const prepared = prepareForInspect(subject);
-  const subjectStr = Deno.inspect(prepared, {
+  const subjectStr = inspect(prepared, {
     depth: Infinity,
     colors: false,
     breakLength: 1, // Force multiline output
@@ -213,7 +218,7 @@ class Uint8ArrayWithUtf8 {
     this.#bytes = bytes;
   }
 
-  [Symbol.for("Deno.customInspect")](): string {
+  [Symbol.for("nodejs.util.inspect.custom")](): string {
     // Try UTF-8 decoding with fatal: true to detect invalid sequences
     try {
       const utf8 = new TextDecoder("utf-8", { fatal: true }).decode(

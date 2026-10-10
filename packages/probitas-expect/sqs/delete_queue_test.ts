@@ -4,6 +4,7 @@ import {
   type SqsDeleteQueueResultExpectation,
 } from "./delete_queue.ts";
 import { mockSqsDeleteQueueResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -28,7 +29,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectSqsDeleteQueueResult - method existence check", () => {
+test("expectSqsDeleteQueueResult - method existence check", () => {
   const result = mockSqsDeleteQueueResult();
   const expectation = expectSqsDeleteQueueResult(result);
 
@@ -67,12 +68,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqsDeleteQueueResult - ${methodName} - success`, () => {
+  test(`expectSqsDeleteQueueResult - ${methodName} - success`, () => {
     const result = mockSqsDeleteQueueResult();
     const expectation = expectSqsDeleteQueueResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const returnValue = method.call(expectation, ...args);
 
@@ -85,7 +86,7 @@ for (
   });
 }
 
-Deno.test("expectSqsDeleteQueueResult - not property - success", () => {
+test("expectSqsDeleteQueueResult - not property - success", () => {
   const result = mockSqsDeleteQueueResult({ ok: false });
   const expectation = expectSqsDeleteQueueResult(result);
 
@@ -93,7 +94,7 @@ Deno.test("expectSqsDeleteQueueResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectSqsDeleteQueueResult - chaining - success", () => {
+test("expectSqsDeleteQueueResult - chaining - success", () => {
   const result = mockSqsDeleteQueueResult();
   const expectation = expectSqsDeleteQueueResult(result);
 

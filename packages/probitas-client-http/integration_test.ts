@@ -14,8 +14,10 @@ import {
   assertInstanceOf,
 } from "@std/assert";
 import { createHttpClient, HttpError, HttpNetworkError } from "./mod.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const ECHO_HTTP_URL = Deno.env.get("ECHO_HTTP_URL") ?? "http://localhost:8080";
+const ECHO_HTTP_URL = process.env.ECHO_HTTP_URL ?? "http://localhost:8080";
 
 async function isEchoHttpAvailable(): Promise<boolean> {
   try {
@@ -29,7 +31,7 @@ async function isEchoHttpAvailable(): Promise<boolean> {
   }
 }
 
-Deno.test({
+test({
   name: "Integration: echo-http",
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {
@@ -288,7 +290,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: echo-http cookies",
   ignore: !(await isEchoHttpAvailable()),
   async fn(t) {

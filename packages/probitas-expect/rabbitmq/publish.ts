@@ -1,4 +1,4 @@
-import type { RabbitMqPublishResult } from "@probitas/client-rabbitmq";
+import type { RabbitMqPublishResult } from "@probitas-test/client-rabbitmq";
 import * as mixin from "../mixin.ts";
 
 /**
@@ -11,7 +11,7 @@ export interface RabbitMqPublishResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RabbitMqPublishResult } from "@probitas/client-rabbitmq";
+   * import type { RabbitMqPublishResult } from "@probitas-test/client-rabbitmq";
    * import { expectRabbitMqPublishResult } from "./publish.ts";
    * const result = {
    *   kind: "rabbitmq:publish",

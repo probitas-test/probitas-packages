@@ -1,4 +1,4 @@
-import type { Origin } from "@probitas/core/origin";
+import type { Origin } from "@probitas-test/core/origin";
 import type {
   IntersectReturnTypes,
   PatchTypedChainMethod,
@@ -99,7 +99,7 @@ export function defineExpectation<
     return result;
   };
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   let applied: any = {};
   for (const mixin of mixins(getNegate, expectOrigin)) {
     applied = mixin(applied);

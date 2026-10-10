@@ -7,14 +7,14 @@
  *
  * @example Use with string URL
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  * const client = createHttpClient({ url: "http://localhost:3000" });
  * await client[Symbol.asyncDispose]();
  * ```
  *
  * @example Use with config object
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  * const client = createHttpClient({
  *   url: {
  *     host: "api.example.com",
@@ -115,7 +115,7 @@ export interface CommonOptions {
  *
  * @example
  * ```ts
- * import type { ClientResult } from "@probitas/client";
+ * import type { ClientResult } from "@probitas-test/client";
  *
  * interface HttpResponse extends ClientResult {
  *   readonly kind: "http";
@@ -199,3 +199,15 @@ export interface ClientResult {
    */
   readonly duration: number;
 }
+
+/**
+ * A `fetch`-compatible function.
+ *
+ * Declared structurally instead of as `typeof fetch` because runtime typings
+ * add members (Bun's `fetch.preconnect`) that a custom implementation or test
+ * double should not have to provide.
+ */
+export type Fetch = (
+  input: RequestInfo | URL,
+  init?: RequestInit,
+) => Promise<Response>;

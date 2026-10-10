@@ -21,7 +21,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createGraphqlClient, outdent } from "@probitas/client-graphql";
+ * import { createGraphqlClient, outdent } from "@probitas-test/client-graphql";
  *
  * const client = createGraphqlClient({ url: "http://localhost:4000/graphql" });
  *
@@ -47,7 +47,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * await using client = createGraphqlClient({ url: "http://localhost:4000/graphql" });
  *
@@ -75,4 +75,4 @@ export type * from "./types.ts";
 export * from "./errors.ts";
 export type * from "./response.ts";
 export * from "./client.ts";
-export { outdent } from "@cspotcode/outdent";
+export { outdent } from "outdent";

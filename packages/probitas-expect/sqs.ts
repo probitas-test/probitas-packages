@@ -7,7 +7,7 @@ import type {
   SqsResult,
   SqsSendBatchResult,
   SqsSendResult,
-} from "@probitas/client-sqs";
+} from "@probitas-test/client-sqs";
 import {
   expectSqsSendResult,
   type SqsSendResultExpectation,
@@ -76,7 +76,7 @@ export type SqsExpectation<R extends SqsResult> = R extends SqsSendResult
  *
  * @example Send result validation
  * ```ts
- * import type { SqsSendResult } from "@probitas/client-sqs";
+ * import type { SqsSendResult } from "@probitas-test/client-sqs";
  * import { expectSqsResult } from "./sqs.ts";
  * const sendResult = {
  *   kind: "sqs:send",
@@ -94,7 +94,7 @@ export type SqsExpectation<R extends SqsResult> = R extends SqsSendResult
  *
  * @example Receive result validation
  * ```ts
- * import type { SqsReceiveResult } from "@probitas/client-sqs";
+ * import type { SqsReceiveResult } from "@probitas-test/client-sqs";
  * import { expectSqsResult } from "./sqs.ts";
  * const receiveResult = {
  *   kind: "sqs:receive",
@@ -109,7 +109,7 @@ export type SqsExpectation<R extends SqsResult> = R extends SqsSendResult
  *
  * @example Batch operations
  * ```ts
- * import type { SqsSendBatchResult } from "@probitas/client-sqs";
+ * import type { SqsSendBatchResult } from "@probitas-test/client-sqs";
  * import { expectSqsResult } from "./sqs.ts";
  * const batchResult = {
  *   kind: "sqs:send-batch",
@@ -126,7 +126,7 @@ export type SqsExpectation<R extends SqsResult> = R extends SqsSendResult
  *
  * @example Queue management
  * ```ts
- * import type { SqsEnsureQueueResult } from "@probitas/client-sqs";
+ * import type { SqsEnsureQueueResult } from "@probitas-test/client-sqs";
  * import { expectSqsResult } from "./sqs.ts";
  * const ensureResult = {
  *   kind: "sqs:ensure-queue",

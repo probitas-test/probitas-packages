@@ -6,10 +6,11 @@ import {
   TestReporter,
 } from "./_testutils.ts";
 import { ScenarioRunner } from "./scenario_runner.ts";
+import { test } from "@probitas-test/internal-testing";
 
 const reporter = new TestReporter();
 
-Deno.test("ScenarioRunner run runs scenario with no step", async () => {
+test("ScenarioRunner run runs scenario with no step", async () => {
   const scenario = createTestScenario();
   const runner = new ScenarioRunner(
     reporter,
@@ -24,7 +25,7 @@ Deno.test("ScenarioRunner run runs scenario with no step", async () => {
   });
 });
 
-Deno.test("ScenarioRunner run runs scenario with single step", async () => {
+test("ScenarioRunner run runs scenario with single step", async () => {
   const scenario = createTestScenario({
     steps: [
       createTestStep({
@@ -48,7 +49,7 @@ Deno.test("ScenarioRunner run runs scenario with single step", async () => {
   });
 });
 
-Deno.test("ScenarioRunner run runs scenario with single step (fail)", async () => {
+test("ScenarioRunner run runs scenario with single step (fail)", async () => {
   const scenario = createTestScenario({
     steps: [
       createTestStep({
@@ -72,7 +73,7 @@ Deno.test("ScenarioRunner run runs scenario with single step (fail)", async () =
   });
 });
 
-Deno.test("ScenarioRunner run runs scenario with multiple steps", async () => {
+test("ScenarioRunner run runs scenario with multiple steps", async () => {
   const scenario = createTestScenario({
     steps: [
       createTestStep({
@@ -112,7 +113,7 @@ Deno.test("ScenarioRunner run runs scenario with multiple steps", async () => {
   });
 });
 
-Deno.test("ScenarioRunner run runs scenario with multiple steps (fail)", async () => {
+test("ScenarioRunner run runs scenario with multiple steps (fail)", async () => {
   const scenario = createTestScenario({
     steps: [
       createTestStep({

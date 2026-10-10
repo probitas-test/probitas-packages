@@ -1,6 +1,7 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { assertType, type IsExact } from "@std/testing/types";
 import { defineExpectation } from "./define.ts";
+import { test } from "@probitas-test/internal-testing";
 
 const mixinA = <T extends object>(base: Readonly<T>) => ({
   ...base,
@@ -48,7 +49,7 @@ const createNegatingMixin = <T extends object>(negate: () => boolean) => {
   });
 };
 
-Deno.test("defineExpectation - type check", async (t) => {
+test("defineExpectation - type check", async (t) => {
   await t.step("single mixin", () => {
     const expectation = defineExpectation((_negate) => [mixinA]);
     type Expected = {
@@ -104,7 +105,7 @@ Deno.test("defineExpectation - type check", async (t) => {
   });
 });
 
-Deno.test("defineExpectation - runtime check", async (t) => {
+test("defineExpectation - runtime check", async (t) => {
   await t.step("single mixin", () => {
     const expectation = defineExpectation((_negate) => [
       mixinA,
@@ -178,7 +179,7 @@ Deno.test("defineExpectation - runtime check", async (t) => {
   });
 });
 
-Deno.test("defineExpectation - negation behavior", async (t) => {
+test("defineExpectation - negation behavior", async (t) => {
   await t.step("positive assertion passes with true", () => {
     const expectation = defineExpectation((negate) => [
       createNegatingMixin(negate),

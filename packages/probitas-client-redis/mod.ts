@@ -20,7 +20,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({
  *   url: "redis://localhost:6379/0",
@@ -47,7 +47,7 @@
  * ## Transactions
  *
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({ url: "redis://localhost:6379" });
  *
@@ -63,7 +63,7 @@
  * ## Pub/Sub
  *
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * const client = await createRedisClient({ url: "redis://localhost:6379" });
  *
@@ -83,7 +83,7 @@
  * ## Connection Configuration
  *
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * // Using URL string
  * const client1 = await createRedisClient({ url: "redis://localhost:6379" });
@@ -104,7 +104,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createRedisClient } from "@probitas/client-redis";
+ * import { createRedisClient } from "@probitas-test/client-redis";
  *
  * await using client = await createRedisClient({ url: "redis://localhost:6379" });
  *
@@ -119,7 +119,6 @@
  * | Package | Description |
  * |---------|-------------|
  * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
- * | [`@probitas/client-deno-kv`](https://jsr.io/@probitas/client-deno-kv) | Deno KV client |
  *
  * ## Links
  *

@@ -1,8 +1,8 @@
-export const snapshot = {};
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
-snapshot[`createValueMixin - toHaveStatus 1`] = `"Expected status to be 404, but got 200"`;
+exports[`createValueMixin - toHaveStatus 1`] = `"Expected status to be 404, but got 200"`;
 
-snapshot[`createValueMixin - toHaveStatusEqual 1`] = `
+exports[`createValueMixin - toHaveStatusEqual 1`] = `
 "Expected data to equal { x: 2 }, but got { x: 1 }
 
 Diff (-Actual / +Expected):
@@ -13,7 +13,7 @@ Diff (-Actual / +Expected):
     }"
 `;
 
-snapshot[`createValueMixin - toHaveStatusStrictEqual 1`] = `
+exports[`createValueMixin - toHaveStatusStrictEqual 1`] = `
 "Expected data to strictly equal { x: 1, y: undefined }, but got { x: 1 }
 
 Diff (-Actual / +Expected):
@@ -24,34 +24,34 @@ Diff (-Actual / +Expected):
     }"
 `;
 
-snapshot[`createValueMixin - toHaveStatusSatisfying 1`] = `"Expected status to satisfy the matcher, but it failed: Must be 404"`;
+exports[`createValueMixin - toHaveStatusSatisfying 1`] = `"Expected status to satisfy the matcher, but it failed: Must be 404"`;
 
-snapshot[`createValueMixin - toHaveStatus with source context 1`] = `
-'Expected status to be 404, but got 200
+exports[`createValueMixin - toHaveStatus with source context 1`] = `
+"Expected status to be 404, but got 200
 
 Context (packages/probitas-expect/mixin/value_mixin_test.ts:140:5)
 
-  139│ Deno.test("createValueMixin - toHaveStatus with source context", async (t) => {
+  139│ test("createValueMixin - toHaveStatus with source context", async (t) => {
   140│   await t.step("fail (noColor)", async () => {
   141│     const mixin = createValueMixin(() => 200, () => false, {
      ┆
   147│       t,
   148│       catchError(() => applied.toHaveStatus(404)).message,
-     │                                ^
-  149│     );'
+     │       ^
+  149│     );"
 `;
 
-snapshot[`createValueMixin - toHaveStatus with source context 2`] = `
-'[1m[31mExpected status to be 404, but got 200[39m[0m
+exports[`createValueMixin - toHaveStatus with source context 2`] = `
+"\x1B[1m\x1B[31mExpected status to be 404, but got 200\x1B[39m\x1B[0m
 
-[1mContext[0m [90m(packages/probitas-expect/mixin/value_mixin_test.ts:152:5)[39m
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/value_mixin_test.ts:152:5)\x1B[39m
 
-  [90m151│ [39m
-  [90m152│   await t.step("fail (withColor)", async () => {[39m
-  [90m153│     const mixin = createValueMixin(() => 200, () => false, {[39m
-  [90m   ┆[39m
-  [90m160│       t,[39m
-  [90m161│       catchError(() => applied.toHaveStatus(404)).message,[39m
-  [90m   │                                [39m[31m^[39m
-  [90m162│     );[39m'
+  \x1B[90m151│ \x1B[39m
+  \x1B[90m152│   await t.step("fail (withColor)", async () => {\x1B[39m
+  \x1B[90m153│     const mixin = createValueMixin(() => 200, () => false, {\x1B[39m
+  \x1B[90m   ┆\x1B[39m
+  \x1B[90m160│       t,\x1B[39m
+  \x1B[90m161│       catchError(() => applied.toHaveStatus(404)).message,\x1B[39m
+  \x1B[90m   │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m162│     );\x1B[39m"
 `;

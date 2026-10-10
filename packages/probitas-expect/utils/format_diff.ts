@@ -8,7 +8,8 @@
  */
 
 import { type Change, diffLines } from "diff";
-import type { Theme } from "@probitas/core/theme";
+import type { Theme } from "@probitas-test/core/theme";
+import { inspect, type InspectOptions } from "node:util";
 
 /**
  * Options for diff formatting.
@@ -21,12 +22,28 @@ export interface FormatDiffOptions {
 /**
  * Common inspect options for consistent diff output.
  */
-const INSPECT_OPTIONS: Deno.InspectOptions = {
+const INSPECT_OPTIONS: InspectOptions = {
   depth: Infinity,
   colors: false,
   breakLength: 1,
-  trailingComma: true,
 };
+
+/**
+ * Append a comma to the last member of every multi-line object/array.
+ *
+ * `node:util.inspect` has no `trailingComma` option. Without the comma, adding
+ * a member makes the line diff also flag the previous member as changed
+ * (`age: 30` vs `age: 30,`).
+ */
+function addTrailingCommas(str: string): string {
+  const lines = str.split("\n");
+  return lines.map((line, i) => {
+    const next = lines[i + 1]?.trimStart();
+    if (next === undefined || !/^[}\]]/.test(next)) return line;
+    if (/[{[(,]$/.test(line)) return line;
+    return `${line},`;
+  }).join("\n");
+}
 
 /**
  * Formats the diff between actual and expected values.
@@ -46,7 +63,7 @@ const INSPECT_OPTIONS: Deno.InspectOptions = {
  * @example
  * ```ts
  * import { formatDiff } from "./format_diff.ts";
- * import { noColorTheme } from "@probitas/core/theme";
+ * import { noColorTheme } from "@probitas-test/core/theme";
  *
  * const actual = { name: "Alice", age: 30 };
  * const expected = { name: "Bob", age: 30 };
@@ -112,7 +129,7 @@ function shouldShowDiff(value: unknown): boolean {
  * to multi-line format for better diff results.
  */
 function stringifyForDiff(value: unknown): string {
-  const str = Deno.inspect(value, INSPECT_OPTIONS);
+  const str = addTrailingCommas(inspect(value, INSPECT_OPTIONS));
   // Normalize empty containers to multi-line format
   // This ensures `{}` vs `{ foo: 1 }` shows only the added property as diff
   return str

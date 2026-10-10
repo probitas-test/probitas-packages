@@ -1,0 +1,53 @@
+{
+  "name": "@probitas-test/expect",
+  "version": "0.4.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probitas-test/probitas-packages.git",
+    "directory": "packages/probitas-expect"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./mod.ts",
+      "types": "./dist/mod.d.ts",
+      "default": "./dist/mod.js"
+    }
+  },
+  "files": [
+    "dist",
+    "**/*.ts",
+    "!dist/**/*.ts.map",
+    "!**/*_test.ts",
+    "!**/_testutils.ts",
+    "!**/testkit.ts",
+    "!node_modules",
+    "_vendor/**/LICENSE",
+    "_vendor/**/README.md"
+  ],
+  "dependencies": {
+    "@probitas-test/client-connectrpc": "workspace:*",
+    "@probitas-test/client-graphql": "workspace:*",
+    "@probitas-test/client-grpc": "workspace:*",
+    "@probitas-test/client-http": "workspace:*",
+    "@probitas-test/client-mongodb": "workspace:*",
+    "@probitas-test/client-rabbitmq": "workspace:*",
+    "@probitas-test/client-redis": "workspace:*",
+    "@probitas-test/client-sql": "workspace:*",
+    "@probitas-test/client-sqs": "workspace:*",
+    "@probitas-test/core": "workspace:*",
+    "diff": "^7"
+  },
+  "devDependencies": {
+    "@core/errorutil": "npm:@jsr/core__errorutil@^1",
+    "@probitas-test/internal-testing": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/expect": "npm:@jsr/std__expect@^1",
+    "@std/testing": "npm:@jsr/std__testing@^1",
+    "@types/diff": "7"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

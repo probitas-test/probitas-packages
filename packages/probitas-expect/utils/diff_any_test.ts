@@ -6,25 +6,27 @@
 
 import { assertEquals } from "@std/assert";
 import { Any } from "./diff_any.ts";
+import { test } from "@probitas-test/internal-testing";
+import { inspect } from "node:util";
 
-Deno.test("Any displays as [Any] when inspected", () => {
-  const result = Deno.inspect(Any);
+test("Any displays as [Any] when inspected", () => {
+  const result = inspect(Any);
   assertEquals(result, "[Any]");
 });
 
-Deno.test("Any displays as [Any] inside object", () => {
+test("Any displays as [Any] inside object", () => {
   const obj = { foo: Any };
-  const result = Deno.inspect(obj);
+  const result = inspect(obj);
   assertEquals(result, "{ foo: [Any] }");
 });
 
-Deno.test("Any displays as [Any] inside array", () => {
+test("Any displays as [Any] inside array", () => {
   const arr = [1, Any, 3];
-  const result = Deno.inspect(arr);
+  const result = inspect(arr);
   assertEquals(result, "[ 1, [Any], 3 ]");
 });
 
-Deno.test("Any is a singleton", () => {
+test("Any is a singleton", () => {
   // Any should always be the same instance
   assertEquals(Any, Any);
 });

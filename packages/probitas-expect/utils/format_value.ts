@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 /**
  * Formatting utilities for expect implementations.
  *
@@ -27,7 +28,7 @@ export function formatValue(value: unknown): string {
     if (value.length <= MAX_LENGTH) return value;
     return value.slice(0, MAX_LENGTH - 3) + "...";
   }
-  let str = Deno.inspect(value, {
+  let str = inspect(value, {
     compact: true,
     breakLength: Infinity,
     depth: 0,

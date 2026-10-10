@@ -5,8 +5,9 @@ import {
   ConnectionError,
   TimeoutError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("ClientError", async (t) => {
+test("ClientError", async (t) => {
   await t.step("has correct name and kind", () => {
     const error = new ClientError("test message", "unknown");
     assertEquals(error.name, "ClientError");
@@ -21,7 +22,7 @@ Deno.test("ClientError", async (t) => {
   });
 });
 
-Deno.test("ConnectionError", async (t) => {
+test("ConnectionError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new ConnectionError("connection failed");
     assertInstanceOf(error, ClientError);
@@ -42,7 +43,7 @@ Deno.test("ConnectionError", async (t) => {
   });
 });
 
-Deno.test("TimeoutError", async (t) => {
+test("TimeoutError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new TimeoutError("operation timed out", 5000);
     assertInstanceOf(error, ClientError);
@@ -65,7 +66,7 @@ Deno.test("TimeoutError", async (t) => {
   });
 });
 
-Deno.test("AbortError", async (t) => {
+test("AbortError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new AbortError("operation aborted");
     assertInstanceOf(error, ClientError);

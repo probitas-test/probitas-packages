@@ -1,6 +1,7 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { SqlQueryResult } from "@probitas/client-sql";
+import type { SqlQueryResult } from "@probitas-test/client-sql";
 import { expectSqlQueryResult, type SqlQueryResultExpectation } from "./sql.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Mock SqlQueryResult for testing
 function createMockResult(
@@ -99,7 +100,7 @@ const EXPECTED_METHODS: Record<keyof SqlQueryResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [123, 0],
 };
 
-Deno.test("expectSqlQueryResult - method existence check", () => {
+test("expectSqlQueryResult - method existence check", () => {
   const result = createMockResult();
   const expectation = expectSqlQueryResult(result);
 
@@ -144,12 +145,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqlQueryResult - ${methodName} - success`, () => {
+  test(`expectSqlQueryResult - ${methodName} - success`, () => {
     const result = createMockResult();
     const expectation = expectSqlQueryResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 
@@ -162,7 +163,7 @@ for (
   });
 }
 
-Deno.test("expectSqlQueryResult - not property - success", () => {
+test("expectSqlQueryResult - not property - success", () => {
   const result = createMockResult({ ok: false, rowCount: 0 });
   const expectation = expectSqlQueryResult(result);
 
@@ -171,7 +172,7 @@ Deno.test("expectSqlQueryResult - not property - success", () => {
   expectation.not.toHaveRowCount(2);
 });
 
-Deno.test("expectSqlQueryResult - empty array methods - success", () => {
+test("expectSqlQueryResult - empty array methods - success", () => {
   // Test empty rows
   const emptyRowsResult = createMockResult({
     rows: [],

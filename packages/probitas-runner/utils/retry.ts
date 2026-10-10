@@ -7,7 +7,7 @@
  * @module
  */
 
-import { delay } from "@std/async/delay";
+import { delay } from "./async.ts";
 
 /**
  * Configuration options for retry behavior
@@ -109,7 +109,7 @@ export async function retry<T>(
 
       if (attempt < maxAttempts - 1) {
         const t = backoff === "exponential"
-          ? Math.pow(2, attempt) * 1000
+          ? 2 ** attempt * 1000
           : (attempt + 1) * 1000;
         await delay(t, { signal });
       }

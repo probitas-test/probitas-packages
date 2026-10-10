@@ -6,7 +6,17 @@
  * @module
  */
 
-import { cyan, gray, green, red, yellow } from "@std/fmt/colors";
+import process from "node:process";
+
+// Always-on ANSI colors, matching @std/fmt/colors outside Deno. Whether to
+// color at all is decided by picking colorTheme or noColorTheme below.
+const ansi = (open: number) => (s: string): string =>
+  `\x1b[${open}m${s}\x1b[39m`;
+const red = ansi(31);
+const green = ansi(32);
+const yellow = ansi(33);
+const cyan = ansi(36);
+const gray = ansi(90);
 
 /**
  * Apply light gray color (ANSI 256-color mode).
@@ -42,7 +52,7 @@ export type ThemeFunction = (text: string) => string;
  *
  * @example Custom theme
  * ```ts
- * import type { Theme } from "@probitas/core/theme";
+ * import type { Theme } from "@probitas-test/core/theme";
  *
  * const myTheme: Theme = {
  *   success: (t) => `\x1b[32m${t}\x1b[0m`,
@@ -113,7 +123,7 @@ export const noColorTheme: Theme = {
   lightGray: (text) => text,
 };
 
-export const defaultTheme = Deno.noColor ? noColorTheme : colorTheme;
+export const defaultTheme = process.env.NO_COLOR ? noColorTheme : colorTheme;
 
 /**
  * Regular expression pattern for ANSI escape sequences.
@@ -123,7 +133,7 @@ export const defaultTheme = Deno.noColor ? noColorTheme : colorTheme;
  * - `\x1b[32m` (green)
  * - `\x1b[1;31m` (bold red)
  */
-// deno-lint-ignore no-control-regex
+// biome-ignore lint/suspicious/noControlCharactersInRegex: matches ANSI escape sequences
 const ANSI_ESCAPE_SEQUENCE_PATTERN = /\x1b\[[0-9;]*m/g;
 
 /**
@@ -137,7 +147,7 @@ const ANSI_ESCAPE_SEQUENCE_PATTERN = /\x1b\[[0-9;]*m/g;
  *
  * @example
  * ```ts
- * import { removeColors } from "@probitas/core/theme";
+ * import { removeColors } from "@probitas-test/core/theme";
  *
  * const colored = "\x1b[32mSuccess\x1b[0m";
  * const plain = removeColors(colored);

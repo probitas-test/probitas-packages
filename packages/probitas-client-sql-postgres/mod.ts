@@ -22,7 +22,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * const client = await createPostgresClient({
  *   url: "postgres://user:pass@localhost:5432/mydb",
@@ -47,8 +47,8 @@
  * ## Transactions
  *
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createPostgresClient({
  *   url: "postgres://localhost:5432/testdb",
@@ -66,7 +66,7 @@
  * ## LISTEN/NOTIFY
  *
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * const client = await createPostgresClient({
  *   url: "postgres://localhost:5432/testdb",
@@ -88,7 +88,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * await using client = await createPostgresClient({
  *   url: "postgres://localhost:5432/testdb",
@@ -129,4 +129,4 @@ export type * from "./types.ts";
 export * from "./errors.ts";
 
 // Re-export common types from @probitas/client-sql
-export * from "@probitas/client-sql";
+export * from "@probitas-test/client-sql";

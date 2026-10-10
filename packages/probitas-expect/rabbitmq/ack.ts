@@ -1,4 +1,4 @@
-import type { RabbitMqAckResult } from "@probitas/client-rabbitmq";
+import type { RabbitMqAckResult } from "@probitas-test/client-rabbitmq";
 import * as mixin from "../mixin.ts";
 
 /**
@@ -13,7 +13,7 @@ export interface RabbitMqAckResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RabbitMqAckResult } from "@probitas/client-rabbitmq";
+   * import type { RabbitMqAckResult } from "@probitas-test/client-rabbitmq";
    * import { expectRabbitMqAckResult } from "./ack.ts";
    * const result = {
    *   kind: "rabbitmq:ack",

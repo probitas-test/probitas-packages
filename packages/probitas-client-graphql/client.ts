@@ -16,7 +16,7 @@ import {
   GraphqlResponseFailureImpl,
   GraphqlResponseSuccessImpl,
 } from "./response.ts";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 
 const logger = getLogger(["probitas", "client", "graphql"]);
@@ -99,7 +99,7 @@ class GraphqlClientImpl implements GraphqlClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<TData = any, TVariables = Record<string, any>>(
     query: string,
     variables?: TVariables,
@@ -108,7 +108,7 @@ class GraphqlClientImpl implements GraphqlClient {
     return this.execute<TData, TVariables>(query, variables, options);
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   mutation<TData = any, TVariables = Record<string, any>>(
     mutation: string,
     variables?: TVariables,
@@ -117,7 +117,7 @@ class GraphqlClientImpl implements GraphqlClient {
     return this.execute<TData, TVariables>(mutation, variables, options);
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async execute<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,
@@ -270,7 +270,7 @@ class GraphqlClientImpl implements GraphqlClient {
     return response;
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async *subscribe<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,
@@ -521,7 +521,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Basic query
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * const client = createGraphqlClient({
  *   url: "http://localhost:4000/graphql",
@@ -539,7 +539,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Using connection config object
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * const client = createGraphqlClient({
  *   url: { host: "api.example.com", port: 443, protocol: "https" },
@@ -549,7 +549,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Mutation with error handling
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * const client = createGraphqlClient({ url: "http://localhost:4000/graphql" });
  *
@@ -568,7 +568,7 @@ class GraphqlClientImpl implements GraphqlClient {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createGraphqlClient } from "@probitas/client-graphql";
+ * import { createGraphqlClient } from "@probitas-test/client-graphql";
  *
  * await using client = createGraphqlClient({
  *   url: "http://localhost:4000/graphql",

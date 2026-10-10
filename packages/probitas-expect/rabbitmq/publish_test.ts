@@ -4,6 +4,7 @@ import {
   type RabbitMqPublishResultExpectation,
 } from "./publish.ts";
 import { mockRabbitMqPublishResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -28,7 +29,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectRabbitMqPublishResult - method existence check", () => {
+test("expectRabbitMqPublishResult - method existence check", () => {
   const result = mockRabbitMqPublishResult();
   const expectation = expectRabbitMqPublishResult(result);
 
@@ -65,12 +66,12 @@ for (
   // Skip NaN test (needs special value)
   if (methodName === "toHaveDurationNaN") continue;
 
-  Deno.test(`expectRabbitMqPublishResult - ${methodName} - success`, () => {
+  test(`expectRabbitMqPublishResult - ${methodName} - success`, () => {
     const result = mockRabbitMqPublishResult();
     const expectation = expectRabbitMqPublishResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const returnValue = method.call(expectation, ...args);
 
@@ -83,7 +84,7 @@ for (
   });
 }
 
-Deno.test("expectRabbitMqPublishResult - not property - success", () => {
+test("expectRabbitMqPublishResult - not property - success", () => {
   const result = mockRabbitMqPublishResult({ ok: false });
   const expectation = expectRabbitMqPublishResult(result);
 
@@ -92,7 +93,7 @@ Deno.test("expectRabbitMqPublishResult - not property - success", () => {
   expectation.not.toHaveDuration(200);
 });
 
-Deno.test("expectRabbitMqPublishResult - chaining - success", () => {
+test("expectRabbitMqPublishResult - chaining - success", () => {
   const result = mockRabbitMqPublishResult({ duration: 150 });
   const expectation = expectRabbitMqPublishResult(result);
 

@@ -1,16 +1,16 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createNullishValueMixin } from "./nullish_value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
 type Nullish<T> = T | null | undefined;
 
-Deno.test("createNullishValueMixin - type check", () => {
+test("createNullishValueMixin - type check", () => {
   const mixin = createNullishValueMixin(
     () => null as number | null,
     () => false,
@@ -30,7 +30,7 @@ Deno.test("createNullishValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createNullishValueMixin - attribute check", () => {
+test("createNullishValueMixin - attribute check", () => {
   const applier = createNullishValueMixin(
     () => null as number | null,
     () => false,
@@ -49,7 +49,7 @@ Deno.test("createNullishValueMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createNullishValueMixin - toHaveValueNull", async (t) => {
+test("createNullishValueMixin - toHaveValueNull", async (t) => {
   await t.step("success", () => {
     const mixin = createNullishValueMixin(
       () => null as Nullish<number>,
@@ -93,7 +93,7 @@ Deno.test("createNullishValueMixin - toHaveValueNull", async (t) => {
   });
 });
 
-Deno.test("createNullishValueMixin - toHaveValueUndefined", async (t) => {
+test("createNullishValueMixin - toHaveValueUndefined", async (t) => {
   await t.step("success", () => {
     const mixin = createNullishValueMixin(
       () => undefined as Nullish<number>,
@@ -137,7 +137,7 @@ Deno.test("createNullishValueMixin - toHaveValueUndefined", async (t) => {
   });
 });
 
-Deno.test("createNullishValueMixin - toHaveValueNullish", async (t) => {
+test("createNullishValueMixin - toHaveValueNullish", async (t) => {
   await t.step("success (null)", () => {
     const mixin = createNullishValueMixin(
       () => null as Nullish<number>,
@@ -178,7 +178,7 @@ Deno.test("createNullishValueMixin - toHaveValueNullish", async (t) => {
   });
 });
 
-Deno.test("createNullishValueMixin - toHaveValuePresent", async (t) => {
+test("createNullishValueMixin - toHaveValuePresent", async (t) => {
   await t.step("success", () => {
     const mixin = createNullishValueMixin(
       () => 200 as Nullish<number>,
@@ -222,7 +222,7 @@ Deno.test("createNullishValueMixin - toHaveValuePresent", async (t) => {
   });
 });
 
-Deno.test("createNullishValueMixin - toHaveValueNull with source context", async (t) => {
+test("createNullishValueMixin - toHaveValueNull with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createNullishValueMixin(
       () => 200 as Nullish<number>,

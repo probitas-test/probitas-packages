@@ -6,7 +6,10 @@
 
 import type { MessageShape } from "@bufbuild/protobuf";
 import type { FileDescriptorSetSchema } from "@bufbuild/protobuf/wkt";
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+} from "@probitas-test/client";
 import type {
   ConnectRpcResponse,
   ConnectRpcResponseError,
@@ -81,13 +84,13 @@ export interface ConnectRpcClientConfig extends CommonOptions {
    *
    * @example String URL
    * ```ts
-   * import type { ConnectRpcClientConfig } from "@probitas/client-connectrpc";
+   * import type { ConnectRpcClientConfig } from "@probitas-test/client-connectrpc";
    * const config: ConnectRpcClientConfig = { url: "http://localhost:50051" };
    * ```
    *
    * @example Connection config object
    * ```ts
-   * import type { ConnectRpcClientConfig } from "@probitas/client-connectrpc";
+   * import type { ConnectRpcClientConfig } from "@probitas-test/client-connectrpc";
    * const config: ConnectRpcClientConfig = {
    *   url: { host: "grpc.example.com", port: 443, protocol: "https" },
    * };

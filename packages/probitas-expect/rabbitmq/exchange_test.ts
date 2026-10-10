@@ -4,6 +4,7 @@ import {
   type RabbitMqExchangeResultExpectation,
 } from "./exchange.ts";
 import { mockRabbitMqExchangeResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -28,7 +29,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectRabbitMqExchangeResult - method existence check", () => {
+test("expectRabbitMqExchangeResult - method existence check", () => {
   const result = mockRabbitMqExchangeResult();
   const expectation = expectRabbitMqExchangeResult(result);
 
@@ -65,12 +66,12 @@ for (
   // Skip NaN test (needs special value)
   if (methodName === "toHaveDurationNaN") continue;
 
-  Deno.test(`expectRabbitMqExchangeResult - ${methodName} - success`, () => {
+  test(`expectRabbitMqExchangeResult - ${methodName} - success`, () => {
     const result = mockRabbitMqExchangeResult();
     const expectation = expectRabbitMqExchangeResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const returnValue = method.call(expectation, ...args);
 
@@ -83,7 +84,7 @@ for (
   });
 }
 
-Deno.test("expectRabbitMqExchangeResult - not property - success", () => {
+test("expectRabbitMqExchangeResult - not property - success", () => {
   const result = mockRabbitMqExchangeResult({ ok: false });
   const expectation = expectRabbitMqExchangeResult(result);
 
@@ -92,7 +93,7 @@ Deno.test("expectRabbitMqExchangeResult - not property - success", () => {
   expectation.not.toHaveDuration(200);
 });
 
-Deno.test("expectRabbitMqExchangeResult - chaining - success", () => {
+test("expectRabbitMqExchangeResult - chaining - success", () => {
   const result = mockRabbitMqExchangeResult({ duration: 150 });
   const expectation = expectRabbitMqExchangeResult(result);
 

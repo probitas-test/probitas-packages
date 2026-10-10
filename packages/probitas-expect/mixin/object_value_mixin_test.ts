@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createObjectValueMixin } from "./object_value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createObjectValueMixin - type check", () => {
+test("createObjectValueMixin - type check", () => {
   const mixin = createObjectValueMixin(
     () => ({ name: "Alice", age: 30 }),
     () => false,
@@ -39,7 +39,7 @@ Deno.test("createObjectValueMixin - type check", () => {
     toHaveUserPropertySatisfying: (
       this: Expected,
       keyPath: string | string[],
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       matcher: (value: any) => void,
     ) => Expected;
   };
@@ -47,7 +47,7 @@ Deno.test("createObjectValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createObjectValueMixin - attribute check", () => {
+test("createObjectValueMixin - attribute check", () => {
   const applier = createObjectValueMixin(
     () => ({ name: "Alice", age: 30 }),
     () => false,
@@ -65,7 +65,7 @@ Deno.test("createObjectValueMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createObjectValueMixin - toHaveUserMatching", async (t) => {
+test("createObjectValueMixin - toHaveUserMatching", async (t) => {
   await t.step("success", () => {
     const mixin = createObjectValueMixin(
       () => ({ name: "Alice", age: 30 }),
@@ -90,7 +90,7 @@ Deno.test("createObjectValueMixin - toHaveUserMatching", async (t) => {
   });
 });
 
-Deno.test("createObjectValueMixin - toHaveUserProperty", async (t) => {
+test("createObjectValueMixin - toHaveUserProperty", async (t) => {
   await t.step("success - property exists", () => {
     const mixin = createObjectValueMixin(
       () => ({ name: "Alice", age: 30 }),
@@ -257,7 +257,7 @@ Deno.test("createObjectValueMixin - toHaveUserProperty", async (t) => {
   );
 });
 
-Deno.test("createObjectValueMixin - toHaveUserPropertyContaining", async (t) => {
+test("createObjectValueMixin - toHaveUserPropertyContaining", async (t) => {
   await t.step("success", () => {
     const mixin = createObjectValueMixin(
       () => ({ message: "hello world", items: ["apple", "banana"] }),
@@ -328,7 +328,7 @@ Deno.test("createObjectValueMixin - toHaveUserPropertyContaining", async (t) => 
   });
 });
 
-Deno.test("createObjectValueMixin - toHaveUserPropertyMatching", async (t) => {
+test("createObjectValueMixin - toHaveUserPropertyMatching", async (t) => {
   await t.step("success", () => {
     const mixin = createObjectValueMixin(
       () => ({ config: { port: 8080, host: "localhost" } }),
@@ -411,7 +411,7 @@ Deno.test("createObjectValueMixin - toHaveUserPropertyMatching", async (t) => {
   });
 });
 
-Deno.test("createObjectValueMixin - toHaveUserPropertySatisfying", async (t) => {
+test("createObjectValueMixin - toHaveUserPropertySatisfying", async (t) => {
   await t.step("success", () => {
     const mixin = createObjectValueMixin(
       () => ({ message: "hello" }),
@@ -543,7 +543,7 @@ Deno.test("createObjectValueMixin - toHaveUserPropertySatisfying", async (t) => 
   });
 });
 
-Deno.test("createObjectValueMixin - toHaveUserMatching with source context", async (t) => {
+test("createObjectValueMixin - toHaveUserMatching with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createObjectValueMixin(
       () => ({ name: "Alice", age: 30 }),

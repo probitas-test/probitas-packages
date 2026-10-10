@@ -1,4 +1,4 @@
-import type { SqsEnsureQueueResult } from "@probitas/client-sqs";
+import type { SqsEnsureQueueResult } from "@probitas-test/client-sqs";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -14,7 +14,7 @@ export interface SqsEnsureQueueResultExpectation {
    *
    * @example
    * ```ts
-   * import type { SqsEnsureQueueResult } from "@probitas/client-sqs";
+   * import type { SqsEnsureQueueResult } from "@probitas-test/client-sqs";
    * import { expectSqsEnsureQueueResult } from "./ensure_queue.ts";
    * const result = {
    *   kind: "sqs:ensure-queue",

@@ -7,7 +7,7 @@
  * @module
  */
 
-import type { StepMetadata } from "@probitas/core";
+import type { StepMetadata } from "@probitas-test/core";
 
 /**
  * Result from executing a single step.
@@ -23,8 +23,8 @@ import type { StepMetadata } from "@probitas/core";
  *
  * @example Passed step result
  * ```ts
- * import type { StepResult } from "@probitas/runner";
- * import type { StepMetadata } from "@probitas/core";
+ * import type { StepResult } from "@probitas-test/runner";
+ * import type { StepMetadata } from "@probitas-test/core";
  *
  * const metadata: StepMetadata = { kind: "step", name: "Create user", timeout: 30000, retry: { maxAttempts: 1, backoff: "linear" } };
  * const result: StepResult = {
@@ -38,8 +38,8 @@ import type { StepMetadata } from "@probitas/core";
  *
  * @example Failed step result
  * ```ts
- * import type { StepResult } from "@probitas/runner";
- * import type { StepMetadata } from "@probitas/core";
+ * import type { StepResult } from "@probitas-test/runner";
+ * import type { StepMetadata } from "@probitas-test/core";
  *
  * const metadata: StepMetadata = { kind: "step", name: "Validate input", timeout: 30000, retry: { maxAttempts: 1, backoff: "linear" } };
  * const result: StepResult = {
@@ -53,8 +53,8 @@ import type { StepMetadata } from "@probitas/core";
  *
  * @example Skipped step result
  * ```ts
- * import type { StepResult } from "@probitas/runner";
- * import type { StepMetadata } from "@probitas/core";
+ * import type { StepResult } from "@probitas-test/runner";
+ * import type { StepMetadata } from "@probitas-test/core";
  *
  * const metadata: StepMetadata = { kind: "step", name: "Optional step", timeout: 30000, retry: { maxAttempts: 1, backoff: "linear" } };
  * const result: StepResult = {

@@ -14,9 +14,9 @@ import type {
   StepDefinition,
   StepFunction,
   StepOptions,
-} from "@probitas/core";
-import type { Origin } from "@probitas/core/origin";
-import { captureStack } from "@probitas/core/stack";
+} from "@probitas-test/core";
+import type { Origin } from "@probitas-test/core/origin";
+import { captureStack } from "@probitas-test/core/stack";
 import type { BuilderStepFunction } from "./types.ts";
 
 /**
@@ -187,7 +187,7 @@ class ScenarioBuilderState<
  *
  * @example Basic step chaining with type inference
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * scenario("User Flow")
  *   .step("Create user", () => {
@@ -202,7 +202,7 @@ class ScenarioBuilderState<
  *
  * @example Using resources for shared dependencies
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * // Mock Database for example
  * const Database = {
@@ -261,7 +261,7 @@ class ScenarioBuilderInit<
    *
    * @example Database connection resource
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * // Mock pg driver for example
    * const pg = {
@@ -284,7 +284,7 @@ class ScenarioBuilderInit<
    *
    * @example Resource depending on another resource
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * // Mock config and API client for example
    * const loadConfig = () => Promise.resolve({ apiUrl: "https://api.example.com" });
@@ -329,7 +329,7 @@ class ScenarioBuilderInit<
    *
    * @example Temporary file setup
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * scenario("File Test")
    *   .setup((ctx) => {
@@ -345,11 +345,11 @@ class ScenarioBuilderInit<
    *
    * @example Environment variable setup
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * scenario("Env Test")
    *   .setup(() => {
-   *     const original = Deno.env.get("DEBUG");
+   *     const original = process.env.DEBUG;
    *     Deno.env.set("DEBUG", "true");
    *     return () => {
    *       if (original) Deno.env.set("DEBUG", original);
@@ -383,7 +383,7 @@ class ScenarioBuilderInit<
    *
    * @example Temporary file setup
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * scenario("File Test")
    *   .setup((ctx) => {
@@ -399,11 +399,11 @@ class ScenarioBuilderInit<
    *
    * @example Environment variable setup
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * scenario("Env Test")
    *   .setup(() => {
-   *     const original = Deno.env.get("DEBUG");
+   *     const original = process.env.DEBUG;
    *     Deno.env.set("DEBUG", "true");
    *     return () => {
    *       if (original) Deno.env.set("DEBUG", original);
@@ -450,7 +450,7 @@ class ScenarioBuilderInit<
    *
    * @example Named step with result passing
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * // Mock API client for example
    * const api = {
@@ -539,7 +539,7 @@ class ScenarioBuilderInit<
    * @example Exporting a scenario
    * ```ts
    * // auth.probitas.ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * export default scenario("Authentication")
    *   .step("Login", async () => {
@@ -574,7 +574,7 @@ class ScenarioBuilderInit<
  *
  * @example Basic scenario with type-safe step chaining
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * // Mock user service for example
  * const createUser = (_data: { email: string }) =>
@@ -595,7 +595,7 @@ class ScenarioBuilderInit<
  *
  * @example Scenario with tags for filtering
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * scenario("Payment Integration", {
  *   tags: ["integration", "payment", "slow"],
@@ -611,7 +611,7 @@ class ScenarioBuilderInit<
  *
  * @example Scenario with resources and setup
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * // Mock Database for example
  * const Database = {

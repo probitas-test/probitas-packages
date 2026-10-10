@@ -1,9 +1,10 @@
 import { assertEquals, assertExists } from "@std/assert";
-import type { GraphqlResponse } from "@probitas/client-graphql";
+import type { GraphqlResponse } from "@probitas-test/client-graphql";
 import {
   expectGraphqlResponse,
   type GraphqlResponseExpectation,
 } from "./graphql.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Mock GraphqlResponse for testing
 function createMockResponse(
@@ -118,7 +119,7 @@ const EXPECTED_METHODS: Record<keyof GraphqlResponseExpectation, unknown[]> = {
   toHaveDurationCloseTo: [123, 0],
 };
 
-Deno.test("expectGraphqlResponse - method existence check", () => {
+test("expectGraphqlResponse - method existence check", () => {
   const response = createMockResponse();
   const expectation = expectGraphqlResponse(response);
 
@@ -162,12 +163,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectGraphqlResponse - ${methodName} - success`, () => {
+  test(`expectGraphqlResponse - ${methodName} - success`, () => {
     const response = createMockResponse();
     const expectation = expectGraphqlResponse(response);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const result = method.call(expectation, ...args);
 
@@ -180,7 +181,7 @@ for (
   });
 }
 
-Deno.test("expectGraphqlResponse - not property - success", () => {
+test("expectGraphqlResponse - not property - success", () => {
   const response = createMockResponse({ ok: false, status: 500 });
   const expectation = expectGraphqlResponse(response);
 
@@ -189,11 +190,11 @@ Deno.test("expectGraphqlResponse - not property - success", () => {
   expectation.not.toHaveStatus(200);
 });
 
-Deno.test("expectGraphqlResponse - error methods - success", () => {
+test("expectGraphqlResponse - error methods - success", () => {
   // Test with error present
   const errorResponse = createMockResponse({
     ok: false,
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     error: { message: "Not found" } as any,
   });
   const errorExpectation = expectGraphqlResponse(errorResponse);

@@ -21,7 +21,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createMySqlClient } from "@probitas/client-sql-mysql";
+ * import { createMySqlClient } from "@probitas-test/client-sql-mysql";
  *
  * const client = await createMySqlClient({
  *   url: {
@@ -52,8 +52,8 @@
  * ## Transactions
  *
  * ```ts
- * import { createMySqlClient } from "@probitas/client-sql-mysql";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createMySqlClient } from "@probitas-test/client-sql-mysql";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createMySqlClient({ url: "mysql://localhost:3306/testdb" });
  * await client.transaction(async (tx: SqlTransaction) => {
@@ -67,7 +67,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createMySqlClient } from "@probitas/client-sql-mysql";
+ * import { createMySqlClient } from "@probitas-test/client-sql-mysql";
  *
  * await using client = await createMySqlClient({
  *   url: { host: "localhost", username: "root", database: "testdb" },
@@ -108,4 +108,4 @@ export type * from "./types.ts";
 export * from "./errors.ts";
 
 // Re-export common types from @probitas/client-sql
-export * from "@probitas/client-sql";
+export * from "@probitas-test/client-sql";

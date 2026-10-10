@@ -1,4 +1,4 @@
-import type { RedisCommonResult } from "@probitas/client-redis";
+import type { RedisCommonResult } from "@probitas-test/client-redis";
 import * as mixin from "../mixin.ts";
 
 /**
@@ -12,7 +12,7 @@ export interface RedisCommonResultExpectation {
    *
    * @example
    * ```ts
-   * import type { RedisCommonResult } from "@probitas/client-redis";
+   * import type { RedisCommonResult } from "@probitas-test/client-redis";
    * import { expectRedisCommonResult } from "./common.ts";
    * const result = {
    *   kind: "redis:common",
@@ -53,7 +53,7 @@ export interface RedisCommonResultExpectation {
    * Asserts that the value satisfies the provided matcher function.
    * @param matcher - A function that receives the value and performs assertions
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   toHaveValueSatisfying(matcher: (value: any) => void): this;
 
   /**

@@ -1,7 +1,6 @@
 # Probitas Packages
 
 [![Test](https://github.com/probitas-test/probitas-packages/actions/workflows/test.yml/badge.svg)](https://github.com/probitas-test/probitas-packages/actions/workflows/test.yml)
-[![Publish](https://github.com/probitas-test/probitas-packages/actions/workflows/publish.yml/badge.svg)](https://github.com/probitas-test/probitas-packages/actions/workflows/publish.yml)
 [![codecov](https://codecov.io/gh/probitas-test/probitas-packages/graph/badge.svg?token=AwnSng0JAT)](https://codecov.io/gh/probitas-test/probitas-packages)
 
 Monorepo containing core framework packages and client libraries for the
@@ -16,13 +15,13 @@ etc.) under a unified workspace for streamlined development and testing.
 - **Framework Packages**: Type-safe scenario builder, execution engine,
   reporters, and expectation library
 - **Multi-Protocol Clients**: HTTP, ConnectRPC/gRPC/gRPC-Web, GraphQL, SQL
-  (Postgres/MySQL/SQLite/DuckDB), MongoDB, Redis, RabbitMQ, SQS, and Deno KV
+  (Postgres/MySQL/SQLite/DuckDB), MongoDB, Redis, RabbitMQ, and SQS
 - **Shared Error Model**: Consistent `ClientError` hierarchy across all clients
   for uniform error handling
 - **Resource Management**: AsyncDisposable-aware clients for automatic cleanup
   in scenarios
-- **Built for Deno 2.x**: All packages published on JSR under the `@probitas/*`
-  namespace
+- **Built for Bun**: Published on npm under `@probitas-test/*` and on JSR under
+  `@probitas/*`
 
 ## Packages
 
@@ -53,7 +52,6 @@ etc.) under a unified workspace for streamlined development and testing.
 | [@probitas/client-sql-duckdb](./packages/probitas-client-sql-duckdb)     | [![JSR](https://jsr.io/badges/@probitas/client-sql-duckdb)](https://jsr.io/@probitas/client-sql-duckdb)     | DuckDB client built on the shared SQL types                        |
 | [@probitas/client-mongodb](./packages/probitas-client-mongodb)           | [![JSR](https://jsr.io/badges/@probitas/client-mongodb)](https://jsr.io/@probitas/client-mongodb)           | MongoDB client with session/transaction helpers                    |
 | [@probitas/client-redis](./packages/probitas-client-redis)               | [![JSR](https://jsr.io/badges/@probitas/client-redis)](https://jsr.io/@probitas/client-redis)               | Redis client for command execution                                 |
-| [@probitas/client-deno-kv](./packages/probitas-client-deno-kv)           | [![JSR](https://jsr.io/badges/@probitas/client-deno-kv)](https://jsr.io/@probitas/client-deno-kv)           | Deno KV client for key-value storage                               |
 | [@probitas/client-sqs](./packages/probitas-client-sqs)                   | [![JSR](https://jsr.io/badges/@probitas/client-sqs)](https://jsr.io/@probitas/client-sqs)                   | SQS client targeting ElasticMQ for integration testing             |
 | [@probitas/client-rabbitmq](./packages/probitas-client-rabbitmq)         | [![JSR](https://jsr.io/badges/@probitas/client-rabbitmq)](https://jsr.io/@probitas/client-rabbitmq)         | RabbitMQ client with channel lifecycle management                  |
 
@@ -68,7 +66,7 @@ framework package with unified API for writing scenarios.
 
 ### Prerequisites
 
-- Deno 2.x (or use Nix: `nix develop`)
+- Bun 1.4+ (or use Nix: `nix develop`)
 - Docker Compose (for integration testing services)
 
 ### Setup
@@ -81,6 +79,9 @@ cd probitas-packages
 # Enter development environment (optional, using Nix)
 nix develop
 
+# Install dependencies
+bun install
+
 # Start integration test services
 docker compose up -d
 ```
@@ -89,17 +90,16 @@ docker compose up -d
 
 ```bash
 # Run all checks and tests (recommended before committing)
-deno task verify
+bun run verify
 
 # Individual tasks
-deno fmt              # Format code
-deno lint             # Lint code
-deno task check       # Type check
-deno task test        # Run tests
+bun run fmt           # Format code (dprint)
+bun run lint          # Lint code (Biome)
+bun run check         # Type check (tsc)
+bun run test          # Run tests
 
 # Coverage
-deno task test:coverage
-deno task coverage
+bun run test --coverage
 ```
 
 ### Integration Services
@@ -118,7 +118,6 @@ deno task coverage
 | mongodb         | 27017 | [mongo:latest](https://hub.docker.com/_/mongo)                                          |
 | rabbitmq        | 5672  | [rabbitmq:latest](https://hub.docker.com/_/rabbitmq)                                    |
 | elasticmq       | 9324  | [softwaremill/elasticmq-native](https://hub.docker.com/r/softwaremill/elasticmq-native) |
-| denokv          | 4512  | [ghcr.io/denoland/denokv](https://github.com/denoland/denokv/pkgs/container/denokv)     |
 
 ## Architecture
 
@@ -148,8 +147,7 @@ deno task coverage
 
 ## Contributing
 
-This repository uses Conventional Commits for automatic versioning with
-[@deno/bump-workspaces](https://github.com/denoland/bump-workspaces):
+This repository uses Conventional Commits:
 
 ```bash
 # Single package
@@ -168,7 +166,7 @@ docs(*): update copyright headers
 - Scopes must use full package names (e.g., `@probitas/expect`)
 - `feat:` → minor bump, `fix:`/`docs:`/`refactor:` → patch bump
 - `BREAKING:` → major bump (except for `/unstable` scopes, always patch)
-- Run `deno task verify` before committing
+- Run `bun run verify` before committing
 
 See [`.claude/rules/repository.md`](./.claude/rules/repository.md) for detailed
 contribution guidelines.

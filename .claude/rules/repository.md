@@ -7,14 +7,15 @@ Project-specific rules for the Probitas Packages monorepo.
 BEFORE reporting task completion, run and ensure zero errors/warnings:
 
 ```bash
-deno task verify
+bun run verify
 ```
 
 ## Commit Conventions
 
-This project uses [Conventional Commits](https://www.conventionalcommits.org/)
-with [@deno/bump-workspaces](https://jsr.io/@deno/bump-workspaces) for automatic
-version management.
+This project uses [Conventional Commits](https://www.conventionalcommits.org/).
+The release tooling that turns them into version bumps is being replaced (the
+previous one, `@deno/bump-workspaces`, required Deno); until then, keep writing
+messages as below.
 
 ### Version Bump Rules
 
@@ -55,7 +56,9 @@ BREAKING(@probitas/runner/unstable): change unstable API signature  # Still patc
   scopes, not file paths
 - Use `(*)` to affect all packages at once
 - Use `(scope/unstable)` for unstable API changes (always results in patch)
-- Run `deno run -A jsr:@deno/bump-workspaces/cli --dry-run` to preview version
-  bumps
-- The `bump.yml` workflow creates a PR with version updates when manually
-  triggered
+- Publishing: `publish.yml` is the only workflow that publishes to npm, because
+  npm trusted publishing ties each package to one workflow file. Run it with
+  `next` for prereleases (`<version>-next.<run>` under the `next` dist-tag) or
+  `latest` for releases (versions already on npm are skipped). It authenticates
+  through trusted publishing (no npm token), so a new package must be published
+  once by hand and given `publish.yml` as its trusted publisher first

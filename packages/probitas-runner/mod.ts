@@ -46,9 +46,9 @@
  *
  * @example Basic usage
  * ```ts
- * import { Runner } from "@probitas/runner";
- * import type { Reporter } from "@probitas/runner";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { Runner } from "@probitas-test/runner";
+ * import type { Reporter } from "@probitas-test/runner";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const loadScenarios = (_patterns: string[]): ScenarioDefinition[] => [];
  *
@@ -66,8 +66,8 @@
  *
  * @example Using Skip for conditional execution
  * ```ts
- * import { scenario } from "@probitas/builder";
- * import { Skip } from "@probitas/runner";
+ * import { scenario } from "@probitas-test/builder";
+ * import { Skip } from "@probitas-test/runner";
  *
  * const tryConnect = (): { query(sql: string): Promise<void> } | null => null;
  *
@@ -89,8 +89,8 @@
  *
  * @example Implementing a custom reporter
  * ```ts
- * import type { Reporter, ScenarioResult, RunResult } from "@probitas/runner";
- * import type { ScenarioMetadata } from "@probitas/core";
+ * import type { Reporter, ScenarioResult, RunResult } from "@probitas-test/runner";
+ * import type { ScenarioMetadata } from "@probitas-test/core";
  *
  * class MinimalReporter implements Reporter {
  *   onScenarioEnd(scenario: ScenarioMetadata, result: ScenarioResult) {
@@ -107,9 +107,9 @@
  *
  * @example Cancelling a test run
  * ```ts
- * import { Runner } from "@probitas/runner";
- * import type { Reporter } from "@probitas/runner";
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import { Runner } from "@probitas-test/runner";
+ * import type { Reporter } from "@probitas-test/runner";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * const reporter: Reporter = {};
  * const scenarios: ScenarioDefinition[] = [];

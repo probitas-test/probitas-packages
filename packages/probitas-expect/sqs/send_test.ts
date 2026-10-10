@@ -1,6 +1,7 @@
 import { assertEquals, assertExists } from "@std/assert";
 import { expectSqsSendResult, type SqsSendResultExpectation } from "./send.ts";
 import { mockSqsSendResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -49,7 +50,7 @@ const EXPECTED_METHODS: Record<keyof SqsSendResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectSqsSendResult - method existence check", () => {
+test("expectSqsSendResult - method existence check", () => {
   const result = mockSqsSendResult();
   const expectation = expectSqsSendResult(result);
 
@@ -98,12 +99,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqsSendResult - ${methodName} - success`, () => {
+  test(`expectSqsSendResult - ${methodName} - success`, () => {
     const result = mockSqsSendResult();
     const expectation = expectSqsSendResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const returnValue = method.call(expectation, ...args);
 
@@ -116,7 +117,7 @@ for (
   });
 }
 
-Deno.test("expectSqsSendResult - not property - success", () => {
+test("expectSqsSendResult - not property - success", () => {
   const result = mockSqsSendResult({ ok: false });
   const expectation = expectSqsSendResult(result);
 
@@ -125,7 +126,7 @@ Deno.test("expectSqsSendResult - not property - success", () => {
   expectation.not.toHaveMessageId("wrong-id");
 });
 
-Deno.test("expectSqsSendResult - sequence number methods - success", () => {
+test("expectSqsSendResult - sequence number methods - success", () => {
   // Test with sequence number present
   const result = mockSqsSendResult({ sequenceNumber: "seq-1" });
   const expectation = expectSqsSendResult(result);
@@ -144,7 +145,7 @@ Deno.test("expectSqsSendResult - sequence number methods - success", () => {
   expectation.not.toHaveSequenceNumberNullish();
 });
 
-Deno.test("expectSqsSendResult - sequence number nullish methods - success", () => {
+test("expectSqsSendResult - sequence number nullish methods - success", () => {
   // Test with sequence number undefined
   const result = mockSqsSendResult({ sequenceNumber: undefined });
   const expectation = expectSqsSendResult(result);
@@ -155,7 +156,7 @@ Deno.test("expectSqsSendResult - sequence number nullish methods - success", () 
   expectation.not.toHaveSequenceNumberNull();
 });
 
-Deno.test("expectSqsSendResult - chaining - success", () => {
+test("expectSqsSendResult - chaining - success", () => {
   const result = mockSqsSendResult();
   const expectation = expectSqsSendResult(result);
 

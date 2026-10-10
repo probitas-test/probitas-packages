@@ -1,8 +1,9 @@
 import { assertEquals, assertRejects } from "@std/assert";
 import { FakeTime } from "@std/testing/time";
 import { retry } from "./retry.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("retry configuration succeeds on first attempt", async () => {
+test("retry configuration succeeds on first attempt", async () => {
   let attempts = 0;
   const result = await retry((_attempt) => {
     attempts++;
@@ -13,7 +14,7 @@ Deno.test("retry configuration succeeds on first attempt", async () => {
   assertEquals(attempts, 1);
 });
 
-Deno.test("retry transient failures succeeds on second attempt", async () => {
+test("retry transient failures succeeds on second attempt", async () => {
   using time = new FakeTime();
   let attempts = 0;
 
@@ -33,7 +34,7 @@ Deno.test("retry transient failures succeeds on second attempt", async () => {
   assertEquals(attempts, 2);
 });
 
-Deno.test("retry permanent failures throws error when all attempts fail", async () => {
+test("retry permanent failures throws error when all attempts fail", async () => {
   using time = new FakeTime();
   let attempts = 0;
 
@@ -56,7 +57,7 @@ Deno.test("retry permanent failures throws error when all attempts fail", async 
   assertEquals(attempts, 3);
 });
 
-Deno.test("retry delays linear backoff timing", async () => {
+test("retry delays linear backoff timing", async () => {
   using time = new FakeTime();
   let attempts = 0;
 
@@ -83,7 +84,7 @@ Deno.test("retry delays linear backoff timing", async () => {
   );
 });
 
-Deno.test("retry delays exponential backoff timing", async () => {
+test("retry delays exponential backoff timing", async () => {
   using time = new FakeTime();
   let attempts = 0;
 
@@ -114,7 +115,7 @@ Deno.test("retry delays exponential backoff timing", async () => {
   );
 });
 
-Deno.test("retry error handling can be aborted via signal", async () => {
+test("retry error handling can be aborted via signal", async () => {
   using time = new FakeTime();
   const controller = new AbortController();
   let attempts = 0;
@@ -140,7 +141,7 @@ Deno.test("retry error handling can be aborted via signal", async () => {
   assertEquals(attempts, 1);
 });
 
-Deno.test("retry shouldRetry predicate - stops on specific error", async () => {
+test("retry shouldRetry predicate - stops on specific error", async () => {
   let attempts = 0;
 
   class CustomError extends Error {
@@ -169,7 +170,7 @@ Deno.test("retry shouldRetry predicate - stops on specific error", async () => {
   assertEquals(attempts, 1);
 });
 
-Deno.test("retry shouldRetry predicate - continues on other errors", async () => {
+test("retry shouldRetry predicate - continues on other errors", async () => {
   let attempts = 0;
 
   class CustomError extends Error {
@@ -199,7 +200,7 @@ Deno.test("retry shouldRetry predicate - continues on other errors", async () =>
   assertEquals(attempts, 3);
 });
 
-Deno.test("retry shouldRetry predicate - receives attempt number", async () => {
+test("retry shouldRetry predicate - receives attempt number", async () => {
   const receivedAttempts: number[] = [];
 
   await assertRejects(
@@ -223,7 +224,7 @@ Deno.test("retry shouldRetry predicate - receives attempt number", async () => {
   assertEquals(receivedAttempts, [1, 2, 3]);
 });
 
-Deno.test("retry default behavior - retries all error types", async () => {
+test("retry default behavior - retries all error types", async () => {
   let attempts = 0;
 
   await assertRejects(
@@ -240,7 +241,7 @@ Deno.test("retry default behavior - retries all error types", async () => {
   assertEquals(attempts, 3);
 });
 
-Deno.test("retry passes attempt number to callback", async () => {
+test("retry passes attempt number to callback", async () => {
   const attemptNumbers: number[] = [];
 
   await assertRejects(

@@ -9,10 +9,11 @@ import {
   mockMongoInsertOneResult,
   mockMongoUpdateResult,
 } from "./mongodb/_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Test that expectMongoResult correctly dispatches to the right expectation type
 
-Deno.test("expectMongoResult - dispatches mongo:find to MongoFindResultExpectation", () => {
+test("expectMongoResult - dispatches mongo:find to MongoFindResultExpectation", () => {
   const result = mockMongoFindResult();
   const expectation = expectMongoResult(result);
 
@@ -26,7 +27,7 @@ Deno.test("expectMongoResult - dispatches mongo:find to MongoFindResultExpectati
   expectation.toBeOk().toHaveDocsCount(1);
 });
 
-Deno.test("expectMongoResult - dispatches mongo:find-one to MongoFindOneResultExpectation", () => {
+test("expectMongoResult - dispatches mongo:find-one to MongoFindOneResultExpectation", () => {
   const result = mockMongoFindOneResult();
   const expectation = expectMongoResult(result);
 
@@ -40,7 +41,7 @@ Deno.test("expectMongoResult - dispatches mongo:find-one to MongoFindOneResultEx
   expectation.toBeOk().toHaveDocPresent();
 });
 
-Deno.test("expectMongoResult - dispatches mongo:insert with insertedId to MongoInsertOneResultExpectation", () => {
+test("expectMongoResult - dispatches mongo:insert with insertedId to MongoInsertOneResultExpectation", () => {
   const result = mockMongoInsertOneResult();
   const expectation = expectMongoResult(result);
 
@@ -54,7 +55,7 @@ Deno.test("expectMongoResult - dispatches mongo:insert with insertedId to MongoI
   expectation.toBeOk().toHaveInsertedId("123");
 });
 
-Deno.test("expectMongoResult - dispatches mongo:insert with insertedIds to MongoInsertManyResultExpectation", () => {
+test("expectMongoResult - dispatches mongo:insert with insertedIds to MongoInsertManyResultExpectation", () => {
   const result = mockMongoInsertManyResult();
   const expectation = expectMongoResult(result);
 
@@ -68,7 +69,7 @@ Deno.test("expectMongoResult - dispatches mongo:insert with insertedIds to Mongo
   expectation.toBeOk().toHaveInsertedCount(3);
 });
 
-Deno.test("expectMongoResult - dispatches mongo:update to MongoUpdateResultExpectation", () => {
+test("expectMongoResult - dispatches mongo:update to MongoUpdateResultExpectation", () => {
   const result = mockMongoUpdateResult();
   const expectation = expectMongoResult(result);
 
@@ -82,7 +83,7 @@ Deno.test("expectMongoResult - dispatches mongo:update to MongoUpdateResultExpec
   expectation.toBeOk().toHaveMatchedCount(1).toHaveModifiedCount(1);
 });
 
-Deno.test("expectMongoResult - dispatches mongo:delete to MongoDeleteResultExpectation", () => {
+test("expectMongoResult - dispatches mongo:delete to MongoDeleteResultExpectation", () => {
   const result = mockMongoDeleteResult();
   const expectation = expectMongoResult(result);
 
@@ -95,7 +96,7 @@ Deno.test("expectMongoResult - dispatches mongo:delete to MongoDeleteResultExpec
   expectation.toBeOk().toHaveDeletedCount(1);
 });
 
-Deno.test("expectMongoResult - dispatches mongo:count to MongoCountResultExpectation", () => {
+test("expectMongoResult - dispatches mongo:count to MongoCountResultExpectation", () => {
   const result = mockMongoCountResult();
   const expectation = expectMongoResult(result);
 
@@ -108,7 +109,7 @@ Deno.test("expectMongoResult - dispatches mongo:count to MongoCountResultExpecta
   expectation.toBeOk().toHaveCount(10);
 });
 
-Deno.test("expectMongoResult - throws on unknown result type", () => {
+test("expectMongoResult - throws on unknown result type", () => {
   const unknownResult = {
     kind: "mongo:unknown",
     ok: true,
@@ -116,14 +117,14 @@ Deno.test("expectMongoResult - throws on unknown result type", () => {
   };
 
   assertThrows(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     () => expectMongoResult(unknownResult as any),
     Error,
     "Unknown MongoDB result kind: mongo:unknown",
   );
 });
 
-Deno.test("expectMongoResult - insert type discrimination works correctly", () => {
+test("expectMongoResult - insert type discrimination works correctly", () => {
   // Test insertOne (has insertedId)
   const insertOneResult = mockMongoInsertOneResult();
   const insertOneExpectation = expectMongoResult(insertOneResult);
@@ -145,7 +146,7 @@ Deno.test("expectMongoResult - insert type discrimination works correctly", () =
   );
 });
 
-Deno.test("expectMongoResult - all result types have common methods", () => {
+test("expectMongoResult - all result types have common methods", () => {
   const results = [
     mockMongoFindResult(),
     mockMongoFindOneResult(),

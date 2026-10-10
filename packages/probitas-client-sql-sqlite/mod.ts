@@ -21,7 +21,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * // In-memory database for testing
  * const client = await createSqliteClient({
@@ -52,8 +52,8 @@
  * ## Transactions
  *
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createSqliteClient({ path: ":memory:" });
  * await client.transaction(async (tx: SqlTransaction) => {
@@ -67,7 +67,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * await using client = await createSqliteClient({ path: ":memory:" });
  *
@@ -106,4 +106,4 @@ export type * from "./types.ts";
 export * from "./errors.ts";
 
 // Re-export common types from @probitas/client-sql
-export * from "@probitas/client-sql";
+export * from "@probitas-test/client-sql";

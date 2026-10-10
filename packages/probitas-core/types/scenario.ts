@@ -46,7 +46,7 @@ export interface ScenarioOptions {
    *
    * @example
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * scenario("Quick API Test", { timeout: 5000 })
    *   .step("Call API", async () => {
@@ -81,7 +81,7 @@ export interface ScenarioOptions {
  *
  * @example Typical scenario structure
  * ```ts
- * import type { ScenarioDefinition } from "@probitas/core";
+ * import type { ScenarioDefinition } from "@probitas-test/core";
  *
  * // Created by: scenario("Login Flow").step(...).build()
  * const definition: ScenarioDefinition = {

@@ -1,5 +1,10 @@
-import { AbortError, ClientError, TimeoutError } from "@probitas/client";
+import {
+  type AbortError,
+  ClientError,
+  type TimeoutError,
+} from "@probitas-test/client";
 import { HttpBody } from "./body.ts";
+import { inspect } from "node:util";
 
 /**
  * Format error message with status and body detail.
@@ -18,10 +23,9 @@ function formatErrorMessage(
   let detail: string;
   try {
     const json = body.json;
-    detail = Deno.inspect(json, {
+    detail = inspect(json, {
       compact: false,
       sorted: true,
-      trailingComma: true,
     });
   } catch {
     detail = text;
@@ -52,7 +56,7 @@ export interface HttpErrorOptions extends ErrorOptions {
  *
  * @example Check status code and body
  * ```ts
- * import { createHttpClient, HttpError } from "@probitas/client-http";
+ * import { createHttpClient, HttpError } from "@probitas-test/client-http";
  *
  * const http = createHttpClient({ url: "http://localhost:3000", throwOnError: true });
  * try {

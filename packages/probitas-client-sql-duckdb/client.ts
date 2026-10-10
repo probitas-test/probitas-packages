@@ -1,5 +1,4 @@
 import type { DuckDBConnection } from "@duckdb/node-api";
-import { DuckDBInstance } from "@duckdb/node-api";
 import { getLogger } from "@logtape/logtape";
 import {
   SqlConnectionError,
@@ -10,7 +9,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import type { DuckDbClientConfig } from "./types.ts";
 import { convertDuckDbError } from "./errors.ts";
 import {
@@ -36,7 +35,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -49,7 +48,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -72,7 +71,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * DuckDB can read Parquet files without importing them.
    * @param path - Path to the Parquet file
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryParquet<T = Record<string, any>>(
     path: string,
   ): Promise<SqlQueryResult<T>>;
@@ -82,7 +81,7 @@ export interface DuckDbClient extends AsyncDisposable {
    * DuckDB can read CSV files without importing them.
    * @param path - Path to the CSV file
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryCsv<T = Record<string, any>>(path: string): Promise<SqlQueryResult<T>>;
 
   /**
@@ -102,7 +101,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Using in-memory database (default)
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({});
  *
@@ -116,7 +115,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Using file-based database
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({
  *   path: "./data.duckdb",
@@ -126,7 +125,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Query Parquet files directly
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({ path: ":memory:" });
  *
@@ -140,7 +139,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Query CSV files directly
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * const client = await createDuckDbClient({ path: ":memory:" });
  *
@@ -153,8 +152,8 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createDuckDbClient({ path: ":memory:" });
  * await client.transaction(async (tx: SqlTransaction) => {
@@ -166,7 +165,7 @@ export interface DuckDbClient extends AsyncDisposable {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createDuckDbClient } from "@probitas/client-sql-duckdb";
+ * import { createDuckDbClient } from "@probitas-test/client-sql-duckdb";
  *
  * await using client = await createDuckDbClient({});
  *
@@ -187,6 +186,10 @@ export async function createDuckDbClient(
       instanceConfig["access_mode"] = "READ_ONLY";
     }
 
+    // Imported here rather than at the top: @duckdb/node-api loads its native
+    // binding on import, and every Probitas scenario imports this module
+    // through the client hub whether or not it uses DuckDB.
+    const { DuckDBInstance } = await import("@duckdb/node-api");
     const instance = await DuckDBInstance.create(
       path,
       Object.keys(instanceConfig).length > 0 ? instanceConfig : undefined,
@@ -215,7 +218,7 @@ class DuckDbClientImpl implements DuckDbClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -256,7 +259,7 @@ class DuckDbClientImpl implements DuckDbClient {
         trimmedSql.startsWith("SHOW") ||
         trimmedSql.startsWith("WITH");
 
-      // deno-lint-ignore no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
       let rows: any[];
 
       if (params && params.length > 0) {
@@ -354,7 +357,7 @@ class DuckDbClientImpl implements DuckDbClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -409,7 +412,7 @@ class DuckDbClientImpl implements DuckDbClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryParquet<T = Record<string, any>>(
     path: string,
   ): Promise<SqlQueryResult<T>> {
@@ -422,7 +425,7 @@ class DuckDbClientImpl implements DuckDbClient {
     return this.query<T>(`SELECT * FROM read_parquet('${escapedPath}')`);
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryCsv<T = Record<string, any>>(path: string): Promise<SqlQueryResult<T>> {
     logger.info("DuckDB queryCsv starting", {
       path,

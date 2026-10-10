@@ -5,7 +5,7 @@ import {
   SqlConnectionError,
   SqlError,
   type SqlErrorOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 
 /**
  * PostgreSQL SQLSTATE class codes for error categorization.

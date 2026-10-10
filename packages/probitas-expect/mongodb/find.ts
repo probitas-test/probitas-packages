@@ -1,4 +1,4 @@
-import type { MongoFindResult } from "@probitas/client-mongodb";
+import type { MongoFindResult } from "@probitas-test/client-mongodb";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -13,7 +13,7 @@ export interface MongoFindResultExpectation<_T = unknown> {
    *
    * @example
    * ```ts
-   * import type { MongoFindResult } from "@probitas/client-mongodb";
+   * import type { MongoFindResult } from "@probitas-test/client-mongodb";
    * import { expectMongoFindResult } from "./find.ts";
    * const result = {
    *   kind: "mongo:find",

@@ -1,4 +1,4 @@
-import type { HttpResponse } from "@probitas/client-http";
+import type { HttpResponse } from "@probitas-test/client-http";
 import { ensureNonNullish } from "./utils.ts";
 import * as mixin from "./mixin.ts";
 
@@ -13,7 +13,7 @@ export interface HttpResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { HttpResponse } from "@probitas/client-http";
+   * import type { HttpResponse } from "@probitas-test/client-http";
    * import { expectHttpResponse } from "./http.ts";
    * const response = {
    *   kind: "http",
@@ -39,7 +39,7 @@ export interface HttpResponseExpectation {
    *
    * @example
    * ```ts
-   * import type { HttpResponse } from "@probitas/client-http";
+   * import type { HttpResponse } from "@probitas-test/client-http";
    * import { expectHttpResponse } from "./http.ts";
    * const response = {
    *   kind: "http",
@@ -229,7 +229,7 @@ export interface HttpResponseExpectation {
    */
   toHaveHeadersPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 
@@ -512,7 +512,7 @@ export interface HttpResponseExpectation {
    * @param matcher - A function that receives the JSON and performs assertions
    */
   toHaveJsonSatisfying(
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: Record<string, any> | null) => void,
   ): this;
 
@@ -578,7 +578,7 @@ export interface HttpResponseExpectation {
    */
   toHaveJsonPropertySatisfying(
     keyPath: string | string[],
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     matcher: (value: any) => void,
   ): this;
 

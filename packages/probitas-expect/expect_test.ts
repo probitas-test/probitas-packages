@@ -8,7 +8,6 @@ import { assertType, type IsExact } from "@std/testing/types";
 import { expect } from "./expect.ts";
 import type { AnythingExpectation } from "./anything.ts";
 import type { ConnectRpcResponseExpectation } from "./connectrpc.ts";
-import type { DenoKvExpectation } from "./deno_kv.ts";
 import type { GraphqlResponseExpectation } from "./graphql.ts";
 import type { HttpResponseExpectation } from "./http.ts";
 import type { MongoExpectation } from "./mongodb.ts";
@@ -16,17 +15,17 @@ import type { RabbitMqExpectation } from "./rabbitmq.ts";
 import type { RedisExpectation } from "./redis.ts";
 import type { SqlQueryResultExpectation } from "./sql.ts";
 import type { SqsExpectation } from "./sqs.ts";
-import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
-import type { DenoKvGetResult } from "@probitas/client-deno-kv";
-import type { GraphqlResponse } from "@probitas/client-graphql";
-import type { HttpResponse } from "@probitas/client-http";
-import type { MongoFindResult } from "@probitas/client-mongodb";
-import type { RabbitMqPublishResult } from "@probitas/client-rabbitmq";
-import type { RedisGetResult } from "@probitas/client-redis";
-import type { SqlQueryResult } from "@probitas/client-sql";
-import type { SqsSendResult } from "@probitas/client-sqs";
+import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
+import type { GraphqlResponse } from "@probitas-test/client-graphql";
+import type { HttpResponse } from "@probitas-test/client-http";
+import type { MongoFindResult } from "@probitas-test/client-mongodb";
+import type { RabbitMqPublishResult } from "@probitas-test/client-rabbitmq";
+import type { RedisGetResult } from "@probitas-test/client-redis";
+import type { SqlQueryResult } from "@probitas-test/client-sql";
+import type { SqsSendResult } from "@probitas-test/client-sqs";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("expect - infers expectation types", async (t) => {
+test("expect - infers expectation types", async (t) => {
   await t.step("http response", () => {
     const response = {} as HttpResponse;
     const expectation = expect(response);
@@ -56,14 +55,6 @@ Deno.test("expect - infers expectation types", async (t) => {
     const expectation = expect(response);
     type Actual = typeof expectation;
     type Expected = SqlQueryResultExpectation;
-    assertType<IsExact<Actual, Expected>>(true);
-  });
-
-  await t.step("deno kv get result", () => {
-    const result = {} as DenoKvGetResult<{ name: string }>;
-    const expectation = expect(result);
-    type Actual = typeof expectation;
-    type Expected = DenoKvExpectation<typeof result>;
     assertType<IsExact<Actual, Expected>>(true);
   });
 
@@ -114,7 +105,7 @@ Deno.test("expect - infers expectation types", async (t) => {
   });
 
   await t.step("fallback to std expect (any)", () => {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const expectation = expect("value" as any);
     type Actual = typeof expectation;
     type Expected = AnythingExpectation;

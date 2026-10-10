@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
-import { ClientError } from "@probitas/client";
+import { ClientError } from "@probitas-test/client";
 import {
   RabbitMqChannelError,
   RabbitMqConnectionError,
@@ -7,8 +7,9 @@ import {
   RabbitMqNotFoundError,
   RabbitMqPreconditionFailedError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("RabbitMqError", async (t) => {
+test("RabbitMqError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new RabbitMqError("test message");
     assertInstanceOf(error, ClientError);
@@ -34,7 +35,7 @@ Deno.test("RabbitMqError", async (t) => {
   });
 });
 
-Deno.test("RabbitMqConnectionError", async (t) => {
+test("RabbitMqConnectionError", async (t) => {
   await t.step("extends RabbitMqError", () => {
     const error = new RabbitMqConnectionError("connection failed");
     assertInstanceOf(error, ClientError);
@@ -56,7 +57,7 @@ Deno.test("RabbitMqConnectionError", async (t) => {
   });
 });
 
-Deno.test("RabbitMqChannelError", async (t) => {
+test("RabbitMqChannelError", async (t) => {
   await t.step("extends RabbitMqError", () => {
     const error = new RabbitMqChannelError("channel failed");
     assertInstanceOf(error, ClientError);
@@ -87,7 +88,7 @@ Deno.test("RabbitMqChannelError", async (t) => {
   });
 });
 
-Deno.test("RabbitMqNotFoundError", async (t) => {
+test("RabbitMqNotFoundError", async (t) => {
   await t.step("extends RabbitMqError", () => {
     const error = new RabbitMqNotFoundError("queue not found", {
       resource: "my-queue",
@@ -118,7 +119,7 @@ Deno.test("RabbitMqNotFoundError", async (t) => {
   });
 });
 
-Deno.test("RabbitMqPreconditionFailedError", async (t) => {
+test("RabbitMqPreconditionFailedError", async (t) => {
   await t.step("extends RabbitMqError", () => {
     const error = new RabbitMqPreconditionFailedError("precondition failed", {
       reason: "queue properties mismatch",

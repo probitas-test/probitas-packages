@@ -7,7 +7,7 @@
  * @module
  */
 
-import type { StepOptions } from "@probitas/core";
+import type { StepOptions } from "@probitas-test/core";
 import type { ScenarioResult } from "./scenario.ts";
 
 /**
@@ -18,7 +18,7 @@ import type { ScenarioResult } from "./scenario.ts";
  *
  * @example
  * ```ts
- * import type { RunResult } from "@probitas/runner";
+ * import type { RunResult } from "@probitas-test/runner";
  *
  * const summary: RunResult = {
  *   total: 10,
@@ -89,7 +89,7 @@ export interface RunFilter {
  *
  * @example Sequential execution with fail-fast
  * ```ts
- * import type { RunOptions } from "@probitas/runner";
+ * import type { RunOptions } from "@probitas-test/runner";
  *
  * const options: RunOptions = {
  *   maxConcurrency: 1,  // Run one at a time
@@ -100,7 +100,7 @@ export interface RunFilter {
  *
  * @example Parallel execution with limit
  * ```ts
- * import type { RunOptions } from "@probitas/runner";
+ * import type { RunOptions } from "@probitas-test/runner";
  *
  * const options: RunOptions = {
  *   maxConcurrency: 4   // Run up to 4 scenarios at once
@@ -110,7 +110,7 @@ export interface RunFilter {
  *
  * @example With stepOptions
  * ```ts
- * import type { RunOptions } from "@probitas/runner";
+ * import type { RunOptions } from "@probitas-test/runner";
  *
  * const options: RunOptions = {
  *   stepOptions: {

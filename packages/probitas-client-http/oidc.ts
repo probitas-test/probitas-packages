@@ -23,7 +23,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * // OIDC Discovery (recommended)
  * const http = await createOidcHttpClient({
@@ -60,7 +60,7 @@
  * an `issuer` URL instead of manually specifying `authUrl` and `tokenUrl`:
  *
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * // Discovery automatically fetches:
  * // - authorization_endpoint
@@ -90,7 +90,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * await using http = await createOidcHttpClient({
  *   url: "http://localhost:3000",
@@ -150,6 +150,7 @@ import type {
   HttpRequestOptions,
 } from "./types.ts";
 import { createHttpClient } from "./client.ts";
+import type { Fetch } from "@probitas-test/client";
 
 /**
  * OIDC-enabled HTTP client with authentication methods
@@ -164,7 +165,7 @@ export interface OidcHttpClient extends HttpClient {
    *
    * @example
    * ```ts
-   * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+   * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
    *
    * const client = await createOidcHttpClient({
    *   url: "http://localhost:3000",
@@ -217,7 +218,7 @@ export interface OidcClientConfig {
   cookies?: CookieConfig;
 
   /** Custom fetch implementation (for testing/mocking) */
-  fetch?: typeof fetch;
+  fetch?: Fetch;
 
   /** OIDC-specific configuration */
   oidc: {
@@ -325,7 +326,7 @@ export interface OidcError {
  */
 async function fetchDiscoveryMetadata(
   issuerUrl: string,
-  fetchFn: typeof fetch = fetch,
+  fetchFn: Fetch = fetch,
 ): Promise<OidcDiscoveryMetadata | null> {
   try {
     // Construct well-known URL
@@ -367,7 +368,7 @@ async function fetchDiscoveryMetadata(
  *
  * @example
  * ```ts
- * import { createOidcHttpClient } from "@probitas/client-http/oidc";
+ * import { createOidcHttpClient } from "@probitas-test/client-http/oidc";
  *
  * const http = await createOidcHttpClient({
  *   url: "http://localhost:3000",

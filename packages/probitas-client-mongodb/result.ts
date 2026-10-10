@@ -1,6 +1,6 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type { Document } from "./types.ts";
-import { MongoError, type MongoFailureError } from "./errors.ts";
+import type { MongoError, MongoFailureError } from "./errors.ts";
 
 // ============================================================================
 // MongoFindResult
@@ -379,7 +379,7 @@ export type MongoCountResult =
 /**
  * Union of all MongoDB result types.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type MongoResult<T = any> =
   | MongoFindResult<T>
   | MongoInsertOneResult

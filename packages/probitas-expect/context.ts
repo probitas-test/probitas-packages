@@ -7,10 +7,11 @@
  * @module
  */
 
-import type { Origin } from "@probitas/core/origin";
-import { formatOrigin } from "@probitas/core/origin";
-import { captureStack } from "@probitas/core/stack";
-import type { Theme } from "@probitas/core/theme";
+import type { Origin } from "@probitas-test/core/origin";
+import { formatOrigin } from "@probitas-test/core/origin";
+import { captureStack } from "@probitas-test/core/stack";
+import type { Theme } from "@probitas-test/core/theme";
+import { readFileSync } from "node:fs";
 
 /**
  * Source code context information for error messages.
@@ -56,7 +57,7 @@ function readSourceLines(path: string): readonly string[] | null {
     return fileCache.get(path)!;
   }
   try {
-    const content = Deno.readTextFileSync(path);
+    const content = readFileSync(path, "utf8");
     const lines = content.split("\n");
     fileCache.set(path, lines);
     return lines;
@@ -73,7 +74,9 @@ function isProbitasPath(path: string): boolean {
   if (path.endsWith("_test.ts") || path.endsWith(".test.ts")) {
     return false;
   }
-  return /probitas[-_]/.test(path) || path.includes("@probitas/");
+  return /probitas[-_]/.test(path) || path.includes("@probitas/") ||
+    // Modules bundled into a `bun build --compile` executable
+    path.startsWith("/$bunfs/") || path.startsWith("B:/~BUN/");
 }
 
 /**

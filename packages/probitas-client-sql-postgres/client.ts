@@ -1,5 +1,5 @@
 import postgres from "postgres";
-import { ConnectionError } from "@probitas/client";
+import { ConnectionError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
 import {
   SqlConnectionError,
@@ -11,7 +11,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import { mapPostgresError } from "./errors.ts";
 import { PostgresTransaction } from "./transaction.ts";
 import type {
@@ -39,7 +39,7 @@ export interface PostgresClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -53,7 +53,7 @@ export interface PostgresClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -159,7 +159,7 @@ class PostgresClientImpl implements PostgresClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -235,7 +235,7 @@ class PostgresClientImpl implements PostgresClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -527,7 +527,7 @@ function resolveSslOptions(
  *
  * @example Using URL string
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * const client = await createPostgresClient({
  *   url: "postgres://user:pass@localhost:5432/mydb",
@@ -543,7 +543,7 @@ function resolveSslOptions(
  *
  * @example Using connection config object
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * const client = await createPostgresClient({
  *   url: {
@@ -562,8 +562,8 @@ function resolveSslOptions(
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createPostgresClient({
  *   url: "postgres://localhost:5432/mydb",
@@ -579,7 +579,7 @@ function resolveSslOptions(
  *
  * @example LISTEN/NOTIFY for real-time events
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * const client = await createPostgresClient({
  *   url: "postgres://localhost:5432/mydb",
@@ -598,7 +598,7 @@ function resolveSslOptions(
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createPostgresClient } from "@probitas/client-sql-postgres";
+ * import { createPostgresClient } from "@probitas-test/client-sql-postgres";
  *
  * await using client = await createPostgresClient({
  *   url: "postgres://localhost:5432/mydb",

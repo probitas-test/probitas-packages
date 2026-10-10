@@ -1,4 +1,8 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+  Fetch,
+} from "@probitas-test/client";
 import type {
   GraphqlResponse,
   GraphqlResponseError,
@@ -78,13 +82,13 @@ export interface GraphqlClientConfig extends CommonOptions {
    *
    * @example String URL
    * ```ts
-   * import type { GraphqlClientConfig } from "@probitas/client-graphql";
+   * import type { GraphqlClientConfig } from "@probitas-test/client-graphql";
    * const config: GraphqlClientConfig = { url: "http://localhost:4000/graphql" };
    * ```
    *
    * @example Connection config object
    * ```ts
-   * import type { GraphqlClientConfig } from "@probitas/client-graphql";
+   * import type { GraphqlClientConfig } from "@probitas-test/client-graphql";
    * const config: GraphqlClientConfig = {
    *   url: { host: "api.example.com", port: 443, protocol: "https" },
    * };
@@ -99,7 +103,7 @@ export interface GraphqlClientConfig extends CommonOptions {
   readonly wsEndpoint?: string;
 
   /** Custom fetch implementation (for testing/mocking) */
-  readonly fetch?: typeof fetch;
+  readonly fetch?: Fetch;
 
   /**
    * Whether to throw GraphqlError when response contains errors or request fails.
@@ -117,7 +121,7 @@ export interface GraphqlClient extends AsyncDisposable {
   readonly config: GraphqlClientConfig;
 
   /** Execute a GraphQL query */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<TData = any, TVariables = Record<string, any>>(
     query: string,
     variables?: TVariables,
@@ -125,7 +129,7 @@ export interface GraphqlClient extends AsyncDisposable {
   ): Promise<GraphqlResponse<TData>>;
 
   /** Execute a GraphQL mutation */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   mutation<TData = any, TVariables = Record<string, any>>(
     mutation: string,
     variables?: TVariables,
@@ -133,7 +137,7 @@ export interface GraphqlClient extends AsyncDisposable {
   ): Promise<GraphqlResponse<TData>>;
 
   /** Execute a GraphQL document (query or mutation) */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   execute<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,
@@ -141,7 +145,7 @@ export interface GraphqlClient extends AsyncDisposable {
   ): Promise<GraphqlResponse<TData>>;
 
   /** Subscribe to a GraphQL subscription via WebSocket */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   subscribe<TData = any, TVariables = Record<string, any>>(
     document: string,
     variables?: TVariables,

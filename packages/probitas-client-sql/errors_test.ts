@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
-import { ClientError } from "@probitas/client";
+import { ClientError } from "@probitas-test/client";
 import {
   ConstraintError,
   DeadlockError,
@@ -7,8 +7,9 @@ import {
   SqlConnectionError,
   SqlError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("SqlError", async (t) => {
+test("SqlError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new SqlError("SQL error", "unknown");
     assertInstanceOf(error, ClientError);
@@ -51,7 +52,7 @@ Deno.test("SqlError", async (t) => {
   });
 });
 
-Deno.test("QuerySyntaxError", async (t) => {
+test("QuerySyntaxError", async (t) => {
   await t.step("extends SqlError and ClientError", () => {
     const error = new QuerySyntaxError("Syntax error near SELECT");
     assertInstanceOf(error, SqlError);
@@ -71,7 +72,7 @@ Deno.test("QuerySyntaxError", async (t) => {
   });
 });
 
-Deno.test("ConstraintError", async (t) => {
+test("ConstraintError", async (t) => {
   await t.step("extends SqlError and ClientError", () => {
     const error = new ConstraintError("Unique violation", "users_email_key");
     assertInstanceOf(error, SqlError);
@@ -98,7 +99,7 @@ Deno.test("ConstraintError", async (t) => {
   });
 });
 
-Deno.test("DeadlockError", async (t) => {
+test("DeadlockError", async (t) => {
   await t.step("extends SqlError and ClientError", () => {
     const error = new DeadlockError("Deadlock detected");
     assertInstanceOf(error, SqlError);
@@ -118,7 +119,7 @@ Deno.test("DeadlockError", async (t) => {
   });
 });
 
-Deno.test("SqlConnectionError", async (t) => {
+test("SqlConnectionError", async (t) => {
   await t.step("extends SqlError and ClientError", () => {
     const error = new SqlConnectionError("Connection refused");
     assertInstanceOf(error, SqlError);

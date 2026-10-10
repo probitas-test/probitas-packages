@@ -4,6 +4,7 @@ import {
   type SqsDeleteBatchResultExpectation,
 } from "./delete_batch.ts";
 import { mockSqsDeleteBatchResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -70,7 +71,7 @@ const EXPECTED_METHODS: Record<
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectSqsDeleteBatchResult - method existence check", () => {
+test("expectSqsDeleteBatchResult - method existence check", () => {
   const result = mockSqsDeleteBatchResult();
   const expectation = expectSqsDeleteBatchResult(result);
 
@@ -114,12 +115,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqsDeleteBatchResult - ${methodName} - success`, () => {
+  test(`expectSqsDeleteBatchResult - ${methodName} - success`, () => {
     const result = mockSqsDeleteBatchResult();
     const expectation = expectSqsDeleteBatchResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const returnValue = method.call(expectation, ...args);
 
@@ -132,7 +133,7 @@ for (
   });
 }
 
-Deno.test("expectSqsDeleteBatchResult - not property - success", () => {
+test("expectSqsDeleteBatchResult - not property - success", () => {
   const result = mockSqsDeleteBatchResult({ ok: false });
   const expectation = expectSqsDeleteBatchResult(result);
 
@@ -140,7 +141,7 @@ Deno.test("expectSqsDeleteBatchResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectSqsDeleteBatchResult - empty arrays - success", () => {
+test("expectSqsDeleteBatchResult - empty arrays - success", () => {
   const result = mockSqsDeleteBatchResult({
     successful: [],
     failed: [],
@@ -151,7 +152,7 @@ Deno.test("expectSqsDeleteBatchResult - empty arrays - success", () => {
   expectation.toHaveFailedEmpty();
 });
 
-Deno.test("expectSqsDeleteBatchResult - failed deletions - success", () => {
+test("expectSqsDeleteBatchResult - failed deletions - success", () => {
   const result = mockSqsDeleteBatchResult({
     successful: [],
     failed: [
@@ -164,7 +165,7 @@ Deno.test("expectSqsDeleteBatchResult - failed deletions - success", () => {
   expectation.not.toHaveFailedEmpty();
 });
 
-Deno.test("expectSqsDeleteBatchResult - chaining - success", () => {
+test("expectSqsDeleteBatchResult - chaining - success", () => {
   const result = mockSqsDeleteBatchResult();
   const expectation = expectSqsDeleteBatchResult(result);
 

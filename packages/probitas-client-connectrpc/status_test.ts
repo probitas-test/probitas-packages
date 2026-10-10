@@ -9,8 +9,9 @@ import {
   getStatusName,
   isConnectRpcStatusCode,
 } from "./status.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("ConnectRpcStatus constants", () => {
+test("ConnectRpcStatus constants", () => {
   assertEquals(ConnectRpcStatus.OK, 0);
   assertEquals(ConnectRpcStatus.CANCELLED, 1);
   assertEquals(ConnectRpcStatus.UNKNOWN, 2);
@@ -30,13 +31,13 @@ Deno.test("ConnectRpcStatus constants", () => {
   assertEquals(ConnectRpcStatus.UNAUTHENTICATED, 16);
 });
 
-Deno.test("getStatusName returns correct names", () => {
+test("getStatusName returns correct names", () => {
   assertEquals(getStatusName(0), "OK");
   assertEquals(getStatusName(5), "NOT_FOUND");
   assertEquals(getStatusName(16), "UNAUTHENTICATED");
 });
 
-Deno.test("getStatusName handles all codes", () => {
+test("getStatusName handles all codes", () => {
   for (let code = 0; code <= 16; code++) {
     const name = getStatusName(code as ConnectRpcStatusCode);
     assertEquals(typeof name, "string");
@@ -44,7 +45,7 @@ Deno.test("getStatusName handles all codes", () => {
   }
 });
 
-Deno.test("isConnectRpcStatusCode validates codes", () => {
+test("isConnectRpcStatusCode validates codes", () => {
   assertEquals(isConnectRpcStatusCode(0), true);
   assertEquals(isConnectRpcStatusCode(16), true);
   assertEquals(isConnectRpcStatusCode(17), false);

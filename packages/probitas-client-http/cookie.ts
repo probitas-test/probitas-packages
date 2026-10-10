@@ -91,14 +91,14 @@ export function parseSetCookie(
         break;
       case "expires": {
         const parsed = new Date(attrValue);
-        if (!isNaN(parsed.getTime())) {
+        if (!Number.isNaN(parsed.getTime())) {
           expires = parsed;
         }
         break;
       }
       case "max-age": {
         const seconds = parseInt(attrValue, 10);
-        if (!isNaN(seconds)) {
+        if (!Number.isNaN(seconds)) {
           expires = new Date(Date.now() + seconds * 1000);
         }
         break;
@@ -137,7 +137,7 @@ export function parseSetCookie(
  */
 function getDefaultPath(requestPath: string): string {
   // If the uri-path is empty or doesn't start with "/", return "/"
-  if (!requestPath || !requestPath.startsWith("/")) {
+  if (!requestPath?.startsWith("/")) {
     return "/";
   }
 

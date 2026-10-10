@@ -6,22 +6,23 @@
 
 import { assertEquals, assertExists, assertInstanceOf } from "@std/assert";
 import { createExpectationError } from "./error.ts";
-import type { Origin } from "@probitas/core/origin";
+import type { Origin } from "@probitas-test/core/origin";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("createExpectationError - creates Error instance", () => {
+test("createExpectationError - creates Error instance", () => {
   const error = createExpectationError({ message: "Test error" });
   assertInstanceOf(error, Error);
   assertEquals(error.message.includes("Test error"), true);
 });
 
-Deno.test("createExpectationError - includes message", () => {
+test("createExpectationError - includes message", () => {
   const error = createExpectationError({
     message: "Expected value to be true",
   });
   assertEquals(error.message.includes("Expected value to be true"), true);
 });
 
-Deno.test("createExpectationError - without expectOrigin returns plain message", () => {
+test("createExpectationError - without expectOrigin returns plain message", () => {
   const error = createExpectationError({
     message: "Simple error",
   });
@@ -29,7 +30,7 @@ Deno.test("createExpectationError - without expectOrigin returns plain message",
   assertEquals(error.message.includes("Simple error"), true);
 });
 
-Deno.test("createExpectationError - with expectOrigin adds context", () => {
+test("createExpectationError - with expectOrigin adds context", () => {
   // Use this test file as the path
   const testFilePath = new URL(import.meta.url).pathname;
   const expectOrigin: Origin = {
@@ -48,7 +49,7 @@ Deno.test("createExpectationError - with expectOrigin adds context", () => {
   // May include context if both origins resolved to same file
 });
 
-Deno.test("createExpectationError - context includes source lines when same file", () => {
+test("createExpectationError - context includes source lines when same file", () => {
   // This test verifies that when expectOrigin points to this file,
   // and the error is created in this file, we get source context
   const testFilePath = new URL(import.meta.url).pathname;
@@ -69,7 +70,7 @@ Deno.test("createExpectationError - context includes source lines when same file
   assertEquals(error.message.includes("Test message"), true);
 });
 
-Deno.test("createExpectationError - handles non-existent expectOrigin path gracefully", () => {
+test("createExpectationError - handles non-existent expectOrigin path gracefully", () => {
   const expectOrigin: Origin = {
     path: "/non/existent/path/file.ts",
     line: 10,
@@ -86,7 +87,7 @@ Deno.test("createExpectationError - handles non-existent expectOrigin path grace
   assertEquals(error.message.includes("Error message"), true);
 });
 
-Deno.test("createExpectationError - subject section displays object in multiline format", () => {
+test("createExpectationError - subject section displays object in multiline format", () => {
   const subject = { name: "Alice", age: 30 };
   const error = createExpectationError({
     message: "Test error",
@@ -104,7 +105,7 @@ Deno.test("createExpectationError - subject section displays object in multiline
   assertEquals(afterSubject.includes("\n"), true);
 });
 
-Deno.test("createExpectationError - subject with Uint8Array displays as UTF-8", () => {
+test("createExpectationError - subject with Uint8Array displays as UTF-8", () => {
   const encoder = new TextEncoder();
   const subject = { body: encoder.encode("Hello, World!") };
   const error = createExpectationError({
@@ -117,7 +118,7 @@ Deno.test("createExpectationError - subject with Uint8Array displays as UTF-8", 
   assertEquals(error.message.includes("Hello, World!"), true);
 });
 
-Deno.test("createExpectationError - subject with invalid UTF-8 Uint8Array displays as hex", () => {
+test("createExpectationError - subject with invalid UTF-8 Uint8Array displays as hex", () => {
   // Invalid UTF-8 sequence
   const invalidUtf8 = new Uint8Array([0xff, 0xfe, 0x00, 0x01]);
   const subject = { data: invalidUtf8 };
@@ -132,7 +133,7 @@ Deno.test("createExpectationError - subject with invalid UTF-8 Uint8Array displa
   assertEquals(error.message.includes("fe"), true);
 });
 
-Deno.test("createExpectationError - subject with nested Uint8Array displays correctly", () => {
+test("createExpectationError - subject with nested Uint8Array displays correctly", () => {
   const encoder = new TextEncoder();
   const subject = {
     outer: {
@@ -152,7 +153,7 @@ Deno.test("createExpectationError - subject with nested Uint8Array displays corr
   assertEquals(error.message.includes("second"), true);
 });
 
-Deno.test("createExpectationError - subject with escaped characters in Uint8Array", () => {
+test("createExpectationError - subject with escaped characters in Uint8Array", () => {
   const encoder = new TextEncoder();
   // String with characters that need escaping: \n, \r, \t, [, ]
   const subject = { body: encoder.encode("line1\nline2\ttab[bracket]") };

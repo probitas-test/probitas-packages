@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "@std/assert";
-import { SqlError } from "@probitas/client-sql";
+import { SqlError } from "@probitas-test/client-sql";
 import {
   BusyError,
   convertSqliteError,
@@ -7,8 +7,9 @@ import {
   ReadonlyDatabaseError,
   SqliteError,
 } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("SqliteError", async (t) => {
+test("SqliteError", async (t) => {
   await t.step("extends SqlError", () => {
     const error = new SqliteError("test error");
     assertInstanceOf(error, SqlError);
@@ -34,7 +35,7 @@ Deno.test("SqliteError", async (t) => {
   });
 });
 
-Deno.test("DatabaseLockedError", async (t) => {
+test("DatabaseLockedError", async (t) => {
   await t.step("extends SqliteError with database_locked sqliteKind", () => {
     const error = new DatabaseLockedError("database is locked", {
       extendedCode: 6,
@@ -47,7 +48,7 @@ Deno.test("DatabaseLockedError", async (t) => {
   });
 });
 
-Deno.test("ReadonlyDatabaseError", async (t) => {
+test("ReadonlyDatabaseError", async (t) => {
   await t.step("extends SqliteError with readonly sqliteKind", () => {
     const error = new ReadonlyDatabaseError(
       "attempt to write a readonly database",
@@ -59,7 +60,7 @@ Deno.test("ReadonlyDatabaseError", async (t) => {
   });
 });
 
-Deno.test("BusyError", async (t) => {
+test("BusyError", async (t) => {
   await t.step("extends SqliteError with busy sqliteKind", () => {
     const error = new BusyError("database is busy");
 
@@ -69,7 +70,7 @@ Deno.test("BusyError", async (t) => {
   });
 });
 
-Deno.test("convertSqliteError", async (t) => {
+test("convertSqliteError", async (t) => {
   await t.step("handles non-Error values", () => {
     const error = convertSqliteError("string error");
 

@@ -9,7 +9,6 @@ import {
   type ConnectRpcResponseExpectation,
   expectConnectRpcResponse,
 } from "./connectrpc.ts";
-import { type DenoKvExpectation, expectDenoKvResult } from "./deno_kv.ts";
 import {
   expectGraphqlResponse,
   type GraphqlResponseExpectation,
@@ -22,15 +21,14 @@ import { expectSqlQueryResult, type SqlQueryResultExpectation } from "./sql.ts";
 import { expectSqsResult, type SqsExpectation } from "./sqs.ts";
 import { type AnythingExpectation, expectAnything } from "./anything.ts";
 
-import type { ConnectRpcResponse } from "@probitas/client-connectrpc";
-import type { DenoKvResult } from "@probitas/client-deno-kv";
-import type { GraphqlResponse } from "@probitas/client-graphql";
-import type { HttpResponse } from "@probitas/client-http";
-import type { MongoResult } from "@probitas/client-mongodb";
-import type { RabbitMqResult } from "@probitas/client-rabbitmq";
-import type { RedisResult } from "@probitas/client-redis";
-import type { SqlQueryResult } from "@probitas/client-sql";
-import type { SqsResult } from "@probitas/client-sqs";
+import type { ConnectRpcResponse } from "@probitas-test/client-connectrpc";
+import type { GraphqlResponse } from "@probitas-test/client-graphql";
+import type { HttpResponse } from "@probitas-test/client-http";
+import type { MongoResult } from "@probitas-test/client-mongodb";
+import type { RabbitMqResult } from "@probitas-test/client-rabbitmq";
+import type { RedisResult } from "@probitas-test/client-redis";
+import type { SqlQueryResult } from "@probitas-test/client-sql";
+import type { SqsResult } from "@probitas-test/client-sqs";
 
 /**
  * Type guard for objects with a `kind` property
@@ -73,9 +71,6 @@ export function expect<T extends GraphqlResponse>(
 export function expect<T extends SqlQueryResult>(
   value: NotAny<T>,
 ): SqlQueryResultExpectation;
-export function expect<T extends DenoKvResult>(
-  value: NotAny<T>,
-): DenoKvExpectation<T>;
 export function expect<T extends RedisResult>(
   value: NotAny<T>,
 ): RedisExpectation<T>;
@@ -88,7 +83,7 @@ export function expect<T extends RabbitMqResult>(
 export function expect<T extends SqsResult>(
   value: NotAny<T>,
 ): SqsExpectation<T>;
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export function expect(value: any): AnythingExpectation;
 export function expect(value: unknown): unknown {
   if (hasKind(value)) {
@@ -109,9 +104,6 @@ export function expect(value: unknown): unknown {
     }
 
     // Prefix-based kind matches
-    if (kind.startsWith("deno-kv:")) {
-      return expectDenoKvResult(value as unknown as DenoKvResult);
-    }
     if (kind.startsWith("redis:")) {
       return expectRedisResult(value as unknown as RedisResult);
     }

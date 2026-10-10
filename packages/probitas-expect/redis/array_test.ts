@@ -4,6 +4,7 @@ import {
   type RedisArrayResultExpectation,
 } from "./array.ts";
 import { mockRedisArrayResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -47,7 +48,7 @@ const EXPECTED_METHODS: Record<keyof RedisArrayResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectRedisArrayResult - method existence check", () => {
+test("expectRedisArrayResult - method existence check", () => {
   const result = mockRedisArrayResult<string>({ value: ["item1", "item2"] });
   const expectation = expectRedisArrayResult(result);
 
@@ -92,12 +93,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectRedisArrayResult - ${methodName} - success`, () => {
+  test(`expectRedisArrayResult - ${methodName} - success`, () => {
     const result = mockRedisArrayResult<string>({ value: ["item1", "item2"] });
     const expectation = expectRedisArrayResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 
@@ -110,7 +111,7 @@ for (
   });
 }
 
-Deno.test("expectRedisArrayResult - not property - success", () => {
+test("expectRedisArrayResult - not property - success", () => {
   // Note: When ok: false, value must be null per discriminated union
   const result = mockRedisArrayResult<string>({
     ok: false,
@@ -122,7 +123,7 @@ Deno.test("expectRedisArrayResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectRedisArrayResult - empty value methods - success", () => {
+test("expectRedisArrayResult - empty value methods - success", () => {
   // Test empty array
   const emptyResult = mockRedisArrayResult<string>({ value: [] });
   const emptyExpectation = expectRedisArrayResult(emptyResult);
@@ -131,7 +132,7 @@ Deno.test("expectRedisArrayResult - empty value methods - success", () => {
   emptyExpectation.toHaveValueCount(0);
 });
 
-Deno.test("expectRedisArrayResult - NaN methods - success", () => {
+test("expectRedisArrayResult - NaN methods - success", () => {
   // Test NaN duration
   const nanResult = mockRedisArrayResult<string>({
     value: [],
@@ -142,7 +143,7 @@ Deno.test("expectRedisArrayResult - NaN methods - success", () => {
   nanExpectation.toHaveDurationNaN();
 });
 
-Deno.test("expectRedisArrayResult - toHaveValueMatching - success", () => {
+test("expectRedisArrayResult - toHaveValueMatching - success", () => {
   const result = mockRedisArrayResult<{ id: number; name: string }>({
     value: [{ id: 1, name: "test" }],
   });
@@ -151,7 +152,7 @@ Deno.test("expectRedisArrayResult - toHaveValueMatching - success", () => {
   expectation.toBeOk().toHaveValueCount(1);
 });
 
-Deno.test("expectRedisArrayResult - chaining - success", () => {
+test("expectRedisArrayResult - chaining - success", () => {
   const result = mockRedisArrayResult<string>({ value: ["item1", "item2"] });
   const expectation = expectRedisArrayResult(result);
 
@@ -164,7 +165,7 @@ Deno.test("expectRedisArrayResult - chaining - success", () => {
     .toHaveDuration(100);
 });
 
-Deno.test("expectRedisArrayResult - toHaveValueContainingEqual - success", () => {
+test("expectRedisArrayResult - toHaveValueContainingEqual - success", () => {
   const result = mockRedisArrayResult<{ id: number }>({
     value: [{ id: 1 }, { id: 2 }],
   });

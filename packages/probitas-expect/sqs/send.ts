@@ -1,4 +1,4 @@
-import type { SqsSendResult } from "@probitas/client-sqs";
+import type { SqsSendResult } from "@probitas-test/client-sqs";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -14,7 +14,7 @@ export interface SqsSendResultExpectation {
    *
    * @example
    * ```ts
-   * import type { SqsSendResult } from "@probitas/client-sqs";
+   * import type { SqsSendResult } from "@probitas-test/client-sqs";
    * import { expectSqsSendResult } from "./send.ts";
    * const result = {
    *   kind: "sqs:send",

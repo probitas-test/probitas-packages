@@ -1,9 +1,9 @@
-export const snapshot = {};
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
-snapshot[`createOkMixin - toBeOk 1`] = `"Expected response to be ok, but it failed"`;
+exports[`createOkMixin - toBeOk 1`] = `"Expected response to be ok, but it failed"`;
 
-snapshot[`createOkMixin - toBeOk 2`] = `
-'Expected response to be ok, but it failed
+exports[`createOkMixin - toBeOk 2`] = `
+"Expected response to be ok, but it failed
 
 Context (packages/probitas-expect/mixin/ok_mixin_test.ts:57:5)
 
@@ -13,21 +13,21 @@ Context (packages/probitas-expect/mixin/ok_mixin_test.ts:57:5)
     ┆
   63│       t,
   64│       catchError(() => applied.toBeOk()).message,
-    │                                ^
-  65│     );'
+    │       ^
+  65│     );"
 `;
 
-snapshot[`createOkMixin - toBeOk 3`] = `
-'[1m[31mExpected response to be ok, but it failed[39m[0m
+exports[`createOkMixin - toBeOk 3`] = `
+"\x1B[1m\x1B[31mExpected response to be ok, but it failed\x1B[39m\x1B[0m
 
-[1mContext[0m [90m(packages/probitas-expect/mixin/ok_mixin_test.ts:69:5)[39m
+\x1B[1mContext\x1B[0m \x1B[90m(packages/probitas-expect/mixin/ok_mixin_test.ts:69:5)\x1B[39m
 
-  [90m68│   await t.step("fail with source context (withColor)", async () => {[39m
-  [90m69│     const applier = createOkMixin(() => false, () => false, {[39m
-  [90m70│       valueName: "response",[39m
-  [90m  ┆[39m
-  [90m76│       t,[39m
-  [90m77│       catchError(() => applied.toBeOk()).message,[39m
-  [90m  │                                [39m[31m^[39m
-  [90m78│     );[39m'
+  \x1B[90m68│   await t.step("fail with source context (withColor)", async () => {\x1B[39m
+  \x1B[90m69│     const applier = createOkMixin(() => false, () => false, {\x1B[39m
+  \x1B[90m70│       valueName: "response",\x1B[39m
+  \x1B[90m  ┆\x1B[39m
+  \x1B[90m76│       t,\x1B[39m
+  \x1B[90m77│       catchError(() => applied.toBeOk()).message,\x1B[39m
+  \x1B[90m  │       \x1B[39m\x1B[31m^\x1B[39m
+  \x1B[90m78│     );\x1B[39m"
 `;

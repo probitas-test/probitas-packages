@@ -1,13 +1,13 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import { HttpBody } from "./body.ts";
-import { HttpError, type HttpFailureError } from "./errors.ts";
+import type { HttpError, HttpFailureError } from "./errors.ts";
 
 /**
  * Base interface for all HTTP response types.
  *
  * Provides common properties and methods shared by Success, Error, and Failure responses.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 interface HttpResponseBase<T = any> extends ClientResult {
   /** Result kind discriminator. Always `"http"` for HTTP responses. */
   readonly kind: "http";
@@ -57,7 +57,7 @@ interface HttpResponseBase<T = any> extends ClientResult {
  * Wraps Web standard Response, allowing body to be read synchronously
  * and multiple times (unlike the streaming-based standard Response).
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface HttpResponseSuccess<T = any> extends HttpResponseBase<T> {
   /** Server processed the request. */
   readonly processed: true;
@@ -86,7 +86,7 @@ export interface HttpResponseSuccess<T = any> extends HttpResponseBase<T> {
  *
  * Server received and processed the request, but returned an error status.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface HttpResponseError<T = any> extends HttpResponseBase<T> {
   /** Server processed the request. */
   readonly processed: true;
@@ -116,7 +116,7 @@ export interface HttpResponseError<T = any> extends HttpResponseBase<T> {
  * Request could not be processed by the server (network error, DNS failure,
  * connection refused, timeout, aborted, etc.).
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface HttpResponseFailure<T = any> extends HttpResponseBase<T> {
   /** Server did not process the request. */
   readonly processed: false;
@@ -152,7 +152,7 @@ export interface HttpResponseFailure<T = any> extends HttpResponseBase<T> {
  *
  * @example Type narrowing by ok
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * await using http = createHttpClient({ url: "http://localhost:3000" });
  * const response = await http.get("/users");
@@ -167,7 +167,7 @@ export interface HttpResponseFailure<T = any> extends HttpResponseBase<T> {
  *
  * @example Type narrowing by processed
  * ```ts
- * import { createHttpClient } from "@probitas/client-http";
+ * import { createHttpClient } from "@probitas-test/client-http";
  *
  * await using http = createHttpClient({ url: "http://localhost:3000" });
  * const response = await http.get("/users");
@@ -180,7 +180,7 @@ export interface HttpResponseFailure<T = any> extends HttpResponseBase<T> {
  * }
  * ```
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type HttpResponse<T = any> =
   | HttpResponseSuccess<T>
   | HttpResponseError<T>
@@ -190,7 +190,7 @@ export type HttpResponse<T = any> =
  * Implementation of HttpResponseSuccess.
  * @internal
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export class HttpResponseSuccessImpl<T = any>
   implements HttpResponseSuccess<T> {
   readonly kind = "http" as const;
@@ -250,7 +250,7 @@ export class HttpResponseSuccessImpl<T = any>
  * Proxies body methods to the HttpError instance.
  * @internal
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export class HttpResponseErrorImpl<T = any> implements HttpResponseError<T> {
   readonly kind = "http" as const;
   readonly processed = true as const;
@@ -308,7 +308,7 @@ export class HttpResponseErrorImpl<T = any> implements HttpResponseError<T> {
  * Implementation of HttpResponseFailure.
  * @internal
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export class HttpResponseFailureImpl<T = any>
   implements HttpResponseFailure<T> {
   readonly kind = "http" as const;

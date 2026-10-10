@@ -1,4 +1,4 @@
-import { expect as stdExpect } from "@std/expect";
+import { expect as stdExpect } from "../_vendor/std_expect/mod.ts";
 import { createExpectationError } from "../error.ts";
 import { formatValue, toPascalCase, tryOk, xor } from "../utils.ts";
 import type {
@@ -78,7 +78,7 @@ export type ArrayValueMixin<C extends MixinConfig> = <T extends object>(
  * ```
  */
 export function createArrayValueMixin<
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   V extends readonly any[] = any[],
   const C extends MixinConfig = MixinConfig,
 >(

@@ -7,6 +7,7 @@
 import { assertEquals } from "@std/assert";
 import type { ScenarioDefinition } from "./types.ts";
 import { applySelectors, parseSelector } from "./selector.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Test helper to create scenario
 const createScenario = (
@@ -18,28 +19,28 @@ const createScenario = (
   steps: [],
 });
 
-Deno.test("parseSelector parses tag selector without negation", () => {
+test("parseSelector parses tag selector without negation", () => {
   const selectors = parseSelector("tag:smoke");
   assertEquals(selectors.length, 1);
   assertEquals(selectors[0].type, "tag");
   assertEquals(selectors[0].negated, false);
 });
 
-Deno.test("parseSelector parses name selector without negation", () => {
+test("parseSelector parses name selector without negation", () => {
   const selectors = parseSelector("Login");
   assertEquals(selectors.length, 1);
   assertEquals(selectors[0].type, "name");
   assertEquals(selectors[0].negated, false);
 });
 
-Deno.test("parseSelector parses selector with ! negation", () => {
+test("parseSelector parses selector with ! negation", () => {
   const selectors = parseSelector("!tag:slow");
   assertEquals(selectors.length, 1);
   assertEquals(selectors[0].type, "tag");
   assertEquals(selectors[0].negated, true);
 });
 
-Deno.test("parseSelector parses multiple selectors with comma", () => {
+test("parseSelector parses multiple selectors with comma", () => {
   const selectors = parseSelector("tag:api,!tag:slow");
   assertEquals(selectors.length, 2);
   assertEquals(selectors[0].type, "tag");
@@ -48,26 +49,26 @@ Deno.test("parseSelector parses multiple selectors with comma", () => {
   assertEquals(selectors[1].negated, true);
 });
 
-Deno.test("parseSelector handles whitespace around !", () => {
+test("parseSelector handles whitespace around !", () => {
   const selectors = parseSelector("! tag:slow");
   assertEquals(selectors.length, 1);
   assertEquals(selectors[0].negated, true);
 });
 
-Deno.test("parseSelector defaults to name type when no type specified", () => {
+test("parseSelector defaults to name type when no type specified", () => {
   const selectors = parseSelector("wip");
   assertEquals(selectors.length, 1);
   assertEquals(selectors[0].type, "name");
 });
 
-Deno.test("parseSelector handles ! prefix with default type", () => {
+test("parseSelector handles ! prefix with default type", () => {
   const selectors = parseSelector("!wip");
   assertEquals(selectors.length, 1);
   assertEquals(selectors[0].type, "name");
   assertEquals(selectors[0].negated, true);
 });
 
-Deno.test("applySelectors applies single tag selector (OR)", () => {
+test("applySelectors applies single tag selector (OR)", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -79,7 +80,7 @@ Deno.test("applySelectors applies single tag selector (OR)", () => {
   assertEquals(result[0].name, "Smoke Test");
 });
 
-Deno.test("applySelectors applies multiple tag selectors (OR)", () => {
+test("applySelectors applies multiple tag selectors (OR)", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -94,7 +95,7 @@ Deno.test("applySelectors applies multiple tag selectors (OR)", () => {
   ]);
 });
 
-Deno.test("applySelectors applies combined selectors (AND within selector)", () => {
+test("applySelectors applies combined selectors (AND within selector)", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -106,7 +107,7 @@ Deno.test("applySelectors applies combined selectors (AND within selector)", () 
   assertEquals(result[0].name, "Login Test");
 });
 
-Deno.test("applySelectors applies name selector", () => {
+test("applySelectors applies name selector", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -118,7 +119,7 @@ Deno.test("applySelectors applies name selector", () => {
   assertEquals(result[0].name, "User API Test");
 });
 
-Deno.test("applySelectors returns all scenarios when no selectors", () => {
+test("applySelectors returns all scenarios when no selectors", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -129,7 +130,7 @@ Deno.test("applySelectors returns all scenarios when no selectors", () => {
   assertEquals(result.length, 4);
 });
 
-Deno.test("applySelectors filters out scenarios with negated tag", () => {
+test("applySelectors filters out scenarios with negated tag", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -145,7 +146,7 @@ Deno.test("applySelectors filters out scenarios with negated tag", () => {
   ]);
 });
 
-Deno.test("applySelectors filters out scenarios with negated name", () => {
+test("applySelectors filters out scenarios with negated name", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -161,7 +162,7 @@ Deno.test("applySelectors filters out scenarios with negated name", () => {
   ]);
 });
 
-Deno.test("applySelectors applies AND condition with negation: tag:api,!tag:auth", () => {
+test("applySelectors applies AND condition with negation: tag:api,!tag:auth", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -176,7 +177,7 @@ Deno.test("applySelectors applies AND condition with negation: tag:api,!tag:auth
   ]);
 });
 
-Deno.test("applySelectors applies OR condition with negation", () => {
+test("applySelectors applies OR condition with negation", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -190,7 +191,7 @@ Deno.test("applySelectors applies OR condition with negation", () => {
   assertEquals(result.length, 4);
 });
 
-Deno.test("applySelectors applies complex condition: tag:api,!tag:auth,User", () => {
+test("applySelectors applies complex condition: tag:api,!tag:auth,User", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),
@@ -202,7 +203,7 @@ Deno.test("applySelectors applies complex condition: tag:api,!tag:auth,User", ()
   assertEquals(result[0].name, "User API Test");
 });
 
-Deno.test("applySelectors handles selector with only negation", () => {
+test("applySelectors handles selector with only negation", () => {
   const scenarios = [
     createScenario("Login Test", ["api", "auth"]),
     createScenario("Logout Test", ["api"]),

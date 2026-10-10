@@ -1,4 +1,4 @@
-import type { BindValue, Database } from "@db/sqlite";
+import type { BindValue, Database } from "./_driver.ts";
 import {
   SqlConnectionError,
   type SqlIsolationLevel,
@@ -9,7 +9,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import { convertSqliteError } from "./errors.ts";
 
 /** Internal type alias for bind parameters */
@@ -89,7 +89,7 @@ export class SqliteTransactionImpl implements SqlTransaction {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -121,9 +121,9 @@ export class SqliteTransactionImpl implements SqlTransaction {
         try {
           const rows = (
             params
-              // deno-lint-ignore no-explicit-any
+              // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
               ? stmt.all<Record<string, any>>(...(params as BindParams))
-              // deno-lint-ignore no-explicit-any
+              // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
               : stmt.all<Record<string, any>>()
           ) as T[];
           const duration = performance.now() - startTime;
@@ -189,7 +189,7 @@ export class SqliteTransactionImpl implements SqlTransaction {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

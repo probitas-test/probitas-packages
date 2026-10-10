@@ -5,7 +5,7 @@ import type {
   RedisGetResult,
   RedisHashResult,
   RedisSetResult,
-} from "@probitas/client-redis";
+} from "@probitas-test/client-redis";
 
 // Mock helpers - create success results by default
 // Note: These use type assertions because the result types are discriminated

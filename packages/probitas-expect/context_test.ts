@@ -11,9 +11,10 @@ import {
   getSourceContext,
   type SourceContext,
 } from "./context.ts";
-import type { Origin } from "@probitas/core/origin";
+import type { Origin } from "@probitas-test/core/origin";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("captureOrigin - captures current location", () => {
+test("captureOrigin - captures current location", () => {
   const origin = captureOrigin();
   assertExists(origin);
   if (!origin) return; // Type guard
@@ -22,14 +23,14 @@ Deno.test("captureOrigin - captures current location", () => {
   assertExists(origin.column);
 });
 
-Deno.test("captureOrigin - captures correct line", () => {
-  const origin = captureOrigin(); // Line 26
+test("captureOrigin - captures correct line", () => {
+  const origin = captureOrigin(); // Line 27
   assertExists(origin);
   if (!origin) return; // Type guard
-  assertEquals(origin.line, 26);
+  assertEquals(origin.line, 27);
 });
 
-Deno.test("captureOrigin - captures column", () => {
+test("captureOrigin - captures column", () => {
   const origin = captureOrigin();
   assertExists(origin);
   if (!origin) return; // Type guard
@@ -37,14 +38,14 @@ Deno.test("captureOrigin - captures column", () => {
   assertEquals(typeof origin.column, "number");
 });
 
-Deno.test("getSourceContext - returns null for different files", () => {
+test("getSourceContext - returns null for different files", () => {
   const start: Origin = { path: "/foo/bar.ts", line: 10, column: 1 };
   const end: Origin = { path: "/foo/baz.ts", line: 15, column: 1 };
   const ctx = getSourceContext(start, end);
   assertEquals(ctx, null);
 });
 
-Deno.test("getSourceContext - returns null for missing line numbers", async (t) => {
+test("getSourceContext - returns null for missing line numbers", async (t) => {
   await t.step("start has no line", () => {
     const start: Origin = { path: "/foo/bar.ts", column: 1 };
     const end: Origin = { path: "/foo/bar.ts", line: 15, column: 1 };
@@ -60,7 +61,7 @@ Deno.test("getSourceContext - returns null for missing line numbers", async (t) 
   });
 });
 
-Deno.test("getSourceContext - returns null for non-existent file", () => {
+test("getSourceContext - returns null for non-existent file", () => {
   const start: Origin = {
     path: "/non/existent/file.ts",
     line: 10,
@@ -71,7 +72,7 @@ Deno.test("getSourceContext - returns null for non-existent file", () => {
   assertEquals(ctx, null);
 });
 
-Deno.test("getSourceContext - returns context for same file", () => {
+test("getSourceContext - returns context for same file", () => {
   // Use this test file itself
   const testFilePath = new URL(import.meta.url).pathname;
   const start: Origin = { path: testFilePath, line: 5, column: 3 };
@@ -86,7 +87,7 @@ Deno.test("getSourceContext - returns context for same file", () => {
   assertEquals(ctx.content.length > 0, true);
 });
 
-Deno.test("getSourceContext - shows ellipsis for large distance", () => {
+test("getSourceContext - shows ellipsis for large distance", () => {
   const testFilePath = new URL(import.meta.url).pathname;
   // Distance > 5 lines should show ellipsis
   const start: Origin = { path: testFilePath, line: 5, column: 3 };
@@ -100,7 +101,7 @@ Deno.test("getSourceContext - shows ellipsis for large distance", () => {
   assertEquals(hasEllipsisLine, true);
 });
 
-Deno.test("getSourceContext - no ellipsis for small distance", () => {
+test("getSourceContext - no ellipsis for small distance", () => {
   const testFilePath = new URL(import.meta.url).pathname;
   // Distance <= 5 lines should not show ellipsis
   const start: Origin = { path: testFilePath, line: 5, column: 3 };
@@ -111,7 +112,7 @@ Deno.test("getSourceContext - no ellipsis for small distance", () => {
   assertEquals(ctx.hasEllipsis, false);
 });
 
-Deno.test("getSourceContext - custom ellipsis threshold", () => {
+test("getSourceContext - custom ellipsis threshold", () => {
   const testFilePath = new URL(import.meta.url).pathname;
   const start: Origin = { path: testFilePath, line: 5, column: 3 };
   const end: Origin = { path: testFilePath, line: 8, column: 5 };
@@ -122,7 +123,7 @@ Deno.test("getSourceContext - custom ellipsis threshold", () => {
   assertEquals(ctx.hasEllipsis, true);
 });
 
-Deno.test("getSourceContext - content includes caret marker for end only", () => {
+test("getSourceContext - content includes caret marker for end only", () => {
   const testFilePath = new URL(import.meta.url).pathname;
   const start: Origin = { path: testFilePath, line: 5, column: 3 };
   const end: Origin = { path: testFilePath, line: 7, column: 5 };
@@ -134,7 +135,7 @@ Deno.test("getSourceContext - content includes caret marker for end only", () =>
   assertEquals(caretLines.length, 1);
 });
 
-Deno.test("formatSourceContext - formats header and body", () => {
+test("formatSourceContext - formats header and body", () => {
   const ctx: SourceContext = {
     start: { path: "/foo/bar/test.ts", line: 10, column: 3 },
     end: { path: "/foo/bar/test.ts", line: 12, column: 5 },
@@ -152,7 +153,7 @@ Deno.test("formatSourceContext - formats header and body", () => {
   assertEquals(formatted.includes("10| const x = 1;"), true);
 });
 
-Deno.test("formatSourceContext - uses cwd for relative path", () => {
+test("formatSourceContext - uses cwd for relative path", () => {
   const ctx: SourceContext = {
     start: { path: "/Users/test/project/src/test.ts", line: 10, column: 3 },
     end: { path: "/Users/test/project/src/test.ts", line: 12, column: 5 },

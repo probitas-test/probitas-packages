@@ -20,7 +20,7 @@
  * ## Quick Start
  *
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * const client = await createMongoClient({
  *   url: "mongodb://localhost:27017",
@@ -56,7 +56,7 @@
  * ## Transactions
  *
  * ```ts
- * import { createMongoClient, type MongoSession } from "@probitas/client-mongodb";
+ * import { createMongoClient, type MongoSession } from "@probitas-test/client-mongodb";
  *
  * const client = await createMongoClient({
  *   url: "mongodb://localhost:27017",
@@ -81,7 +81,7 @@
  * ## Using with `using` Statement
  *
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * await using client = await createMongoClient({
  *   url: "mongodb://localhost:27017",

@@ -1,4 +1,4 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type { RabbitMqMessage } from "./types.ts";
 import type { RabbitMqFailureError, RabbitMqOperationError } from "./errors.ts";
 

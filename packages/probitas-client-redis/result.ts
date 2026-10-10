@@ -1,4 +1,4 @@
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type { RedisFailureError, RedisOperationError } from "./errors.ts";
 
 // ============================================================================
@@ -283,7 +283,7 @@ interface RedisCommonResultBase<T> extends RedisResultBase<"redis:common"> {
 /**
  * Successful common result.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface RedisCommonResultSuccess<T = any>
   extends RedisCommonResultBase<T> {
   readonly processed: true;
@@ -295,7 +295,7 @@ export interface RedisCommonResultSuccess<T = any>
 /**
  * Common result with Redis error.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface RedisCommonResultError<T = any>
   extends RedisCommonResultBase<T> {
   readonly processed: true;
@@ -307,7 +307,7 @@ export interface RedisCommonResultError<T = any>
 /**
  * Common result with connection failure.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface RedisCommonResultFailure<T = any>
   extends RedisCommonResultBase<T> {
   readonly processed: false;
@@ -321,7 +321,7 @@ export interface RedisCommonResultFailure<T = any>
  *
  * Used for operations without a more specific result type.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type RedisCommonResult<T = any> =
   | RedisCommonResultSuccess<T>
   | RedisCommonResultError<T>
@@ -334,7 +334,7 @@ export type RedisCommonResult<T = any> =
 /**
  * Union of all Redis result types.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type RedisResult<T = any> =
   | RedisCommonResult<T>
   | RedisGetResult

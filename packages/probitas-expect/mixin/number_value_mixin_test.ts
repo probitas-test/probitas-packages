@@ -1,14 +1,14 @@
 import { assertEquals } from "@std/assert";
-import { assertSnapshot } from "@std/testing/snapshot";
 import { assertType, type IsExact } from "@std/testing/types";
-import { colorTheme } from "@probitas/core/theme";
+import { colorTheme } from "@probitas-test/core/theme";
 import { catchError } from "../utils.ts";
 import { assertSnapshotWithoutColors } from "./_testutils.ts";
 import { createNumberValueMixin } from "./number_value_mixin.ts";
+import { assertSnapshot, test } from "@probitas-test/internal-testing";
 
 const testFilePath = new URL(import.meta.url).pathname;
 
-Deno.test("createNumberValueMixin - type check", () => {
+test("createNumberValueMixin - type check", () => {
   const mixin = createNumberValueMixin(() => 100, () => false, {
     valueName: "score",
   });
@@ -33,7 +33,7 @@ Deno.test("createNumberValueMixin - type check", () => {
   assertType<IsExact<Actual, Expected>>(true);
 });
 
-Deno.test("createNumberValueMixin - attribute check", () => {
+test("createNumberValueMixin - attribute check", () => {
   const applier = createNumberValueMixin(() => 100, () => false, {
     valueName: "score",
   });
@@ -50,7 +50,7 @@ Deno.test("createNumberValueMixin - attribute check", () => {
   assertEquals(Object.getOwnPropertyNames(applied).sort(), expected.sort());
 });
 
-Deno.test("createNumberValueMixin - toHaveScoreNaN", async (t) => {
+test("createNumberValueMixin - toHaveScoreNaN", async (t) => {
   await t.step("success", () => {
     const mixin = createNumberValueMixin(() => NaN, () => false, {
       valueName: "score",
@@ -71,7 +71,7 @@ Deno.test("createNumberValueMixin - toHaveScoreNaN", async (t) => {
   });
 });
 
-Deno.test("createNumberValueMixin - toHaveScoreGreaterThan", async (t) => {
+test("createNumberValueMixin - toHaveScoreGreaterThan", async (t) => {
   await t.step("success", () => {
     const mixin = createNumberValueMixin(() => 100, () => false, {
       valueName: "score",
@@ -92,7 +92,7 @@ Deno.test("createNumberValueMixin - toHaveScoreGreaterThan", async (t) => {
   });
 });
 
-Deno.test(
+test(
   "createNumberValueMixin - toHaveScoreGreaterThanOrEqual",
   async (t) => {
     await t.step("success", () => {
@@ -116,7 +116,7 @@ Deno.test(
   },
 );
 
-Deno.test("createNumberValueMixin - toHaveScoreLessThan", async (t) => {
+test("createNumberValueMixin - toHaveScoreLessThan", async (t) => {
   await t.step("success", () => {
     const mixin = createNumberValueMixin(() => 100, () => false, {
       valueName: "score",
@@ -137,7 +137,7 @@ Deno.test("createNumberValueMixin - toHaveScoreLessThan", async (t) => {
   });
 });
 
-Deno.test("createNumberValueMixin - toHaveScoreLessThanOrEqual", async (t) => {
+test("createNumberValueMixin - toHaveScoreLessThanOrEqual", async (t) => {
   await t.step("success", () => {
     const mixin = createNumberValueMixin(() => 100, () => false, {
       valueName: "score",
@@ -158,7 +158,7 @@ Deno.test("createNumberValueMixin - toHaveScoreLessThanOrEqual", async (t) => {
   });
 });
 
-Deno.test("createNumberValueMixin - toHaveScoreCloseTo", async (t) => {
+test("createNumberValueMixin - toHaveScoreCloseTo", async (t) => {
   await t.step("success", () => {
     const mixin = createNumberValueMixin(() => 0.1 + 0.2, () => false, {
       valueName: "score",
@@ -179,7 +179,7 @@ Deno.test("createNumberValueMixin - toHaveScoreCloseTo", async (t) => {
   });
 });
 
-Deno.test("createNumberValueMixin - toHaveScoreGreaterThan with source context", async (t) => {
+test("createNumberValueMixin - toHaveScoreGreaterThan with source context", async (t) => {
   await t.step("fail (noColor)", async () => {
     const mixin = createNumberValueMixin(() => 100, () => false, {
       valueName: "score",

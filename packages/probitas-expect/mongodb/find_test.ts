@@ -4,6 +4,7 @@ import {
   type MongoFindResultExpectation,
 } from "./find.ts";
 import { mockMongoFindResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -45,7 +46,7 @@ const EXPECTED_METHODS: Record<keyof MongoFindResultExpectation, unknown[]> = {
   toHaveDurationCloseTo: [100, 0],
 };
 
-Deno.test("expectMongoFindResult - method existence check", () => {
+test("expectMongoFindResult - method existence check", () => {
   const result = mockMongoFindResult();
   const expectation = expectMongoFindResult(result);
 
@@ -89,12 +90,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectMongoFindResult - ${methodName} - success`, () => {
+  test(`expectMongoFindResult - ${methodName} - success`, () => {
     const result = mockMongoFindResult();
     const expectation = expectMongoFindResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const chainedResult = method.call(expectation, ...args);
 
@@ -107,7 +108,7 @@ for (
   });
 }
 
-Deno.test("expectMongoFindResult - not property - success", () => {
+test("expectMongoFindResult - not property - success", () => {
   const result = mockMongoFindResult({ ok: false });
   const expectation = expectMongoFindResult(result);
 
@@ -116,7 +117,7 @@ Deno.test("expectMongoFindResult - not property - success", () => {
   expectation.not.toHaveDocsCount(0);
 });
 
-Deno.test("expectMongoFindResult - empty docs - success", () => {
+test("expectMongoFindResult - empty docs - success", () => {
   const result = mockMongoFindResult({ docs: [] });
   const expectation = expectMongoFindResult(result);
 

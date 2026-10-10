@@ -4,11 +4,13 @@ import {
   assertInstanceOf,
   assertRejects,
 } from "@std/assert";
-import { AbortError } from "@probitas/client";
+import { AbortError } from "@probitas-test/client";
 import { createRabbitMqClient } from "./client.ts";
 import { RabbitMqConnectionError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
+import process from "node:process";
 
-const RABBITMQ_URL = Deno.env.get("RABBITMQ_URL") ??
+const RABBITMQ_URL = process.env.RABBITMQ_URL ??
   "amqp://guest:guest@localhost:5672";
 
 async function isRabbitMqAvailable(): Promise<boolean> {
@@ -24,7 +26,7 @@ async function isRabbitMqAvailable(): Promise<boolean> {
   }
 }
 
-Deno.test({
+test({
   name: "Integration: RabbitMQ Client",
   ignore: !(await isRabbitMqAvailable()),
   async fn(t) {
@@ -359,7 +361,7 @@ Deno.test({
   },
 });
 
-Deno.test({
+test({
   name: "Integration: RabbitMQ consume (streaming)",
   ignore: !(await isRabbitMqAvailable()),
   async fn() {
@@ -402,5 +404,28 @@ Deno.test({
       await channel.close();
       await client.close();
     }
+  },
+});
+
+test({
+  name: "Integration: server-side channel close does not crash the process",
+  ignore: !(await isRabbitMqAvailable()),
+  async fn() {
+    await using client = await createRabbitMqClient({ url: RABBITMQ_URL });
+    const channel = await client.channel();
+    const queue = `probitas-close-${crypto.randomUUID()}`;
+
+    assertEquals(
+      (await channel.assertQueue(queue, { durable: false })).ok,
+      true,
+    );
+    // Redeclaring with a different `durable` makes the broker close the
+    // channel (406 PRECONDITION_FAILED); amqplib then emits "error" on it.
+    const redeclared = await channel.assertQueue(queue, { durable: true });
+    assertEquals(redeclared.ok, false);
+
+    // An unhandled "error" event surfaces as an uncaught exception after the
+    // operation has already returned, so give it a chance to fire.
+    await new Promise((resolve) => setTimeout(resolve, 200));
   },
 });

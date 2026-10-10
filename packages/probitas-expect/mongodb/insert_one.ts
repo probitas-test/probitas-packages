@@ -1,4 +1,4 @@
-import type { MongoInsertOneResult } from "@probitas/client-mongodb";
+import type { MongoInsertOneResult } from "@probitas-test/client-mongodb";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -11,7 +11,7 @@ export interface MongoInsertOneResultExpectation {
    *
    * @example
    * ```ts
-   * import type { MongoInsertOneResult } from "@probitas/client-mongodb";
+   * import type { MongoInsertOneResult } from "@probitas-test/client-mongodb";
    * import { expectMongoInsertOneResult } from "./insert_one.ts";
    * const result = {
    *   kind: "mongo:insert-one",

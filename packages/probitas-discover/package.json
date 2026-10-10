@@ -1,0 +1,41 @@
+{
+  "name": "@probitas-test/discover",
+  "version": "0.4.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probitas-test/probitas-packages.git",
+    "directory": "packages/probitas-discover"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./mod.ts",
+      "types": "./dist/mod.d.ts",
+      "default": "./dist/mod.js"
+    }
+  },
+  "files": [
+    "dist",
+    "**/*.ts",
+    "!dist/**/*.ts.map",
+    "!**/*_test.ts",
+    "!**/_testutils.ts",
+    "!**/testkit.ts",
+    "!node_modules",
+    "_vendor/**/LICENSE",
+    "_vendor/**/README.md"
+  ],
+  "dependencies": {
+    "@logtape/logtape": "^1.3.11"
+  },
+  "devDependencies": {
+    "@lambdalisue/sandbox": "npm:@jsr/lambdalisue__sandbox@^3",
+    "@probitas-test/internal-testing": "workspace:*",
+    "@std/assert": "npm:@jsr/std__assert@^1",
+    "@std/path": "npm:@jsr/std__path@^1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

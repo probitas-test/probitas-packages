@@ -8,7 +8,7 @@ import type { ConnectError } from "@connectrpc/connect";
 import type { DescMessage } from "@bufbuild/protobuf";
 import { toJson } from "@bufbuild/protobuf";
 import { getLogger } from "@logtape/logtape";
-import type { ClientResult } from "@probitas/client";
+import type { ClientResult } from "@probitas-test/client";
 import type {
   ConnectRpcError,
   ConnectRpcFailureError,
@@ -46,7 +46,7 @@ export type ConnectRpcErrorType = ConnectRpcError | ConnectRpcNetworkError;
  *
  * @example
  * ```ts
- * import { createConnectRpcClient } from "@probitas/client-connectrpc";
+ * import { createConnectRpcClient } from "@probitas-test/client-connectrpc";
  *
  * const client = createConnectRpcClient({ url: "http://localhost:50051" });
  *
@@ -69,7 +69,7 @@ export type ConnectRpcErrorType = ConnectRpcError | ConnectRpcNetworkError;
  * await client.close();
  * ```
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 interface ConnectRpcResponseBase<T = any> extends ClientResult {
   /**
    * Result kind discriminator.
@@ -129,7 +129,7 @@ interface ConnectRpcResponseBase<T = any> extends ClientResult {
 /**
  * Successful ConnectRPC response (statusCode === 0).
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface ConnectRpcResponseSuccess<T = any>
   extends ConnectRpcResponseBase<T> {
   readonly processed: true;
@@ -160,7 +160,7 @@ export interface ConnectRpcResponseSuccess<T = any>
  *
  * The server processed the request but returned an error status.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface ConnectRpcResponseError<T = any>
   extends ConnectRpcResponseBase<T> {
   readonly processed: true;
@@ -191,7 +191,7 @@ export interface ConnectRpcResponseError<T = any>
  *
  * The request did not reach gRPC processing.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface ConnectRpcResponseFailure<T = any>
   extends ConnectRpcResponseBase<T> {
   readonly processed: false;
@@ -228,7 +228,7 @@ export interface ConnectRpcResponseFailure<T = any>
  * - `ok === true`: Success (statusCode === 0)
  * - `ok === false`: Error or Failure
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export type ConnectRpcResponse<T = any> =
   | ConnectRpcResponseSuccess<T>
   | ConnectRpcResponseError<T>
@@ -237,7 +237,7 @@ export type ConnectRpcResponse<T = any> =
 /**
  * Parameters for creating a successful ConnectRpcResponse.
  */
-// deno-lint-ignore no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
 export interface ConnectRpcResponseSuccessParams<T = any> {
   readonly response: T | null;
   readonly schema: DescMessage | null;
@@ -292,7 +292,7 @@ export class ConnectRpcResponseSuccessImpl<T>
     // Convert protobuf message to JSON if schema is available
     if (params.response && params.schema) {
       try {
-        // deno-lint-ignore no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
         this.data = toJson(params.schema, params.response as any) as T;
       } catch (error) {
         // If toJson fails, fall back to raw response

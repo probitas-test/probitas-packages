@@ -1,5 +1,5 @@
-import type { Origin } from "@probitas/core/origin";
-import type { Theme } from "@probitas/core/theme";
+import type { Origin } from "@probitas-test/core/origin";
+import type { Theme } from "@probitas-test/core/theme";
 import type { ToPascalCase } from "../utils.ts";
 import type { PatchTypedChainMethod, Simplify } from "./_typeutils.ts";
 

@@ -8,10 +8,11 @@
 
 import outdent from "@cspotcode/outdent";
 import { assertEquals } from "@std/assert";
-import { sandbox } from "@lambdalisue/sandbox";
 import { loadScenarios } from "./loader.ts";
+import { sandbox, test } from "@probitas-test/internal-testing";
+import { writeFile } from "node:fs/promises";
 
-Deno.test("loadScenarios loads single scenario from file", async () => {
+test("loadScenarios loads single scenario from file", async () => {
   await using sbox = await sandbox();
 
   const scenarioPath = sbox.resolve("test.probitas.ts");
@@ -23,7 +24,7 @@ Deno.test("loadScenarios loads single scenario from file", async () => {
       source: { file: "${scenarioPath}" }
     };
   `;
-  await Deno.writeTextFile(scenarioPath, content);
+  await writeFile(scenarioPath, content);
 
   const scenarios = await loadScenarios([scenarioPath]);
 
@@ -31,7 +32,7 @@ Deno.test("loadScenarios loads single scenario from file", async () => {
   assertEquals(scenarios[0].name, "Test Scenario");
 });
 
-Deno.test("loadScenarios loads multiple scenarios from array export", async () => {
+test("loadScenarios loads multiple scenarios from array export", async () => {
   await using sbox = await sandbox();
 
   const scenarioPath = sbox.resolve("multi.probitas.ts");
@@ -51,7 +52,7 @@ Deno.test("loadScenarios loads multiple scenarios from array export", async () =
       }
     ];
   `;
-  await Deno.writeTextFile(scenarioPath, content);
+  await writeFile(scenarioPath, content);
 
   const scenarios = await loadScenarios([scenarioPath]);
 
@@ -60,7 +61,7 @@ Deno.test("loadScenarios loads multiple scenarios from array export", async () =
   assertEquals(scenarios[1].name, "Scenario 2");
 });
 
-Deno.test("loadScenarios loads from multiple files", async () => {
+test("loadScenarios loads from multiple files", async () => {
   await using sbox = await sandbox();
 
   const file1 = sbox.resolve("test1.probitas.ts");
@@ -76,8 +77,8 @@ Deno.test("loadScenarios loads from multiple files", async () => {
     };
   `;
 
-  await Deno.writeTextFile(file1, content("Scenario 1", file1));
-  await Deno.writeTextFile(file2, content("Scenario 2", file2));
+  await writeFile(file1, content("Scenario 1", file1));
+  await writeFile(file2, content("Scenario 2", file2));
 
   const scenarios = await loadScenarios([file1, file2]);
 
@@ -86,17 +87,17 @@ Deno.test("loadScenarios loads from multiple files", async () => {
   assertEquals(scenarios[1].name, "Scenario 2");
 });
 
-Deno.test("loadScenarios returns empty array for empty file list", async () => {
+test("loadScenarios returns empty array for empty file list", async () => {
   const scenarios = await loadScenarios([]);
 
   assertEquals(scenarios, []);
 });
 
-Deno.test("loadScenarios calls onImportError for invalid syntax in scenario file", async () => {
+test("loadScenarios calls onImportError for invalid syntax in scenario file", async () => {
   await using sbox = await sandbox();
 
   const scenarioPath = sbox.resolve("invalid.probitas.ts");
-  await Deno.writeTextFile(
+  await writeFile(
     scenarioPath,
     "export default { invalid: syntax here",
   );
@@ -113,7 +114,7 @@ Deno.test("loadScenarios calls onImportError for invalid syntax in scenario file
   assertEquals(errors[0].file, scenarioPath);
 });
 
-Deno.test("loadScenarios calls onImportError for non-existent file", async () => {
+test("loadScenarios calls onImportError for non-existent file", async () => {
   const errors: { file: string | URL; err: unknown }[] = [];
   const scenarios = await loadScenarios(["/nonexistent/file.ts"], {
     onImportError: (file, err) => {
@@ -126,7 +127,7 @@ Deno.test("loadScenarios calls onImportError for non-existent file", async () =>
   assertEquals(errors[0].file, "/nonexistent/file.ts");
 });
 
-Deno.test("loadScenarios silently ignores errors when onImportError is not provided", async () => {
+test("loadScenarios silently ignores errors when onImportError is not provided", async () => {
   const scenarios = await loadScenarios(["/nonexistent/file.ts"]);
   assertEquals(scenarios, []);
 });

@@ -1,4 +1,4 @@
-import type { BindValue, Database } from "@db/sqlite";
+import { type BindValue, Database } from "./_driver.ts";
 import { getLogger } from "@logtape/logtape";
 import {
   SqlConnectionError,
@@ -9,7 +9,7 @@ import {
   SqlQueryResultSuccessImpl,
   type SqlTransaction,
   type SqlTransactionOptions,
-} from "@probitas/client-sql";
+} from "@probitas-test/client-sql";
 import type { SqliteClientConfig } from "./types.ts";
 import { convertSqliteError } from "./errors.ts";
 import {
@@ -38,7 +38,7 @@ export interface SqliteClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -51,7 +51,7 @@ export interface SqliteClient extends AsyncDisposable {
    * @param params - Optional query parameters
    * @param options - Optional query options
    */
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -98,7 +98,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Using file-based database
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * const client = await createSqliteClient({
  *   path: "./data.db",
@@ -117,7 +117,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Using in-memory database
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * const client = await createSqliteClient({
  *   path: ":memory:",
@@ -127,8 +127,8 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
- * import type { SqlTransaction } from "@probitas/client-sql";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
+ * import type { SqlTransaction } from "@probitas-test/client-sql";
  *
  * const client = await createSqliteClient({ path: ":memory:" });
  * const user = await client.transaction(async (tx: SqlTransaction) => {
@@ -142,7 +142,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Database backup
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * const client = await createSqliteClient({ path: "./data.db" });
  * await client.backup("./backup.db");
@@ -151,7 +151,7 @@ export interface SqliteClient extends AsyncDisposable {
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createSqliteClient } from "@probitas/client-sql-sqlite";
+ * import { createSqliteClient } from "@probitas-test/client-sql-sqlite";
  *
  * await using client = await createSqliteClient({ path: "./data.db" });
  *
@@ -163,12 +163,6 @@ export async function createSqliteClient(
   config: SqliteClientConfig,
 ): Promise<SqliteClient> {
   try {
-    // Imported here rather than at module scope because @db/sqlite dlopens the
-    // SQLite library as it evaluates. A static import would make every consumer
-    // of this package pay that dlopen — and inherit its failure modes — even
-    // when no SQLite client is ever created.
-    const { Database } = await import("@db/sqlite");
-
     // Build open flags
     // SQLITE_OPEN_READWRITE = 0x00000002
     // SQLITE_OPEN_READONLY = 0x00000001
@@ -218,7 +212,7 @@ class SqliteClientImpl implements SqliteClient {
     });
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   query<T = Record<string, any>>(
     sql: string,
     params?: unknown[],
@@ -262,9 +256,9 @@ class SqliteClientImpl implements SqliteClient {
         try {
           const rows = (
             params
-              // deno-lint-ignore no-explicit-any
+              // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
               ? stmt.all<Record<string, any>>(...(params as BindParams))
-              // deno-lint-ignore no-explicit-any
+              // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
               : stmt.all<Record<string, any>>()
           ) as T[];
           const duration = performance.now() - startTime;
@@ -354,7 +348,7 @@ class SqliteClientImpl implements SqliteClient {
     }
   }
 
-  // deno-lint-ignore no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
   async queryOne<T = Record<string, any>>(
     sql: string,
     params?: unknown[],

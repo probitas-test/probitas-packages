@@ -21,8 +21,8 @@
  * End users rarely need to import from it directly.
  *
  * ```ts
- * import type { CommonOptions, RetryOptions } from "@probitas/client";
- * import { ClientError, ConnectionError, TimeoutError } from "@probitas/client";
+ * import type { CommonOptions, RetryOptions } from "@probitas-test/client";
+ * import { ClientError, ConnectionError, TimeoutError } from "@probitas-test/client";
  *
  * // Use CommonOptions for timeout and abort signal support
  * async function fetchData(options?: CommonOptions) {
@@ -53,7 +53,6 @@
  * | [`@probitas/client-sql-mysql`](https://jsr.io/@probitas/client-sql-mysql) | MySQL client |
  * | [`@probitas/client-sql-sqlite`](https://jsr.io/@probitas/client-sql-sqlite) | SQLite client |
  * | [`@probitas/client-sql-duckdb`](https://jsr.io/@probitas/client-sql-duckdb) | DuckDB client |
- * | [`@probitas/client-deno-kv`](https://jsr.io/@probitas/client-deno-kv) | Deno KV client |
  * | [`@probitas/client-redis`](https://jsr.io/@probitas/client-redis) | Redis client |
  * | [`@probitas/client-mongodb`](https://jsr.io/@probitas/client-mongodb) | MongoDB client |
  * | [`@probitas/client-rabbitmq`](https://jsr.io/@probitas/client-rabbitmq) | RabbitMQ client |

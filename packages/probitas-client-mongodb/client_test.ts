@@ -1,7 +1,8 @@
 import { assertRejects } from "@std/assert";
 import { MongoConnectionError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("createMongoClient", async (t) => {
+test("createMongoClient", async (t) => {
   await t.step(
     "throws MongoConnectionError when connection fails",
     async () => {

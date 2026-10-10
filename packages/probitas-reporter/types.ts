@@ -1,11 +1,11 @@
-import type { Theme } from "@probitas/core/theme";
+import type { Theme } from "@probitas-test/core/theme";
 
 /**
  * Configuration options for reporter initialization.
  *
  * @example Basic usage
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
+ * import { ListReporter } from "@probitas-test/reporter";
  *
  * const reporter = new ListReporter({
  *   output: Deno.stdout.writable
@@ -15,7 +15,7 @@ import type { Theme } from "@probitas/core/theme";
  *
  * @example Custom output stream (using a buffer)
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
+ * import { ListReporter } from "@probitas-test/reporter";
  * import { Buffer } from "@std/streams";
  *
  * const buffer = new Buffer();

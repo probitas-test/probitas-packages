@@ -1,4 +1,4 @@
-import type { MongoDeleteResult } from "@probitas/client-mongodb";
+import type { MongoDeleteResult } from "@probitas-test/client-mongodb";
 import { ensureNonNullish } from "../utils.ts";
 import * as mixin from "../mixin.ts";
 
@@ -11,7 +11,7 @@ export interface MongoDeleteResultExpectation {
    *
    * @example
    * ```ts
-   * import type { MongoDeleteResult } from "@probitas/client-mongodb";
+   * import type { MongoDeleteResult } from "@probitas-test/client-mongodb";
    * import { expectMongoDeleteResult } from "./delete.ts";
    * const result = {
    *   kind: "mongo:delete",

@@ -5,9 +5,8 @@ import type {
   Db,
   MongoClientOptions,
 } from "mongodb";
-import { AbortError, TimeoutError } from "@probitas/client";
+import { AbortError, TimeoutError } from "@probitas-test/client";
 import { getLogger } from "@logtape/logtape";
-import { deadline } from "@std/async/deadline";
 import type {
   Document,
   Filter,
@@ -135,7 +134,7 @@ function sanitizeUrl(url: string): string {
  */
 function getFilterKeys(filter: unknown): string[] {
   if (typeof filter === "object" && filter !== null && !Array.isArray(filter)) {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     return Object.keys(filter as any);
   }
   return [];
@@ -162,22 +161,32 @@ function convertDeadlineError(
 }
 
 /**
- * Execute a promise with abort signal support only.
+ * Settle with `promise`, or reject once `ms` elapses or `signal` aborts.
  *
- * This function exists as a workaround for @std/async@1.0.15's `deadline` limitation.
- * In v1.0.15, `deadline(promise, Infinity, { signal })` throws:
- *   "TypeError: Failed to execute 'AbortSignal.timeout': Argument 1 is not a finite number"
- *
- * This is because v1.0.15 unconditionally calls `AbortSignal.timeout(ms)`:
- *   const signals = [AbortSignal.timeout(ms)];  // Always called, even when ms=Infinity
- *
- * The fix has been merged to main branch (adding `ms < Number.MAX_SAFE_INTEGER` check)
- * and is expected to be released in @std/async@1.0.16 or later.
- *
- * Once the fix is released, this function can be removed and `withOptions` can
- * simply use `deadline(promise, Infinity, { signal })` for signal-only cases.
- *
- * @see https://github.com/denoland/std/blob/main/async/deadline.ts
+ * Same contract as `deadline()` from `@std/async`: the rejection is the
+ * aborting signal's reason, i.e. a DOMException named "TimeoutError" when the
+ * time runs out.
+ */
+function deadline<T>(
+  promise: Promise<T>,
+  ms: number,
+  options: { signal?: AbortSignal } = {},
+): Promise<T> {
+  const signals = [AbortSignal.timeout(ms)];
+  if (options.signal) signals.push(options.signal);
+  const signal = AbortSignal.any(signals);
+  if (signal.aborted) return Promise.reject(signal.reason);
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => reject(signal.reason);
+    signal.addEventListener("abort", onAbort, { once: true });
+    promise.then(resolve, reject).finally(() => {
+      signal.removeEventListener("abort", onAbort);
+    });
+  });
+}
+
+/**
+ * Settle with `promise`, or reject with AbortError once `signal` aborts.
  */
 function withSignal<T>(
   promise: Promise<T>,
@@ -209,8 +218,8 @@ function withSignal<T>(
  *
  * Routes to appropriate implementation based on options:
  * - No options: return promise as-is
- * - Signal only: use withSignal (workaround for @std/async@1.0.15)
- * - Timeout (±signal): use deadline from @std/async
+ * - Signal only: reject with AbortError when the signal aborts
+ * - Timeout (±signal): reject on timeout or abort via deadline()
  */
 function withOptions<T>(
   promise: Promise<T>,
@@ -220,8 +229,6 @@ function withOptions<T>(
   if (!options?.timeout && !options?.signal) {
     return promise;
   }
-  // Signal-only: use withSignal workaround (see withSignal JSDoc for details)
-  // TODO: Replace with `deadline(promise, Infinity, { signal })` after @std/async@1.0.16
   if (!options.timeout && options.signal) {
     return withSignal(promise, options.signal, operation);
   }
@@ -290,7 +297,7 @@ function convertMongoError(
   }
 
   if (error instanceof Error) {
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const mongoError = error as any;
 
     // Check if it's a connection error first
@@ -346,7 +353,7 @@ function convertMongoError(
  *
  * @example Basic usage with connection string
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * const mongo = await createMongoClient({
  *   url: "mongodb://localhost:27017",
@@ -367,7 +374,7 @@ function convertMongoError(
  *
  * @example Using connection config object
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * const mongo = await createMongoClient({
  *   url: {
@@ -385,7 +392,7 @@ function convertMongoError(
  *
  * @example Insert and query documents
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * interface User { name: string; age: number }
  *
@@ -415,7 +422,7 @@ function convertMongoError(
  *
  * @example Transaction with auto-commit/rollback
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * interface User { _id?: unknown; name: string; age: number }
  *
@@ -441,7 +448,7 @@ function convertMongoError(
  *
  * @example Aggregation pipeline
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * interface User { name: string; age: number; department: string }
  *
@@ -464,7 +471,7 @@ function convertMongoError(
  *
  * @example Using `await using` for automatic cleanup
  * ```ts
- * import { createMongoClient } from "@probitas/client-mongodb";
+ * import { createMongoClient } from "@probitas-test/client-mongodb";
  *
  * await using mongo = await createMongoClient({
  *   url: "mongodb://localhost:27017",

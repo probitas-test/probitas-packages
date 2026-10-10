@@ -6,13 +6,13 @@
  * @module
  */
 
-import { omit } from "@std/collections/omit";
+import { omit } from "./utils/collections.ts";
 import type {
   ScenarioDefinition,
   ScenarioMetadata,
   StepDefinition,
   StepMetadata,
-} from "@probitas/core";
+} from "@probitas-test/core";
 
 /**
  * Convert ScenarioDefinition to serializable ScenarioMetadata

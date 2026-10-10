@@ -4,9 +4,10 @@
 
 import { assertEquals, assertInstanceOf } from "@std/assert";
 import { ConnectRpcError, ConnectRpcNetworkError } from "./errors.ts";
-import { ClientError } from "@probitas/client";
+import { ClientError } from "@probitas-test/client";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("ConnectRpcError", async (t) => {
+test("ConnectRpcError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new ConnectRpcError("test", 2, "test message");
     assertInstanceOf(error, ClientError);
@@ -61,7 +62,7 @@ Deno.test("ConnectRpcError", async (t) => {
   });
 });
 
-Deno.test("ConnectRpcNetworkError", async (t) => {
+test("ConnectRpcNetworkError", async (t) => {
   await t.step("extends ClientError", () => {
     const error = new ConnectRpcNetworkError("Connection refused");
     assertInstanceOf(error, ClientError);

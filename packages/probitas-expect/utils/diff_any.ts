@@ -12,7 +12,7 @@
  * Uses Deno.customInspect to display as `[Any]`.
  */
 class DiffAny {
-  [Symbol.for("Deno.customInspect")](): string {
+  [Symbol.for("nodejs.util.inspect.custom")](): string {
     return "[Any]";
   }
 }
@@ -23,7 +23,7 @@ class DiffAny {
  * @example
  * ```ts
  * const expected = { foo: Any };
- * Deno.inspect(expected); // "{ foo: [Any] }"
+ * inspect(expected); // "{ foo: [Any] }"
  * ```
  */
 export const Any = new DiffAny();

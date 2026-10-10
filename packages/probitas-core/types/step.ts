@@ -68,7 +68,7 @@ export interface StepOptions {
  *
  * @example Cleanup function
  * ```ts
- * import type { SetupCleanup } from "@probitas/core";
+ * import type { SetupCleanup } from "@probitas-test/core";
  *
  * // Setup functions can return a cleanup function
  * const setupWithCleanup = (): SetupCleanup => {
@@ -80,7 +80,7 @@ export interface StepOptions {
  *
  * @example Disposable object
  * ```ts
- * import type { SetupCleanup } from "@probitas/core";
+ * import type { SetupCleanup } from "@probitas-test/core";
  *
  * // Setup functions can return an AsyncDisposable
  * const setupWithDisposable = async (): Promise<SetupCleanup> => {
@@ -112,7 +112,7 @@ export type SetupCleanup =
  *
  * @example Accessing previous result
  * ```ts
- * import type { StepContext } from "@probitas/core";
+ * import type { StepContext } from "@probitas-test/core";
  *
  * // Steps receive context with the previous step's result
  * const stepFn = (ctx: StepContext) => {
@@ -125,7 +125,7 @@ export type SetupCleanup =
  *
  * @example Using shared store
  * ```ts
- * import type { StepContext } from "@probitas/core";
+ * import type { StepContext } from "@probitas-test/core";
  *
  * // The store is shared across all steps in a scenario
  * const setupFn = (ctx: StepContext) => {
@@ -160,7 +160,7 @@ export interface StepContext {
    *
    * Allows accessing any previous result by index:
    * ```ts
-   * import type { StepContext } from "@probitas/core";
+   * import type { StepContext } from "@probitas-test/core";
    *
    * const stepFn = (ctx: StepContext) => {
    *   ctx.results[0]; // First step's result
@@ -184,7 +184,7 @@ export interface StepContext {
    *
    * Resources are typed based on their registration:
    * ```ts
-   * import type { StepContext } from "@probitas/core";
+   * import type { StepContext } from "@probitas-test/core";
    *
    * interface DbResource {
    *   query(sql: string): unknown;
@@ -219,7 +219,7 @@ export interface StepContext {
  *
  * @example Sync step returning data
  * ```ts
- * import type { StepFunction } from "@probitas/core";
+ * import type { StepFunction } from "@probitas-test/core";
  *
  * const step: StepFunction<{ name: string }> = (_ctx) => {
  *   return { name: "Alice" };
@@ -228,7 +228,7 @@ export interface StepContext {
  *
  * @example Async step with API call
  * ```ts
- * import type { StepFunction } from "@probitas/core";
+ * import type { StepFunction } from "@probitas-test/core";
  *
  * interface User {
  *   id: number;

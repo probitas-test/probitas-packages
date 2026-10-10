@@ -1,4 +1,7 @@
-import type { CommonConnectionConfig, CommonOptions } from "@probitas/client";
+import type {
+  CommonConnectionConfig,
+  CommonOptions,
+} from "@probitas-test/client";
 import type {
   RabbitMqAckResult,
   RabbitMqConsumeResult,
@@ -68,13 +71,13 @@ export interface RabbitMqClientConfig extends CommonOptions {
    *
    * @example String URL
    * ```ts
-   * import type { RabbitMqClientConfig } from "@probitas/client-rabbitmq";
+   * import type { RabbitMqClientConfig } from "@probitas-test/client-rabbitmq";
    * const config: RabbitMqClientConfig = { url: "amqp://localhost:5672" };
    * ```
    *
    * @example With credentials
    * ```ts
-   * import type { RabbitMqClientConfig } from "@probitas/client-rabbitmq";
+   * import type { RabbitMqClientConfig } from "@probitas-test/client-rabbitmq";
    * const config: RabbitMqClientConfig = {
    *   url: "amqp://guest:guest@localhost:5672/%2F",
    * };
@@ -82,7 +85,7 @@ export interface RabbitMqClientConfig extends CommonOptions {
    *
    * @example Config object
    * ```ts
-   * import type { RabbitMqClientConfig } from "@probitas/client-rabbitmq";
+   * import type { RabbitMqClientConfig } from "@probitas-test/client-rabbitmq";
    * const config: RabbitMqClientConfig = {
    *   url: { port: 5672, username: "guest", password: "guest", vhost: "/" },
    * };

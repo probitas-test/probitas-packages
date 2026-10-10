@@ -4,6 +4,7 @@ import {
   type SqsSendBatchResultExpectation,
 } from "./send_batch.ts";
 import { mockSqsSendBatchResult } from "./_testutils.ts";
+import { test } from "@probitas-test/internal-testing";
 
 // Define expected methods with their test arguments
 // Using Record to ensure all interface methods are listed (compile-time check)
@@ -68,7 +69,7 @@ const EXPECTED_METHODS: Record<keyof SqsSendBatchResultExpectation, unknown[]> =
     toHaveDurationCloseTo: [100, 0],
   };
 
-Deno.test("expectSqsSendBatchResult - method existence check", () => {
+test("expectSqsSendBatchResult - method existence check", () => {
   const result = mockSqsSendBatchResult();
   const expectation = expectSqsSendBatchResult(result);
 
@@ -112,12 +113,12 @@ for (
     continue;
   }
 
-  Deno.test(`expectSqsSendBatchResult - ${methodName} - success`, () => {
+  test(`expectSqsSendBatchResult - ${methodName} - success`, () => {
     const result = mockSqsSendBatchResult();
     const expectation = expectSqsSendBatchResult(result);
 
     // Call the method with provided arguments
-    // deno-lint-ignore no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: values handed to user code are any (see .claude/rules/any-unknown.md)
     const method = expectation[methodName] as (...args: any[]) => any;
     const returnValue = method.call(expectation, ...args);
 
@@ -130,7 +131,7 @@ for (
   });
 }
 
-Deno.test("expectSqsSendBatchResult - not property - success", () => {
+test("expectSqsSendBatchResult - not property - success", () => {
   const result = mockSqsSendBatchResult({ ok: false });
   const expectation = expectSqsSendBatchResult(result);
 
@@ -138,7 +139,7 @@ Deno.test("expectSqsSendBatchResult - not property - success", () => {
   expectation.not.toBeOk();
 });
 
-Deno.test("expectSqsSendBatchResult - empty arrays - success", () => {
+test("expectSqsSendBatchResult - empty arrays - success", () => {
   const result = mockSqsSendBatchResult({
     successful: [],
     failed: [],
@@ -149,7 +150,7 @@ Deno.test("expectSqsSendBatchResult - empty arrays - success", () => {
   expectation.toHaveFailedEmpty();
 });
 
-Deno.test("expectSqsSendBatchResult - failed messages - success", () => {
+test("expectSqsSendBatchResult - failed messages - success", () => {
   const result = mockSqsSendBatchResult({
     successful: [],
     failed: [{
@@ -164,7 +165,7 @@ Deno.test("expectSqsSendBatchResult - failed messages - success", () => {
   expectation.not.toHaveFailedEmpty();
 });
 
-Deno.test("expectSqsSendBatchResult - chaining - success", () => {
+test("expectSqsSendBatchResult - chaining - success", () => {
   const result = mockSqsSendBatchResult();
   const expectation = expectSqsSendBatchResult(result);
 

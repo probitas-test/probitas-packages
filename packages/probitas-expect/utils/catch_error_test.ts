@@ -1,7 +1,8 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { catchError } from "./catch_error.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("catchError - catches Error object", () => {
+test("catchError - catches Error object", () => {
   const error = catchError(() => {
     throw new Error("test error");
   });
@@ -10,7 +11,7 @@ Deno.test("catchError - catches Error object", () => {
   assertEquals(error.message, "test error");
 });
 
-Deno.test("catchError - wraps non-Error values", () => {
+test("catchError - wraps non-Error values", () => {
   const error = catchError(() => {
     throw "string error";
   });
@@ -19,7 +20,7 @@ Deno.test("catchError - wraps non-Error values", () => {
   assertEquals(error.message, "string error");
 });
 
-Deno.test("catchError - throws when function does not throw", () => {
+test("catchError - throws when function does not throw", () => {
   assertThrows(
     () => catchError(() => {}),
     Error,

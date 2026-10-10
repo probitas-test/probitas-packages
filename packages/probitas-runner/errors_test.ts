@@ -1,8 +1,9 @@
 import { expect } from "@std/expect";
 import { delay } from "@std/async/delay";
 import { ScenarioTimeoutError, StepTimeoutError } from "./errors.ts";
+import { test } from "@probitas-test/internal-testing";
 
-Deno.test("ScenarioTimeoutError - constructor creates error with correct properties", () => {
+test("ScenarioTimeoutError - constructor creates error with correct properties", () => {
   const error = new ScenarioTimeoutError("test-scenario", 5000, 5100);
 
   expect(error.name).toBe("ScenarioTimeoutError");
@@ -16,7 +17,7 @@ Deno.test("ScenarioTimeoutError - constructor creates error with correct propert
   );
 });
 
-Deno.test("ScenarioTimeoutError - constructor with step information", () => {
+test("ScenarioTimeoutError - constructor with step information", () => {
   const error = new ScenarioTimeoutError("test-scenario", 5000, 5100, {
     currentStepName: "slow-step",
     currentStepIndex: 2,
@@ -29,7 +30,7 @@ Deno.test("ScenarioTimeoutError - constructor with step information", () => {
   );
 });
 
-Deno.test("ScenarioTimeoutError - constructor with only step name", () => {
+test("ScenarioTimeoutError - constructor with only step name", () => {
   const error = new ScenarioTimeoutError("test-scenario", 5000, 5000, {
     currentStepName: "slow-step",
   });
@@ -41,7 +42,7 @@ Deno.test("ScenarioTimeoutError - constructor with only step name", () => {
   );
 });
 
-Deno.test("ScenarioTimeoutError.timeoutSignal - creates signal that aborts after timeout", async () => {
+test("ScenarioTimeoutError.timeoutSignal - creates signal that aborts after timeout", async () => {
   using signal = ScenarioTimeoutError.timeoutSignal(50, {
     scenarioName: "test-scenario",
   });
@@ -60,7 +61,7 @@ Deno.test("ScenarioTimeoutError.timeoutSignal - creates signal that aborts after
   expect(error.elapsedMs).toBeLessThan(200);
 });
 
-Deno.test("ScenarioTimeoutError.timeoutSignal - cleanup via dispose", async () => {
+test("ScenarioTimeoutError.timeoutSignal - cleanup via dispose", async () => {
   const signal = ScenarioTimeoutError.timeoutSignal(1000, {
     scenarioName: "test-scenario",
   });
@@ -76,7 +77,7 @@ Deno.test("ScenarioTimeoutError.timeoutSignal - cleanup via dispose", async () =
   expect(signal.aborted).toBe(false);
 });
 
-Deno.test("ScenarioTimeoutError.timeoutSignal - cleanup via using declaration", async () => {
+test("ScenarioTimeoutError.timeoutSignal - cleanup via using declaration", async () => {
   {
     using signal = ScenarioTimeoutError.timeoutSignal(1000, {
       scenarioName: "test-scenario",
@@ -90,7 +91,7 @@ Deno.test("ScenarioTimeoutError.timeoutSignal - cleanup via using declaration", 
   // Timer should be cleaned up, no leak
 });
 
-Deno.test("StepTimeoutError - constructor creates error with correct properties", () => {
+test("StepTimeoutError - constructor creates error with correct properties", () => {
   const error = new StepTimeoutError("test-step", 3000, 2, 3200);
 
   expect(error.name).toBe("StepTimeoutError");
@@ -103,7 +104,7 @@ Deno.test("StepTimeoutError - constructor creates error with correct properties"
   );
 });
 
-Deno.test("StepTimeoutError - constructor for first attempt", () => {
+test("StepTimeoutError - constructor for first attempt", () => {
   const error = new StepTimeoutError("test-step", 3000, 1, 3000);
 
   expect(error.attemptNumber).toBe(1);
@@ -112,7 +113,7 @@ Deno.test("StepTimeoutError - constructor for first attempt", () => {
   );
 });
 
-Deno.test("StepTimeoutError.timeoutSignal - creates signal that aborts after timeout", async () => {
+test("StepTimeoutError.timeoutSignal - creates signal that aborts after timeout", async () => {
   using signal = StepTimeoutError.timeoutSignal(50, {
     stepName: "test-step",
     attemptNumber: 1,
@@ -133,7 +134,7 @@ Deno.test("StepTimeoutError.timeoutSignal - creates signal that aborts after tim
   expect(error.elapsedMs).toBeLessThan(200);
 });
 
-Deno.test("StepTimeoutError.timeoutSignal - cleanup via dispose", async () => {
+test("StepTimeoutError.timeoutSignal - cleanup via dispose", async () => {
   const signal = StepTimeoutError.timeoutSignal(1000, {
     stepName: "test-step",
     attemptNumber: 1,
@@ -150,7 +151,7 @@ Deno.test("StepTimeoutError.timeoutSignal - cleanup via dispose", async () => {
   expect(signal.aborted).toBe(false);
 });
 
-Deno.test("StepTimeoutError.timeoutSignal - measures elapsed time correctly", async () => {
+test("StepTimeoutError.timeoutSignal - measures elapsed time correctly", async () => {
   using signal = StepTimeoutError.timeoutSignal(50, {
     stepName: "test-step",
     attemptNumber: 1,

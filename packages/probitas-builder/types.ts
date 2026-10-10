@@ -1,4 +1,4 @@
-import type { StepContext, StepDefinition } from "@probitas/core";
+import type { StepContext, StepDefinition } from "@probitas-test/core";
 
 /**
  * Execution context provided to steps, resources, and setup hooks.
@@ -16,7 +16,7 @@ import type { StepContext, StepDefinition } from "@probitas/core";
  *
  * @example Accessing previous result
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * scenario("Chained Steps")
  *   .step("First", () => ({ id: 123 }))
@@ -28,7 +28,7 @@ import type { StepContext, StepDefinition } from "@probitas/core";
  *
  * @example Using shared store
  * ```ts
- * import { scenario } from "@probitas/builder";
+ * import { scenario } from "@probitas-test/builder";
  *
  * scenario("Store Example")
  *   .setup((ctx) => {
@@ -68,7 +68,7 @@ export type BuilderStepContext<
    *
    * Resources are typed based on their registration:
    * ```ts
-   * import { scenario } from "@probitas/builder";
+   * import { scenario } from "@probitas-test/builder";
    *
    * // Mock database connection for example
    * const createDbConnection = () => ({ query: (_sql: string) => [{ id: 1 }] });
@@ -95,7 +95,7 @@ export type BuilderStepContext<
  *
  * @example Sync step returning data
  * ```ts
- * import type { BuilderStepFunction } from "@probitas/builder";
+ * import type { BuilderStepFunction } from "@probitas-test/builder";
  *
  * const step: BuilderStepFunction<{ name: string }> = (_ctx) => {
  *   return { name: "Alice" };
@@ -104,7 +104,7 @@ export type BuilderStepContext<
  *
  * @example Async step with API call
  * ```ts
- * import type { BuilderStepFunction } from "@probitas/builder";
+ * import type { BuilderStepFunction } from "@probitas-test/builder";
  *
  * type User = { id: string; name: string };
  *

@@ -25,7 +25,7 @@
  *
  * @example Using ListReporter (default for CLI)
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
+ * import { ListReporter } from "@probitas-test/reporter";
  *
  * const reporter = new ListReporter();
  * void reporter;
@@ -42,7 +42,7 @@
  *
  * @example Using JSONReporter for programmatic analysis
  * ```ts
- * import { JSONReporter } from "@probitas/reporter";
+ * import { JSONReporter } from "@probitas-test/reporter";
  *
  * const reporter = new JSONReporter();
  * void reporter;
@@ -52,7 +52,7 @@
  *
  * @example Configuring reporter options
  * ```ts
- * import { ListReporter } from "@probitas/reporter";
+ * import { ListReporter } from "@probitas-test/reporter";
  *
  * const reporter = new ListReporter({
  *   output: Deno.stdout.writable,  // Write to stdout instead of stderr
