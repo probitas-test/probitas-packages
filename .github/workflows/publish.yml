@@ -22,8 +22,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # attach versions.json and edit the release notes
-  id-token: write # npm trusted publishing and JSR OIDC
+  contents: read
 
 concurrency:
   group: publish
@@ -33,6 +32,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: write # attach versions.json and edit the release notes
+      id-token: write # npm trusted publishing and JSR OIDC
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -43,13 +45,16 @@ jobs:
             echo "NOTES=$RUNNER_TEMP/notes.md"
           } >> "$GITHUB_ENV"
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # the plan compares against the previous release tag
+          persist-credentials: false
 
-      - uses: nixbuild/nix-quick-install-action@v34
-      - run: nix develop -c bun install --frozen-lockfile
-      - run: nix develop -c bun run check
+      - uses: nixbuild/nix-quick-install-action@v35
+      # Load the development shell (flake.nix) into the job.
+      - uses: nicknovitski/nix-develop@v1
+      - run: just install
+      - run: just typecheck
 
       - name: Decide what to publish
         id: mode
@@ -92,10 +97,10 @@ jobs:
             echo "Reusing the plan attached to $TAG"
             exit 0
           fi
-          nix develop -c bun scripts/release_plan.ts --tag "$TAG" --previous "$PREVIOUS" \
+          bun scripts/release_plan.ts --tag "$TAG" --previous "$PREVIOUS" \
             --out "$PLAN" --notes "$NOTES"
           if [ "$EVENT" = "release" ]; then
-            gh release upload "$TAG" "$PLAN"
+            gh release upload "$TAG" "$PLAN" --clobber
             gh release view "$TAG" --json body --jq .body > "$RUNNER_TEMP/body.md"
             printf '\n\n' >> "$RUNNER_TEMP/body.md"
             cat "$NOTES" >> "$RUNNER_TEMP/body.md"
@@ -104,17 +109,20 @@ jobs:
 
       - name: Apply versions
         if: steps.mode.outputs.dry-run != 'true'
+        env:
+          DIST_TAG: ${{ steps.mode.outputs.dist-tag }}
+          RUN_NUMBER: ${{ github.run_number }}
         run: |
-          if [ "${{ steps.mode.outputs.dist-tag }}" = "next" ]; then
-            nix develop -c bun scripts/apply_versions.ts --plan "$PLAN" --suffix "next.${{ github.run_number }}"
+          if [ "$DIST_TAG" = "next" ]; then
+            bun scripts/apply_versions.ts --plan "$PLAN" --suffix "next.$RUN_NUMBER"
           else
-            nix develop -c bun scripts/apply_versions.ts --plan "$PLAN"
+            bun scripts/apply_versions.ts --plan "$PLAN"
           fi
-          nix develop -c bun run build
-          nix develop -c bun run pack
-          nix develop -c bun run jsr:sync
+          bun run build
+          bun run pack
+          bun run jsr:sync
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         if: steps.mode.outputs.dry-run != 'true'
         with:
           node-version: 24
@@ -127,4 +135,6 @@ jobs:
 
       - name: Publish
         if: steps.mode.outputs.dry-run != 'true'
-        run: nix develop -c bun scripts/publish.ts --plan "$PLAN" --dist-tag "${{ steps.mode.outputs.dist-tag }}"
+        env:
+          DIST_TAG: ${{ steps.mode.outputs.dist-tag }}
+        run: bun scripts/publish.ts --plan "$PLAN" --dist-tag "$DIST_TAG"

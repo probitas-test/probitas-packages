@@ -12,7 +12,6 @@
     "lint": "biome lint .",
     "check": "tsc -p .",
     "test": "bun test --timeout 60000 ./internal ./packages ./scripts",
-    "verify": "dprint check && biome lint . && tsc -p . && bun test --timeout 60000 ./internal ./packages ./scripts",
     "build": "bun scripts/build.ts",
     "pack": "bun scripts/pack.ts",
     "jsr:sync": "bun scripts/sync_jsr.ts"

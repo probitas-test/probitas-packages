@@ -6,3 +6,7 @@ node_modules/
 dist/
 dist-pack/
 packages/*/LICENSE
+/.envrc
+.direnv/
+result
+/.claude/worktrees/
