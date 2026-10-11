@@ -37,6 +37,8 @@ jobs:
       id-token: write # npm trusted publishing and JSR OIDC
     env:
       GH_TOKEN: ${{ github.token }}
+    outputs:
+      packages: ${{ steps.published.outputs.packages }}
     steps:
       # The runner context is not available in job-level env.
       - run: |
@@ -138,3 +140,20 @@ jobs:
         env:
           DIST_TAG: ${{ steps.mode.outputs.dist-tag }}
         run: bun scripts/publish.ts --plan "$PLAN" --dist-tag "$DIST_TAG"
+
+      # The versions this release published, for the documentation site.
+      - name: List the published versions
+        id: published
+        if: steps.mode.outputs.dry-run != 'true' && steps.mode.outputs.dist-tag == 'latest'
+        run: |
+          packages=$(jq -c '[.packages[] | select(.to) | {key: .name, value: .to}] | from_entries' "$PLAN")
+          echo "packages=$packages" >> "$GITHUB_OUTPUT"
+          echo "Published: $packages"
+
+  update-api-docs:
+    needs: publish
+    if: needs.publish.outputs.packages != '' && needs.publish.outputs.packages != '{}'
+    uses: ./.github/workflows/update-api-docs.yml
+    with:
+      packages: ${{ needs.publish.outputs.packages }}
+    secrets: inherit

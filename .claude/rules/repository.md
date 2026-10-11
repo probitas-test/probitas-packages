@@ -61,7 +61,8 @@ placeholders, and versions are decided when releasing.
   every package depending on a released one. Versions start from the latest
   stable version on npm. The plan is attached to the Release as `versions.json`
   (re-runs reuse it) and summarized in the release notes; the packages go to npm
-  (`latest`) and JSR.
+  (`latest`) and JSR. The documentation site is then asked to regenerate its API
+  reference for the published versions (it opens a pull request there).
 - **Dry run**: a GitHub Release marked as a pre-release only computes and
   attaches the plan. Pre-releases never become the "latest" release.
 - **Prerelease**: running `publish.yml` manually publishes the planned versions
