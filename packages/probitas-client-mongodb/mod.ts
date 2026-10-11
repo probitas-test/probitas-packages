@@ -14,7 +14,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client-mongodb
+ * npm install @probitas-test/client-mongodb
  * ```
  *
  * ## Quick Start
@@ -97,11 +97,11 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
+ * | [`@probitas-test/client`](https://www.npmjs.com/package/@probitas-test/client) | Core utilities and types |
  *
  * ## Links
  *
- * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
+ * - [GitHub Repository](https://github.com/probitas-test/probitas-packages)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  * - [MongoDB](https://www.mongodb.com/)
  *

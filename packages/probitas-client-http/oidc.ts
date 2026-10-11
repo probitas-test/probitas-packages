@@ -17,7 +17,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client-http
+ * npm install @probitas-test/client-http
  * ```
  *
  * ## Quick Start
@@ -131,8 +131,8 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client-http`](https://jsr.io/@probitas/client-http) | Base HTTP client |
- * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
+ * | [`@probitas-test/client-http`](https://www.npmjs.com/package/@probitas-test/client-http) | Base HTTP client |
+ * | [`@probitas-test/client`](https://www.npmjs.com/package/@probitas-test/client) | Core utilities and types |
  *
  * ## Links
  *

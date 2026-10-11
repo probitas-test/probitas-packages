@@ -3,20 +3,19 @@
  *
  * This package provides multiple reporter implementations for formatting and
  * displaying test execution results. All reporters implement the {@linkcode Reporter}
- * interface from `@probitas/runner` and can be passed to `ScenarioRunner.run()`.
+ * interface from `@probitas-test/runner` and can be passed to `ScenarioRunner.run()`.
  *
  * ## Links
  *
  * - [GitHub Repository](https://github.com/probitas-test/probitas)
- * - [@probitas/probitas](https://jsr.io/@probitas/probitas) - Main package (recommended for most users)
+ * - [@probitas-test/probitas](https://www.npmjs.com/package/@probitas-test/probitas) - Main package (recommended for most users)
  *
  * ## Related Packages
  *
  * | Package | Description |
  * |---------|-------------|
- * | [@probitas/runner](https://jsr.io/@probitas/runner) | Uses reporters for output |
- * | [@probitas/cli](https://jsr.io/@probitas/cli) | CLI that uses these reporters |
- * | [@probitas/logger](https://jsr.io/@probitas/logger) | Logging used during execution |
+ * | [@probitas-test/runner](https://www.npmjs.com/package/@probitas-test/runner) | Uses reporters for output |
+ * | [probitas](https://github.com/probitas-test/probitas) | CLI that uses these reporters |
  *
  * ## Available Reporters
  *

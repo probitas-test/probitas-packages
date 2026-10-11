@@ -53,13 +53,13 @@ export interface LoadScenariosOptions {
  * @remarks
  * - Files must export a default value (single scenario or array)
  * - Import errors are logged and skipped (won't throw)
- * - Use with {@linkcode discoverScenarioFiles} from `@probitas/discover`
+ * - Use with {@linkcode discoverScenarioFiles} from `@probitas-test/discover`
  *
  * @example Loading discovered files
  * ```ts
  * import { loadScenarios } from "@probitas-test/core/loader";
  *
- * // Use with discoverScenarioFiles from @probitas/discover
+ * // Use with discoverScenarioFiles from @probitas-test/discover
  * const discoverScenarioFiles = async (_opts: {
  *   includes: string[];
  * }): Promise<string[]> => [];

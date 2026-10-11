@@ -15,7 +15,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client-graphql
+ * npm install @probitas-test/client-graphql
  * ```
  *
  * ## Quick Start
@@ -60,12 +60,12 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
- * | [`@probitas/client-http`](https://jsr.io/@probitas/client-http) | HTTP client |
+ * | [`@probitas-test/client`](https://www.npmjs.com/package/@probitas-test/client) | Core utilities and types |
+ * | [`@probitas-test/client-http`](https://www.npmjs.com/package/@probitas-test/client-http) | HTTP client |
  *
  * ## Links
  *
- * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
+ * - [GitHub Repository](https://github.com/probitas-test/probitas-packages)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  *
  * @module

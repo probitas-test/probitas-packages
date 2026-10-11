@@ -2,7 +2,7 @@
  * Core utilities and types for Probitas client libraries.
  *
  * This package provides shared types, error classes, and utilities used across
- * all [`@probitas/*`](https://jsr.io/@probitas) client packages.
+ * all `@probitas-test/client-*` packages.
  *
  * ## Features
  *
@@ -12,7 +12,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client
+ * npm install @probitas-test/client
  * ```
  *
  * ## Usage
@@ -45,22 +45,22 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client-http`](https://jsr.io/@probitas/client-http) | HTTP client |
- * | [`@probitas/client-graphql`](https://jsr.io/@probitas/client-graphql) | GraphQL client |
- * | [`@probitas/client-grpc`](https://jsr.io/@probitas/client-grpc) | gRPC client |
- * | [`@probitas/client-connectrpc`](https://jsr.io/@probitas/client-connectrpc) | ConnectRPC client |
- * | [`@probitas/client-sql-postgres`](https://jsr.io/@probitas/client-sql-postgres) | PostgreSQL client |
- * | [`@probitas/client-sql-mysql`](https://jsr.io/@probitas/client-sql-mysql) | MySQL client |
- * | [`@probitas/client-sql-sqlite`](https://jsr.io/@probitas/client-sql-sqlite) | SQLite client |
- * | [`@probitas/client-sql-duckdb`](https://jsr.io/@probitas/client-sql-duckdb) | DuckDB client |
- * | [`@probitas/client-redis`](https://jsr.io/@probitas/client-redis) | Redis client |
- * | [`@probitas/client-mongodb`](https://jsr.io/@probitas/client-mongodb) | MongoDB client |
- * | [`@probitas/client-rabbitmq`](https://jsr.io/@probitas/client-rabbitmq) | RabbitMQ client |
- * | [`@probitas/client-sqs`](https://jsr.io/@probitas/client-sqs) | AWS SQS client |
+ * | [`@probitas-test/client-http`](https://www.npmjs.com/package/@probitas-test/client-http) | HTTP client |
+ * | [`@probitas-test/client-graphql`](https://www.npmjs.com/package/@probitas-test/client-graphql) | GraphQL client |
+ * | [`@probitas-test/client-grpc`](https://www.npmjs.com/package/@probitas-test/client-grpc) | gRPC client |
+ * | [`@probitas-test/client-connectrpc`](https://www.npmjs.com/package/@probitas-test/client-connectrpc) | ConnectRPC client |
+ * | [`@probitas-test/client-sql-postgres`](https://www.npmjs.com/package/@probitas-test/client-sql-postgres) | PostgreSQL client |
+ * | [`@probitas-test/client-sql-mysql`](https://www.npmjs.com/package/@probitas-test/client-sql-mysql) | MySQL client |
+ * | [`@probitas-test/client-sql-sqlite`](https://www.npmjs.com/package/@probitas-test/client-sql-sqlite) | SQLite client |
+ * | [`@probitas-test/client-sql-duckdb`](https://www.npmjs.com/package/@probitas-test/client-sql-duckdb) | DuckDB client |
+ * | [`@probitas-test/client-redis`](https://www.npmjs.com/package/@probitas-test/client-redis) | Redis client |
+ * | [`@probitas-test/client-mongodb`](https://www.npmjs.com/package/@probitas-test/client-mongodb) | MongoDB client |
+ * | [`@probitas-test/client-rabbitmq`](https://www.npmjs.com/package/@probitas-test/client-rabbitmq) | RabbitMQ client |
+ * | [`@probitas-test/client-sqs`](https://www.npmjs.com/package/@probitas-test/client-sqs) | AWS SQS client |
  *
  * ## Links
  *
- * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
+ * - [GitHub Repository](https://github.com/probitas-test/probitas-packages)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  *
  * @module

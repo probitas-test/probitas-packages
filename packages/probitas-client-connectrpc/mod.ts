@@ -16,7 +16,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client-connectrpc
+ * npm install @probitas-test/client-connectrpc
  * ```
  *
  * ## Quick Start
@@ -85,12 +85,12 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
- * | [`@probitas/client-grpc`](https://jsr.io/@probitas/client-grpc) | gRPC client (wrapper with `protocol: "grpc"`) |
+ * | [`@probitas-test/client`](https://www.npmjs.com/package/@probitas-test/client) | Core utilities and types |
+ * | [`@probitas-test/client-grpc`](https://www.npmjs.com/package/@probitas-test/client-grpc) | gRPC client (wrapper with `protocol: "grpc"`) |
  *
  * ## Links
  *
- * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
+ * - [GitHub Repository](https://github.com/probitas-test/probitas-packages)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  * - [ConnectRPC](https://connectrpc.com/)
  *

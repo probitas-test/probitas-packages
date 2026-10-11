@@ -14,7 +14,7 @@
  * ## Installation
  *
  * ```bash
- * deno add jsr:@probitas/client-rabbitmq
+ * npm install @probitas-test/client-rabbitmq
  * ```
  *
  * ## Quick Start
@@ -101,12 +101,12 @@
  *
  * | Package | Description |
  * |---------|-------------|
- * | [`@probitas/client`](https://jsr.io/@probitas/client) | Core utilities and types |
- * | [`@probitas/client-sqs`](https://jsr.io/@probitas/client-sqs) | AWS SQS client |
+ * | [`@probitas-test/client`](https://www.npmjs.com/package/@probitas-test/client) | Core utilities and types |
+ * | [`@probitas-test/client-sqs`](https://www.npmjs.com/package/@probitas-test/client-sqs) | AWS SQS client |
  *
  * ## Links
  *
- * - [GitHub Repository](https://github.com/probitas-test/probitas-client)
+ * - [GitHub Repository](https://github.com/probitas-test/probitas-packages)
  * - [Probitas Framework](https://github.com/probitas-test/probitas)
  * - [RabbitMQ](https://www.rabbitmq.com/)
  *
