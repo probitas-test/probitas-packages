@@ -151,11 +151,11 @@ This repository uses Conventional Commits:
 
 ```bash
 # Single package
-feat(@probitas/builder): add retry option to step execution
-fix(@probitas/client-http): handle connection pooling correctly
+feat(builder): add retry option to step execution
+fix(client-http): handle connection pooling correctly
 
 # Multiple packages
-fix(@probitas/runner,@probitas/core): fix shared type definitions
+fix(runner,core): fix shared type definitions
 
 # All packages
 docs(*): update copyright headers
@@ -163,7 +163,8 @@ docs(*): update copyright headers
 
 **Important**:
 
-- Scopes must use full package names (e.g., `@probitas/expect`)
+- Scopes are package names without the registry scope (e.g., `expect`,
+  `client-http`)
 - `feat:` → minor bump, `fix:`/`docs:`/`refactor:` → patch bump
 - `BREAKING:` → major bump (except for `/unstable` scopes, always patch)
 - Run `bun run verify` before committing

@@ -16,33 +16,34 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/).
 Release versions are derived from them (see [Releases](#releases)), so the type
 matters:
 
-| Commit                                                        | Release level | Example                                             |
-| ------------------------------------------------------------- | ------------- | --------------------------------------------------- |
-| `feat:`                                                       | minor         | `feat(@probitas/builder): add retry option`         |
-| `fix:`, `perf:`, `docs:`, `refactor:`, `test:`, `chore:`, ... | patch         | `fix(@probitas/runner): handle timeout errors`      |
-| `!` suffix, `BREAKING CHANGE:` footer, or `BREAKING(...)`     | major         | `feat(@probitas/runner)!: change API signature`     |
-| Any type with a `/unstable` scope                             | patch         | `feat(@probitas/runner/unstable): experimental API` |
+| Commit                                                        | Release level | Example                                   |
+| ------------------------------------------------------------- | ------------- | ----------------------------------------- |
+| `feat:`                                                       | minor         | `feat(builder): add retry option`         |
+| `fix:`, `perf:`, `docs:`, `refactor:`, `test:`, `chore:`, ... | patch         | `fix(runner): handle timeout errors`      |
+| `!` suffix, `BREAKING CHANGE:` footer, or `BREAKING(...)`     | major         | `feat(runner)!: change API signature`     |
+| Any type with a `/unstable` scope                             | patch         | `feat(runner/unstable): experimental API` |
 
 While a package is 0.x, major and minor both bump its minor version.
 
 ### Scope Convention
 
-Use full package name with `@probitas/` prefix as scope (e.g.,
-`@probitas/expect`, `@probitas/client-http`). **Scopes are required**.
+Use the package name without its registry scope (`@probitas-test/` on npm,
+`@probitas/` on JSR) as scope, e.g. `expect`, `client-http`. **Scopes are
+required**.
 
 ```bash
 # Single package
-feat(@probitas/builder): add retry option to step execution
-fix(@probitas/client-http): handle connection pooling correctly
+feat(builder): add retry option to step execution
+fix(client-http): handle connection pooling correctly
 
 # Multiple packages (comma-separated)
-fix(@probitas/runner,@probitas/core): fix shared type definitions
+fix(runner,core): fix shared type definitions
 
 # All packages (wildcard)
 docs(*): update copyright headers
 
 # Unstable API (always patch, even for BREAKING)
-feat(@probitas/runner/unstable): experimental parallel execution
+feat(runner/unstable): experimental parallel execution
 ```
 
 Scopes describe the change for readers; which packages a release bumps is
