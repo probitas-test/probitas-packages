@@ -7,18 +7,28 @@ on:
   pull_request:
   workflow_dispatch:
 
+# A pull request only needs its latest commit checked. A run on main waits
+# for the one before it instead of cancelling it, so each one finishes.
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: nixbuild/nix-quick-install-action@v34
-      - run: nix develop -c bun install --frozen-lockfile
-      - run: nix develop -c bun run fmt:check
-      - run: nix develop -c bun run lint
-      - run: nix develop -c bun run check
-      - run: nix develop -c bun scripts/sync_jsr.ts --check
-      - run: nix develop -c bun run build
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: nixbuild/nix-quick-install-action@v35
+      # Load the development shell (flake.nix) into the job.
+      - uses: nicknovitski/nix-develop@v1
+      # The same gate as local development (justfile). Integration tests skip
+      # here; the test job runs them against the services.
+      - run: just ci
 
   test:
     runs-on: ubuntu-latest
@@ -104,19 +114,23 @@ jobs:
       # - GitHub Actions services don't support custom command options
       # - Transactions require replica set mode (--replSet flag)
       # - supercharge/mongodb-github-action handles replica set initialization
-      - uses: supercharge/mongodb-github-action@1.12.0
+      - uses: supercharge/mongodb-github-action@1.12.1
         with:
           mongodb-version: "7.0"
           mongodb-replica-set: rs0
-      - uses: actions/checkout@v6
-      - uses: nixbuild/nix-quick-install-action@v34
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: nixbuild/nix-quick-install-action@v35
+      # Load the development shell (flake.nix) into the job.
+      - uses: nicknovitski/nix-develop@v1
 
-      - run: nix develop -c bun install --frozen-lockfile
+      - run: just install
 
-      - run: nix develop -c bun run test --coverage --coverage-reporter=lcov --coverage-dir=.coverage
+      - run: just coverage
         timeout-minutes: 5
 
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           files: ./.coverage/lcov.info
           slug: probitas-test/probitas-packages
