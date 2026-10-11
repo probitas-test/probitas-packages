@@ -13,23 +13,24 @@ probitas-packages/
 ├── package.json                  # Bun workspace root (scripts, dev tools)
 ├── internal/testing/             # Private test helpers (bun:test adapter)
 ├── packages/
-│   ├── probitas-builder/         # @probitas/builder - Type-safe scenario definition
-│   ├── probitas-runner/          # @probitas/runner - Scenario execution engine
-│   ├── probitas-reporter/        # @probitas/reporter - Output formatters
-│   ├── probitas-core/            # @probitas/core - Scenario loading/filtering
-│   ├── probitas-discover/        # @probitas/discover - File discovery
-│   ├── probitas-expect/          # @probitas/expect - Expectation library
-│   ├── probitas-client/          # @probitas/client - Core client library
-│   ├── probitas-client-http/     # @probitas/client-http - HTTP client
-│   ├── probitas-client-grpc/     # @probitas/client-grpc - gRPC client
-│   ├── probitas-client-sql/      # @probitas/client-sql - SQL client base
+│   ├── probitas-builder/         # @probitas-test/builder - Type-safe scenario definition
+│   ├── probitas-runner/          # @probitas-test/runner - Scenario execution engine
+│   ├── probitas-reporter/        # @probitas-test/reporter - Output formatters
+│   ├── probitas-core/            # @probitas-test/core - Scenario loading/filtering
+│   ├── probitas-discover/        # @probitas-test/discover - File discovery
+│   ├── probitas-expect/          # @probitas-test/expect - Expectation library
+│   ├── probitas-client/          # @probitas-test/client - Core client library
+│   ├── probitas-client-http/     # @probitas-test/client-http - HTTP client
+│   ├── probitas-client-grpc/     # @probitas-test/client-grpc - gRPC client
+│   ├── probitas-client-sql/      # @probitas-test/client-sql - SQL client base
 │   ├── probitas-client-sql-postgres/
 │   ├── probitas-client-sql-mysql/
 │   └── ... (redis, mongodb, rabbitmq, sqs, etc.)
 ```
 
-Note: `@probitas/probitas` (the user-facing entry point and CLI) is maintained
-in the [probitas repository](https://github.com/probitas-test/probitas).
+Note: `@probitas-test/probitas` (the user-facing entry point and CLI) is
+maintained in the
+[probitas repository](https://github.com/probitas-test/probitas).
 
 ## Package Hierarchy
 

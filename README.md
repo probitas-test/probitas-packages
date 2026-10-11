@@ -20,46 +20,46 @@ etc.) under a unified workspace for streamlined development and testing.
   for uniform error handling
 - **Resource Management**: AsyncDisposable-aware clients for automatic cleanup
   in scenarios
-- **Built for Bun**: Published on npm under `@probitas-test/*` and on JSR under
-  `@probitas/*`
+- **Built for Bun**: Published on npm under `@probitas-test/*`, with a JSR
+  mirror under `@probitas/*`
 
 ## Packages
 
 ### Framework Packages
 
-| Package                                            | JSR                                                                                   | Description                       |
-| -------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------- |
-| [@probitas/builder](./packages/probitas-builder)   | [![JSR](https://jsr.io/badges/@probitas/builder)](https://jsr.io/@probitas/builder)   | Type-safe scenario definition API |
-| [@probitas/runner](./packages/probitas-runner)     | [![JSR](https://jsr.io/badges/@probitas/runner)](https://jsr.io/@probitas/runner)     | Scenario execution engine         |
-| [@probitas/reporter](./packages/probitas-reporter) | [![JSR](https://jsr.io/badges/@probitas/reporter)](https://jsr.io/@probitas/reporter) | Output formatters (List, JSON)    |
-| [@probitas/core](./packages/probitas-core)         | [![JSR](https://jsr.io/badges/@probitas/core)](https://jsr.io/@probitas/core)         | Scenario loading and filtering    |
-| [@probitas/discover](./packages/probitas-discover) | [![JSR](https://jsr.io/badges/@probitas/discover)](https://jsr.io/@probitas/discover) | File discovery with glob patterns |
-| [@probitas/expect](./packages/probitas-expect)     | [![JSR](https://jsr.io/badges/@probitas/expect)](https://jsr.io/@probitas/expect)     | Expectation library               |
+| Package                                                 | npm                                                                                                                   | JSR                                                                                   | Description                       |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------- |
+| [@probitas-test/builder](./packages/probitas-builder)   | [![npm](https://img.shields.io/npm/v/@probitas-test/builder)](https://www.npmjs.com/package/@probitas-test/builder)   | [![JSR](https://jsr.io/badges/@probitas/builder)](https://jsr.io/@probitas/builder)   | Type-safe scenario definition API |
+| [@probitas-test/runner](./packages/probitas-runner)     | [![npm](https://img.shields.io/npm/v/@probitas-test/runner)](https://www.npmjs.com/package/@probitas-test/runner)     | [![JSR](https://jsr.io/badges/@probitas/runner)](https://jsr.io/@probitas/runner)     | Scenario execution engine         |
+| [@probitas-test/reporter](./packages/probitas-reporter) | [![npm](https://img.shields.io/npm/v/@probitas-test/reporter)](https://www.npmjs.com/package/@probitas-test/reporter) | [![JSR](https://jsr.io/badges/@probitas/reporter)](https://jsr.io/@probitas/reporter) | Output formatters (List, JSON)    |
+| [@probitas-test/core](./packages/probitas-core)         | [![npm](https://img.shields.io/npm/v/@probitas-test/core)](https://www.npmjs.com/package/@probitas-test/core)         | [![JSR](https://jsr.io/badges/@probitas/core)](https://jsr.io/@probitas/core)         | Scenario loading and filtering    |
+| [@probitas-test/discover](./packages/probitas-discover) | [![npm](https://img.shields.io/npm/v/@probitas-test/discover)](https://www.npmjs.com/package/@probitas-test/discover) | [![JSR](https://jsr.io/badges/@probitas/discover)](https://jsr.io/@probitas/discover) | File discovery with glob patterns |
+| [@probitas-test/expect](./packages/probitas-expect)     | [![npm](https://img.shields.io/npm/v/@probitas-test/expect)](https://www.npmjs.com/package/@probitas-test/expect)     | [![JSR](https://jsr.io/badges/@probitas/expect)](https://jsr.io/@probitas/expect)     | Expectation library               |
 
 ### Client Packages
 
-| Package                                                                  | JSR                                                                                                         | Description                                                        |
-| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [@probitas/client](./packages/probitas-client)                           | [![JSR](https://jsr.io/badges/@probitas/client)](https://jsr.io/@probitas/client)                           | Core options and error base types shared by all clients            |
-| [@probitas/client-http](./packages/probitas-client-http)                 | [![JSR](https://jsr.io/badges/@probitas/client-http)](https://jsr.io/@probitas/client-http)                 | HTTP client with buffered responses and cookie support             |
-| [@probitas/client-connectrpc](./packages/probitas-client-connectrpc)     | [![JSR](https://jsr.io/badges/@probitas/client-connectrpc)](https://jsr.io/@probitas/client-connectrpc)     | ConnectRPC client supporting Connect, gRPC, and gRPC-Web protocols |
-| [@probitas/client-grpc](./packages/probitas-client-grpc)                 | [![JSR](https://jsr.io/badges/@probitas/client-grpc)](https://jsr.io/@probitas/client-grpc)                 | gRPC client (thin wrapper over client-connectrpc)                  |
-| [@probitas/client-graphql](./packages/probitas-client-graphql)           | [![JSR](https://jsr.io/badges/@probitas/client-graphql)](https://jsr.io/@probitas/client-graphql)           | GraphQL client with data/error helpers                             |
-| [@probitas/client-sql](./packages/probitas-client-sql)                   | [![JSR](https://jsr.io/badges/@probitas/client-sql)](https://jsr.io/@probitas/client-sql)                   | Shared SQL result/transaction types                                |
-| [@probitas/client-sql-postgres](./packages/probitas-client-sql-postgres) | [![JSR](https://jsr.io/badges/@probitas/client-sql-postgres)](https://jsr.io/@probitas/client-sql-postgres) | PostgreSQL client built on the shared SQL types                    |
-| [@probitas/client-sql-mysql](./packages/probitas-client-sql-mysql)       | [![JSR](https://jsr.io/badges/@probitas/client-sql-mysql)](https://jsr.io/@probitas/client-sql-mysql)       | MySQL client built on the shared SQL types                         |
-| [@probitas/client-sql-sqlite](./packages/probitas-client-sql-sqlite)     | [![JSR](https://jsr.io/badges/@probitas/client-sql-sqlite)](https://jsr.io/@probitas/client-sql-sqlite)     | SQLite client built on the shared SQL types                        |
-| [@probitas/client-sql-duckdb](./packages/probitas-client-sql-duckdb)     | [![JSR](https://jsr.io/badges/@probitas/client-sql-duckdb)](https://jsr.io/@probitas/client-sql-duckdb)     | DuckDB client built on the shared SQL types                        |
-| [@probitas/client-mongodb](./packages/probitas-client-mongodb)           | [![JSR](https://jsr.io/badges/@probitas/client-mongodb)](https://jsr.io/@probitas/client-mongodb)           | MongoDB client with session/transaction helpers                    |
-| [@probitas/client-redis](./packages/probitas-client-redis)               | [![JSR](https://jsr.io/badges/@probitas/client-redis)](https://jsr.io/@probitas/client-redis)               | Redis client for command execution                                 |
-| [@probitas/client-sqs](./packages/probitas-client-sqs)                   | [![JSR](https://jsr.io/badges/@probitas/client-sqs)](https://jsr.io/@probitas/client-sqs)                   | SQS client targeting ElasticMQ for integration testing             |
-| [@probitas/client-rabbitmq](./packages/probitas-client-rabbitmq)         | [![JSR](https://jsr.io/badges/@probitas/client-rabbitmq)](https://jsr.io/@probitas/client-rabbitmq)         | RabbitMQ client with channel lifecycle management                  |
+| Package                                                                       | npm                                                                                                                                         | JSR                                                                                                         | Description                                                        |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [@probitas-test/client](./packages/probitas-client)                           | [![npm](https://img.shields.io/npm/v/@probitas-test/client)](https://www.npmjs.com/package/@probitas-test/client)                           | [![JSR](https://jsr.io/badges/@probitas/client)](https://jsr.io/@probitas/client)                           | Core options and error base types shared by all clients            |
+| [@probitas-test/client-http](./packages/probitas-client-http)                 | [![npm](https://img.shields.io/npm/v/@probitas-test/client-http)](https://www.npmjs.com/package/@probitas-test/client-http)                 | [![JSR](https://jsr.io/badges/@probitas/client-http)](https://jsr.io/@probitas/client-http)                 | HTTP client with buffered responses and cookie support             |
+| [@probitas-test/client-connectrpc](./packages/probitas-client-connectrpc)     | [![npm](https://img.shields.io/npm/v/@probitas-test/client-connectrpc)](https://www.npmjs.com/package/@probitas-test/client-connectrpc)     | [![JSR](https://jsr.io/badges/@probitas/client-connectrpc)](https://jsr.io/@probitas/client-connectrpc)     | ConnectRPC client supporting Connect, gRPC, and gRPC-Web protocols |
+| [@probitas-test/client-grpc](./packages/probitas-client-grpc)                 | [![npm](https://img.shields.io/npm/v/@probitas-test/client-grpc)](https://www.npmjs.com/package/@probitas-test/client-grpc)                 | [![JSR](https://jsr.io/badges/@probitas/client-grpc)](https://jsr.io/@probitas/client-grpc)                 | gRPC client (thin wrapper over client-connectrpc)                  |
+| [@probitas-test/client-graphql](./packages/probitas-client-graphql)           | [![npm](https://img.shields.io/npm/v/@probitas-test/client-graphql)](https://www.npmjs.com/package/@probitas-test/client-graphql)           | [![JSR](https://jsr.io/badges/@probitas/client-graphql)](https://jsr.io/@probitas/client-graphql)           | GraphQL client with data/error helpers                             |
+| [@probitas-test/client-sql](./packages/probitas-client-sql)                   | [![npm](https://img.shields.io/npm/v/@probitas-test/client-sql)](https://www.npmjs.com/package/@probitas-test/client-sql)                   | [![JSR](https://jsr.io/badges/@probitas/client-sql)](https://jsr.io/@probitas/client-sql)                   | Shared SQL result/transaction types                                |
+| [@probitas-test/client-sql-postgres](./packages/probitas-client-sql-postgres) | [![npm](https://img.shields.io/npm/v/@probitas-test/client-sql-postgres)](https://www.npmjs.com/package/@probitas-test/client-sql-postgres) | [![JSR](https://jsr.io/badges/@probitas/client-sql-postgres)](https://jsr.io/@probitas/client-sql-postgres) | PostgreSQL client built on the shared SQL types                    |
+| [@probitas-test/client-sql-mysql](./packages/probitas-client-sql-mysql)       | [![npm](https://img.shields.io/npm/v/@probitas-test/client-sql-mysql)](https://www.npmjs.com/package/@probitas-test/client-sql-mysql)       | [![JSR](https://jsr.io/badges/@probitas/client-sql-mysql)](https://jsr.io/@probitas/client-sql-mysql)       | MySQL client built on the shared SQL types                         |
+| [@probitas-test/client-sql-sqlite](./packages/probitas-client-sql-sqlite)     | [![npm](https://img.shields.io/npm/v/@probitas-test/client-sql-sqlite)](https://www.npmjs.com/package/@probitas-test/client-sql-sqlite)     | [![JSR](https://jsr.io/badges/@probitas/client-sql-sqlite)](https://jsr.io/@probitas/client-sql-sqlite)     | SQLite client built on the shared SQL types                        |
+| [@probitas-test/client-sql-duckdb](./packages/probitas-client-sql-duckdb)     | [![npm](https://img.shields.io/npm/v/@probitas-test/client-sql-duckdb)](https://www.npmjs.com/package/@probitas-test/client-sql-duckdb)     | [![JSR](https://jsr.io/badges/@probitas/client-sql-duckdb)](https://jsr.io/@probitas/client-sql-duckdb)     | DuckDB client built on the shared SQL types                        |
+| [@probitas-test/client-mongodb](./packages/probitas-client-mongodb)           | [![npm](https://img.shields.io/npm/v/@probitas-test/client-mongodb)](https://www.npmjs.com/package/@probitas-test/client-mongodb)           | [![JSR](https://jsr.io/badges/@probitas/client-mongodb)](https://jsr.io/@probitas/client-mongodb)           | MongoDB client with session/transaction helpers                    |
+| [@probitas-test/client-redis](./packages/probitas-client-redis)               | [![npm](https://img.shields.io/npm/v/@probitas-test/client-redis)](https://www.npmjs.com/package/@probitas-test/client-redis)               | [![JSR](https://jsr.io/badges/@probitas/client-redis)](https://jsr.io/@probitas/client-redis)               | Redis client for command execution                                 |
+| [@probitas-test/client-sqs](./packages/probitas-client-sqs)                   | [![npm](https://img.shields.io/npm/v/@probitas-test/client-sqs)](https://www.npmjs.com/package/@probitas-test/client-sqs)                   | [![JSR](https://jsr.io/badges/@probitas/client-sqs)](https://jsr.io/@probitas/client-sqs)                   | SQS client targeting ElasticMQ for integration testing             |
+| [@probitas-test/client-rabbitmq](./packages/probitas-client-rabbitmq)         | [![npm](https://img.shields.io/npm/v/@probitas-test/client-rabbitmq)](https://www.npmjs.com/package/@probitas-test/client-rabbitmq)         | [![JSR](https://jsr.io/badges/@probitas/client-rabbitmq)](https://jsr.io/@probitas/client-rabbitmq)         | RabbitMQ client with channel lifecycle management                  |
 
 ## Quick Start
 
 This repository is intended for contributors developing the Probitas framework
 itself. For using Probitas in your projects, refer to
-[@probitas/probitas](https://github.com/probitas-test/probitas) - the main
+[@probitas-test/probitas](https://github.com/probitas-test/probitas) - the main
 framework package with unified API for writing scenarios.
 
 ## Development
@@ -123,23 +123,23 @@ bun run test --coverage
 
 ### Framework Layers
 
-1. **Discovery** (`@probitas/discover`) - File pattern matching and scenario
-   discovery
-2. **Core** (`@probitas/core`) - Scenario loading, filtering, and type
+1. **Discovery** (`@probitas-test/discover`) - File pattern matching and
+   scenario discovery
+2. **Core** (`@probitas-test/core`) - Scenario loading, filtering, and type
    definitions
-3. **Builder** (`@probitas/builder`) - Fluent API for defining scenarios with
-   type-safe step chaining
-4. **Runner** (`@probitas/runner`) - Execution engine with concurrency control,
-   retries, and resource lifecycle
-5. **Reporter** (`@probitas/reporter`) - Output formatting (List, JSON)
-6. **Expect** (`@probitas/expect`) - Protocol-specific expectation matchers
+3. **Builder** (`@probitas-test/builder`) - Fluent API for defining scenarios
+   with type-safe step chaining
+4. **Runner** (`@probitas-test/runner`) - Execution engine with concurrency
+   control, retries, and resource lifecycle
+5. **Reporter** (`@probitas-test/reporter`) - Output formatting (List, JSON)
+6. **Expect** (`@probitas-test/expect`) - Protocol-specific expectation matchers
 
 ### Client Design Principles
 
 - **Minimal Dependencies**: Client packages avoid depending on framework
   packages to prevent circular dependencies
 - **Shared Error Model**: All clients extend `ClientError` from
-  `@probitas/client` with typed `kind` discriminators
+  `@probitas-test/client` with typed `kind` discriminators
 - **Resource Lifecycle**: Clients implement `AsyncDisposable` for automatic
   cleanup in scenario resources
 - **Protocol Consistency**: Similar operations (queries, commands) share API
@@ -173,7 +173,7 @@ contribution guidelines.
 
 ## Related Repositories
 
-- [@probitas/probitas](https://github.com/probitas-test/probitas) - Main
+- [@probitas-test/probitas](https://github.com/probitas-test/probitas) - Main
   framework package with unified API
 
 ## License
