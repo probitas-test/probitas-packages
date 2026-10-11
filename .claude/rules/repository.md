@@ -7,7 +7,7 @@ Project-specific rules for the Probitas Packages monorepo.
 BEFORE reporting task completion, run and ensure zero errors/warnings:
 
 ```bash
-bun run verify
+just ci
 ```
 
 ## Commit Conventions

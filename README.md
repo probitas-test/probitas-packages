@@ -66,7 +66,8 @@ framework package with unified API for writing scenarios.
 
 ### Prerequisites
 
-- Bun 1.4+ (or use Nix: `nix develop`)
+- Nix (`nix develop`, or copy `.envrc.sample` to `.envrc` for direnv), which
+  provides Bun 1.4+ and just
 - Docker Compose (for integration testing services)
 
 ### Setup
@@ -76,11 +77,11 @@ framework package with unified API for writing scenarios.
 git clone https://github.com/probitas-test/probitas-packages.git
 cd probitas-packages
 
-# Enter development environment (optional, using Nix)
+# Enter the development environment
 nix develop
 
 # Install dependencies
-bun install
+just install
 
 # Start integration test services
 docker compose up -d
@@ -89,17 +90,17 @@ docker compose up -d
 ### Tasks
 
 ```bash
-# Run all checks and tests (recommended before committing)
-bun run verify
+# Run everything CI checks (recommended before committing)
+just ci
 
 # Individual tasks
-bun run fmt           # Format code (dprint)
-bun run lint          # Lint code (Biome)
-bun run check         # Type check (tsc)
-bun run test          # Run tests
+just fmt              # Format code (dprint, nixfmt)
+just lint             # Lint code (Biome)
+just typecheck        # Type check (tsc)
+just test             # Run tests
 
-# Coverage
-bun run test --coverage
+# Coverage (lcov report in .coverage/)
+just coverage
 ```
 
 ### Integration Services
@@ -167,7 +168,7 @@ docs(*): update copyright headers
   `client-http`)
 - `feat:` → minor bump, `fix:`/`docs:`/`refactor:` → patch bump
 - `BREAKING:` → major bump (except for `/unstable` scopes, always patch)
-- Run `bun run verify` before committing
+- Run `just ci` before committing
 
 See [`.claude/rules/repository.md`](./.claude/rules/repository.md) for detailed
 contribution guidelines.
