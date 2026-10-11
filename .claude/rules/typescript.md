@@ -114,10 +114,10 @@ clearer in import paths:
 
 ```ts
 // Good
-import { expectMongoResult } from "@probitas/expect/mongodb";
+import { expectMongoResult } from "@probitas-test/expect/mongodb";
 
 // Avoid
-import { expectMongoResult } from "@probitas/expect/mongodb/mod";
+import { expectMongoResult } from "@probitas-test/expect/mongodb/mod";
 ```
 
 ## Package Config (package.json)

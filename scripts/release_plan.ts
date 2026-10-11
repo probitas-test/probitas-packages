@@ -53,6 +53,8 @@ function maxLevel(
  * With `pkg` (the package name without its npm/JSR scope), a commit whose
  * scope names only other packages is a patch for `pkg`: it touched the
  * package in passing (a cross-reference, a shared rename), not its API.
+ * Scopes are bare package names; older commits prefix them with a registry
+ * scope (`@probitas/runner`), which is ignored.
  */
 function classifyCommit(message: string, pkg?: string): Level | undefined {
   const [subject = ""] = message.split("\n", 1);

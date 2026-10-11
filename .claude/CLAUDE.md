@@ -6,8 +6,8 @@ Monorepo for Probitas scenario-based testing framework and client libraries.
 
 - **Runtime**: Bun 1.4+ (pinned in `flake.nix`)
 - **Registries**: npm (`@probitas-test/*`) and JSR (`@probitas/*`)
-- **Framework Entry Point**: `@probitas/probitas` (user-facing API)
-- **Client Packages**: `@probitas/client-*` (HTTP, gRPC, SQL, etc.)
+- **Framework Entry Point**: `@probitas-test/probitas` (user-facing API)
+- **Client Packages**: `@probitas-test/client-*` (HTTP, gRPC, SQL, etc.)
 
 ## Repository Structure
 
@@ -18,7 +18,7 @@ This monorepo combines:
 - **Client Libraries**: HTTP, gRPC, SQL (PostgreSQL, MySQL), Redis, MongoDB,
   etc.
 
-Note: `@probitas/probitas` (Entrypoint, CLI) is maintained separately.
+Note: `@probitas-test/probitas` (Entrypoint, CLI) is maintained separately.
 
 ## Commands
 

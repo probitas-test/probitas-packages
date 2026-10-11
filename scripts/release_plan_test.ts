@@ -7,9 +7,9 @@ const { classifyCommit, bumpVersion, cascadeLevels, latestStable, chooseBase } =
 
 test("classifyCommit", async (t) => {
   await t.step("feat is minor, other conventional types are patch", () => {
-    assertEquals(classifyCommit("feat(@probitas/runner): add retry"), "minor");
+    assertEquals(classifyCommit("feat(runner): add retry"), "minor");
     assertEquals(
-      classifyCommit("fix(@probitas/runner): handle timeout"),
+      classifyCommit("fix(runner): handle timeout"),
       "patch",
     );
     assertEquals(classifyCommit("docs(*): fix typo"), "patch");
@@ -18,36 +18,49 @@ test("classifyCommit", async (t) => {
 
   await t.step("breaking markers are major", () => {
     assertEquals(
-      classifyCommit("feat(@probitas/runner)!: change API"),
+      classifyCommit("feat(runner)!: change API"),
       "major",
     );
     assertEquals(classifyCommit("fix!: drop option"), "major");
     assertEquals(
       classifyCommit(
-        "refactor(@probitas/core): rename\n\nBREAKING CHANGE: renamed X",
+        "refactor(core): rename\n\nBREAKING CHANGE: renamed X",
       ),
       "major",
     );
-    assertEquals(classifyCommit("BREAKING(@probitas/core): rename"), "major");
+    assertEquals(classifyCommit("BREAKING(core): rename"), "major");
   });
 
   await t.step("unstable scopes never go beyond patch", () => {
     assertEquals(
-      classifyCommit("feat(@probitas/runner/unstable)!: experimental"),
+      classifyCommit("feat(runner/unstable)!: experimental"),
       "patch",
     );
   });
 
   await t.step("a scope naming other packages is only a patch", () => {
-    const message = "feat(@probitas/client-deno-kv,@probitas/expect)!: remove";
+    const message = "feat(client-deno-kv,expect)!: remove";
     assertEquals(classifyCommit(message, "expect"), "major");
     assertEquals(classifyCommit(message, "client-redis"), "patch");
+    assertEquals(classifyCommit("feat(runner): add retry", "runner"), "minor");
     assertEquals(
-      classifyCommit("feat(@probitas-test/runner): add retry", "runner"),
+      classifyCommit("feat(runner/unstable)!: try", "runner"),
+      "patch",
+    );
+  });
+
+  await t.step("scopes may carry a registry prefix", () => {
+    // Scopes used to be the JSR package names; history still has them
+    assertEquals(
+      classifyCommit("feat(@probitas/runner): add", "runner"),
       "minor",
     );
     assertEquals(
-      classifyCommit("feat(@probitas/runner/unstable)!: try", "runner"),
+      classifyCommit("feat(@probitas-test/runner): add", "runner"),
+      "minor",
+    );
+    assertEquals(
+      classifyCommit("feat(@probitas/runner): add", "core"),
       "patch",
     );
   });

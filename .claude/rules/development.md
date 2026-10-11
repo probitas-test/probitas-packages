@@ -8,10 +8,10 @@ Coding conventions and development practices for Probitas.
 
 ## User-Facing API
 
-The `@probitas/probitas` package is the primary user-facing API:
+The `@probitas-test/probitas` package is the primary user-facing API:
 
 ```typescript
-import { scenario, Skip } from "probitas";
+import { scenario, Skip } from "@probitas-test/probitas";
 
 export default scenario("My Test")
   .step("Step 1", () => ({ value: 42 }))
@@ -23,9 +23,9 @@ export default scenario("My Test")
 
 Key exports:
 
-- `scenario` - Scenario builder function (from `@probitas/builder`)
-- `Skip` - Skip class for conditional skipping (from `@probitas/runner`)
-- `StepContext` - Type for step context (from `@probitas/builder`)
+- `scenario` - Scenario builder function (from `@probitas-test/builder`)
+- `Skip` - Skip class for conditional skipping (from `@probitas-test/runner`)
+- `StepContext` - Type for step context (from `@probitas-test/builder`)
 
 ## Testing Strategy
 
@@ -84,10 +84,10 @@ Custom reporters should implement the `Reporter` interface and compose a
 of `Definition` types:
 
 ```ts
-import { Writer, type WriterOptions } from "@probitas/reporter";
-import type { Reporter, RunResult, StepResult } from "@probitas/runner";
-import type { ScenarioMetadata, StepMetadata } from "@probitas/core";
-import { defaultTheme, type Theme } from "@probitas/reporter";
+import { Writer, type WriterOptions } from "@probitas-test/reporter";
+import type { Reporter, RunResult, StepResult } from "@probitas-test/runner";
+import type { ScenarioMetadata, StepMetadata } from "@probitas-test/core";
+import { defaultTheme, type Theme } from "@probitas-test/reporter";
 
 export interface CustomReporterOptions extends WriterOptions {
   theme?: Theme;

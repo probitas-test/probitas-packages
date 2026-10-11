@@ -296,11 +296,11 @@ Uses standard glob patterns for flexible file matching:
 ### Core Design Principles
 
 1. **Independent packages** - Each client is standalone
-2. **Core commonization** - Shared types/errors only in `@probitas/client`
+2. **Core commonization** - Shared types/errors only in `@probitas-test/client`
 3. **AsyncDisposable** - All clients implement it for resource cleanup
 4. **Test-friendly** - Generic methods like `json<T = any>()` for type hints
 
-### Core Package (`@probitas/client`)
+### Core Package (`@probitas-test/client`)
 
 - `CommonOptions`, `RetryOptions` - Shared option types
 - `ClientError` with `kind` discriminator for switch-based type guards
