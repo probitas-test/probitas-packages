@@ -1,4 +1,3 @@
-import { chunk } from "./utils/collections.ts";
 import type { ScenarioDefinition, StepOptions } from "@probitas-test/core";
 import type {
   Reporter,
@@ -148,83 +147,60 @@ export class Runner {
     controller: AbortController,
     stepOptions?: StepOptions,
   ): Promise<void> {
-    // Parallel execution with concurrency control
     // maxConcurrency=1 means sequential execution
     const concurrency = maxConcurrency || scenarios.length;
     const scenarioRunner = new ScenarioRunner(this.reporter, stepOptions);
     const { signal } = controller;
 
     let failureCount = 0;
+    let next = 0;
 
-    for (const batch of chunk(scenarios, concurrency)) {
-      // Don't throw - just skip remaining batches if aborted
-      if (signal.aborted) {
-        break;
-      }
+    // Each worker takes the next scenario as soon as its own one ends, instead
+    // of waiting for the slowest scenario of a fixed batch.
+    const worker = async (): Promise<void> => {
+      while (next < scenarios.length && !signal.aborted) {
+        const scenario = scenarios[next++];
 
-      await Promise.all(
-        batch.map(async (scenario: ScenarioDefinition) => {
-          // Check if already aborted (by maxFailures or external signal)
-          if (signal.aborted) {
-            const skipResult: ScenarioResult = {
-              status: "skipped",
-              metadata: toScenarioMetadata(scenario),
-              duration: 0,
-              steps: [],
-              error: signal.reason ??
-                new Skip("Skipped due to previous failures"),
-            };
-            scenarioResults.push(skipResult);
-            await this.reporter.onScenarioStart?.(skipResult.metadata);
-            await this.reporter.onScenarioEnd?.(
-              skipResult.metadata,
-              skipResult,
-            );
-            return;
+        // Priority: scenario timeout > RunOptions timeout
+        const effectiveTimeout = scenario.timeout ?? timeout;
+        const scenarioResult = effectiveTimeout > 0
+          ? await this.#runWithTimeout(
+            scenarioRunner,
+            scenario,
+            effectiveTimeout,
+            signal,
+          )
+          : await scenarioRunner.run(scenario, { signal });
+
+        scenarioResults.push(scenarioResult);
+
+        if (scenarioResult.status === "failed") {
+          failureCount++;
+          if (maxFailures !== 0 && failureCount >= maxFailures) {
+            controller.abort(new Skip("Skipped due to previous failures"));
           }
-
-          // Execute scenario with optional timeout
-          // Priority: scenario timeout > RunOptions timeout
-          const effectiveTimeout = scenario.timeout ?? timeout;
-          const scenarioResult = effectiveTimeout > 0
-            ? await this.#runWithTimeout(
-              scenarioRunner,
-              scenario,
-              effectiveTimeout,
-              signal,
-            )
-            : await scenarioRunner.run(scenario, { signal });
-
-          scenarioResults.push(scenarioResult);
-
-          // Check if we've reached maxFailures - abort all remaining scenarios
-          if (scenarioResult.status === "failed") {
-            failureCount++;
-            if (maxFailures !== 0 && failureCount >= maxFailures) {
-              controller.abort(new Skip("Skipped due to previous failures"));
-            }
-          }
-        }),
-      );
-    }
-
-    // Add skip results for any remaining scenarios that weren't executed
-    // This handles the case where we broke out of the batch loop early
-    const executedCount = scenarioResults.length;
-    if (executedCount < scenarios.length) {
-      for (let i = executedCount; i < scenarios.length; i++) {
-        const scenario = scenarios[i];
-        const skipResult: ScenarioResult = {
-          status: "skipped",
-          metadata: toScenarioMetadata(scenario),
-          duration: 0,
-          steps: [],
-          error: signal.reason ?? new Skip("Skipped due to previous failures"),
-        };
-        scenarioResults.push(skipResult);
-        await this.reporter.onScenarioStart?.(skipResult.metadata);
-        await this.reporter.onScenarioEnd?.(skipResult.metadata, skipResult);
+        }
       }
+    };
+
+    await Promise.all(
+      Array.from(
+        { length: Math.min(concurrency, scenarios.length) },
+        worker,
+      ),
+    );
+
+    for (const scenario of scenarios.slice(next)) {
+      const skipResult: ScenarioResult = {
+        status: "skipped",
+        metadata: toScenarioMetadata(scenario),
+        duration: 0,
+        steps: [],
+        error: signal.reason ?? new Skip("Skipped due to previous failures"),
+      };
+      scenarioResults.push(skipResult);
+      await this.reporter.onScenarioStart?.(skipResult.metadata);
+      await this.reporter.onScenarioEnd?.(skipResult.metadata, skipResult);
     }
   }
 }

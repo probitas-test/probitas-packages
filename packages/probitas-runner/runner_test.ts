@@ -403,6 +403,71 @@ test("Runner run with maxFailures aborts in-progress scenarios (parallel)", asyn
   expect(scenario4.status).toBe("skipped");
 });
 
+test("Runner run starts the next scenario as soon as a concurrency slot frees up", async () => {
+  const runner = new Runner(reporter);
+  const events: string[] = [];
+  const sleeper = (name: string, ms: number) =>
+    createTestScenario({
+      name,
+      steps: [
+        createTestStep({
+          name: "sleep",
+          fn: async (ctx) => {
+            events.push(`${name} start`);
+            await delay(ms, { signal: ctx.signal });
+            events.push(`${name} end`);
+          },
+        }),
+      ],
+    });
+  const scenarios = [
+    sleeper("Scenario 1", 200),
+    sleeper("Scenario 2", 10),
+    sleeper("Scenario 3", 200),
+    sleeper("Scenario 4", 10),
+  ];
+
+  const summary = await runner.run(scenarios, { maxConcurrency: 2 });
+
+  expect(summary).toMatchObject({ total: 4, passed: 4 });
+  expect(events.indexOf("Scenario 3 start")).toBeLessThan(
+    events.indexOf("Scenario 1 end"),
+  );
+  expect(events.indexOf("Scenario 4 start")).toBeGreaterThan(
+    events.indexOf("Scenario 1 end"),
+  );
+});
+
+test("Runner run never runs more than maxConcurrency scenarios at once", async () => {
+  const runner = new Runner(reporter);
+  let running = 0;
+  let peak = 0;
+  const scenarios = [5, 30, 10, 20, 5, 15, 25].map((ms, i) =>
+    createTestScenario({
+      name: `Scenario ${i + 1}`,
+      steps: [
+        createTestStep({
+          name: "sleep",
+          fn: async (ctx) => {
+            running++;
+            peak = Math.max(peak, running);
+            try {
+              await delay(ms, { signal: ctx.signal });
+            } finally {
+              running--;
+            }
+          },
+        }),
+      ],
+    })
+  );
+
+  const summary = await runner.run(scenarios, { maxConcurrency: 3 });
+
+  expect(summary).toMatchObject({ total: 7, passed: 7 });
+  expect(peak).toBe(3);
+});
+
 test({
   name: "Runner run handles scenario timeout",
   sanitizeResources: false, // Timeout tests inherently leak timers
